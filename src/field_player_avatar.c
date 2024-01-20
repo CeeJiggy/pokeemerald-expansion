@@ -625,28 +625,10 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         }
     }
 
-<<<<<<< HEAD
-    gPlayerAvatar.creeping = FALSE;
-    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
-    {
-        if (FlagGet(FLAG_SYS_DEXNAV_SEARCH) && (heldKeys & A_BUTTON))
-        {
-            gPlayerAvatar.creeping = TRUE;
-            PlayerGoSlow(direction);
-        }
-        else
-        {
-            if (heldKeys & B_BUTTON)
-                PlayerWalkFaster(direction);
-            else
-                PlayerWalkFast(direction);
-        }
-=======
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
         // same speed as running
         PlayerWalkFast(direction);
->>>>>>> parent of 6d58c2b63 (Merge branch 'dexnav' of https://github.com/ghoulslash/pokeemerald)
         return;
     }
 
