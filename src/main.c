@@ -221,7 +221,7 @@ void SeedRngAndSetTrainerId(void)
     seed = (seed >> 16) ^ (seed & 0xFFFF);
     SeedRng(seed);
     SeedRng(val);
-    gTrainerId = val;
+    sTrainerId = val;
 }
 
 u16 GetGeneratedTrainerIdLower(void)
