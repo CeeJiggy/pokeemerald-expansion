@@ -42,24 +42,24 @@ const u8 gGameLanguage = GAME_LANGUAGE; // English
 const char BuildDateTime[] = "2005 02 21 11:10";
 
 const IntrFunc gIntrTableTemplate[] =
-{
-    VCountIntr, // V-count interrupt
-    SerialIntr, // Serial interrupt
-    Timer3Intr, // Timer 3 interrupt
-    HBlankIntr, // H-blank interrupt
-    VBlankIntr, // V-blank interrupt
-    IntrDummy,  // Timer 0 interrupt
-    IntrDummy,  // Timer 1 interrupt
-    IntrDummy,  // Timer 2 interrupt
-    IntrDummy,  // DMA 0 interrupt
-    IntrDummy,  // DMA 1 interrupt
-    IntrDummy,  // DMA 2 interrupt
-    IntrDummy,  // DMA 3 interrupt
-    IntrDummy,  // Key interrupt
-    IntrDummy,  // Game Pak interrupt
+    {
+        VCountIntr, // V-count interrupt
+        SerialIntr, // Serial interrupt
+        Timer3Intr, // Timer 3 interrupt
+        HBlankIntr, // H-blank interrupt
+        VBlankIntr, // V-blank interrupt
+        IntrDummy,  // Timer 0 interrupt
+        IntrDummy,  // Timer 1 interrupt
+        IntrDummy,  // Timer 2 interrupt
+        IntrDummy,  // DMA 0 interrupt
+        IntrDummy,  // DMA 1 interrupt
+        IntrDummy,  // DMA 2 interrupt
+        IntrDummy,  // DMA 3 interrupt
+        IntrDummy,  // Key interrupt
+        IntrDummy,  // Game Pak interrupt
 };
 
-#define INTR_COUNT ((int)(sizeof(gIntrTableTemplate)/sizeof(IntrFunc)))
+#define INTR_COUNT ((int)(sizeof(gIntrTableTemplate) / sizeof(IntrFunc)))
 
 static u16 sUnusedVar; // Never read
 
@@ -76,7 +76,7 @@ void *gAgbMainLoop_sp;
 
 static EWRAM_DATA u16 sTrainerId = 0;
 
-//EWRAM_DATA void (**gFlashTimerIntrFunc)(void) = NULL;
+// EWRAM_DATA void (**gFlashTimerIntrFunc)(void) = NULL;
 
 static void UpdateLinkAndCallCallbacks(void);
 static void InitMainCallbacks(void);
@@ -97,7 +97,7 @@ void AgbMain()
     // so RegisterRamReset may crash if it resets IWRAM.
 #if !MODERN
     RegisterRamReset(RESET_ALL);
-#endif //MODERN
+#endif                            // MODERN
     *(vu16 *)BG_PLTT = RGB_WHITE; // Set the backdrop to white on startup
     InitGpuRegManager();
     REG_WAITCNT = WAITCNT_PREFETCH_ENABLE | WAITCNT_WS0_S_1 | WAITCNT_WS0_N_3;
@@ -128,7 +128,7 @@ void AgbMain()
 
 #ifndef NDEBUG
 #if (LOG_HANDLER == LOG_HANDLER_MGBA_PRINT)
-    (void) MgbaOpen();
+    (void)MgbaOpen();
 #elif (LOG_HANDLER == LOG_HANDLER_AGB_PRINT)
     AGBPrintfInit();
 #endif
@@ -143,9 +143,7 @@ void AgbMainLoop(void)
     {
         ReadKeys();
 
-        if (gSoftResetDisabled == FALSE
-         && JOY_HELD_RAW(A_BUTTON)
-         && JOY_HELD_RAW(B_START_SELECT) == B_START_SELECT)
+        if (gSoftResetDisabled == FALSE && JOY_HELD_RAW(A_BUTTON) && JOY_HELD_RAW(B_START_SELECT) == B_START_SELECT)
         {
             rfu_REQ_stopMode();
             rfu_waitREQComplete();
@@ -218,10 +216,12 @@ void StartTimer1(void)
 
 void SeedRngAndSetTrainerId(void)
 {
-    u16 val = REG_TM1CNT_L;
+    u32 seed = RtcGetMinuteCount();
+    u16 val = RtcGetMinuteCount();
+    seed = (seed >> 16) ^ (seed & 0xFFFF);
+    SeedRng(seed);
     SeedRng(val);
-    REG_TM1CNT_H = 0;
-    sTrainerId = val;
+    gTrainerId = val;
 }
 
 u16 GetGeneratedTrainerIdLower(void)
@@ -416,7 +416,8 @@ static void SerialIntr(void)
 }
 
 static void IntrDummy(void)
-{}
+{
+}
 
 static void WaitForVBlank(void)
 {
