@@ -35,14 +35,14 @@ u16 Random2(void)
     return gRng2Value >> 16;
 }
 
-#define SHUFFLE_IMPL \
-    u32 tmp; \
-    --n; \
-    while (n > 1) \
-    { \
-        int j = (Random() * (n+1)) >> 16; \
-        SWAP(data[n], data[j], tmp); \
-        --n; \
+#define SHUFFLE_IMPL                        \
+    u32 tmp;                                \
+    --n;                                    \
+    while (n > 1)                           \
+    {                                       \
+        int j = (Random() * (n + 1)) >> 16; \
+        SWAP(data[n], data[j], tmp);        \
+        --n;                                \
     }
 
 void Shuffle8(void *data_, size_t n)
@@ -69,25 +69,29 @@ void ShuffleN(void *data, size_t n, size_t size)
     --n;
     while (n > 1)
     {
-        int j = (Random() * (n+1)) >> 16;
-        memcpy(tmp, (u8 *)data + n*size, size); // tmp = data[n];
-        memcpy((u8 *)data + n*size, (u8 *)data + j*size, size); // data[n] = data[j];
-        memcpy((u8 *)data + j*size, tmp, size); // data[j] = tmp;
+        int j = (Random() * (n + 1)) >> 16;
+        memcpy(tmp, (u8 *)data + n * size, size);                   // tmp = data[n];
+        memcpy((u8 *)data + n * size, (u8 *)data + j * size, size); // data[n] = data[j];
+        memcpy((u8 *)data + j * size, tmp, size);                   // data[j] = tmp;
         --n;
     }
 }
 
 __attribute__((weak, alias("RandomUniformDefault")))
-u32 RandomUniform(enum RandomTag tag, u32 lo, u32 hi);
+u32
+RandomUniform(enum RandomTag tag, u32 lo, u32 hi);
 
 __attribute__((weak, alias("RandomUniformExceptDefault")))
-u32 RandomUniformExcept(enum RandomTag, u32 lo, u32 hi, bool32 (*reject)(u32));
+u32
+RandomUniformExcept(enum RandomTag, u32 lo, u32 hi, bool32 (*reject)(u32));
 
 __attribute__((weak, alias("RandomWeightedArrayDefault")))
-u32 RandomWeightedArray(enum RandomTag tag, u32 sum, u32 n, const u8 *weights);
+u32
+RandomWeightedArray(enum RandomTag tag, u32 sum, u32 n, const u8 *weights);
 
 __attribute__((weak, alias("RandomElementArrayDefault")))
-const void *RandomElementArray(enum RandomTag tag, const void *array, size_t size, size_t count);
+const void *
+RandomElementArray(enum RandomTag tag, const void *array, size_t size, size_t count);
 
 u32 RandomUniformDefault(enum RandomTag tag, u32 lo, u32 hi)
 {
@@ -120,4 +124,13 @@ u32 RandomWeightedArrayDefault(enum RandomTag tag, u32 sum, u32 n, const u8 *wei
 const void *RandomElementArrayDefault(enum RandomTag tag, const void *array, size_t size, size_t count)
 {
     return (const u8 *)array + size * RandomUniformDefault(tag, 0, count - 1);
+}
+// NEW
+u16 RandRange(u16 min, u16 max)
+{
+    if (min == max)
+        return min;
+
+    max++; // make inclusive
+    return (Random() % (max - min)) + min;
 }

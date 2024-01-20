@@ -44,6 +44,8 @@
 #include "trainer_card.h"
 #include "window.h"
 #include "union_room.h"
+#include "dexnav.h"
+#include "wild_encounter.h"
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -65,6 +67,7 @@ enum
     MENU_ACTION_RETIRE_FRONTIER,
     MENU_ACTION_PYRAMID_BAG,
     MENU_ACTION_DEBUG,
+    MENU_ACTION_DEXNAV
 };
 
 // Save status
@@ -106,6 +109,7 @@ static bool8 StartMenuLinkModePlayerNameCallback(void);
 static bool8 StartMenuBattlePyramidRetireCallback(void);
 static bool8 StartMenuBattlePyramidBagCallback(void);
 static bool8 StartMenuDebugCallback(void);
+static bool8 StartMenuDexNavCallback(void);
 
 // Menu callbacks
 static bool8 SaveStartCallback(void);
@@ -147,20 +151,18 @@ static const struct WindowTemplate sWindowTemplate_SafariBalls = {
     .width = 9,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x8
-};
+    .baseBlock = 0x8};
 
 static const u8 *const sPyramidFloorNames[FRONTIER_STAGES_PER_CHALLENGE + 1] =
-{
-    gText_Floor1,
-    gText_Floor2,
-    gText_Floor3,
-    gText_Floor4,
-    gText_Floor5,
-    gText_Floor6,
-    gText_Floor7,
-    gText_Peak
-};
+    {
+        gText_Floor1,
+        gText_Floor2,
+        gText_Floor3,
+        gText_Floor4,
+        gText_Floor5,
+        gText_Floor6,
+        gText_Floor7,
+        gText_Peak};
 
 static const struct WindowTemplate sWindowTemplate_PyramidFloor = {
     .bg = 0,
@@ -169,8 +171,7 @@ static const struct WindowTemplate sWindowTemplate_PyramidFloor = {
     .width = 10,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x8
-};
+    .baseBlock = 0x8};
 
 static const struct WindowTemplate sWindowTemplate_PyramidPeak = {
     .bg = 0,
@@ -179,55 +180,49 @@ static const struct WindowTemplate sWindowTemplate_PyramidPeak = {
     .width = 12,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x8
-};
+    .baseBlock = 0x8};
 
 static const u8 sText_MenuDebug[] = _("DEBUG");
 
 static const struct MenuAction sStartMenuItems[] =
-{
-    [MENU_ACTION_POKEDEX]         = {gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback}},
-    [MENU_ACTION_POKEMON]         = {gText_MenuPokemon, {.u8_void = StartMenuPokemonCallback}},
-    [MENU_ACTION_BAG]             = {gText_MenuBag,     {.u8_void = StartMenuBagCallback}},
-    [MENU_ACTION_POKENAV]         = {gText_MenuPokenav, {.u8_void = StartMenuPokeNavCallback}},
-    [MENU_ACTION_PLAYER]          = {gText_MenuPlayer,  {.u8_void = StartMenuPlayerNameCallback}},
-    [MENU_ACTION_SAVE]            = {gText_MenuSave,    {.u8_void = StartMenuSaveCallback}},
-    [MENU_ACTION_OPTION]          = {gText_MenuOption,  {.u8_void = StartMenuOptionCallback}},
-    [MENU_ACTION_EXIT]            = {gText_MenuExit,    {.u8_void = StartMenuExitCallback}},
-    [MENU_ACTION_RETIRE_SAFARI]   = {gText_MenuRetire,  {.u8_void = StartMenuSafariZoneRetireCallback}},
-    [MENU_ACTION_PLAYER_LINK]     = {gText_MenuPlayer,  {.u8_void = StartMenuLinkModePlayerNameCallback}},
-    [MENU_ACTION_REST_FRONTIER]   = {gText_MenuRest,    {.u8_void = StartMenuSaveCallback}},
-    [MENU_ACTION_RETIRE_FRONTIER] = {gText_MenuRetire,  {.u8_void = StartMenuBattlePyramidRetireCallback}},
-    [MENU_ACTION_PYRAMID_BAG]     = {gText_MenuBag,     {.u8_void = StartMenuBattlePyramidBagCallback}},
-    [MENU_ACTION_DEBUG]           = {sText_MenuDebug,   {.u8_void = StartMenuDebugCallback}},
+    {
+        [MENU_ACTION_POKEDEX] = {gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback}},
+        [MENU_ACTION_POKEMON] = {gText_MenuPokemon, {.u8_void = StartMenuPokemonCallback}},
+        [MENU_ACTION_BAG] = {gText_MenuBag, {.u8_void = StartMenuBagCallback}},
+        [MENU_ACTION_POKENAV] = {gText_MenuPokenav, {.u8_void = StartMenuPokeNavCallback}},
+        [MENU_ACTION_PLAYER] = {gText_MenuPlayer, {.u8_void = StartMenuPlayerNameCallback}},
+        [MENU_ACTION_SAVE] = {gText_MenuSave, {.u8_void = StartMenuSaveCallback}},
+        [MENU_ACTION_OPTION] = {gText_MenuOption, {.u8_void = StartMenuOptionCallback}},
+        [MENU_ACTION_EXIT] = {gText_MenuExit, {.u8_void = StartMenuExitCallback}},
+        [MENU_ACTION_RETIRE_SAFARI] = {gText_MenuRetire, {.u8_void = StartMenuSafariZoneRetireCallback}},
+        [MENU_ACTION_PLAYER_LINK] = {gText_MenuPlayer, {.u8_void = StartMenuLinkModePlayerNameCallback}},
+        [MENU_ACTION_REST_FRONTIER] = {gText_MenuRest, {.u8_void = StartMenuSaveCallback}},
+        [MENU_ACTION_RETIRE_FRONTIER] = {gText_MenuRetire, {.u8_void = StartMenuBattlePyramidRetireCallback}},
+        [MENU_ACTION_PYRAMID_BAG] = {gText_MenuBag, {.u8_void = StartMenuBattlePyramidBagCallback}},
+        [MENU_ACTION_DEBUG] = {sText_MenuDebug, {.u8_void = StartMenuDebugCallback}},
+        [MENU_ACTION_DEXNAV] = {gText_MenuDexNav, {.u8_void = StartMenuDexNavCallback}},
 };
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
-{
     {
-        .bg = 0,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    }
-};
+        {.bg = 0,
+         .charBaseIndex = 2,
+         .mapBaseIndex = 31,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 0,
+         .baseTile = 0}};
 
 static const struct WindowTemplate sWindowTemplates_LinkBattleSave[] =
-{
     {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 15,
-        .width = 26,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 0x194
-    },
-    DUMMY_WIN_TEMPLATE
-};
+        {.bg = 0,
+         .tilemapLeft = 2,
+         .tilemapTop = 15,
+         .width = 26,
+         .height = 4,
+         .paletteNum = 15,
+         .baseBlock = 0x194},
+        DUMMY_WIN_TEMPLATE};
 
 static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .bg = 0,
@@ -236,8 +231,7 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .width = 14,
     .height = 10,
     .paletteNum = 15,
-    .baseBlock = 8
-};
+    .baseBlock = 8};
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -326,20 +320,18 @@ static void AddStartMenuAction(u8 action)
 static void BuildNormalStartMenu(void)
 {
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
-    {
         AddStartMenuAction(MENU_ACTION_POKEDEX);
-    }
+
+    if (FlagGet(FLAG_SYS_DEXNAV_GET))
+        AddStartMenuAction(MENU_ACTION_DEXNAV);
+
     if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
-    {
         AddStartMenuAction(MENU_ACTION_POKEMON);
-    }
 
     AddStartMenuAction(MENU_ACTION_BAG);
 
     if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
-    {
         AddStartMenuAction(MENU_ACTION_POKENAV);
-    }
 
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_SAVE);
@@ -496,8 +488,7 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
         }
 
         count--;
-    }
-    while (count != 0);
+    } while (count != 0);
 
     *pIndex = index;
     return FALSE;
@@ -588,7 +579,7 @@ void Task_ShowStartMenu(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch(task->data[0])
+    switch (task->data[0])
     {
     case 0:
         if (InUnionRoom() == TRUE)
@@ -638,16 +629,14 @@ static bool8 HandleStartMenuInput(void)
             if (GetNationalPokedexCount(FLAG_GET_SEEN) == 0)
                 return FALSE;
         }
+        if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_DEXNAV && MapHasNoEncounterData())
+            return FALSE;
 
         gMenuCallback = sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void;
 
-        if (gMenuCallback != StartMenuSaveCallback
-            && gMenuCallback != StartMenuExitCallback
-            && gMenuCallback != StartMenuDebugCallback
-            && gMenuCallback != StartMenuSafariZoneRetireCallback
-            && gMenuCallback != StartMenuBattlePyramidRetireCallback)
+        if (gMenuCallback != StartMenuSaveCallback && gMenuCallback != StartMenuExitCallback && gMenuCallback != StartMenuDebugCallback && gMenuCallback != StartMenuSafariZoneRetireCallback && gMenuCallback != StartMenuBattlePyramidRetireCallback)
         {
-           FadeScreen(FADE_TO_BLACK, 0);
+            FadeScreen(FADE_TO_BLACK, 0);
         }
 
         return FALSE;
@@ -663,7 +652,7 @@ static bool8 HandleStartMenuInput(void)
     return FALSE;
 }
 
-static bool8 StartMenuPokedexCallback(void)
+bool8 StartMenuPokedexCallback(void)
 {
     if (!gPaletteFade.active)
     {
@@ -716,7 +705,7 @@ static bool8 StartMenuPokeNavCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_InitPokeNav);  // Display PokeNav
+        SetMainCallback2(CB2_InitPokeNav); // Display PokeNav
 
         return TRUE;
     }
@@ -789,7 +778,7 @@ static bool8 StartMenuDebugCallback(void)
     Debug_ShowMainMenu();
 #endif
 
-return TRUE;
+    return TRUE;
 }
 
 static bool8 StartMenuSafariZoneRetireCallback(void)
@@ -873,7 +862,7 @@ static bool8 SaveCallback(void)
         gMenuCallback = HandleStartMenuInput;
         return FALSE;
     case SAVE_SUCCESS:
-    case SAVE_ERROR:    // Close start menu
+    case SAVE_ERROR: // Close start menu
         ClearDialogWindowAndFrameToTransparent(0, TRUE);
         ScriptUnfreezeObjectEvents();
         UnlockPlayerFieldControls();
@@ -1311,13 +1300,13 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
         case 0:
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
             AddTextPrinterParameterized2(0,
-                                        FONT_NORMAL,
-                                        gText_SavingDontTurnOffPower,
-                                        TEXT_SKIP_DRAW,
-                                        NULL,
-                                        TEXT_COLOR_DARK_GRAY,
-                                        TEXT_COLOR_WHITE,
-                                        TEXT_COLOR_LIGHT_GRAY);
+                                         FONT_NORMAL,
+                                         gText_SavingDontTurnOffPower,
+                                         TEXT_SKIP_DRAW,
+                                         NULL,
+                                         TEXT_COLOR_DARK_GRAY,
+                                         TEXT_COLOR_WHITE,
+                                         TEXT_COLOR_LIGHT_GRAY);
             DrawTextBorderOuter(0, 8, 14);
             PutWindowTilemap(0);
             CopyWindowToVram(0, COPYWIN_FULL);
@@ -1393,7 +1382,7 @@ static void ShowSaveInfoWindow(void)
     DrawStdWindowFrame(sSaveInfoWindowId, FALSE);
 
     gender = gSaveBlock2Ptr->playerGender;
-    color = TEXT_COLOR_RED;  // Red when female, blue when male.
+    color = TEXT_COLOR_RED; // Red when female, blue when male.
 
     if (gender == MALE)
     {
@@ -1483,4 +1472,10 @@ void AppendToList(u8 *list, u8 *pos, u8 newEntry)
 {
     list[*pos] = newEntry;
     (*pos)++;
+}
+
+static bool8 StartMenuDexNavCallback(void)
+{
+    CreateTask(Task_OpenDexNavFromStartMenu, 0);
+    return TRUE;
 }

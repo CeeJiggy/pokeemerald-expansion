@@ -343,7 +343,9 @@ SECTIONS {
         src/international_string_util.o(.text);
         src/pokemon_debug.o(.text);
         src/expansion_intro.o(.text);
+        src/dexnav.o(.text);
     } > ROM =0
+
 
     script_data :
     ALIGN(4)
@@ -710,7 +712,9 @@ SECTIONS {
         data/sound_data.o(.rodata);
         src/pokemon_debug.o(.rodata);
         src/expansion_intro.o(.rodata);
+        src/dexnav.o(.rodata);
     } > ROM =0
+
 
     song_data :
     ALIGN(4)
