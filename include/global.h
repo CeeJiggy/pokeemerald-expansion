@@ -60,26 +60,6 @@
         b = temp;        \
     }
 
-// useful math macros
-
-// Converts a number to Q8.8 fixed-point format
-#define Q_8_8(n) ((s16)((n) * 256))
-
-// Converts a number to Q4.12 fixed-point format
-#define Q_4_12(n) ((s16)((n) * 4096))
-
-// Converts a number to Q24.8 fixed-point format
-#define Q_24_8(n) ((s32)((n) << 8))
-
-// Converts a Q8.8 fixed-point format number to a regular integer
-#define Q_8_8_TO_INT(n) ((int)((n) / 256))
-
-// Converts a Q4.12 fixed-point format number to a regular integer
-#define Q_4_12_TO_INT(n) ((int)((n) / 4096))
-
-// Converts a Q24.8 fixed-point format number to a regular integer
-#define Q_24_8_TO_INT(n) ((int)((n) >> 8))
-
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) >= (b) ? (a) : (b))
 
@@ -1075,22 +1055,6 @@ struct SaveBlock1
     /*0x31DC*/ struct Roamer roamer;
     /*0x31F8*/ struct EnigmaBerry enigmaBerry;
     /*0x322C*/ struct MysteryGiftSave mysteryGift;
-<<<<<<< HEAD
-    /*0x3598*/ u8 unused_3598[0x180];
-    /*0x3718*/ u32 trainerHillTimes[NUM_TRAINER_HILL_MODES];
-    /*0x3728*/ struct RamScript ramScript;
-    /*0x3B14*/ struct RecordMixingGift recordMixingGift;
-    /*0x3B24*/ u8 seen2[NUM_DEX_FLAG_BYTES];
-    /*0x3B58*/ LilycoveLady lilycoveLady;
-    /*0x3B98*/ struct TrainerNameRecord trainerNameRecords[20];
-    /*0x3C88*/ u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
-    /*0x3D5A*/ u8 unused_3D5A[10];
-    /*0x3D64*/ struct TrainerHillSave trainerHill;
-    /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    u8 dexNavSearchLevels[NUM_SPECIES];
-    u8 dexNavChain;
-    // sizeof: 0x3D88
-=======
     /*0x3???*/ u8 dexSeen[NUM_DEX_FLAG_BYTES];
     /*0x3???*/ u8 dexCaught[NUM_DEX_FLAG_BYTES];
     /*0x3???*/ u32 trainerHillTimes[NUM_TRAINER_HILL_MODES];
@@ -1102,7 +1066,6 @@ struct SaveBlock1
     /*0x3???*/ struct TrainerHillSave trainerHill;
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3???
->>>>>>> parent of 6d58c2b63 (Merge branch 'dexnav' of https://github.com/ghoulslash/pokeemerald)
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
