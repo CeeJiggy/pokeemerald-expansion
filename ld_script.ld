@@ -2,30 +2,36 @@ ENTRY(Start)
 
 gNumMusicPlayers = 4;
 gMaxLines = 0;
-gInitialMainCB2 = CB2_InitCopyrightScreenAfterBootup;
 
-MEMORY
-{
-    EWRAM (rwx) : ORIGIN = 0x2000000, LENGTH = 256K
-    IWRAM (rwx) : ORIGIN = 0x3000000, LENGTH = 32K
-    ROM    (rx) : ORIGIN = 0x8000000, LENGTH = 32M
-}
+/* Modify the following load addresses as needed to make more room. Alternately, delete both the
+   declarations below and their references further down to get rid of the gaps.                  */
+
+__anim_mon_load_address = 0x8b00000;
+__gfx_load_address = 0x8c00000;
 
 SECTIONS {
+    . = 0x2000000;
 
-    ewram 0x2000000 (NOLOAD) :
+    ewram (NOLOAD) :
     ALIGN(4)
     {
+        gHeap = .;
+
+        . = 0x1C000;
+
         INCLUDE "sym_ewram.ld"
-        src/*.o(ewram_data);
-        gflib/*.o(ewram_data);
+        src/*.o(.ewram_data);
+        gflib/*.o(.ewram_data);
 
         *libc.a:impure.o(.data);
         *libc.a:locale.o(.data);
         *libc.a:mallocr.o(.data);
-    } > EWRAM
+        . = 0x40000;
+    }
 
-    iwram 0x3000000 (NOLOAD) :
+    . = 0x3000000;
+
+    iwram (NOLOAD) :
     ALIGN(4)
     {
         /* .bss starts at 0x3000000 */
@@ -40,9 +46,10 @@ SECTIONS {
         /* COMMON starts at 0x30022A8 */
         INCLUDE "sym_common.ld"
         *libc.a:sbrkr.o(COMMON);
-    } > IWRAM
+        end = .;
+        . = 0x8000;
+    }
 
-    /* BEGIN ROM DATA */
     . = 0x8000000;
 
     .text :
@@ -50,7 +57,6 @@ SECTIONS {
     {
         src/rom_header.o(.text);
         src/rom_header_gf.o(.text.*);
-        src/rom_header_rhh.o(.text.*);
         src/crt0.o(.text);
         src/main.o(.text);
         gflib/malloc.o(.text);
@@ -91,7 +97,6 @@ SECTIONS {
         src/battle_bg.o(.text);
         src/battle_main.o(.text);
         src/battle_util.o(.text);
-        src/battle_z_move.o(.text);
         src/battle_script_commands.o(.text);
         src/battle_util2.o(.text);
         src/battle_controller_player.o(.text);
@@ -99,7 +104,6 @@ SECTIONS {
         src/battle_controller_opponent.o(.text);
         src/battle_ai_switch_items.o(.text);
         src/battle_controller_link_opponent.o(.text);
-        src/battle_debug.o(.text);
         src/pokemon.o(.text);
         src/trig.o(.text);
         src/random.o(.text);
@@ -203,7 +207,6 @@ SECTIONS {
         src/battle_anim_ground.o(.text);
         src/battle_anim_normal.o(.text);
         src/battle_anim_utility_funcs.o(.text);
-        src/battle_anim_new.o(.text);
         src/battle_intro.o(.text);
         src/bike.o(.text);
         src/easy_chat.o(.text);
@@ -218,8 +221,7 @@ SECTIONS {
         src/decoration.o(.text);
         src/slot_machine.o(.text);
         src/contest_painting.o(.text);
-        src/battle_ai_main.o(.text);
-		src/battle_ai_util.o(.text);
+        src/battle_ai_script_commands.o(.text);
         src/trader.o(.text);
         src/starter_choose.o(.text);
         src/wallclock.o(.text);
@@ -341,9 +343,8 @@ SECTIONS {
         src/gym_leader_rematch.o(.text);
         src/battle_transition_frontier.o(.text);
         src/international_string_util.o(.text);
-        src/pokemon_debug.o(.text);
-        src/expansion_intro.o(.text);
-    } > ROM =0
+		src/dexnav.o(.text);
+    } =0
 
     script_data :
     ALIGN(4)
@@ -353,9 +354,10 @@ SECTIONS {
         data/battle_scripts_1.o(script_data);
         data/field_effect_scripts.o(script_data);
         data/battle_scripts_2.o(script_data);
+        data/battle_ai_scripts.o(script_data);
         data/contest_ai_scripts.o(script_data);
         data/mystery_event_script_cmd_table.o(script_data);
-    } > ROM =0
+    } =0
 
     lib_text :
     ALIGN(4)
@@ -439,7 +441,7 @@ SECTIONS {
         *libc.a:libcfunc.o(.text);
         *libc.a:lseekr.o(.text);
         *libc.a:readr.o(.text);
-    } > ROM =0
+    } =0
 
     .rodata :
     ALIGN(4)
@@ -484,14 +486,12 @@ SECTIONS {
         src/battle_bg.o(.rodata);
         src/battle_main.o(.rodata);
         src/battle_util.o(.rodata);
-        src/battle_z_move.o(.rodata);
         src/battle_script_commands.o(.rodata);
         src/battle_controller_player.o(.rodata);
         src/battle_anim_smokescreen.o(.rodata);
         src/battle_controller_opponent.o(.rodata);
         src/battle_ai_switch_items.o(.rodata);
         src/battle_controller_link_opponent.o(.rodata);
-        src/battle_debug.o(.rodata);
         src/pokemon.o(.rodata);
         src/trig.o(.rodata);
         src/util.o(.rodata);
@@ -584,7 +584,6 @@ SECTIONS {
         src/battle_anim_ground.o(.rodata);
         src/battle_anim_normal.o(.rodata);
         src/battle_anim_utility_funcs.o(.rodata);
-        src/battle_anim_new.o(.rodata);
         src/battle_intro.o(.rodata);
         src/bike.o(.rodata);
         src/easy_chat.o(.rodata);
@@ -598,8 +597,7 @@ SECTIONS {
         src/decoration.o(.rodata);
         src/slot_machine.o(.rodata);
         src/contest_painting.o(.rodata);
-        src/battle_ai_main.o(.rodata);
-		src/battle_ai_util.o(.rodata);
+        src/battle_ai_script_commands.o(.rodata);
         src/trader.o(.rodata);
         src/starter_choose.o(.rodata);
         src/wallclock.o(.rodata);
@@ -708,9 +706,8 @@ SECTIONS {
         data/mystery_gift.o(.rodata);
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
-        src/pokemon_debug.o(.rodata);
-        src/expansion_intro.o(.rodata);
-    } > ROM =0
+		src/dexnav.o(.rodata);
+    } =0
 
     song_data :
     ALIGN(4)
@@ -1245,7 +1242,7 @@ SECTIONS {
         sound/songs/midi/ph_nurse_blend.o(.rodata);
         sound/songs/midi/ph_nurse_held.o(.rodata);
         sound/songs/midi/ph_nurse_solo.o(.rodata);
-    } > ROM =0
+    } =0
 
     lib_rodata :
     SUBALIGN(4)
@@ -1298,7 +1295,7 @@ SECTIONS {
         *libc.a:lseekr.o(.rodata);
         *libc.a:readr.o(.rodata);
         src/libisagbprn.o(.rodata);
-    } > ROM =0
+    } =0
 
     multiboot_data :
     ALIGN(4)
@@ -1306,13 +1303,19 @@ SECTIONS {
         data/multiboot_ereader.o(.rodata);
         data/multiboot_berry_glitch_fix.o(.rodata);
         data/multiboot_pokemon_colosseum.o(.rodata);
-    } > ROM =0
+    } =0
 
-    gfx_data :
+    anim_mon_front_pic_data __anim_mon_load_address :
+    ALIGN(4)
+    {
+        src/anim_mon_front_pics.o(.rodata);
+    } =0
+
+    gfx_data __gfx_load_address :
     ALIGN(4)
     {
         src/graphics.o(.rodata);
-    } > ROM =0
+    } =0
 
     extra :
     ALIGN(4)
@@ -1322,9 +1325,7 @@ SECTIONS {
         src/*.o(.rodata);
         gflib/*.o(.rodata);
         data/*.o(.rodata);
-    } > ROM = 0
-
-    __rom_end = .;
+    } = 0
 
     /* DWARF debug sections.
        Symbols in the DWARF debugging sections are relative to the beginning
