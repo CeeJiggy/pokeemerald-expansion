@@ -60,7 +60,6 @@
         b = temp;        \
     }
 
-<<<<<<< HEAD
 // useful math macros
 
 // Converts a number to Q8.8 fixed-point format
@@ -81,8 +80,6 @@
 // Converts a Q24.8 fixed-point format number to a regular integer
 #define Q_24_8_TO_INT(n) ((int)((n) >> 8))
 
-=======
->>>>>>> parent of 6d58c2b63 (Merge branch 'dexnav' of https://github.com/ghoulslash/pokeemerald)
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) >= (b) ? (a) : (b))
 
@@ -102,7 +99,7 @@
 // There are cases where GF does a&(n-1) where we would really like to have a%n, because
 // if n is changed to a value that isn't a power of 2 then a&(n-1) is unlikely to work as
 // intended, and a%n for powers of 2 isn't always optimized to use &.
-#define MOD(a, n)(((n) & ((n)-1)) ? ((a) % (n)) : ((a) & ((n)-1)))
+#define MOD(a, n) (((n) & ((n)-1)) ? ((a) % (n)) : ((a) & ((n)-1)))
 
 // Extracts the upper 16 bits of a 32-bit number
 #define HIHALF(n) (((n) & 0xFFFF0000) >> 16)
@@ -160,7 +157,7 @@
 #define NARG_8_(_, a, b, c, d, e, f, g, h, N, ...) N
 
 #define CAT(a, b) CAT_(a, b)
-#define CAT_(a, b) a ## b
+#define CAT_(a, b) a##b
 
 #define STR(a) STR_(a)
 #define STR_(a) #a
@@ -536,8 +533,8 @@ struct SaveBlock2
     u16 optionsBattleStyle : 1;        // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
     u16 optionsBattleSceneOff : 1;     // whether battle animations are disabled
     u16 regionMapZoom : 1;             // whether the map is zoomed in
-    // u16 padding1:4;
-    // u16 padding2;
+                                       // u16 padding1:4;
+                                       // u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u8 filler_90[0x8];
     /*0x98*/ struct Time localTimeOffset;
