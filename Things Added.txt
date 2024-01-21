@@ -1,0 +1,26 @@
+Things Added:
+
+pokeemerald-expansion
+	Physical Special Split
+	Fairy
+	New Moves
+	Updated Moves
+	Fixed RNG
+	Repel Use New
+
+Ghoulslash
+	Bag Sort
+	DexNav
+
+
+The Xaman
+	Register item list on L
+
+
+Lunos
+	2-in-1 Bike
+
+Help from Community
+	Running shoes right away
+	Box from menu
+	PSS display in battle
