@@ -38,7 +38,8 @@ enum
 
 #define MAX_MESSAGE_LENGTH 15
 
-enum {
+enum
+{
     CHAT_MESSAGE_NONE,
     CHAT_MESSAGE_CHAT,
     CHAT_MESSAGE_JOIN,
@@ -47,7 +48,8 @@ enum {
     CHAT_MESSAGE_DISBAND,
 };
 
-enum {
+enum
+{
     STDMESSAGE_QUIT_CHATTING,
     STDMESSAGE_REGISTER_WHERE,
     STDMESSAGE_REGISTER_HERE,
@@ -61,7 +63,8 @@ enum {
     STDMESSAGE_WARN_LEADER_LEAVE,
 };
 
-enum {
+enum
+{
     CHAT_FUNC_JOIN,
     CHAT_FUNC_HANDLE_INPUT,
     CHAT_FUNC_SWITCH,
@@ -74,7 +77,8 @@ enum {
     CHAT_FUNC_SAVE_AND_EXIT,
 };
 
-enum {
+enum
+{
     CHATDISPLAY_FUNC_LOAD_GFX,
     CHATDISPLAY_FUNC_MOVE_KB_CURSOR,
     CHATDISPLAY_FUNC_CURSOR_BLINK,
@@ -98,14 +102,16 @@ enum {
     CHATDISPLAY_FUNC_ASK_CONFIRM_LEADER_LEAVE,
 };
 
-enum {
+enum
+{
     CHAT_EXIT_NONE,
     CHAT_EXIT_ONLY_LEADER,
     CHAT_EXIT_DROPPED,
     CHAT_EXIT_DISBANDED,
 };
 
-enum {
+enum
+{
     GFXTAG_KEYBOARD_CURSOR,
     GFXTAG_TEXT_ENTRY_ARROW,
     GFXTAG_TEXT_ENTRY_CURSOR,
@@ -116,7 +122,8 @@ enum {
 // Shared by all above
 #define PALTAG_INTERFACE 0
 
-enum {
+enum
+{
     WIN_CHAT_HISTORY,
     WIN_TEXT_ENTRY,
     WIN_KEYBOARD,
@@ -155,7 +162,7 @@ struct UnionRoomChat
 
 struct UnionRoomChatDisplay_Subtask
 {
-    bool32 (* callback)(u8 *);
+    bool32 (*callback)(u8 *);
     bool8 active;
     u8 state;
 };
@@ -189,7 +196,7 @@ struct UnionRoomChatSprites
 struct SubtaskInfo
 {
     u16 idx;
-    bool32 (* callback)(u8 *);
+    bool32 (*callback)(u8 *);
 };
 
 struct MessageWindowInfo
@@ -315,25 +322,23 @@ static EWRAM_DATA struct UnionRoomChatDisplay *sDisplay = NULL;
 static EWRAM_DATA struct UnionRoomChatSprites *sSprites = NULL;
 
 static void (*const sChatMainFunctions[])(void) = {
-    [CHAT_FUNC_JOIN]          = Chat_Join,
-    [CHAT_FUNC_HANDLE_INPUT]  = Chat_HandleInput,
-    [CHAT_FUNC_SWITCH]        = Chat_Switch,
-    [CHAT_FUNC_ASK_QUIT]      = Chat_AskQuitChatting,
-    [CHAT_FUNC_SEND]          = Chat_SendMessage,
-    [CHAT_FUNC_REGISTER]      = Chat_Register,
-    [CHAT_FUNC_EXIT]          = Chat_Exit,
-    [CHAT_FUNC_DROP]          = Chat_Drop,
-    [CHAT_FUNC_DISBANDED]     = Chat_Disbanded,
-    [CHAT_FUNC_SAVE_AND_EXIT] = Chat_SaveAndExit
-};
+    [CHAT_FUNC_JOIN] = Chat_Join,
+    [CHAT_FUNC_HANDLE_INPUT] = Chat_HandleInput,
+    [CHAT_FUNC_SWITCH] = Chat_Switch,
+    [CHAT_FUNC_ASK_QUIT] = Chat_AskQuitChatting,
+    [CHAT_FUNC_SEND] = Chat_SendMessage,
+    [CHAT_FUNC_REGISTER] = Chat_Register,
+    [CHAT_FUNC_EXIT] = Chat_Exit,
+    [CHAT_FUNC_DROP] = Chat_Drop,
+    [CHAT_FUNC_DISBANDED] = Chat_Disbanded,
+    [CHAT_FUNC_SAVE_AND_EXIT] = Chat_SaveAndExit};
 
 static const u8 sKeyboardPageMaxRow[UNION_ROOM_KB_PAGE_COUNT] =
-{
-    [UNION_ROOM_KB_PAGE_UPPER]    = 9,
-    [UNION_ROOM_KB_PAGE_LOWER]    = 9,
-    [UNION_ROOM_KB_PAGE_EMOJI]    = 9,
-    [UNION_ROOM_KB_PAGE_REGISTER] = 9
-};
+    {
+        [UNION_ROOM_KB_PAGE_UPPER] = 9,
+        [UNION_ROOM_KB_PAGE_LOWER] = 9,
+        [UNION_ROOM_KB_PAGE_EMOJI] = 9,
+        [UNION_ROOM_KB_PAGE_REGISTER] = 9};
 
 const u8 gCaseToggleTable[256] = {
     [CHAR_A] = CHAR_a,
@@ -449,7 +454,7 @@ const u8 gCaseToggleTable[256] = {
     [CHAR_MN] = CHAR_MN,
     [CHAR_PO] = CHAR_PO,
     [CHAR_KE] = CHAR_KE,
-    [CHAR_SUPER_E]  = CHAR_SUPER_E,
+    [CHAR_SUPER_E] = CHAR_SUPER_E,
     [CHAR_SUPER_ER] = CHAR_SUPER_ER,
     [CHAR_SUPER_RE] = CHAR_SUPER_RE,
     [CHAR_PERIOD] = CHAR_PERIOD,
@@ -484,86 +489,76 @@ const u8 gCaseToggleTable[256] = {
 
 // Excludes UNION_ROOM_KB_PAGE_REGISTER, the text for which is chosen by the player
 static const u8 *const sUnionRoomKeyboardText[UNION_ROOM_KB_PAGE_COUNT - 1][UNION_ROOM_KB_ROW_COUNT] =
-{
-    [UNION_ROOM_KB_PAGE_UPPER] =
     {
-        gText_UnionRoomChatKeyboard_ABCDE,
-        gText_UnionRoomChatKeyboard_FGHIJ,
-        gText_UnionRoomChatKeyboard_KLMNO,
-        gText_UnionRoomChatKeyboard_PQRST,
-        gText_UnionRoomChatKeyboard_UVWXY,
-        gText_UnionRoomChatKeyboard_Z,
-        gText_UnionRoomChatKeyboard_01234Upper,
-        gText_UnionRoomChatKeyboard_56789Upper,
-        gText_UnionRoomChatKeyboard_PunctuationUpper,
-        gText_UnionRoomChatKeyboard_SymbolsUpper
-    },
-    [UNION_ROOM_KB_PAGE_LOWER] =
-    {
-        gText_UnionRoomChatKeyboard_abcde,
-        gText_UnionRoomChatKeyboard_fghij,
-        gText_UnionRoomChatKeyboard_klmno,
-        gText_UnionRoomChatKeyboard_pqrst,
-        gText_UnionRoomChatKeyboard_uvwxy,
-        gText_UnionRoomChatKeyboard_z,
-        gText_UnionRoomChatKeyboard_01234Lower,
-        gText_UnionRoomChatKeyboard_56789Lower,
-        gText_UnionRoomChatKeyboard_PunctuationLower,
-        gText_UnionRoomChatKeyboard_SymbolsLower
-    },
-    [UNION_ROOM_KB_PAGE_EMOJI] =
-    {
-        gText_UnionRoomChatKeyboard_Emoji1,
-        gText_UnionRoomChatKeyboard_Emoji2,
-        gText_UnionRoomChatKeyboard_Emoji3,
-        gText_UnionRoomChatKeyboard_Emoji4,
-        gText_UnionRoomChatKeyboard_Emoji5,
-        gText_UnionRoomChatKeyboard_Emoji6,
-        gText_UnionRoomChatKeyboard_Emoji7,
-        gText_UnionRoomChatKeyboard_Emoji8,
-        gText_UnionRoomChatKeyboard_Emoji9,
-        gText_UnionRoomChatKeyboard_Emoji10
-    }
-};
+        [UNION_ROOM_KB_PAGE_UPPER] =
+            {
+                gText_UnionRoomChatKeyboard_ABCDE,
+                gText_UnionRoomChatKeyboard_FGHIJ,
+                gText_UnionRoomChatKeyboard_KLMNO,
+                gText_UnionRoomChatKeyboard_PQRST,
+                gText_UnionRoomChatKeyboard_UVWXY,
+                gText_UnionRoomChatKeyboard_Z,
+                gText_UnionRoomChatKeyboard_01234Upper,
+                gText_UnionRoomChatKeyboard_56789Upper,
+                gText_UnionRoomChatKeyboard_PunctuationUpper,
+                gText_UnionRoomChatKeyboard_SymbolsUpper},
+        [UNION_ROOM_KB_PAGE_LOWER] =
+            {
+                gText_UnionRoomChatKeyboard_abcde,
+                gText_UnionRoomChatKeyboard_fghij,
+                gText_UnionRoomChatKeyboard_klmno,
+                gText_UnionRoomChatKeyboard_pqrst,
+                gText_UnionRoomChatKeyboard_uvwxy,
+                gText_UnionRoomChatKeyboard_z,
+                gText_UnionRoomChatKeyboard_01234Lower,
+                gText_UnionRoomChatKeyboard_56789Lower,
+                gText_UnionRoomChatKeyboard_PunctuationLower,
+                gText_UnionRoomChatKeyboard_SymbolsLower},
+        [UNION_ROOM_KB_PAGE_EMOJI] =
+            {
+                gText_UnionRoomChatKeyboard_Emoji1,
+                gText_UnionRoomChatKeyboard_Emoji2,
+                gText_UnionRoomChatKeyboard_Emoji3,
+                gText_UnionRoomChatKeyboard_Emoji4,
+                gText_UnionRoomChatKeyboard_Emoji5,
+                gText_UnionRoomChatKeyboard_Emoji6,
+                gText_UnionRoomChatKeyboard_Emoji7,
+                gText_UnionRoomChatKeyboard_Emoji8,
+                gText_UnionRoomChatKeyboard_Emoji9,
+                gText_UnionRoomChatKeyboard_Emoji10}};
 
 static const u16 sUnusedPalette[] = INCBIN_U16("graphics/union_room_chat/unused.gbapal"); // Loaded but never apparently used
 static const u16 sChatMessagesWindow_Pal[] = INCBIN_U16("graphics/union_room_chat/chat_messages_window.gbapal");
 
 static const struct BgTemplate sBgTemplates[] = {
-    {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 7,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    }, {
-        .bg = 1,
-        .charBaseIndex = 3,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0
-    }, {
-        .bg = 2,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 23,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 2,
-        .baseTile = 0
-    }, {
-        .bg = 3,
-        .charBaseIndex = 1,
-        .mapBaseIndex = 15,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 3,
-        .baseTile = 1
-    }
-};
+    {.bg = 0,
+     .charBaseIndex = 0,
+     .mapBaseIndex = 7,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 0,
+     .baseTile = 0},
+    {.bg = 1,
+     .charBaseIndex = 3,
+     .mapBaseIndex = 31,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 1,
+     .baseTile = 0},
+    {.bg = 2,
+     .charBaseIndex = 2,
+     .mapBaseIndex = 23,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 2,
+     .baseTile = 0},
+    {.bg = 3,
+     .charBaseIndex = 1,
+     .mapBaseIndex = 15,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 3,
+     .baseTile = 1}};
 
 static const struct WindowTemplate sWinTemplates[] = {
     [WIN_CHAT_HISTORY] = {
@@ -601,32 +596,31 @@ static const struct WindowTemplate sWinTemplates[] = {
         .height = 9,
         .paletteNum = 14,
         .baseBlock = 0x0013,
-    }, DUMMY_WIN_TEMPLATE
-};
+    },
+    DUMMY_WIN_TEMPLATE};
 
 static const struct SubtaskInfo sDisplaySubtasks[] = {
-    {CHATDISPLAY_FUNC_LOAD_GFX,                 Display_LoadGfx},
-    {CHATDISPLAY_FUNC_SHOW_KB_SWAP_MENU,        Display_ShowKeyboardSwapMenu},
-    {CHATDISPLAY_FUNC_HIDE_KB_SWAP_MENU,        Display_HideKeyboardSwapMenu},
-    {CHATDISPLAY_FUNC_SWITCH_PAGES,             Display_SwitchPages},
-    {CHATDISPLAY_FUNC_MOVE_KB_CURSOR,           Display_MoveKeyboardCursor},
-    {CHATDISPLAY_FUNC_ASK_QUIT_CHATTING,        Display_AskQuitChatting},
-    {CHATDISPLAY_FUNC_DESTROY_YESNO,            Display_DestroyYesNoDialog},
-    {CHATDISPLAY_FUNC_UPDATE_MSG,               Display_UpdateMessageBuffer},
-    {CHATDISPLAY_FUNC_ASK_REGISTER_TEXT,        Display_AskRegisterText},
-    {CHATDISPLAY_FUNC_CANCEL_REGISTER,          Display_CancelRegister},
-    {CHATDISPLAY_FUNC_RETURN_TO_KB,             Display_ReturnToKeyboard},
-    {CHATDISPLAY_FUNC_SCROLL_CHAT,              Display_ScrollChat},
-    {CHATDISPLAY_FUNC_CURSOR_BLINK,             Display_AnimateKeyboardCursor},
-    {CHATDISPLAY_FUNC_PRINT_INPUT_TEXT,         Display_PrintInputText},
-    {CHATDISPLAY_FUNC_PRINT_EXITING_CHAT,       Display_PrintExitingChat},
-    {CHATDISPLAY_FUNC_PRINT_LEADER_LEFT,        Display_PrintLeaderLeft},
-    {CHATDISPLAY_FUNC_ASK_SAVE,                 Display_AskSave},
-    {CHATDISPLAY_FUNC_ASK_OVERWRITE_SAVE,       Display_AskOverwriteSave},
-    {CHATDISPLAY_FUNC_PRINT_SAVING,             Display_PrintSavingDontTurnOff},
-    {CHATDISPLAY_FUNC_PRINT_SAVED_GAME,         Display_PrintSavedTheGame},
-    {CHATDISPLAY_FUNC_ASK_CONFIRM_LEADER_LEAVE, Display_AskConfirmLeaderLeave}
-};
+    {CHATDISPLAY_FUNC_LOAD_GFX, Display_LoadGfx},
+    {CHATDISPLAY_FUNC_SHOW_KB_SWAP_MENU, Display_ShowKeyboardSwapMenu},
+    {CHATDISPLAY_FUNC_HIDE_KB_SWAP_MENU, Display_HideKeyboardSwapMenu},
+    {CHATDISPLAY_FUNC_SWITCH_PAGES, Display_SwitchPages},
+    {CHATDISPLAY_FUNC_MOVE_KB_CURSOR, Display_MoveKeyboardCursor},
+    {CHATDISPLAY_FUNC_ASK_QUIT_CHATTING, Display_AskQuitChatting},
+    {CHATDISPLAY_FUNC_DESTROY_YESNO, Display_DestroyYesNoDialog},
+    {CHATDISPLAY_FUNC_UPDATE_MSG, Display_UpdateMessageBuffer},
+    {CHATDISPLAY_FUNC_ASK_REGISTER_TEXT, Display_AskRegisterText},
+    {CHATDISPLAY_FUNC_CANCEL_REGISTER, Display_CancelRegister},
+    {CHATDISPLAY_FUNC_RETURN_TO_KB, Display_ReturnToKeyboard},
+    {CHATDISPLAY_FUNC_SCROLL_CHAT, Display_ScrollChat},
+    {CHATDISPLAY_FUNC_CURSOR_BLINK, Display_AnimateKeyboardCursor},
+    {CHATDISPLAY_FUNC_PRINT_INPUT_TEXT, Display_PrintInputText},
+    {CHATDISPLAY_FUNC_PRINT_EXITING_CHAT, Display_PrintExitingChat},
+    {CHATDISPLAY_FUNC_PRINT_LEADER_LEFT, Display_PrintLeaderLeft},
+    {CHATDISPLAY_FUNC_ASK_SAVE, Display_AskSave},
+    {CHATDISPLAY_FUNC_ASK_OVERWRITE_SAVE, Display_AskOverwriteSave},
+    {CHATDISPLAY_FUNC_PRINT_SAVING, Display_PrintSavingDontTurnOff},
+    {CHATDISPLAY_FUNC_PRINT_SAVED_GAME, Display_PrintSavedTheGame},
+    {CHATDISPLAY_FUNC_ASK_CONFIRM_LEADER_LEAVE, Display_AskConfirmLeaderLeave}};
 
 static const struct MessageWindowInfo sDisplayStdMessages[] = {
     [STDMESSAGE_QUIT_CHATTING] = {
@@ -637,118 +631,26 @@ static const struct MessageWindowInfo sDisplayStdMessages[] = {
         .letterSpacing = 0,
         .lineSpacing = 0,
         .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_REGISTER_WHERE] = {
-        .text = gText_RegisterTextWhere,
-        .boxType = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_REGISTER_HERE] = {
-        .text = gText_RegisterTextHere,
-        .boxType = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_INPUT_TEXT] = {
-        .text = gText_InputText,
-        .boxType = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_EXITING_CHAT] = {
-        .text = gText_ExitingChat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_LEADER_LEFT] = {
-        .text = gText_LeaderLeftEndingChat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = TRUE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_ASK_SAVE] = {
-        .text = gText_RegisteredTextChangedOKToSave,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_ASK_OVERWRITE] = {
-        .text = gText_AlreadySavedFile_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_SAVING_NO_OFF] = {
-        .text = gText_SavingDontTurnOff_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_SAVED_THE_GAME] = {
-        .text = gText_PlayerSavedGame_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = TRUE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_WARN_LEADER_LEAVE] = {
-        .text = gText_IfLeaderLeavesChatEnds,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    }
-};
+        .useWiderBox = FALSE},
+    [STDMESSAGE_REGISTER_WHERE] = {.text = gText_RegisterTextWhere, .boxType = 1, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = FALSE},
+    [STDMESSAGE_REGISTER_HERE] = {.text = gText_RegisterTextHere, .boxType = 1, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = FALSE},
+    [STDMESSAGE_INPUT_TEXT] = {.text = gText_InputText, .boxType = 1, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = FALSE},
+    [STDMESSAGE_EXITING_CHAT] = {.text = gText_ExitingChat, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = FALSE},
+    [STDMESSAGE_LEADER_LEFT] = {.text = gText_LeaderLeftEndingChat, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = TRUE, .useWiderBox = FALSE},
+    [STDMESSAGE_ASK_SAVE] = {.text = gText_RegisteredTextChangedOKToSave, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = TRUE},
+    [STDMESSAGE_ASK_OVERWRITE] = {.text = gText_AlreadySavedFile_Chat, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = TRUE},
+    [STDMESSAGE_SAVING_NO_OFF] = {.text = gText_SavingDontTurnOff_Chat, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = TRUE},
+    [STDMESSAGE_SAVED_THE_GAME] = {.text = gText_PlayerSavedGame_Chat, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = TRUE, .useWiderBox = TRUE},
+    [STDMESSAGE_WARN_LEADER_LEAVE] = {.text = gText_IfLeaderLeavesChatEnds, .boxType = 2, .x = 0, .y = 1, .letterSpacing = 0, .lineSpacing = 0, .hasPlaceholders = FALSE, .useWiderBox = TRUE}};
 
 static const u8 sText_Ellipsis[] = _("…");
 
 static const struct MenuAction sKeyboardPageTitleTexts[UNION_ROOM_KB_PAGE_COUNT + 1] = {
-    [UNION_ROOM_KB_PAGE_UPPER]    = {gText_Upper, {NULL}},
-    [UNION_ROOM_KB_PAGE_LOWER]    = {gText_Lower, {NULL}},
-    [UNION_ROOM_KB_PAGE_EMOJI]    = {gText_Symbols, {NULL}},
+    [UNION_ROOM_KB_PAGE_UPPER] = {gText_Upper, {NULL}},
+    [UNION_ROOM_KB_PAGE_LOWER] = {gText_Lower, {NULL}},
+    [UNION_ROOM_KB_PAGE_EMOJI] = {gText_Symbols, {NULL}},
     [UNION_ROOM_KB_PAGE_REGISTER] = {gText_Register2, {NULL}},
-    [UNION_ROOM_KB_PAGE_COUNT]    = {gText_Exit2, {NULL}},
+    [UNION_ROOM_KB_PAGE_COUNT] = {gText_Exit2, {NULL}},
 };
 
 static const u16 sUnionRoomChatInterfacePal[] = INCBIN_U16("graphics/union_room_chat/interface.gbapal");
@@ -758,149 +660,128 @@ static const u32 sTextEntryArrowTiles[] = INCBIN_U32("graphics/union_room_chat/t
 static const u32 sRButtonGfxTiles[] = INCBIN_U32("graphics/union_room_chat/r_button.4bpp.lz");
 
 static const struct CompressedSpriteSheet sSpriteSheets[] = {
-    {.data = sKeyboardCursorTiles,         .size = 0x1000, .tag = GFXTAG_KEYBOARD_CURSOR},
-    {.data = sTextEntryArrowTiles,         .size = 0x0040, .tag = GFXTAG_TEXT_ENTRY_ARROW},
-    {.data = sTextEntryCursorTiles,        .size = 0x0040, .tag = GFXTAG_TEXT_ENTRY_CURSOR},
-    {.data = sRButtonGfxTiles,             .size = 0x0080, .tag = GFXTAG_RBUTTON_ICON},
-    {.data = gUnionRoomChat_RButtonLabels, .size = 0x0400, .tag = GFXTAG_RBUTTON_LABELS}
-};
+    {.data = sKeyboardCursorTiles, .size = 0x1000, .tag = GFXTAG_KEYBOARD_CURSOR},
+    {.data = sTextEntryArrowTiles, .size = 0x0040, .tag = GFXTAG_TEXT_ENTRY_ARROW},
+    {.data = sTextEntryCursorTiles, .size = 0x0040, .tag = GFXTAG_TEXT_ENTRY_CURSOR},
+    {.data = sRButtonGfxTiles, .size = 0x0080, .tag = GFXTAG_RBUTTON_ICON},
+    {.data = gUnionRoomChat_RButtonLabels, .size = 0x0400, .tag = GFXTAG_RBUTTON_LABELS}};
 
 static const struct SpritePalette sSpritePalette = {
-    .data = sUnionRoomChatInterfacePal, .tag = PALTAG_INTERFACE
-};
+    .data = sUnionRoomChatInterfacePal, .tag = PALTAG_INTERFACE};
 
 static const struct OamData sOam_KeyboardCursor = {
     .shape = SPRITE_SHAPE(64x32),
     .size = SPRITE_SIZE(64x32),
-    .priority = 1
-};
+    .priority = 1};
 
 static const union AnimCmd sAnim_KeyboardCursor_Open[] = {
     ANIMCMD_FRAME(0x00, 30),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_KeyboardCursor_Closed[] = {
     ANIMCMD_FRAME(0x20, 30),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_KeyboardCursorWide_Open[] = {
     ANIMCMD_FRAME(0x40, 30),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_KeyboardCursorWide_Closed[] = {
     ANIMCMD_FRAME(0x60, 30),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd *const sAnims_KeyboardCursor[] = {
     sAnim_KeyboardCursor_Open,
     sAnim_KeyboardCursor_Closed,
     sAnim_KeyboardCursorWide_Open,
-    sAnim_KeyboardCursorWide_Closed
-};
+    sAnim_KeyboardCursorWide_Closed};
 
 static const struct SpriteTemplate sSpriteTemplate_KeyboardCursor =
-{
-    .tileTag = GFXTAG_KEYBOARD_CURSOR,
-    .paletteTag = PALTAG_INTERFACE,
-    .oam = &sOam_KeyboardCursor,
-    .anims = sAnims_KeyboardCursor,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = GFXTAG_KEYBOARD_CURSOR,
+        .paletteTag = PALTAG_INTERFACE,
+        .oam = &sOam_KeyboardCursor,
+        .anims = sAnims_KeyboardCursor,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static const struct OamData sOam_TextEntrySprite = {
     .shape = SPRITE_SHAPE(8x16),
     .size = SPRITE_SIZE(8x16),
-    .priority = 2
-};
+    .priority = 2};
 
 static const struct SpriteTemplate sSpriteTemplate_TextEntryCursor =
-{
-    .tileTag = GFXTAG_TEXT_ENTRY_CURSOR,
-    .paletteTag = PALTAG_INTERFACE,
-    .oam = &sOam_TextEntrySprite,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_TextEntryCursor
-};
+    {
+        .tileTag = GFXTAG_TEXT_ENTRY_CURSOR,
+        .paletteTag = PALTAG_INTERFACE,
+        .oam = &sOam_TextEntrySprite,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCB_TextEntryCursor};
 
 static const struct SpriteTemplate sSpriteTemplate_TextEntryArrow =
-{
-    .tileTag = GFXTAG_TEXT_ENTRY_ARROW,
-    .paletteTag = PALTAG_INTERFACE,
-    .oam = &sOam_TextEntrySprite,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_TextEntryArrow
-};
+    {
+        .tileTag = GFXTAG_TEXT_ENTRY_ARROW,
+        .paletteTag = PALTAG_INTERFACE,
+        .oam = &sOam_TextEntrySprite,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCB_TextEntryArrow};
 
 static const struct OamData sOam_RButtonIcon = {
     .shape = SPRITE_SHAPE(16x16),
     .size = SPRITE_SIZE(16x16),
-    .priority = 2
-};
+    .priority = 2};
 
 static const struct OamData sOam_RButtonLabel = {
     .shape = SPRITE_SHAPE(32x16),
     .size = SPRITE_SIZE(32x16),
-    .priority = 2
-};
+    .priority = 2};
 
 static const union AnimCmd sAnim_ToggleCaseIcon[] = {
     ANIMCMD_FRAME(0x00, 2),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_ToggleCaseIcon_Duplicate1[] = {
     ANIMCMD_FRAME(0x08, 2),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_ToggleCaseIcon_Duplicate2[] = {
     ANIMCMD_FRAME(0x10, 2),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd sAnim_RegisterIcon[] = {
     ANIMCMD_FRAME(0x18, 2),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd *const sAnims_RButtonLabels[] = {
     sAnim_ToggleCaseIcon,
     sAnim_ToggleCaseIcon_Duplicate1,
     sAnim_ToggleCaseIcon_Duplicate2,
-    sAnim_RegisterIcon
-};
+    sAnim_RegisterIcon};
 
 static const struct SpriteTemplate sSpriteTemplate_RButtonIcon =
-{
-    .tileTag = GFXTAG_RBUTTON_ICON,
-    .paletteTag = PALTAG_INTERFACE,
-    .oam = &sOam_RButtonIcon,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = GFXTAG_RBUTTON_ICON,
+        .paletteTag = PALTAG_INTERFACE,
+        .oam = &sOam_RButtonIcon,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static const struct SpriteTemplate sSpriteTemplate_RButtonLabels =
-{
-    .tileTag = GFXTAG_RBUTTON_LABELS,
-    .paletteTag = PALTAG_INTERFACE,
-    .oam = &sOam_RButtonLabel,
-    .anims = sAnims_RButtonLabels,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = GFXTAG_RBUTTON_LABELS,
+        .paletteTag = PALTAG_INTERFACE,
+        .oam = &sOam_RButtonLabel,
+        .anims = sAnims_RButtonLabels,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 void EnterUnionRoomChat(void)
 {
@@ -913,7 +794,9 @@ void EnterUnionRoomChat(void)
 
 static void InitUnionRoomChat(struct UnionRoomChat *chat)
 {
+#ifndef FREE_UNION_ROOM_CHAT
     int i;
+#endif
 
     chat->funcId = CHAT_FUNC_JOIN;
     chat->funcState = 0;
@@ -929,8 +812,10 @@ static void InitUnionRoomChat(struct UnionRoomChat *chat)
     chat->exitType = CHAT_EXIT_NONE;
     chat->changedRegisteredTexts = FALSE;
     PrepareSendBuffer_Null(chat->sendMessageBuffer);
+#ifndef FREE_UNION_ROOM_CHAT
     for (i = 0; i < UNION_ROOM_KB_ROW_COUNT; i++)
         StringCopy(chat->registeredTexts[i], gSaveBlock1Ptr->registeredTexts[i]);
+#endif
 }
 
 static void FreeUnionRoomChat(void)
@@ -1764,9 +1649,11 @@ static void ResetMessageEntryBuffer(void)
 
 static void SaveRegisteredTexts(void)
 {
+#ifndef FREE_UNION_ROOM_CHAT
     int i;
     for (i = 0; i < UNION_ROOM_KB_ROW_COUNT; i++)
         StringCopy(gSaveBlock1Ptr->registeredTexts[i], sChat->registeredTexts[i]);
+#endif
 }
 
 static u8 *GetRegisteredTextByRow(int row)
@@ -2010,6 +1897,7 @@ static u8 *GetChatHostName(void)
 
 void InitUnionRoomChatRegisteredTexts(void)
 {
+#ifndef FREE_UNION_ROOM_CHAT
     StringCopy(gSaveBlock1Ptr->registeredTexts[0], gText_Hello);
     StringCopy(gSaveBlock1Ptr->registeredTexts[1], gText_Pokemon2);
     StringCopy(gSaveBlock1Ptr->registeredTexts[2], gText_Trade);
@@ -2020,14 +1908,15 @@ void InitUnionRoomChatRegisteredTexts(void)
     StringCopy(gSaveBlock1Ptr->registeredTexts[7], gText_YaySmileEmoji);
     StringCopy(gSaveBlock1Ptr->registeredTexts[8], gText_ThankYou);
     StringCopy(gSaveBlock1Ptr->registeredTexts[9], gText_ByeBye);
+#endif
 }
 
-#define tState               data[0]
-#define tI                   data[1]
-#define tCurrLinkPlayer      data[2]
+#define tState data[0]
+#define tI data[1]
+#define tCurrLinkPlayer data[2]
 #define tBlockReceivedStatus data[3]
-#define tLinkPlayerCount     data[4]
-#define tNextState           data[5]
+#define tLinkPlayerCount data[4]
+#define tNextState data[5]
 
 static void Task_ReceiveChatMessage(u8 taskId)
 {
@@ -2076,12 +1965,22 @@ static void Task_ReceiveChatMessage(u8 taskId)
         buffer = (u8 *)gBlockRecvBuffer[tI];
         switch (buffer[0])
         {
-            default:
-            case CHAT_MESSAGE_CHAT:    tNextState = 3; break;
-            case CHAT_MESSAGE_JOIN:    tNextState = 3; break;
-            case CHAT_MESSAGE_LEAVE:   tNextState = 4; break;
-            case CHAT_MESSAGE_DROP:    tNextState = 5; break;
-            case CHAT_MESSAGE_DISBAND: tNextState = 6; break;
+        default:
+        case CHAT_MESSAGE_CHAT:
+            tNextState = 3;
+            break;
+        case CHAT_MESSAGE_JOIN:
+            tNextState = 3;
+            break;
+        case CHAT_MESSAGE_LEAVE:
+            tNextState = 4;
+            break;
+        case CHAT_MESSAGE_DROP:
+            tNextState = 5;
+            break;
+        case CHAT_MESSAGE_DISBAND:
+            tNextState = 6;
+            break;
         }
 
         if (ProcessReceivedChatMessage(sChat->receivedMessage, (u8 *)gBlockRecvBuffer[tI]))
@@ -3042,8 +2941,7 @@ static void ResetGpuBgState(void)
     SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(64, DISPLAY_WIDTH));
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, DISPLAY_HEIGHT - 16));
-    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG0 | WININ_WIN0_BG2 | WININ_WIN0_BG3
-                              | WININ_WIN0_OBJ | WININ_WIN0_CLR);
+    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG0 | WININ_WIN0_BG2 | WININ_WIN0_BG3 | WININ_WIN0_OBJ | WININ_WIN0_CLR);
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
 }
 
@@ -3080,7 +2978,7 @@ static void LoadChatWindowGfx(void)
     if (ptr)
     {
         // The below is nonsense. Tiles 0x11 and 0x21 of the background tileset are
-        // the second half of "OK" and the "T" in "START" in the instructions header.
+        // the second half of "OK" and the "T" in "Start" in the instructions header.
         // They're later blitted onto the text entry window, then immediately cleared.
         // The window has a different palette as well, so the tiles would appear mostly black anyway.
         CpuFastCopy(&ptr[0x11 * TILE_SIZE_4BPP], &sDisplay->textEntryTiles[TILE_SIZE_4BPP * 0], TILE_SIZE_4BPP);
@@ -3148,15 +3046,15 @@ static void InitScanlineEffect(void)
 static void UpdateSlidingKeyboard(s16 bg1hofs)
 {
     CpuFill16(bg1hofs, gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer], 0x120);
-    CpuFill16(0,       gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer] + 0x90, 0x20);
+    CpuFill16(0, gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer] + 0x90, 0x20);
 }
 
 static void FinishSlidingKeyboard(s16 bg1hofs)
 {
-    CpuFill16(bg1hofs, gScanlineEffectRegBuffers[0],         0x120);
-    CpuFill16(0,       gScanlineEffectRegBuffers[0] +  0x90, 0x20);
+    CpuFill16(bg1hofs, gScanlineEffectRegBuffers[0], 0x120);
+    CpuFill16(0, gScanlineEffectRegBuffers[0] + 0x90, 0x20);
     CpuFill16(bg1hofs, gScanlineEffectRegBuffers[0] + 0x3C0, 0x120);
-    CpuFill16(0,       gScanlineEffectRegBuffers[0] + 0x450, 0x20);
+    CpuFill16(0, gScanlineEffectRegBuffers[0] + 0x450, 0x20);
 }
 
 static bool32 TryAllocSprites(void)
@@ -3291,7 +3189,7 @@ static void UpdateRButtonLabel(void)
     {
         if (GetLengthOfMessageEntry() != 0)
         {
-            // REGISTER
+            // Register
             sSprites->rButtonLabel->invisible = FALSE;
             StartSpriteAnim(sSprites->rButtonLabel, 3);
         }
@@ -3314,5 +3212,4 @@ static void UpdateRButtonLabel(void)
             StartSpriteAnim(sSprites->rButtonLabel, anim);
         }
     }
-
 }

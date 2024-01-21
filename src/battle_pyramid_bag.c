@@ -34,14 +34,15 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
-#define TAG_SCROLL_ARROW  2910
-#define TAG_PYRAMID_BAG   4132
-#define TAG_ITEM_ICON     4133
+#define TAG_SCROLL_ARROW 2910
+#define TAG_PYRAMID_BAG 4132
+#define TAG_ITEM_ICON 4133
 #define TAG_ITEM_ICON_ALT 4134
 
 #define POS_NONE ((u8)-1)
 
-enum {
+enum
+{
     WIN_LIST,
     WIN_INFO,
     WIN_MSG,
@@ -111,59 +112,53 @@ static void TossItem(u8);
 static void DontTossItem(u8);
 
 static const struct BgTemplate sBgTemplates[] =
-{
     {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0
-    },
-    {
-        .bg = 1,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 30,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    },
-    {
-        .bg = 2,
-        .charBaseIndex = 3,
-        .mapBaseIndex = 29,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 2,
-        .baseTile = 0
-    },
+        {.bg = 0,
+         .charBaseIndex = 0,
+         .mapBaseIndex = 31,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 1,
+         .baseTile = 0},
+        {.bg = 1,
+         .charBaseIndex = 0,
+         .mapBaseIndex = 30,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 0,
+         .baseTile = 0},
+        {.bg = 2,
+         .charBaseIndex = 3,
+         .mapBaseIndex = 29,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 2,
+         .baseTile = 0},
 };
 
 static const struct ListMenuTemplate sListMenuTemplate =
-{
-    .items = NULL,
-    .moveCursorFunc = BagCursorMoved,
-    .itemPrintFunc = PrintItemQuantity,
-    .totalItems = 0,
-    .maxShowed = 0,
-    .windowId = WIN_LIST,
-    .header_X = 0,
-    .item_X = 8,
-    .cursor_X = 0,
-    .upText_Y = 1,
-    .cursorPal = 2,
-    .fillValue = 0,
-    .cursorShadowPal = 3,
-    .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = FONT_NARROW,
-    .cursorKind = CURSOR_BLACK_ARROW
-};
+    {
+        .items = NULL,
+        .moveCursorFunc = BagCursorMoved,
+        .itemPrintFunc = PrintItemQuantity,
+        .totalItems = 0,
+        .maxShowed = 0,
+        .windowId = WIN_LIST,
+        .header_X = 0,
+        .item_X = 8,
+        .cursor_X = 0,
+        .upText_Y = 1,
+        .cursorPal = 2,
+        .fillValue = 0,
+        .cursorShadowPal = 3,
+        .lettersSpacing = 0,
+        .itemVerticalPadding = 0,
+        .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
+        .fontId = FONT_NARROW,
+        .cursorKind = CURSOR_BLACK_ARROW};
 
-enum {
+enum
+{
     ACTION_USE_FIELD,
     ACTION_TOSS,
     ACTION_GIVE,
@@ -173,13 +168,13 @@ enum {
 };
 
 static const struct MenuAction sMenuActions[] =
-{
-    [ACTION_USE_FIELD] =    { gMenuText_Use, {BagAction_UseOnField} },
-    [ACTION_TOSS] =         { gMenuText_Toss, {BagAction_Toss} },
-    [ACTION_GIVE] =         { gMenuText_Give, {BagAction_Give} },
-    [ACTION_CANCEL] =       { gText_Cancel2, {BagAction_Cancel} },
-    [ACTION_USE_BATTLE] =   { gMenuText_Use, {BagAction_UseInBattle} },
-    [ACTION_DUMMY] =        { gText_EmptyString2, {NULL} },
+    {
+        [ACTION_USE_FIELD] = {gMenuText_Use, {BagAction_UseOnField}},
+        [ACTION_TOSS] = {gMenuText_Toss, {BagAction_Toss}},
+        [ACTION_GIVE] = {gMenuText_Give, {BagAction_Give}},
+        [ACTION_CANCEL] = {gText_Cancel2, {BagAction_Cancel}},
+        [ACTION_USE_BATTLE] = {gMenuText_Use, {BagAction_UseInBattle}},
+        [ACTION_DUMMY] = {gText_EmptyString2, {NULL}},
 };
 
 static const u8 sMenuActionIds_Field[] = {ACTION_USE_FIELD, ACTION_GIVE, ACTION_TOSS, ACTION_CANCEL};
@@ -188,11 +183,11 @@ static const u8 sMenuActionIds_Battle[] = {ACTION_USE_BATTLE, ACTION_CANCEL};
 static const u8 sMenuActionIds_BattleCannotUse[] = {ACTION_CANCEL};
 
 static const struct YesNoFuncTable sYesNoTossFuncions =
-{
-    TossItem, DontTossItem
-};
+    {
+        TossItem, DontTossItem};
 
-enum {
+enum
+{
     COLORID_DARK_GRAY,
     COLORID_LIGHT_GRAY,
     COLORID_WHITE_BG,
@@ -200,54 +195,30 @@ enum {
 };
 
 static const u8 sTextColors[][3] =
-{
-    [COLORID_DARK_GRAY]  = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY,  TEXT_COLOR_LIGHT_GRAY},
-    [COLORID_LIGHT_GRAY] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY, TEXT_COLOR_WHITE},
-    [COLORID_WHITE_BG]   = {TEXT_COLOR_WHITE,       TEXT_COLOR_DARK_GRAY,  TEXT_COLOR_LIGHT_GRAY}, // Unused
+    {
+        [COLORID_DARK_GRAY] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY},
+        [COLORID_LIGHT_GRAY] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY, TEXT_COLOR_WHITE},
+        [COLORID_WHITE_BG] = {TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY}, // Unused
 };
 
 static const struct WindowTemplate sWindowTemplates[] =
-{
-    [WIN_LIST] = {
-        .bg = 0,
-        .tilemapLeft = 14,
-        .tilemapTop = 2,
-        .width = 15,
-        .height = 16,
-        .paletteNum = 15,
-        .baseBlock = 30
-    },
-    [WIN_INFO] = {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 13,
-        .width = 14,
-        .height = 6,
-        .paletteNum = 15,
-        .baseBlock = 270
-    },
-    [WIN_MSG] = {
-        .bg = 1,
-        .tilemapLeft = 2,
-        .tilemapTop = 15,
-        .width = 27,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 354
-    },
-    [WIN_TOSS_NUM] = {
-        .bg = 1,
-        .tilemapLeft = 24,
-        .tilemapTop = 17,
-        .width = 5,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 462
-    },
-    DUMMY_WIN_TEMPLATE,
+    {
+        [WIN_LIST] = {
+            .bg = 0,
+            .tilemapLeft = 14,
+            .tilemapTop = 2,
+            .width = 15,
+            .height = 16,
+            .paletteNum = 15,
+            .baseBlock = 30},
+        [WIN_INFO] = {.bg = 0, .tilemapLeft = 0, .tilemapTop = 13, .width = 14, .height = 6, .paletteNum = 15, .baseBlock = 270},
+        [WIN_MSG] = {.bg = 1, .tilemapLeft = 2, .tilemapTop = 15, .width = 27, .height = 4, .paletteNum = 15, .baseBlock = 354},
+        [WIN_TOSS_NUM] = {.bg = 1, .tilemapLeft = 24, .tilemapTop = 17, .width = 5, .height = 2, .paletteNum = 15, .baseBlock = 462},
+        DUMMY_WIN_TEMPLATE,
 };
 
-enum {
+enum
+{
     MENU_WIN_1x1,
     MENU_WIN_1x2,
     MENU_WIN_2x2,
@@ -256,120 +227,94 @@ enum {
 };
 
 static const struct WindowTemplate sWindowTemplates_MenuActions[] =
-{
-    [MENU_WIN_1x1] = {
-        .bg = 1,
-        .tilemapLeft = 22,
-        .tilemapTop = 17,
-        .width = 7,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 472
-    },
-    [MENU_WIN_1x2] = {
-        .bg = 1,
-        .tilemapLeft = 22,
-        .tilemapTop = 15,
-        .width = 7,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 472
-    },
-    [MENU_WIN_2x2] = {
-        .bg = 1,
-        .tilemapLeft = 15,
-        .tilemapTop = 15,
-        .width = 14,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 472
-    },
-    [MENU_WIN_2x3] = { // Unused
-        .bg = 1,
-        .tilemapLeft = 15,
-        .tilemapTop = 13,
-        .width = 14,
-        .height = 6,
-        .paletteNum = 15,
-        .baseBlock = 472
-    },
-    [MENU_WIN_YESNO] = {
-        .bg = 1,
-        .tilemapLeft = 24,
-        .tilemapTop = 15,
-        .width = 5,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 472
-    },
+    {
+        [MENU_WIN_1x1] = {
+            .bg = 1,
+            .tilemapLeft = 22,
+            .tilemapTop = 17,
+            .width = 7,
+            .height = 2,
+            .paletteNum = 15,
+            .baseBlock = 472},
+        [MENU_WIN_1x2] = {.bg = 1, .tilemapLeft = 22, .tilemapTop = 15, .width = 7, .height = 4, .paletteNum = 15, .baseBlock = 472},
+        [MENU_WIN_2x2] = {.bg = 1, .tilemapLeft = 15, .tilemapTop = 15, .width = 14, .height = 4, .paletteNum = 15, .baseBlock = 472},
+        [MENU_WIN_2x3] = {// Unused
+                          .bg = 1,
+                          .tilemapLeft = 15,
+                          .tilemapTop = 13,
+                          .width = 14,
+                          .height = 6,
+                          .paletteNum = 15,
+                          .baseBlock = 472},
+        [MENU_WIN_YESNO] = {.bg = 1, .tilemapLeft = 24, .tilemapTop = 15, .width = 5, .height = 4, .paletteNum = 15, .baseBlock = 472},
 };
 
 static const struct OamData sOamData_PyramidBag =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_NORMAL,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 0,
-    .affineParam = 0,
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_NORMAL,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(64x64),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(64x64),
+        .tileNum = 0,
+        .priority = 1,
+        .paletteNum = 0,
+        .affineParam = 0,
 };
 
 static const union AnimCmd sAnim_PyramidBag[] =
-{
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_END,
+    {
+        ANIMCMD_FRAME(0, 4),
+        ANIMCMD_END,
 };
 
-static const union AnimCmd * const sAnims_PyramidBag[] =
-{
-    sAnim_PyramidBag,
+static const union AnimCmd *const sAnims_PyramidBag[] =
+    {
+        sAnim_PyramidBag,
 };
 
 static const union AffineAnimCmd sAffineAnim_PyramidBag_Still[] =
-{
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_END,
+    {
+        AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+        AFFINEANIMCMD_END,
 };
 
 static const union AffineAnimCmd sAffineAnim_PyramidBag_Shake[] =
-{
-    AFFINEANIMCMD_FRAME(0, 0, 254, 2),
-    AFFINEANIMCMD_FRAME(0, 0, 2, 4),
-    AFFINEANIMCMD_FRAME(0, 0, 254, 4),
-    AFFINEANIMCMD_FRAME(0, 0, 2, 2),
-    AFFINEANIMCMD_END,
+    {
+        AFFINEANIMCMD_FRAME(0, 0, 254, 2),
+        AFFINEANIMCMD_FRAME(0, 0, 2, 4),
+        AFFINEANIMCMD_FRAME(0, 0, 254, 4),
+        AFFINEANIMCMD_FRAME(0, 0, 2, 2),
+        AFFINEANIMCMD_END,
 };
 
-enum {
+enum
+{
     ANIM_BAG_STILL,
     ANIM_BAG_SHAKE,
 };
 
-static const union AffineAnimCmd * const sAffineAnims_PyramidBag[] =
-{
-    [ANIM_BAG_STILL] = sAffineAnim_PyramidBag_Still,
-    [ANIM_BAG_SHAKE] = sAffineAnim_PyramidBag_Shake,
+static const union AffineAnimCmd *const sAffineAnims_PyramidBag[] =
+    {
+        [ANIM_BAG_STILL] = sAffineAnim_PyramidBag_Still,
+        [ANIM_BAG_SHAKE] = sAffineAnim_PyramidBag_Shake,
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_PyramidBag = {gBattlePyramidBag_Gfx, 0x0800, TAG_PYRAMID_BAG};
 
 static const struct SpriteTemplate sSpriteTemplate_PyramidBag =
-{
-    .tileTag = TAG_PYRAMID_BAG,
-    .paletteTag = TAG_PYRAMID_BAG,
-    .oam = &sOamData_PyramidBag,
-    .anims = sAnims_PyramidBag,
-    .images = NULL,
-    .affineAnims = sAffineAnims_PyramidBag,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = TAG_PYRAMID_BAG,
+        .paletteTag = TAG_PYRAMID_BAG,
+        .oam = &sOamData_PyramidBag,
+        .anims = sAnims_PyramidBag,
+        .images = NULL,
+        .affineAnims = sAffineAnims_PyramidBag,
+        .callback = SpriteCallbackDummy};
 
 void InitBattlePyramidBagCursorPosition(void)
 {
@@ -452,94 +397,93 @@ static void VBlankCB_PyramidBag(void)
 
 static void CB2_LoadPyramidBagMenu(void)
 {
-    while (MenuHelpers_ShouldWaitForLinkRecv() != TRUE
-        && LoadPyramidBagMenu() != TRUE
-        && MenuHelpers_IsLinkActive() != TRUE);
+    while (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && LoadPyramidBagMenu() != TRUE && MenuHelpers_IsLinkActive() != TRUE)
+        ;
 }
 
 static bool8 LoadPyramidBagMenu(void)
 {
     switch (gMain.state)
     {
-        case 0:
-            SetVBlankHBlankCallbacksToNull();
-            ClearScheduledBgCopiesToVram();
+    case 0:
+        SetVBlankHBlankCallbacksToNull();
+        ClearScheduledBgCopiesToVram();
+        gMain.state++;
+        break;
+    case 1:
+        ScanlineEffect_Stop();
+        gMain.state++;
+        break;
+    case 2:
+        FreeAllSpritePalettes();
+        gMain.state++;
+        break;
+    case 3:
+        ResetPaletteFade();
+        gPaletteFade.bufferTransferDisabled = TRUE;
+        gMain.state++;
+        break;
+    case 4:
+        ResetSpriteData();
+        gMain.state++;
+        break;
+    case 5:
+        if (!MenuHelpers_IsLinkActive())
+            ResetTasks();
+        gMain.state++;
+        break;
+    case 6:
+        InitPyramidBagBgs();
+        gPyramidBagMenu->state = 0;
+        gMain.state++;
+        break;
+    case 7:
+        if (LoadPyramidBagGfx())
             gMain.state++;
-            break;
-        case 1:
-            ScanlineEffect_Stop();
-            gMain.state++;
-            break;
-        case 2:
-            FreeAllSpritePalettes();
-            gMain.state++;
-            break;
-        case 3:
-            ResetPaletteFade();
-            gPaletteFade.bufferTransferDisabled = TRUE;
-            gMain.state++;
-            break;
-        case 4:
-            ResetSpriteData();
-            gMain.state++;
-            break;
-        case 5:
-            if (!MenuHelpers_IsLinkActive())
-                ResetTasks();
-            gMain.state++;
-            break;
-        case 6:
-            InitPyramidBagBgs();
-            gPyramidBagMenu->state = 0;
-            gMain.state++;
-            break;
-        case 7:
-            if (LoadPyramidBagGfx())
-                gMain.state++;
-            break;
-        case 8:
-            InitPyramidBagWindows();
-            gMain.state++;
-            break;
-        case 9:
-            UpdatePyramidBagList();
-            UpdatePyramidBagCursorPos();
-            InitPyramidBagScroll();
-            gMain.state++;
-            break;
-        case 10:
-            SetBagItemsListTemplate();
-            gMain.state++;
-            break;
-        case 11:
-            CreatePyramidBagInputTask();
-            gMain.state++;
-            break;
-        case 12:
-            CreatePyramidBagSprite();
-            gMain.state++;
-            break;
-        case 13:
-            AddScrollArrows();
-            gMain.state++;
-            break;
-        case 14:
-            CreateSwapLine();
-            gMain.state++;
-            break;
-        case 15:
-            BlendPalettes(PALETTES_ALL, 16, 0);
-            gMain.state++;
-            break;
-        case 16:
-            BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
-            gPaletteFade.bufferTransferDisabled = FALSE;
-            gMain.state++;
-            break;
-        default:
-            SetVBlankCallback(VBlankCB_PyramidBag);
-            SetMainCallback2(CB2_PyramidBag);
-            return TRUE;
+        break;
+    case 8:
+        InitPyramidBagWindows();
+        gMain.state++;
+        break;
+    case 9:
+        UpdatePyramidBagList();
+        UpdatePyramidBagCursorPos();
+        InitPyramidBagScroll();
+        gMain.state++;
+        break;
+    case 10:
+        SetBagItemsListTemplate();
+        gMain.state++;
+        break;
+    case 11:
+        CreatePyramidBagInputTask();
+        gMain.state++;
+        break;
+    case 12:
+        CreatePyramidBagSprite();
+        gMain.state++;
+        break;
+    case 13:
+        AddScrollArrows();
+        gMain.state++;
+        break;
+    case 14:
+        CreateSwapLine();
+        gMain.state++;
+        break;
+    case 15:
+        BlendPalettes(PALETTES_ALL, 16, 0);
+        gMain.state++;
+        break;
+    case 16:
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+        gPaletteFade.bufferTransferDisabled = FALSE;
+        gMain.state++;
+        break;
+    default:
+        SetVBlankCallback(VBlankCB_PyramidBag);
+        SetMainCallback2(CB2_PyramidBag);
+        return TRUE;
     }
     return FALSE;
 }
@@ -553,8 +497,8 @@ static void InitPyramidBagBgs(void)
     ResetAllBgsCoordinates();
     ScheduleBgCopyTilemapToVram(2);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 |
-                                  DISPCNT_OBJ_1D_MAP |
-                                  DISPCNT_OBJ_ON);
+                                      DISPCNT_OBJ_1D_MAP |
+                                      DISPCNT_OBJ_ON);
     ShowBg(0);
     ShowBg(1);
     ShowBg(2);
@@ -697,9 +641,9 @@ static void AddScrollArrows(void)
 {
     if (gPyramidBagMenu->scrollIndicatorsTaskId == TASK_NONE)
         gPyramidBagMenu->scrollIndicatorsTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 172, 12, 148,
-                                                                                            gPyramidBagMenu->listMenuCount - gPyramidBagMenu->listMenuMaxShown,
-                                                                                            TAG_SCROLL_ARROW, TAG_SCROLL_ARROW,
-                                                                                            &gPyramidBagMenuState.scrollPosition);
+                                                                                           gPyramidBagMenu->listMenuCount - gPyramidBagMenu->listMenuMaxShown,
+                                                                                           TAG_SCROLL_ARROW, TAG_SCROLL_ARROW,
+                                                                                           &gPyramidBagMenuState.scrollPosition);
 }
 
 static void RemoveScrollArrow(void)
@@ -712,9 +656,9 @@ static void RemoveScrollArrow(void)
 }
 
 #define tListTaskId data[0]
-#define tListPos    data[1]
-#define tQuantity   data[2]
-#define tNumToToss  data[8]
+#define tListPos data[1]
+#define tQuantity data[2]
+#define tNumToToss data[8]
 
 static void CreatePyramidBagInputTask(void)
 {
@@ -727,7 +671,7 @@ static void SwapItems(u8 id1, u8 id2)
 {
     u16 temp;
     u16 *itemIds = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
 
     SWAP(itemIds[id1], itemIds[id2], temp);
     SWAP(quantities[id1], quantities[id2], temp);
@@ -736,7 +680,7 @@ static void SwapItems(u8 id1, u8 id2)
 static void MovePyramidBagItemSlotInList(u8 from, u8 to)
 {
     u16 *itemIds = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
 
     if (from != to)
     {
@@ -770,7 +714,7 @@ static void CompactItems(void)
 {
     u8 i, j;
     u16 *itemIds = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
@@ -936,8 +880,8 @@ static void OpenContextMenu(u8 taskId)
     switch (gPyramidBagMenuState.location)
     {
     default:
-//  case PYRAMIDBAG_LOC_FIELD:
-//  case PYRAMIDBAG_LOC_PARTY:
+        //  case PYRAMIDBAG_LOC_FIELD:
+        //  case PYRAMIDBAG_LOC_PARTY:
         gPyramidBagMenu->menuActionIds = sMenuActionIds_Field;
         gPyramidBagMenu->menuActionsCount = ARRAY_COUNT(sMenuActionIds_Field);
         break;
@@ -1087,10 +1031,7 @@ static void BagAction_UseOnField(u8 taskId)
 {
     u8 pocketId = ItemId_GetPocket(gSpecialVar_ItemId);
 
-    if (pocketId == POCKET_KEY_ITEMS
-        || pocketId == POCKET_POKE_BALLS
-        || pocketId == POCKET_TM_HM
-        || ItemIsMail(gSpecialVar_ItemId) == TRUE)
+    if (pocketId == POCKET_KEY_ITEMS || pocketId == POCKET_POKE_BALLS || pocketId == POCKET_TM_HM || ItemIsMail(gSpecialVar_ItemId) == TRUE)
     {
         CloseMenuActionWindow();
         DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
@@ -1412,7 +1353,7 @@ void TryStoreHeldItemsInPyramidBag(void)
     u8 i;
     struct Pokemon *party = gPlayerParty;
     u16 *newItems = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
-    u8 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
+    u16 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
     u16 heldItem;
 
     memcpy(newItems, gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode], PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));

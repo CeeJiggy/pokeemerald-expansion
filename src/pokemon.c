@@ -55,6 +55,7 @@
 #include "constants/trainers.h"
 #include "constants/union_room.h"
 #include "constants/weather.h"
+#include "wild_encounter.h"
 
 #if P_FRIENDSHIP_EVO_THRESHOLD >= GEN_9
 #define FRIENDSHIP_EVO_THRESHOLD 160
@@ -745,6 +746,25 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 
         value = gSaveBlock2Ptr->playerTrainerId[0] | (gSaveBlock2Ptr->playerTrainerId[1] << 8) | (gSaveBlock2Ptr->playerTrainerId[2] << 16) | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 
+        for (i = 0; i < shinyRolls; i++)
+        {
+            if (Random() < SHINY_ODDS)
+                FlagSet(FLAG_SHINY_CREATION); // use a flag bc of CreateDexNavWildMon
+        }
+
+        if (FlagGet(FLAG_SHINY_CREATION))
+        {
+            u8 nature = personality % NUM_NATURES; // keep current nature
+            do
+            {
+                personality = Random32();
+                personality = ((((Random() % SHINY_ODDS) ^ (HIHALF(value) ^ LOHALF(value))) ^ LOHALF(personality)) << 16) | LOHALF(personality);
+            } while (nature != GetNatureFromPersonality(personality));
+
+            // clear the flag after use
+            FlagClear(FLAG_SHINY_CREATION);
+        }
+
 #if P_FLAG_FORCE_NO_SHINY != 0
         if (FlagGet(P_FLAG_FORCE_NO_SHINY))
         {
@@ -771,7 +791,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 totalRerolls += I_SHINY_CHARM_ADDITIONAL_ROLLS;
             if (LURE_STEP_COUNT != 0)
                 totalRerolls += 1;
-
             while (GET_SHINY_VALUE(value, personality) >= SHINY_ODDS && totalRerolls > 0)
             {
                 personality = Random32();
@@ -780,137 +799,117 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         }
     }
 
-    for (i = 0; i < shinyRolls; i++)
+    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
+    SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
+
+    checksum = CalculateBoxMonChecksum(boxMon);
+    SetBoxMonData(boxMon, MON_DATA_CHECKSUM, &checksum);
+    EncryptBoxMon(boxMon);
+    StringCopy(speciesName, GetSpeciesName(species));
+    SetBoxMonData(boxMon, MON_DATA_NICKNAME, speciesName);
+    SetBoxMonData(boxMon, MON_DATA_LANGUAGE, &gGameLanguage);
+    SetBoxMonData(boxMon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+    SetBoxMonData(boxMon, MON_DATA_SPECIES, &species);
+    SetBoxMonData(boxMon, MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[species].growthRate][level]);
+    SetBoxMonData(boxMon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].friendship);
+    value = GetCurrentRegionMapSectionId();
+    SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
+    SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
+    SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
+    value = ITEM_POKE_BALL;
+    SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
+    SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+
+    if (fixedIV < USE_RANDOM_IVS)
     {
-        if (Random() < SHINY_ODDS)
-            FlagSet(FLAG_SHINY_CREATION); // use a flag bc of CreateDexNavWildMon
+        SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &fixedIV);
     }
-
-    if (FlagGet(FLAG_SHINY_CREATION))
+    else
     {
-        u8 nature = personality % NUM_NATURES; // keep current nature
-        do
-        {
-            personality = Random32();
-            personality = ((((Random() % SHINY_ODDS) ^ (HIHALF(value) ^ LOHALF(value))) ^ LOHALF(personality)) << 16) | LOHALF(personality);
-        } while (nature != GetNatureFromPersonality(personality));
+        u32 iv;
+        value = Random();
 
-        // clear the flag after use
-        FlagClear(FLAG_SHINY_CREATION);
-    }
-}
-
-SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
-SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
-
-checksum = CalculateBoxMonChecksum(boxMon);
-SetBoxMonData(boxMon, MON_DATA_CHECKSUM, &checksum);
-EncryptBoxMon(boxMon);
-StringCopy(speciesName, GetSpeciesName(species));
-SetBoxMonData(boxMon, MON_DATA_NICKNAME, speciesName);
-SetBoxMonData(boxMon, MON_DATA_LANGUAGE, &gGameLanguage);
-SetBoxMonData(boxMon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
-SetBoxMonData(boxMon, MON_DATA_SPECIES, &species);
-SetBoxMonData(boxMon, MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[species].growthRate][level]);
-SetBoxMonData(boxMon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].friendship);
-value = GetCurrentRegionMapSectionId();
-SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
-SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
-SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
-value = ITEM_POKE_BALL;
-SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
-SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
-
-if (fixedIV < USE_RANDOM_IVS)
-{
-    SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
-    SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
-    SetBoxMonData(boxMon, MON_DATA_DEF_IV, &fixedIV);
-    SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &fixedIV);
-    SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &fixedIV);
-    SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &fixedIV);
-}
-else
-{
-    u32 iv;
-    value = Random();
-
-    iv = value & MAX_IV_MASK;
-    SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
-    iv = (value & (MAX_IV_MASK << 5)) >> 5;
-    SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
-    iv = (value & (MAX_IV_MASK << 10)) >> 10;
-    SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
-
-    value = Random();
-
-    iv = value & MAX_IV_MASK;
-    SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
-    iv = (value & (MAX_IV_MASK << 5)) >> 5;
-    SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
-    iv = (value & (MAX_IV_MASK << 10)) >> 10;
-    SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
-
-    if (gSpeciesInfo[species].allPerfectIVs)
-    {
-        iv = MAX_PER_STAT_IVS;
+        iv = value & MAX_IV_MASK;
         SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
+        iv = (value & (MAX_IV_MASK << 5)) >> 5;
         SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
+        iv = (value & (MAX_IV_MASK << 10)) >> 10;
         SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
-        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
-        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
-        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
-    }
-    else if (P_LEGENDARY_PERFECT_IVS >= GEN_6 && (gSpeciesInfo[species].isLegendary || gSpeciesInfo[species].isMythical || gSpeciesInfo[species].isUltraBeast))
-    {
-        iv = MAX_PER_STAT_IVS;
-        // Initialize a list of IV indices.
-        for (i = 0; i < NUM_STATS; i++)
-        {
-            availableIVs[i] = i;
-        }
 
-        // Select the 3 IVs that will be perfected.
-        for (i = 0; i < LEGENDARY_PERFECT_IV_COUNT; i++)
+        value = Random();
+
+        iv = value & MAX_IV_MASK;
+        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
+        iv = (value & (MAX_IV_MASK << 5)) >> 5;
+        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
+        iv = (value & (MAX_IV_MASK << 10)) >> 10;
+        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
+
+        if (gSpeciesInfo[species].allPerfectIVs)
         {
-            u8 index = Random() % (NUM_STATS - i);
-            selectedIvs[i] = availableIVs[index];
-            RemoveIVIndexFromList(availableIVs, index);
+            iv = MAX_PER_STAT_IVS;
+            SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
+            SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
+            SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
+            SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
+            SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
+            SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
         }
-        for (i = 0; i < LEGENDARY_PERFECT_IV_COUNT; i++)
+        else if (P_LEGENDARY_PERFECT_IVS >= GEN_6 && (gSpeciesInfo[species].isLegendary || gSpeciesInfo[species].isMythical || gSpeciesInfo[species].isUltraBeast))
         {
-            switch (selectedIvs[i])
+            iv = MAX_PER_STAT_IVS;
+            // Initialize a list of IV indices.
+            for (i = 0; i < NUM_STATS; i++)
             {
-            case STAT_HP:
-                SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
-                break;
-            case STAT_ATK:
-                SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
-                break;
-            case STAT_DEF:
-                SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
-                break;
-            case STAT_SPEED:
-                SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
-                break;
-            case STAT_SPATK:
-                SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
-                break;
-            case STAT_SPDEF:
-                SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
-                break;
+                availableIVs[i] = i;
+            }
+
+            // Select the 3 IVs that will be perfected.
+            for (i = 0; i < LEGENDARY_PERFECT_IV_COUNT; i++)
+            {
+                u8 index = Random() % (NUM_STATS - i);
+                selectedIvs[i] = availableIVs[index];
+                RemoveIVIndexFromList(availableIVs, index);
+            }
+            for (i = 0; i < LEGENDARY_PERFECT_IV_COUNT; i++)
+            {
+                switch (selectedIvs[i])
+                {
+                case STAT_HP:
+                    SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
+                    break;
+                case STAT_ATK:
+                    SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
+                    break;
+                case STAT_DEF:
+                    SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
+                    break;
+                case STAT_SPEED:
+                    SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
+                    break;
+                case STAT_SPATK:
+                    SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
+                    break;
+                case STAT_SPDEF:
+                    SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
+                    break;
+                }
             }
         }
     }
-}
 
-if (gSpeciesInfo[species].abilities[1])
-{
-    value = personality & 1;
-    SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
-}
+    if (gSpeciesInfo[species].abilities[1])
+    {
+        value = personality & 1;
+        SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
+    }
 
-GiveBoxMonInitialMoveset(boxMon);
+    GiveBoxMonInitialMoveset(boxMon);
 }
 
 void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 nature)
@@ -1368,6 +1367,12 @@ static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)
 
     return checksum;
 }
+
+#if B_FRIENDSHIP_BOOST == TRUE
+#define CALC_FRIENDSHIP_BOOST() n = n + ((n * 10 * friendship) / (MAX_FRIENDSHIP * 100));
+#else
+#define CALC_FRIENDSHIP_BOOST()
+#endif
 
 #define CALC_STAT(base, iv, ev, statIndex, field)                     \
     {                                                                 \
@@ -3147,30 +3152,13 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
 
         // Handle ITEM3 effects (Guard Spec, Rare Candy, cure status)
         case 3:
-            // Rare Candy / EXP Candy
+            // Rare Candy
             if ((itemEffect[i] & ITEM3_LEVEL_UP) && GetMonData(mon, MON_DATA_LEVEL, NULL) != MAX_LEVEL)
             {
-                u8 param = ItemId_GetHoldEffectParam(item);
-                dataUnsigned = 0;
-
-                if (param == 0) // Rare Candy
-                {
-                    dataUnsigned = gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
-                }
-                else if (param - 1 < ARRAY_COUNT(sExpCandyExperienceTable)) // EXP Candies
-                {
-                    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-                    dataUnsigned = sExpCandyExperienceTable[param - 1] + GetMonData(mon, MON_DATA_EXP, NULL);
-                    if (dataUnsigned > gExperienceTables[gSpeciesInfo[species].growthRate][MAX_LEVEL])
-                        dataUnsigned = gExperienceTables[gSpeciesInfo[species].growthRate][MAX_LEVEL];
-                }
-
-                if (dataUnsigned != 0) // Failsafe
-                {
-                    SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
-                    CalculateMonStats(mon);
-                    retVal = FALSE;
-                }
+                dataUnsigned = gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
+                SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
+                CalculateMonStats(mon);
+                retVal = FALSE;
             }
 
             // Cure status
@@ -3722,7 +3710,7 @@ u8 *UseStatIncreaseItem(u16 itemId)
 
 u8 GetNature(struct Pokemon *mon)
 {
-    return GetMonData(mon, MON_DATA_PERSONALITY, 0) % NUM_NATURES;
+    return GetNatureFromPersonality(GetMonData(mon, MON_DATA_PERSONALITY, 0));
 }
 
 u8 GetNatureFromPersonality(u32 personality)

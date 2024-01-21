@@ -12,6 +12,7 @@
 #include "trainer_hill.h"
 #include "link.h"
 #include "constants/game_stat.h"
+#include "rtc.h"
 
 static u16 CalculateChecksum(void *, u16);
 static bool8 ReadFlashSector(u8, struct SaveSector *);
@@ -42,35 +43,34 @@ static u8 HandleReplaceSector(u16, const struct SaveSectorLocation *);
  * See SECTOR_ID_* constants in save.h
  */
 
-#define SAVEBLOCK_CHUNK(structure, chunkNum)                                   \
-{                                                                              \
-    chunkNum * SECTOR_DATA_SIZE,                                               \
-    sizeof(structure) >= chunkNum * SECTOR_DATA_SIZE ?                         \
-    min(sizeof(structure) - chunkNum * SECTOR_DATA_SIZE, SECTOR_DATA_SIZE) : 0 \
-}
+#define SAVEBLOCK_CHUNK(structure, chunkNum)                                                                                             \
+    {                                                                                                                                    \
+        chunkNum *SECTOR_DATA_SIZE,                                                                                                      \
+            sizeof(structure) >= chunkNum *SECTOR_DATA_SIZE ? min(sizeof(structure) - chunkNum * SECTOR_DATA_SIZE, SECTOR_DATA_SIZE) : 0 \
+    }
 
 struct
 {
     u16 offset;
     u16 size;
 } static const sSaveSlotLayout[NUM_SECTORS_PER_SLOT] =
-{
-    SAVEBLOCK_CHUNK(struct SaveBlock2, 0), // SECTOR_ID_SAVEBLOCK2
+    {
+        SAVEBLOCK_CHUNK(struct SaveBlock2, 0), // SECTOR_ID_SAVEBLOCK2
 
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 0), // SECTOR_ID_SAVEBLOCK1_START
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 1),
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 2),
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 3), // SECTOR_ID_SAVEBLOCK1_END
+        SAVEBLOCK_CHUNK(struct SaveBlock1, 0), // SECTOR_ID_SAVEBLOCK1_START
+        SAVEBLOCK_CHUNK(struct SaveBlock1, 1),
+        SAVEBLOCK_CHUNK(struct SaveBlock1, 2),
+        SAVEBLOCK_CHUNK(struct SaveBlock1, 3), // SECTOR_ID_SAVEBLOCK1_END
 
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 0), // SECTOR_ID_PKMN_STORAGE_START
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 1),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 2),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 3),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 4),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 5),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 6),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 7),
-    SAVEBLOCK_CHUNK(struct PokemonStorage, 8), // SECTOR_ID_PKMN_STORAGE_END
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 0), // SECTOR_ID_PKMN_STORAGE_START
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 1),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 2),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 3),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 4),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 5),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 6),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 7),
+        SAVEBLOCK_CHUNK(struct PokemonStorage, 8), // SECTOR_ID_PKMN_STORAGE_END
 };
 
 // These will produce an error if a save struct is larger than the space
@@ -585,8 +585,7 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
 
     if (saveSlot1Status == SAVE_STATUS_OK && saveSlot2Status == SAVE_STATUS_OK)
     {
-        if ((saveSlot1Counter == -1 && saveSlot2Counter ==  0)
-         || (saveSlot1Counter ==  0 && saveSlot2Counter == -1))
+        if ((saveSlot1Counter == -1 && saveSlot2Counter == 0) || (saveSlot1Counter == 0 && saveSlot2Counter == -1))
         {
             if ((unsigned)(saveSlot1Counter + 1) < (unsigned)(saveSlot2Counter + 1))
                 gSaveCounter = saveSlot2Counter;
@@ -610,7 +609,7 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
         gSaveCounter = saveSlot1Counter;
         if (saveSlot2Status == SAVE_STATUS_ERROR)
             return SAVE_STATUS_ERROR; // Slot 2 errored
-        return SAVE_STATUS_OK; // Slot 1 is OK, slot 2 is empty
+        return SAVE_STATUS_OK;        // Slot 1 is OK, slot 2 is empty
     }
 
     if (saveSlot2Status == SAVE_STATUS_OK)
@@ -618,12 +617,11 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
         gSaveCounter = saveSlot2Counter;
         if (saveSlot1Status == SAVE_STATUS_ERROR)
             return SAVE_STATUS_ERROR; // Slot 1 errored
-        return SAVE_STATUS_OK; // Slot 2 is OK, slot 1 is empty
+        return SAVE_STATUS_OK;        // Slot 2 is OK, slot 1 is empty
     }
 
     // Neither slot is OK, check if both are empty
-    if (saveSlot1Status == SAVE_STATUS_EMPTY
-     && saveSlot2Status == SAVE_STATUS_EMPTY)
+    if (saveSlot1Status == SAVE_STATUS_EMPTY && saveSlot2Status == SAVE_STATUS_EMPTY)
     {
         gSaveCounter = 0;
         gLastWrittenSector = 0;
@@ -697,7 +695,7 @@ static void UpdateSaveAddresses(void)
         gRamSaveSectorLocations[i].size = sSaveSlotLayout[i].size;
     }
 
-    for (; i <= SECTOR_ID_PKMN_STORAGE_END; i++) //setting i to SECTOR_ID_PKMN_STORAGE_START does not match
+    for (; i <= SECTOR_ID_PKMN_STORAGE_END; i++) // setting i to SECTOR_ID_PKMN_STORAGE_START does not match
     {
         gRamSaveSectorLocations[i].data = (void *)(gPokemonStoragePtr) + sSaveSlotLayout[i].offset;
         gRamSaveSectorLocations[i].size = sSaveSlotLayout[i].size;
@@ -743,9 +741,9 @@ u8 HandleSavingData(u8 saveType)
         // Used by link / Battle Frontier
         // Write only SaveBlocks 1 and 2 (skips the PC)
         CopyPartyAndObjectsToSave();
-        for(i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
+        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
             HandleReplaceSector(i, gRamSaveSectorLocations);
-        for(i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
+        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
             WriteSectorSignatureByte_NoOffset(i, gRamSaveSectorLocations);
         break;
     case SAVE_OVERWRITE_DIFFERENT_FILE:
@@ -901,7 +899,7 @@ u8 LoadGameSave(u8 saveType)
 u16 GetSaveBlocksPointersBaseOffset(void)
 {
     u16 i, slotOffset;
-    struct SaveSector* sector;
+    struct SaveSector *sector;
 
     sector = gReadWriteSector = &gSaveDataBuffer;
     if (gFlashMemoryPresent != TRUE)
@@ -969,8 +967,8 @@ u32 TryWriteSpecialSaveSector(u8 sector, u8 *src)
     return SAVE_STATUS_OK;
 }
 
-#define tState         data[0]
-#define tTimer         data[1]
+#define tState data[0]
+#define tTimer data[1]
 #define tInBattleTower data[2]
 
 // Note that this is very different from TrySavingData(SAVE_LINK).
