@@ -116,9 +116,6 @@ LittlerootTown_EventScript_StepOffTruckMale::
 	lockall
 	setvar VAR_0x8004, 5
 	setvar VAR_0x8005, 8
-	setflag FLAG_SYS_B_DASH
-	setflag FLAG_SYS_DEXNAV_GET
-	setflag FLAG_SYS_DETECTOR_MODE
 	call LittlerootTown_EventScript_GoInsideWithMom
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
 	warpsilent MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F, 8, 8
@@ -130,9 +127,6 @@ LittlerootTown_EventScript_StepOffTruckFemale::
 	lockall
 	setvar VAR_0x8004, 14
 	setvar VAR_0x8005, 8
-	setflag FLAG_SYS_B_DASH
-	setflag FLAG_SYS_DEXNAV_GET
-	setflag FLAG_SYS_DETECTOR_MODE
 	call LittlerootTown_EventScript_GoInsideWithMom
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
 	warpsilent MAP_LITTLEROOT_TOWN_MAYS_HOUSE_1F, 2, 8

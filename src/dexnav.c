@@ -1012,8 +1012,8 @@ static void Task_RevealHiddenMon(u8 taskId)
         sDexNavSearchDataPtr->exclamationSpriteId = MAX_SPRITES;
     }
 
-    if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
-    {
+    // if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+    /*{
         u8 index;
 
         // if not seen, hide name and whiteout mon
@@ -1024,12 +1024,12 @@ static void Task_RevealHiddenMon(u8 taskId)
         CpuCopy16(&gPlttBufferUnfaded[0x100 + index * 16], sDexNavSearchDataPtr->palBuffer, 32);
         TintPalette_CustomTone(sDexNavSearchDataPtr->palBuffer, 16, 510, 510, 510);
         LoadPalette(sDexNavSearchDataPtr->palBuffer, 0x100 + index * 16, 32);
-    }
-    else
-    {
-        DrawSearchWindow(species, sDexNavSearchDataPtr->potential, FALSE);
-        DrawDexNavSearchMonIcon(species, &sDexNavSearchDataPtr->iconSpriteId, GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT));
-    }
+    }*/
+    // else
+    //{
+    DrawSearchWindow(species, sDexNavSearchDataPtr->potential, FALSE);
+    DrawDexNavSearchMonIcon(species, &sDexNavSearchDataPtr->iconSpriteId, GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT));
+    //}
 
     DexNavUpdateDirectionArrow();
     task->func = Task_DexNavSearch;
@@ -1147,8 +1147,8 @@ static void DexNavUpdateSearchWindow(u8 proximity, u8 searchLevel)
 {
     bool8 hideName = FALSE;
 
-    if (sDexNavSearchDataPtr->hiddenSearch && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(sDexNavSearchDataPtr->species), FLAG_GET_SEEN))
-        hideName = TRUE; // if a detector mode hidden search and player hasn't seen the mon, hide info
+    // if (sDexNavSearchDataPtr->hiddenSearch && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(sDexNavSearchDataPtr->species), FLAG_GET_SEEN))
+    //   hideName = TRUE; // if a detector mode hidden search and player hasn't seen the mon, hide info
 
     FillWindowPixelBuffer(sDexNavSearchDataPtr->windowId, PIXEL_FILL(1)); // clear window
     AddSearchWindowText(sDexNavSearchDataPtr->species, proximity, searchLevel, hideName);
@@ -1976,8 +1976,8 @@ static void TryDrawIconInSlot(u16 species, s16 x, s16 y)
 {
     if (species == SPECIES_NONE || species > NUM_SPECIES)
         CreateNoDataIcon(x, y); //'X' in slot
-    else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
-        CreateMonIcon(SPECIES_NONE, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF); // question mark
+    // else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+    // CreateMonIcon(SPECIES_NONE, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF); // question mark
     else
         CreateMonIcon(species, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF);
 }
@@ -2044,8 +2044,8 @@ static u16 DexNavGetSpecies(void)
         return SPECIES_NONE;
     }
 
-    if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
-        return SPECIES_NONE;
+    // if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+    //    return SPECIES_NONE;
 
     return species;
 }
@@ -2101,23 +2101,23 @@ static void PrintCurrentSpeciesInfo(void)
     u16 dexNum = SpeciesToNationalPokedexNum(species);
     u8 type1, type2;
 
-    if (!GetSetPokedexFlag(dexNum, FLAG_GET_SEEN))
-        species = SPECIES_NONE;
+    // if (!GetSetPokedexFlag(dexNum, FLAG_GET_SEEN))
+    // species = SPECIES_NONE;
 
     // clear windows
     FillWindowPixelBuffer(WINDOW_INFO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
 
     // species name
-    if (species == SPECIES_NONE)
-        AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SPECIES_INFO_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
-    else
-        AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SPECIES_INFO_Y, sFontColor_Black, 0, gSpeciesInfo[species].speciesName);
+    // if (species == SPECIES_NONE)
+    // AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SPECIES_INFO_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
+    // else
+    AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SPECIES_INFO_Y, sFontColor_Black, 0, gSpeciesInfo[species].speciesName);
 
     // type icon(s)
     type1 = gSpeciesInfo[species].types[0];
     type2 = gSpeciesInfo[species].types[1];
-    if (species == SPECIES_NONE)
-        type1 = type2 = TYPE_MYSTERY;
+    // if (species == SPECIES_NONE)
+    // type1 = type2 = TYPE_MYSTERY;
 
     if (type1 == type2)
     {
@@ -2131,22 +2131,22 @@ static void PrintCurrentSpeciesInfo(void)
     }
 
     // search level
-    if (species == SPECIES_NONE)
-    {
-        AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SEARCH_LEVEL_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
-    }
-    else
-    {
-        ConvertIntToDecimalStringN(gStringVar4, gSaveBlock1Ptr->dexNavSearchLevels[dexNum], 0, 4);
-        AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SEARCH_LEVEL_Y, sFontColor_Black, 0, gStringVar4);
-    }
+    // if (species == SPECIES_NONE)
+    //{
+    //    AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SEARCH_LEVEL_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
+    //}
+    // else
+    //{
+    ConvertIntToDecimalStringN(gStringVar4, gSaveBlock1Ptr->dexNavSearchLevels[dexNum], 0, 4);
+    AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, SEARCH_LEVEL_Y, sFontColor_Black, 0, gStringVar4);
+    //}
 
     // hidden ability
-    if (species == SPECIES_NONE)
-    {
-        AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, HA_INFO_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
-    }
-    else if (GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT))
+    // if (species == SPECIES_NONE)
+    // {
+    //    AddTextPrinterParameterized3(WINDOW_INFO, 0, 0, HA_INFO_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
+    //}
+    /*else*/ if (GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT))
     {
 #ifdef BATTLE_ENGINE
         if (gSpeciesInfo[species].abilities[2] != ABILITY_NONE)
