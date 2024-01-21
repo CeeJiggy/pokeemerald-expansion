@@ -4,7 +4,8 @@
 #include "item.h"
 #include "menu_helpers.h"
 
-enum {
+enum
+{
     ITEMMENULOCATION_FIELD,
     ITEMMENULOCATION_BATTLE,
     ITEMMENULOCATION_PARTY,
@@ -21,7 +22,8 @@ enum {
 };
 
 // Window IDs for the item menu
-enum {
+enum
+{
     ITEMWIN_1x1,
     ITEMWIN_1x2,
     ITEMWIN_2x2,
@@ -35,8 +37,9 @@ enum {
     ITEMWIN_COUNT
 };
 
-#define ITEMMENU_SWAP_LINE_LENGTH 8  // Swap line is 8 sprites long
-enum {
+#define ITEMMENU_SWAP_LINE_LENGTH 8 // Swap line is 8 sprites long
+enum
+{
     ITEMMENUSPRITE_BAG,
     ITEMMENUSPRITE_BALL,
     ITEMMENUSPRITE_ITEM,
@@ -64,10 +67,10 @@ struct BagMenu
     u8 spriteIds[ITEMMENUSPRITE_COUNT];
     u8 windowIds[ITEMWIN_COUNT];
     u8 toSwapPos;
-    u8 pocketSwitchDisabled:4;
-    u8 itemIconSlot:2;
-    u8 inhibitItemDescriptionPrint:1;
-    u8 hideCloseBagText:1;
+    u8 pocketSwitchDisabled : 4;
+    u8 itemIconSlot : 2;
+    u8 inhibitItemDescriptionPrint : 1;
+    u8 hideCloseBagText : 1;
     u8 unused1[2];
     u8 pocketScrollArrowsTask;
     u8 pocketSwitchArrowsTask;
@@ -96,19 +99,18 @@ void CB2_BagMenuFromStartMenu(void);
 u8 GetItemListPosition(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(u8 button);
 void CB2_GoToSellMenu(void);
-void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *exitCallback)());
+void GoToBagMenu(u8 bagMenuType, u8 pocketId, void (*exitCallback)());
 void DoWallyTutorialBagMenu(void);
 void ResetBagScrollPositions(void);
 void ChooseBerryForMachine(void (*exitCallback)(void));
 void CB2_ChooseBerry(void);
 void Task_FadeAndCloseBagMenu(u8 taskId);
-void BagMenu_YesNo(u8 taskId, u8 windowType, const struct YesNoFuncTable* funcTable);
+void BagMenu_YesNo(u8 taskId, u8 windowType, const struct YesNoFuncTable *funcTable);
 void UpdatePocketItemList(u8 pocketId);
-void DisplayItemMessage(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
+void DisplayItemMessage(u8 taskId, u8 fontId, const u8 *str, void (*callback)(u8 taskId));
 void DisplayItemMessageOnField(u8 taskId, const u8 *src, TaskFunc callback);
 void CloseItemMessage(u8 taskId);
 void ItemMenu_RotomCatalog(u8 taskId);
-
 void ShowRegisteredItemsMenu(void);
 
-#endif //GUARD_ITEM_MENU_H
+#endif // GUARD_ITEM_MENU_H

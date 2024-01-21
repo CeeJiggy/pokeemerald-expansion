@@ -525,7 +525,7 @@ extern const u8 gText_Speed[];
 extern const u8 gText_Dash[];
 extern const u8 gText_Plus[];
 
-//pokedex text
+// pokedex text
 extern const u8 gText_CryOf[];
 extern const u8 gText_SizeComparedTo[];
 extern const u8 gText_PokedexRegistration[];
@@ -564,6 +564,9 @@ extern const u8 gBirchDexRatingText_LessThan200[];
 extern const u8 gBirchDexRatingText_DexCompleted[];
 
 // player pc text
+
+extern const u8 gText_MenuPC[];
+
 extern const u8 gText_WhatWouldYouLike[];
 extern const u8 gText_NoMailHere[];
 

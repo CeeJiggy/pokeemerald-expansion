@@ -51,17 +51,19 @@
 */
 
 // PC main menu options
-enum {
+enum
+{
+    OPTION_MOVE_MONS,
     OPTION_WITHDRAW,
     OPTION_DEPOSIT,
-    OPTION_MOVE_MONS,
     OPTION_MOVE_ITEMS,
     OPTION_EXIT,
     OPTIONS_COUNT
 };
 
 // IDs for messages to print with PrintMessage
-enum {
+enum
+{
     MSG_EXIT_BOX,
     MSG_WHAT_YOU_DO,
     MSG_PICK_A_THEME,
@@ -96,7 +98,8 @@ enum {
 };
 
 // IDs for how to resolve variables in the above messages
-enum {
+enum
+{
     MSG_VAR_NONE,
     MSG_VAR_MON_NAME_1,
     MSG_VAR_MON_NAME_2, // Unused
@@ -108,7 +111,8 @@ enum {
 };
 
 // IDs for menu selection items. See SetMenuText, HandleMenuInput, etc
-enum {
+enum
+{
     MENU_CANCEL,
     MENU_STORE,
     MENU_WITHDRAW,
@@ -154,7 +158,8 @@ enum {
 #define GENDER_MASK 0x7FFF
 
 // Return IDs for input handlers
-enum {
+enum
+{
     INPUT_NONE,
     INPUT_MOVE_CURSOR,
     INPUT_2, // Unused
@@ -184,20 +189,23 @@ enum {
     INPUT_MULTIMOVE_PLACE_MONS,
 };
 
-enum {
+enum
+{
     SCREEN_CHANGE_EXIT_BOX,
     SCREEN_CHANGE_SUMMARY_SCREEN,
     SCREEN_CHANGE_NAME_BOX,
     SCREEN_CHANGE_ITEM_FROM_BAG,
 };
 
-enum {
+enum
+{
     MODE_PARTY,
     MODE_BOX,
     MODE_MOVE,
 };
 
-enum {
+enum
+{
     CURSOR_AREA_IN_BOX,
     CURSOR_AREA_IN_PARTY,
     CURSOR_AREA_BOX_TITLE,
@@ -205,7 +213,8 @@ enum {
 };
 #define CURSOR_AREA_IN_HAND CURSOR_AREA_BOX_TITLE // Alt name for cursor area used by Move Items
 
-enum {
+enum
+{
     CURSOR_ANIM_BOUNCE,
     CURSOR_ANIM_STILL,
     CURSOR_ANIM_OPEN,
@@ -214,15 +223,16 @@ enum {
 
 // Special box ids for the choose box menu
 #define BOXID_NONE_CHOSEN 200
-#define BOXID_CANCELED    201
+#define BOXID_CANCELED 201
 
-enum {
+enum
+{
     PALTAG_MON_ICON_0 = 56000,
     PALTAG_MON_ICON_1, // Used implicitly in CreateMonIconSprite
     PALTAG_MON_ICON_2, // Used implicitly in CreateMonIconSprite
-    PALTAG_3, // Unused
-    PALTAG_4, // Unused
-    PALTAG_5, // Unused
+    PALTAG_3,          // Unused
+    PALTAG_4,          // Unused
+    PALTAG_5,          // Unused
     PALTAG_DISPLAY_MON,
     PALTAG_MISC_1,
     PALTAG_MARKING_COMBO,
@@ -234,7 +244,8 @@ enum {
     PALTAG_MARKING_MENU,
 };
 
-enum {
+enum
+{
     GFXTAG_CURSOR,
     GFXTAG_CURSOR_SHADOW,
     GFXTAG_DISPLAY_MON,
@@ -247,7 +258,7 @@ enum {
     GFXTAG_ITEM_ICON_2, // Used implicitly in CreateItemIconSprites
     GFXTAG_CHOOSE_BOX_MENU,
     GFXTAG_CHOOSE_BOX_MENU_SIDES, // Used implicitly in LoadChooseBoxMenuGfx
-    GFXTAG_12, // Unused
+    GFXTAG_12,                    // Unused
     GFXTAG_MARKING_MENU,
     GFXTAG_14, // Unused
     GFXTAG_15, // Unused
@@ -266,7 +277,8 @@ enum {
 #define MAX_ITEM_ICONS 3
 
 // IDs for the item icons affine anims
-enum {
+enum
+{
     ITEM_ANIM_NONE,
     ITEM_ANIM_APPEAR,
     ITEM_ANIM_DISAPPEAR,
@@ -277,7 +289,8 @@ enum {
 };
 
 // IDs for the item icon sprite callbacks
-enum {
+enum
+{
     ITEM_CB_WAIT_ANIM,
     ITEM_CB_TO_HAND,
     ITEM_CB_TO_MON,
@@ -288,13 +301,15 @@ enum {
     ITEM_CB_HIDE_PARTY,
 };
 
-enum {
+enum
+{
     RELEASE_ANIM_RELEASE,
     RELEASE_ANIM_CAME_BACK,
 };
 
 // IDs for InitMonPlaceChange
-enum {
+enum
+{
     CHANGE_GRAB,
     CHANGE_PLACE,
     CHANGE_SHIFT,
@@ -308,7 +323,8 @@ enum {
 // This is MOVE_MODE_MULTIPLE_SELECTING. After releasing A
 // those Pokémon will be picked up and can be moved around
 // as a single unit. This is MOVE_MODE_MULTIPLE_MOVING
-enum {
+enum
+{
     MOVE_MODE_NORMAL,
     MOVE_MODE_MULTIPLE_SELECTING,
     MOVE_MODE_MULTIPLE_MOVING,
@@ -316,7 +332,8 @@ enum {
 
 // IDs for the main functions for moving multiple Pokémon.
 // Given as arguments to MultiMove_SetFunction
-enum {
+enum
+{
     MULTIMOVE_START,
     MULTIMOVE_CANCEL, // If only 1 Pokémon is grabbed
     MULTIMOVE_CHANGE_SELECTION,
@@ -326,7 +343,8 @@ enum {
 };
 
 // IDs for TilemapUtil
-enum {
+enum
+{
     TILEMAPID_PKMN_DATA, // The "Pkmn Data" text at the top of the display
     TILEMAPID_PARTY_MENU,
     TILEMAPID_CLOSE_BUTTON,
@@ -334,7 +352,8 @@ enum {
 };
 
 // Window IDs for sWindowTemplates
-enum {
+enum
+{
     WIN_DISPLAY_INFO,
     WIN_MESSAGE,
     WIN_ITEM_DESC,
@@ -424,14 +443,14 @@ struct PokemonStorageSystemData
     s16 scrollSpeed;
     u16 scrollTimer;
     u8 wallpaperOffset;
-    u8 scrollUnused1; // Never read
-    u8 scrollToBoxIdUnused; // Never read
-    u16 scrollUnused2; // Never read
+    u8 scrollUnused1;          // Never read
+    u8 scrollToBoxIdUnused;    // Never read
+    u16 scrollUnused2;         // Never read
     s16 scrollDirectionUnused; // Never read.
-    u16 scrollUnused3; // Never read
-    u16 scrollUnused4; // Never read
-    u16 scrollUnused5; // Never read
-    u16 scrollUnused6; // Never read
+    u16 scrollUnused3;         // Never read
+    u16 scrollUnused4;         // Never read
+    u16 scrollUnused5;         // Never read
+    u16 scrollUnused6;         // Never read
     u8 filler1[22];
     u8 boxTitleTiles[1024];
     u8 boxTitleCycleId;
@@ -882,366 +901,337 @@ static void UnkUtil_DmaRun(struct UnkUtilData *);
 void SetMonFormPSS(struct BoxPokemon *boxMon);
 void UpdateSpeciesSpritePSS(struct BoxPokemon *boxmon);
 
-struct {
+struct
+{
     const u8 *text;
     const u8 *desc;
 } static const sMainMenuTexts[OPTIONS_COUNT] =
-{
-    [OPTION_WITHDRAW]   = {gText_WithdrawPokemon, gText_WithdrawMonDescription},
-    [OPTION_DEPOSIT]    = {gText_DepositPokemon,  gText_DepositMonDescription},
-    [OPTION_MOVE_MONS]  = {gText_MovePokemon,     gText_MoveMonDescription},
-    [OPTION_MOVE_ITEMS] = {gText_MoveItems,       gText_MoveItemsDescription},
-    [OPTION_EXIT]       = {gText_SeeYa,           gText_SeeYaDescription}
-};
+    {
+        [OPTION_WITHDRAW] = {gText_WithdrawPokemon, gText_WithdrawMonDescription},
+        [OPTION_DEPOSIT] = {gText_DepositPokemon, gText_DepositMonDescription},
+        [OPTION_MOVE_MONS] = {gText_MovePokemon, gText_MoveMonDescription},
+        [OPTION_MOVE_ITEMS] = {gText_MoveItems, gText_MoveItemsDescription},
+        [OPTION_EXIT] = {gText_SeeYa, gText_SeeYaDescription}};
 
 static const struct WindowTemplate sWindowTemplate_MainMenu =
-{
-    .bg = 0,
-    .tilemapLeft = 1,
-    .tilemapTop = 1,
-    .width = 17,
-    .height = 10,
-    .paletteNum = 15,
-    .baseBlock = 0x1,
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 17,
+        .height = 10,
+        .paletteNum = 15,
+        .baseBlock = 0x1,
 };
 
 static const union AnimCmd sAnim_ChooseBoxMenu_TopLeft[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(0, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_ChooseBoxMenu_BottomLeft[] =
-{
-    ANIMCMD_FRAME(4, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(4, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_ChooseBoxMenu_TopRight[] =
-{
-    ANIMCMD_FRAME(6, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(6, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_ChooseBoxMenu_BottomRight[] =
-{
-    ANIMCMD_FRAME(10, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(10, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd *const sAnims_ChooseBoxMenu[] =
-{
-    sAnim_ChooseBoxMenu_TopLeft,
-    sAnim_ChooseBoxMenu_BottomLeft,
-    sAnim_ChooseBoxMenu_TopRight,
-    sAnim_ChooseBoxMenu_BottomRight
-};
+    {
+        sAnim_ChooseBoxMenu_TopLeft,
+        sAnim_ChooseBoxMenu_BottomLeft,
+        sAnim_ChooseBoxMenu_TopRight,
+        sAnim_ChooseBoxMenu_BottomRight};
 
 static const union AffineAnimCmd sAffineAnim_ChooseBoxMenu[] =
-{
-    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0, 0),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0, 0),
+        AFFINEANIMCMD_END};
 
 // Unused
 static const union AffineAnimCmd *const sAffineAnims_ChooseBoxMenu[] =
-{
-    sAffineAnim_ChooseBoxMenu
-};
+    {
+        sAffineAnim_ChooseBoxMenu};
 
 static const u8 sChooseBoxMenu_TextColors[] = {TEXT_COLOR_RED, TEXT_DYNAMIC_COLOR_6, TEXT_DYNAMIC_COLOR_5};
 static const u8 sText_OutOf30[] = _("/30");
 
-static const u16 sChooseBoxMenu_Pal[]        = INCBIN_U16("graphics/pokemon_storage/box_selection_popup.gbapal");
-static const u8 sChooseBoxMenuCenter_Gfx[]   = INCBIN_U8("graphics/pokemon_storage/box_selection_popup_center.4bpp");
-static const u8 sChooseBoxMenuSides_Gfx[]    = INCBIN_U8("graphics/pokemon_storage/box_selection_popup_sides.4bpp");
-static const u32 sScrollingBg_Gfx[]          = INCBIN_U32("graphics/pokemon_storage/scrolling_bg.4bpp.lz");
-static const u32 sScrollingBg_Tilemap[]      = INCBIN_U32("graphics/pokemon_storage/scrolling_bg.bin.lz");
-static const u16 sDisplayMenu_Pal[]          = INCBIN_U16("graphics/pokemon_storage/display_menu.gbapal"); // Unused
-static const u32 sDisplayMenu_Tilemap[]      = INCBIN_U32("graphics/pokemon_storage/display_menu.bin.lz");
-static const u16 sPkmnData_Tilemap[]         = INCBIN_U16("graphics/pokemon_storage/pkmn_data.bin");
+static const u16 sChooseBoxMenu_Pal[] = INCBIN_U16("graphics/pokemon_storage/box_selection_popup.gbapal");
+static const u8 sChooseBoxMenuCenter_Gfx[] = INCBIN_U8("graphics/pokemon_storage/box_selection_popup_center.4bpp");
+static const u8 sChooseBoxMenuSides_Gfx[] = INCBIN_U8("graphics/pokemon_storage/box_selection_popup_sides.4bpp");
+static const u32 sScrollingBg_Gfx[] = INCBIN_U32("graphics/pokemon_storage/scrolling_bg.4bpp.lz");
+static const u32 sScrollingBg_Tilemap[] = INCBIN_U32("graphics/pokemon_storage/scrolling_bg.bin.lz");
+static const u16 sDisplayMenu_Pal[] = INCBIN_U16("graphics/pokemon_storage/display_menu.gbapal"); // Unused
+static const u32 sDisplayMenu_Tilemap[] = INCBIN_U32("graphics/pokemon_storage/display_menu.bin.lz");
+static const u16 sPkmnData_Tilemap[] = INCBIN_U16("graphics/pokemon_storage/pkmn_data.bin");
 // sInterface_Pal - parts of the display frame, "PkmnData"'s normal color, Close Box
-static const u16 sInterface_Pal[]            = INCBIN_U16("graphics/pokemon_storage/interface.gbapal");
-static const u16 sPkmnDataGray_Pal[]         = INCBIN_U16("graphics/pokemon_storage/pkmn_data_gray.gbapal");
-static const u16 sScrollingBg_Pal[]          = INCBIN_U16("graphics/pokemon_storage/scrolling_bg.gbapal");
+static const u16 sInterface_Pal[] = INCBIN_U16("graphics/pokemon_storage/interface.gbapal");
+static const u16 sPkmnDataGray_Pal[] = INCBIN_U16("graphics/pokemon_storage/pkmn_data_gray.gbapal");
+static const u16 sScrollingBg_Pal[] = INCBIN_U16("graphics/pokemon_storage/scrolling_bg.gbapal");
 static const u16 sScrollingBgMoveItems_Pal[] = INCBIN_U16("graphics/pokemon_storage/scrolling_bg_move_items.gbapal");
-static const u16 sCloseBoxButton_Tilemap[]   = INCBIN_U16("graphics/pokemon_storage/close_box_button.bin");
-static const u16 sPartySlotFilled_Tilemap[]  = INCBIN_U16("graphics/pokemon_storage/party_slot_filled.bin");
-static const u16 sPartySlotEmpty_Tilemap[]   = INCBIN_U16("graphics/pokemon_storage/party_slot_empty.bin");
-static const u16 sWaveform_Pal[]             = INCBIN_U16("graphics/pokemon_storage/waveform.gbapal");
-static const u32 sWaveform_Gfx[]             = INCBIN_U32("graphics/pokemon_storage/waveform.4bpp");
-static const u16 sUnused_Pal[]               = INCBIN_U16("graphics/pokemon_storage/unused.gbapal");
-static const u16 sTextWindows_Pal[]          = INCBIN_U16("graphics/pokemon_storage/text_windows.gbapal");
+static const u16 sCloseBoxButton_Tilemap[] = INCBIN_U16("graphics/pokemon_storage/close_box_button.bin");
+static const u16 sPartySlotFilled_Tilemap[] = INCBIN_U16("graphics/pokemon_storage/party_slot_filled.bin");
+static const u16 sPartySlotEmpty_Tilemap[] = INCBIN_U16("graphics/pokemon_storage/party_slot_empty.bin");
+static const u16 sWaveform_Pal[] = INCBIN_U16("graphics/pokemon_storage/waveform.gbapal");
+static const u32 sWaveform_Gfx[] = INCBIN_U32("graphics/pokemon_storage/waveform.4bpp");
+static const u16 sUnused_Pal[] = INCBIN_U16("graphics/pokemon_storage/unused.gbapal");
+static const u16 sTextWindows_Pal[] = INCBIN_U16("graphics/pokemon_storage/text_windows.gbapal");
 
 static const struct WindowTemplate sWindowTemplates[] =
-{
-    // The panel below the currently displayed Pokémon
-    [WIN_DISPLAY_INFO] = {
-        .bg = 1,
-        .tilemapLeft = 0,
-        .tilemapTop = 11,
-        .width = 9,
-        .height = 7,
-        .paletteNum = 3,
-        .baseBlock = 0xC0,
-    },
-    [WIN_MESSAGE] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 17,
-        .width = 18,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 0x14,
-    },
-    [WIN_ITEM_DESC] = {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 13,
-        .width = 21,
-        .height = 7,
-        .paletteNum = 15,
-        .baseBlock = 0x14,
-    },
-    DUMMY_WIN_TEMPLATE
-};
+    {
+        // The panel below the currently displayed Pokémon
+        [WIN_DISPLAY_INFO] = {
+            .bg = 1,
+            .tilemapLeft = 0,
+            .tilemapTop = 11,
+            .width = 9,
+            .height = 7,
+            .paletteNum = 3,
+            .baseBlock = 0xC0,
+        },
+        [WIN_MESSAGE] = {
+            .bg = 0,
+            .tilemapLeft = 11,
+            .tilemapTop = 17,
+            .width = 18,
+            .height = 2,
+            .paletteNum = 15,
+            .baseBlock = 0x14,
+        },
+        [WIN_ITEM_DESC] = {
+            .bg = 0,
+            .tilemapLeft = 0,
+            .tilemapTop = 13,
+            .width = 21,
+            .height = 7,
+            .paletteNum = 15,
+            .baseBlock = 0x14,
+        },
+        DUMMY_WIN_TEMPLATE};
 
 static const struct BgTemplate sBgTemplates[] =
-{
     {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 29,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    },
-    {
-        .bg = 1,
-        .charBaseIndex = 1,
-        .mapBaseIndex = 30,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0x100
-    },
-    {
-        .bg = 2,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 27,
-        .screenSize = 1,
-        .paletteMode = 0,
-        .priority = 2,
-        .baseTile = 0
-    },
-    {
-        .bg = 3,
-        .charBaseIndex = 3,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 3,
-        .baseTile = 0
-    },
+        {.bg = 0,
+         .charBaseIndex = 0,
+         .mapBaseIndex = 29,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 0,
+         .baseTile = 0},
+        {.bg = 1,
+         .charBaseIndex = 1,
+         .mapBaseIndex = 30,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 1,
+         .baseTile = 0x100},
+        {.bg = 2,
+         .charBaseIndex = 2,
+         .mapBaseIndex = 27,
+         .screenSize = 1,
+         .paletteMode = 0,
+         .priority = 2,
+         .baseTile = 0},
+        {.bg = 3,
+         .charBaseIndex = 3,
+         .mapBaseIndex = 31,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 3,
+         .baseTile = 0},
 };
 
 static const struct SpritePalette sWaveformSpritePalette =
-{
-    sWaveform_Pal, PALTAG_MISC_2
-};
+    {
+        sWaveform_Pal, PALTAG_MISC_2};
 
 static const struct SpriteSheet sSpriteSheet_Waveform =
-{
-    sWaveform_Gfx, sizeof(sWaveform_Gfx), GFXTAG_WAVEFORM
-};
+    {
+        sWaveform_Gfx, sizeof(sWaveform_Gfx), GFXTAG_WAVEFORM};
 
 static const struct OamData sOamData_DisplayMon;
 static const struct SpriteTemplate sSpriteTemplate_DisplayMon =
-{
-    .tileTag = GFXTAG_DISPLAY_MON,
-    .paletteTag = PALTAG_DISPLAY_MON,
-    .oam = &sOamData_DisplayMon,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
+    {
+        .tileTag = GFXTAG_DISPLAY_MON,
+        .paletteTag = PALTAG_DISPLAY_MON,
+        .oam = &sOamData_DisplayMon,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy,
 };
 
 static const struct StorageMessage sMessages[] =
-{
-    [MSG_EXIT_BOX]             = {gText_ExitFromBox,             MSG_VAR_NONE},
-    [MSG_WHAT_YOU_DO]          = {gText_WhatDoYouWantToDo,       MSG_VAR_NONE},
-    [MSG_PICK_A_THEME]         = {gText_PleasePickATheme,        MSG_VAR_NONE},
-    [MSG_PICK_A_WALLPAPER]     = {gText_PickTheWallpaper,        MSG_VAR_NONE},
-    [MSG_IS_SELECTED]          = {gText_PkmnIsSelected,          MSG_VAR_MON_NAME_1},
-    [MSG_JUMP_TO_WHICH_BOX]    = {gText_JumpToWhichBox,          MSG_VAR_NONE},
-    [MSG_DEPOSIT_IN_WHICH_BOX] = {gText_DepositInWhichBox,       MSG_VAR_NONE},
-    [MSG_WAS_DEPOSITED]        = {gText_PkmnWasDeposited,        MSG_VAR_MON_NAME_1},
-    [MSG_BOX_IS_FULL]          = {gText_BoxIsFull2,              MSG_VAR_NONE},
-    [MSG_RELEASE_POKE]         = {gText_ReleaseThisPokemon,      MSG_VAR_NONE},
-    [MSG_WAS_RELEASED]         = {gText_PkmnWasReleased,         MSG_VAR_RELEASE_MON_1},
-    [MSG_BYE_BYE]              = {gText_ByeByePkmn,              MSG_VAR_RELEASE_MON_3},
-    [MSG_MARK_POKE]            = {gText_MarkYourPkmn,            MSG_VAR_NONE},
-    [MSG_LAST_POKE]            = {gText_ThatsYourLastPkmn,       MSG_VAR_NONE},
-    [MSG_PARTY_FULL]           = {gText_YourPartysFull,          MSG_VAR_NONE},
-    [MSG_HOLDING_POKE]         = {gText_YoureHoldingAPkmn,       MSG_VAR_NONE},
-    [MSG_WHICH_ONE_WILL_TAKE]  = {gText_WhichOneWillYouTake,     MSG_VAR_NONE},
-    [MSG_CANT_RELEASE_EGG]     = {gText_YouCantReleaseAnEgg,     MSG_VAR_NONE},
-    [MSG_CONTINUE_BOX]         = {gText_ContinueBoxOperations,   MSG_VAR_NONE},
-    [MSG_CAME_BACK]            = {gText_PkmnCameBack,            MSG_VAR_MON_NAME_1},
-    [MSG_WORRIED]              = {gText_WasItWorriedAboutYou,    MSG_VAR_NONE},
-    [MSG_SURPRISE]             = {gText_FourEllipsesExclamation, MSG_VAR_NONE},
-    [MSG_PLEASE_REMOVE_MAIL]   = {gText_PleaseRemoveTheMail,     MSG_VAR_NONE},
-    [MSG_IS_SELECTED2]         = {gText_PkmnIsSelected,          MSG_VAR_ITEM_NAME},
-    [MSG_GIVE_TO_MON]          = {gText_GiveToAPkmn,             MSG_VAR_NONE},
-    [MSG_PLACED_IN_BAG]        = {gText_PlacedItemInBag,         MSG_VAR_ITEM_NAME},
-    [MSG_BAG_FULL]             = {gText_BagIsFull2,              MSG_VAR_NONE},
-    [MSG_PUT_IN_BAG]           = {gText_PutItemInBag,            MSG_VAR_NONE},
-    [MSG_ITEM_IS_HELD]         = {gText_ItemIsNowHeld,           MSG_VAR_ITEM_NAME},
-    [MSG_CHANGED_TO_ITEM]      = {gText_ChangedToNewItem,        MSG_VAR_ITEM_NAME},
-    [MSG_CANT_STORE_MAIL]      = {gText_MailCantBeStored,        MSG_VAR_NONE},
+    {
+        [MSG_EXIT_BOX] = {gText_ExitFromBox, MSG_VAR_NONE},
+        [MSG_WHAT_YOU_DO] = {gText_WhatDoYouWantToDo, MSG_VAR_NONE},
+        [MSG_PICK_A_THEME] = {gText_PleasePickATheme, MSG_VAR_NONE},
+        [MSG_PICK_A_WALLPAPER] = {gText_PickTheWallpaper, MSG_VAR_NONE},
+        [MSG_IS_SELECTED] = {gText_PkmnIsSelected, MSG_VAR_MON_NAME_1},
+        [MSG_JUMP_TO_WHICH_BOX] = {gText_JumpToWhichBox, MSG_VAR_NONE},
+        [MSG_DEPOSIT_IN_WHICH_BOX] = {gText_DepositInWhichBox, MSG_VAR_NONE},
+        [MSG_WAS_DEPOSITED] = {gText_PkmnWasDeposited, MSG_VAR_MON_NAME_1},
+        [MSG_BOX_IS_FULL] = {gText_BoxIsFull2, MSG_VAR_NONE},
+        [MSG_RELEASE_POKE] = {gText_ReleaseThisPokemon, MSG_VAR_NONE},
+        [MSG_WAS_RELEASED] = {gText_PkmnWasReleased, MSG_VAR_RELEASE_MON_1},
+        [MSG_BYE_BYE] = {gText_ByeByePkmn, MSG_VAR_RELEASE_MON_3},
+        [MSG_MARK_POKE] = {gText_MarkYourPkmn, MSG_VAR_NONE},
+        [MSG_LAST_POKE] = {gText_ThatsYourLastPkmn, MSG_VAR_NONE},
+        [MSG_PARTY_FULL] = {gText_YourPartysFull, MSG_VAR_NONE},
+        [MSG_HOLDING_POKE] = {gText_YoureHoldingAPkmn, MSG_VAR_NONE},
+        [MSG_WHICH_ONE_WILL_TAKE] = {gText_WhichOneWillYouTake, MSG_VAR_NONE},
+        [MSG_CANT_RELEASE_EGG] = {gText_YouCantReleaseAnEgg, MSG_VAR_NONE},
+        [MSG_CONTINUE_BOX] = {gText_ContinueBoxOperations, MSG_VAR_NONE},
+        [MSG_CAME_BACK] = {gText_PkmnCameBack, MSG_VAR_MON_NAME_1},
+        [MSG_WORRIED] = {gText_WasItWorriedAboutYou, MSG_VAR_NONE},
+        [MSG_SURPRISE] = {gText_FourEllipsesExclamation, MSG_VAR_NONE},
+        [MSG_PLEASE_REMOVE_MAIL] = {gText_PleaseRemoveTheMail, MSG_VAR_NONE},
+        [MSG_IS_SELECTED2] = {gText_PkmnIsSelected, MSG_VAR_ITEM_NAME},
+        [MSG_GIVE_TO_MON] = {gText_GiveToAPkmn, MSG_VAR_NONE},
+        [MSG_PLACED_IN_BAG] = {gText_PlacedItemInBag, MSG_VAR_ITEM_NAME},
+        [MSG_BAG_FULL] = {gText_BagIsFull2, MSG_VAR_NONE},
+        [MSG_PUT_IN_BAG] = {gText_PutItemInBag, MSG_VAR_NONE},
+        [MSG_ITEM_IS_HELD] = {gText_ItemIsNowHeld, MSG_VAR_ITEM_NAME},
+        [MSG_CHANGED_TO_ITEM] = {gText_ChangedToNewItem, MSG_VAR_ITEM_NAME},
+        [MSG_CANT_STORE_MAIL] = {gText_MailCantBeStored, MSG_VAR_NONE},
 };
 
 static const struct WindowTemplate sYesNoWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 24,
-    .tilemapTop = 11,
-    .width = 5,
-    .height = 4,
-    .paletteNum = 15,
-    .baseBlock = 0x5C,
+    {
+        .bg = 0,
+        .tilemapLeft = 24,
+        .tilemapTop = 11,
+        .width = 5,
+        .height = 4,
+        .paletteNum = 15,
+        .baseBlock = 0x5C,
 };
 
 static const struct OamData sOamData_DisplayMon =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0
-};
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(64x64),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(64x64),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0};
 
 static const struct OamData sOamData_Waveform =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(16x8),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(16x8),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0
-};
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(16x8),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(16x8),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0};
 
 static const union AnimCmd sAnim_Waveform_LeftOff[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(0, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_Waveform_LeftOn[] =
-{
-    ANIMCMD_FRAME(2, 8),
-    ANIMCMD_FRAME(4, 8),
-    ANIMCMD_FRAME(6, 8),
-    ANIMCMD_JUMP(0)
-};
+    {
+        ANIMCMD_FRAME(2, 8),
+        ANIMCMD_FRAME(4, 8),
+        ANIMCMD_FRAME(6, 8),
+        ANIMCMD_JUMP(0)};
 
 static const union AnimCmd sAnim_Waveform_RightOff[] =
-{
-    ANIMCMD_FRAME(8, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(8, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_Waveform_RightOn[] =
-{
-    ANIMCMD_FRAME(10, 8),
-    ANIMCMD_FRAME(4, 8),
-    ANIMCMD_FRAME(12, 8),
-    ANIMCMD_JUMP(0)
-};
+    {
+        ANIMCMD_FRAME(10, 8),
+        ANIMCMD_FRAME(4, 8),
+        ANIMCMD_FRAME(12, 8),
+        ANIMCMD_JUMP(0)};
 
 static const union AnimCmd *const sAnims_Waveform[] =
-{
-    sAnim_Waveform_LeftOff,
-    sAnim_Waveform_LeftOn,
-    sAnim_Waveform_RightOff,
-    sAnim_Waveform_RightOn
-};
+    {
+        sAnim_Waveform_LeftOff,
+        sAnim_Waveform_LeftOn,
+        sAnim_Waveform_RightOff,
+        sAnim_Waveform_RightOn};
 
 static const struct SpriteTemplate sSpriteTemplate_Waveform =
-{
-    .tileTag = GFXTAG_WAVEFORM,
-    .paletteTag = PALTAG_MISC_2,
-    .oam = &sOamData_Waveform,
-    .anims = sAnims_Waveform,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
+    {
+        .tileTag = GFXTAG_WAVEFORM,
+        .paletteTag = PALTAG_MISC_2,
+        .oam = &sOamData_Waveform,
+        .anims = sAnims_Waveform,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy,
 };
 
 static const struct OamData sOamData_MonIcon;
 static const struct SpriteTemplate sSpriteTemplate_MonIcon =
-{
-    .tileTag = GFXTAG_MON_ICON,
-    .paletteTag = PALTAG_MON_ICON_0,
-    .oam = &sOamData_MonIcon,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
+    {
+        .tileTag = GFXTAG_MON_ICON,
+        .paletteTag = PALTAG_MON_ICON_0,
+        .oam = &sOamData_MonIcon,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy,
 };
 
 static const struct OamData sOamData_MonIcon =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(32x32),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(32x32),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0
-};
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(32x32),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(32x32),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0};
 
 static const union AffineAnimCmd sAffineAnim_ReleaseMon_Release[] =
-{
-    AFFINEANIMCMD_FRAME(-2, -2, 0, 120),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(-2, -2, 0, 120),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ReleaseMon_CameBack[] =
-{
-    AFFINEANIMCMD_FRAME(16, 16, 0, 0),
-    AFFINEANIMCMD_FRAME(16, 16, 0, 15),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(16, 16, 0, 0),
+        AFFINEANIMCMD_FRAME(16, 16, 0, 15),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd *const sAffineAnims_ReleaseMon[] =
-{
-    [RELEASE_ANIM_RELEASE]   = sAffineAnim_ReleaseMon_Release,
-    [RELEASE_ANIM_CAME_BACK] = sAffineAnim_ReleaseMon_CameBack
-};
+    {
+        [RELEASE_ANIM_RELEASE] = sAffineAnim_ReleaseMon_Release,
+        [RELEASE_ANIM_CAME_BACK] = sAffineAnim_ReleaseMon_CameBack};
 
 #include "data/wallpapers.h"
 
@@ -1250,86 +1240,74 @@ static const u16 sUnusedColor = RGB(26, 29, 8);
 static const struct SpriteSheet sSpriteSheet_Arrow = {sArrow_Gfx, sizeof(sArrow_Gfx), GFXTAG_ARROW};
 
 static const struct OamData sOamData_BoxTitle =
-{
-    .shape = SPRITE_SHAPE(32x16),
-    .size = SPRITE_SIZE(32x16),
-    .priority = 2
-};
+    {
+        .shape = SPRITE_SHAPE(32x16),
+        .size = SPRITE_SIZE(32x16),
+        .priority = 2};
 
 static const union AnimCmd sAnim_BoxTitle_Left[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(0, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_BoxTitle_Right[] =
-{
-    ANIMCMD_FRAME(8, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(8, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd *const sAnims_BoxTitle[] =
-{
-    sAnim_BoxTitle_Left,
-    sAnim_BoxTitle_Right
-};
+    {
+        sAnim_BoxTitle_Left,
+        sAnim_BoxTitle_Right};
 
 static const struct SpriteTemplate sSpriteTemplate_BoxTitle =
-{
-    .tileTag = GFXTAG_BOX_TITLE,
-    .paletteTag = PALTAG_BOX_TITLE,
-    .oam = &sOamData_BoxTitle,
-    .anims = sAnims_BoxTitle,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = GFXTAG_BOX_TITLE,
+        .paletteTag = PALTAG_BOX_TITLE,
+        .oam = &sOamData_BoxTitle,
+        .anims = sAnims_BoxTitle,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static const struct OamData sOamData_Arrow =
-{
-    .shape = SPRITE_SHAPE(8x16),
-    .size = SPRITE_SIZE(8x16),
-    .priority = 2
-};
+    {
+        .shape = SPRITE_SHAPE(8x16),
+        .size = SPRITE_SIZE(8x16),
+        .priority = 2};
 
 static const union AnimCmd sAnim_Arrow_Left[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(0, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd sAnim_Arrow_Right[] =
-{
-    ANIMCMD_FRAME(2, 5),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(2, 5),
+        ANIMCMD_END};
 
 static const union AnimCmd *const sAnims_Arrow[] =
-{
-    sAnim_Arrow_Left,
-    sAnim_Arrow_Right
-};
+    {
+        sAnim_Arrow_Left,
+        sAnim_Arrow_Right};
 
 static const struct SpriteTemplate sSpriteTemplate_Arrow =
-{
-    .tileTag = GFXTAG_ARROW,
-    .paletteTag = PALTAG_MISC_2,
-    .oam = &sOamData_Arrow,
-    .anims = sAnims_Arrow,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_Arrow
-};
+    {
+        .tileTag = GFXTAG_ARROW,
+        .paletteTag = PALTAG_MISC_2,
+        .oam = &sOamData_Arrow,
+        .anims = sAnims_Arrow,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCB_Arrow};
 
 static const u16 sHandCursor_Pal[] = INCBIN_U16("graphics/pokemon_storage/hand_cursor.gbapal");
 static const u8 sHandCursor_Gfx[] = INCBIN_U8("graphics/pokemon_storage/hand_cursor.4bpp");
 static const u8 sHandCursorShadow_Gfx[] = INCBIN_U8("graphics/pokemon_storage/hand_cursor_shadow.4bpp");
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Misc utility
 //------------------------------------------------------------------------------
-
 
 void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero2, s32 bytesToBuffer)
 {
@@ -1343,7 +1321,7 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
     winTemplate.height = 2;
     windowId = AddWindow(&winTemplate);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(zero2));
-    tileData1 = (u8 *) GetWindowAttribute(windowId, WINDOW_TILE_DATA);
+    tileData1 = (u8 *)GetWindowAttribute(windowId, WINDOW_TILE_DATA);
     tileData2 = (winTemplate.width * TILE_SIZE_4BPP) + tileData1;
 
     if (!zero1)
@@ -1390,7 +1368,7 @@ static void UNUSED UnusedDrawTextWindow(const u8 *string, void *dst, u16 offset,
     tilesSize = winTemplate.width * TILE_SIZE_4BPP;
     windowId = AddWindow(&winTemplate);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
-    tileData1 = (u8 *) GetWindowAttribute(windowId, WINDOW_TILE_DATA);
+    tileData1 = (u8 *)GetWindowAttribute(windowId, WINDOW_TILE_DATA);
     tileData2 = (winTemplate.width * TILE_SIZE_4BPP) + tileData1;
     txtColor[0] = bgColor;
     txtColor[1] = fgColor;
@@ -1433,8 +1411,7 @@ u8 CountPartyNonEggMons(void)
 
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
-            && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
         {
             count++;
         }
@@ -1449,10 +1426,7 @@ u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
 
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
-        if (i != slotToIgnore
-            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
-            && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
-            && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
+        if (i != slotToIgnore && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
         {
             count++;
         }
@@ -1517,7 +1491,6 @@ static void UNUSED UnusedWriteRectDma(u16 *dest, u16 dest_left, u16 dest_top, u1
         Dma3FillLarge16_(0, dest, width);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Main menu
 //
@@ -1526,8 +1499,8 @@ static void UNUSED UnusedWriteRectDma(u16 *dest, u16 dest_left, u16 dest_top, u1
 //  Pokémon Storage back to this menu.
 //------------------------------------------------------------------------------
 
-
-enum {
+enum
+{
     STATE_LOAD,
     STATE_FADE_IN,
     STATE_HANDLE_INPUT,
@@ -1535,11 +1508,11 @@ enum {
     STATE_ENTER_PC,
 };
 
-#define tState          data[0]
+#define tState data[0]
 #define tSelectedOption data[1]
-#define tInput          data[2]
-#define tNextOption     data[3]
-#define tWindowId       data[15]
+#define tInput data[2]
+#define tNextOption data[3]
+#define tWindowId data[15]
 
 static void Task_PCMainMenu(u8 taskId)
 {
@@ -1563,7 +1536,7 @@ static void Task_PCMainMenu(u8 taskId)
         break;
     case STATE_HANDLE_INPUT:
         task->tInput = Menu_ProcessInput();
-        switch(task->tInput)
+        switch (task->tInput)
         {
         case MENU_NOTHING_CHOSEN:
             task->tNextOption = task->tSelectedOption;
@@ -1665,14 +1638,23 @@ static void FieldTask_ReturnToPcMenu(void)
 {
     u8 taskId;
     MainCallback vblankCb = gMain.vblankCallback;
-
-    SetVBlankCallback(NULL);
-    taskId = CreateTask(Task_PCMainMenu, 80);
-    gTasks[taskId].tState = 0;
-    gTasks[taskId].tSelectedOption = sPreviousBoxOption;
-    Task_PCMainMenu(taskId);
-    SetVBlankCallback(vblankCb);
-    FadeInFromBlack();
+    if (FlagGet(FLAG_POKEMONPCMENU) == TRUE)
+    {
+        SetVBlankCallback(NULL);
+        taskId = CreateTask(Task_PCMainMenu, 80);
+        gTasks[taskId].tState = 0;
+        gTasks[taskId].tSelectedOption = sPreviousBoxOption;
+        Task_PCMainMenu(taskId);
+        SetVBlankCallback(vblankCb);
+        FadeInFromBlack();
+    }
+    else
+    {
+        UnlockPlayerFieldControls();
+        ScriptContext_Enable();
+        SetVBlankCallback(CB2_ReturnToField);
+        FadeInFromBlack();
+    }
 }
 
 #undef tState
@@ -1754,7 +1736,6 @@ void ResetPokemonStorageSystem(void)
     ResetWaldaWallpaper();
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Choose Box menu
 //
@@ -1763,21 +1744,18 @@ void ResetPokemonStorageSystem(void)
 //  and for the Jump feature.
 //------------------------------------------------------------------------------
 
-
 static void LoadChooseBoxMenuGfx(struct ChooseBoxMenu *menu, u16 tileTag, u16 palTag, u8 subpriority, bool32 loadPal)
 {
     // Because loadPal is always false, the below palette is never used.
     // The Choose Box menu instead uses the palette indicated by palTag, which is always PALTAG_MISC_1 (sHandCursor_Pal)
     struct SpritePalette palette =
-    {
-        sChooseBoxMenu_Pal, palTag
-    };
+        {
+            sChooseBoxMenu_Pal, palTag};
     struct SpriteSheet sheets[] =
-    {
-        {sChooseBoxMenuCenter_Gfx, 0x800, tileTag},
-        {sChooseBoxMenuSides_Gfx,  0x180, tileTag + 1},
-        {}
-    };
+        {
+            {sChooseBoxMenuCenter_Gfx, 0x800, tileTag},
+            {sChooseBoxMenuSides_Gfx, 0x180, tileTag + 1},
+            {}};
 
     if (loadPal) // Always false
         LoadSpritePalette(&palette);
@@ -1843,8 +1821,7 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
     oamData.size = SPRITE_SIZE(64x64);
     oamData.paletteNum = 1;
     template = (struct SpriteTemplate){
-        0, 0, &oamData, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy
-    };
+        0, 0, &oamData, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
 
     sChooseBoxMenu->curBox = curBox;
     template.tileTag = sChooseBoxMenu->tileTag;
@@ -1971,7 +1948,6 @@ static void SpriteCB_ChooseBoxArrow(struct Sprite *sprite)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Main tasks
 //
@@ -1980,7 +1956,6 @@ static void SpriteCB_ChooseBoxArrow(struct Sprite *sprite)
 //  primary one, Task_PokeStorageMain. Also included are some basic
 //  initialization functions.
 //------------------------------------------------------------------------------
-
 
 static void VBlankCB_PokeStorage(void)
 {
@@ -2258,7 +2233,8 @@ static void Task_ReshowPokeStorage(u8 taskId)
 }
 
 // States for the outer switch in Task_PokeStorageMain
-enum {
+enum
+{
     MSTATE_HANDLE_INPUT,
     MSTATE_MOVE_CURSOR,
     MSTATE_SCROLL_BOX,
@@ -2928,11 +2904,11 @@ static void Task_ReleaseMon(u8 taskId)
         switch (Menu_ProcessInputNoWrapClearOnChoose())
         {
         case MENU_B_PRESSED:
-        case  1: // No
+        case 1: // No
             ClearBottomWindow();
             SetPokeStorageTask(Task_PokeStorageMain);
             break;
-        case  0: // Yes
+        case 0: // Yes
             ClearBottomWindow();
             InitCanReleaseMonVars();
             InitReleaseMon();
@@ -3297,7 +3273,7 @@ static void Task_CloseBoxWhileHoldingItem(u8 taskId)
             ClearBottomWindow();
             SetPokeStorageTask(Task_PokeStorageMain);
             break;
-        case 0:// Yes
+        case 0: // Yes
             if (AddBagItem(sStorage->movingItemId, 1) == TRUE)
             {
                 ClearBottomWindow();
@@ -3434,7 +3410,7 @@ static void Task_HandleWallpapers(u8 taskId)
         break;
     case 1:
         if (!IsMenuLoading())
-             sStorage->state++;
+            sStorage->state++;
         break;
     case 2:
         sStorage->wallpaperSetId = HandleMenuInput();
@@ -3821,7 +3797,6 @@ static void FreePokeStorageData(void)
     FreeAllWindowBuffers();
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Misc
 //
@@ -3829,7 +3804,6 @@ static void FreePokeStorageData(void)
 //  showing/hiding the party menu, updating the Close Box button, printing
 //  messages, doing the mosaic effect when transitioning between Pokémon, etc.
 //------------------------------------------------------------------------------
-
 
 static void SetScrollingBackground(void)
 {
@@ -3896,7 +3870,7 @@ static void CreateMarkingComboSprite(void)
     sStorage->markingComboSprite->subpriority = 1;
     sStorage->markingComboSprite->x = 40;
     sStorage->markingComboSprite->y = 150;
-    sStorage->markingComboTilesPtr = (void *) OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(GFXTAG_MARKING_COMBO);
+    sStorage->markingComboTilesPtr = (void *)OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(GFXTAG_MARKING_COMBO);
 }
 
 static void CreateWaveformSprites(void)
@@ -3984,7 +3958,7 @@ static void CreateDisplayMonSprite(void)
 
         sStorage->displayMonSprite = &gSprites[spriteId];
         sStorage->displayMonPalOffset = OBJ_PLTT_ID(palSlot);
-        sStorage->displayMonTilePtr = (void *) OBJ_VRAM0 + tileStart * TILE_SIZE_4BPP;
+        sStorage->displayMonTilePtr = (void *)OBJ_VRAM0 + tileStart * TILE_SIZE_4BPP;
     } while (0);
 
     if (sStorage->displayMonSprite == NULL)
@@ -4418,7 +4392,6 @@ static void InitCursorItemIcon(void)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Pokémon sprites
 //
@@ -4426,7 +4399,6 @@ static void InitCursorItemIcon(void)
 //  moving them with a scrolling box, shifting the party sprites, and
 //  animating released Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void InitMonIconFields(void)
 {
@@ -4518,11 +4490,11 @@ static void CreateBoxMonIconAtPos(u8 boxPosition)
     }
 }
 
-#define sDistance      data[1]
-#define sSpeed         data[2]
+#define sDistance data[1]
+#define sSpeed data[2]
 #define sScrollInDestX data[3]
-#define sDelay         data[4]
-#define sScrollOutX    data[5]
+#define sDelay data[4]
+#define sScrollOutX data[5]
 
 static void StartBoxMonIconsScrollOut(s16 speed)
 {
@@ -4610,8 +4582,8 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
             if (sStorage->boxSpecies[boxPosition] != SPECIES_NONE)
             {
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
-                                                                                        sStorage->boxPersonalities[boxPosition],
-                                                                                        x, y, 2, subpriority);
+                                                                            sStorage->boxPersonalities[boxPosition],
+                                                                            x, y, 2, subpriority);
                 if (sStorage->boxMonsSprites[boxPosition] != NULL)
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
@@ -4634,8 +4606,8 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
             if (sStorage->boxSpecies[boxPosition] != SPECIES_NONE)
             {
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
-                                                                                        sStorage->boxPersonalities[boxPosition],
-                                                                                        x, y, 2, subpriority);
+                                                                            sStorage->boxPersonalities[boxPosition],
+                                                                            x, y, 2, subpriority);
                 if (sStorage->boxMonsSprites[boxPosition] != NULL)
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
@@ -4701,8 +4673,7 @@ static bool8 UpdateBoxMonIconScroll(void)
         sStorage->iconScrollPos += sStorage->iconScrollSpeed;
         sStorage->iconScrollNumIncoming += CreateBoxMonIconsInColumn(sStorage->iconScrollCurColumn, sStorage->iconScrollDistance, sStorage->iconScrollSpeed);
 
-        if ((sStorage->iconScrollDirection > 0 && sStorage->iconScrollCurColumn == IN_BOX_COLUMNS - 1)
-         || (sStorage->iconScrollDirection < 0 && sStorage->iconScrollCurColumn == 0))
+        if ((sStorage->iconScrollDirection > 0 && sStorage->iconScrollCurColumn == IN_BOX_COLUMNS - 1) || (sStorage->iconScrollDirection < 0 && sStorage->iconScrollCurColumn == 0))
         {
             // Scroll has reached final column
             sStorage->iconScrollState++;
@@ -4777,7 +4748,7 @@ static void CreatePartyMonsSprites(bool8 visible)
         if (species != SPECIES_NONE)
         {
             personality = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
-            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 152,  8 * (3 * (i - 1)) + 16, 1, 12);
+            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 152, 8 * (3 * (i - 1)) + 16, 1, 12);
             count++;
         }
         else
@@ -4830,11 +4801,11 @@ static u8 GetNumPartySpritesCompacting(void)
     return sStorage->numPartyToCompact;
 }
 
-#define sPartyId   data[1]
-#define sMonX      data[2]
-#define sMonY      data[3]
-#define sSpeedX    data[4]
-#define sSpeedY    data[5]
+#define sPartyId data[1]
+#define sMonX data[2]
+#define sMonY data[3]
+#define sSpeedX data[4]
+#define sSpeedY data[5]
 #define sMoveSteps data[6]
 
 static void MovePartySpriteToNextSlot(struct Sprite *sprite, u16 partyId)
@@ -5063,8 +5034,7 @@ static void SetReleaseMon(u8 mode, u8 position)
 
 static bool8 TryHideReleaseMonSprite(void)
 {
-    if (*sStorage->releaseMonSpritePtr == NULL
-    || (*sStorage->releaseMonSpritePtr)->invisible)
+    if (*sStorage->releaseMonSpritePtr == NULL || (*sStorage->releaseMonSpritePtr)->invisible)
         return FALSE;
 
     if ((*sStorage->releaseMonSpritePtr)->affineAnimEnded)
@@ -5218,17 +5188,15 @@ static void DestroyBoxMonIcon(struct Sprite *sprite)
     DestroySprite(sprite);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: General box
 //
 //  Some basic box functions, including initializing the box and scrolling.
 //------------------------------------------------------------------------------
 
-
-#define tState  data[0]
+#define tState data[0]
 #define tDmaIdx data[1]
-#define tBoxId  data[2]
+#define tBoxId data[2]
 
 static void CreateInitBoxTask(u8 boxId)
 {
@@ -5356,11 +5324,9 @@ static s8 DetermineBoxScrollDirection(u8 boxId)
     return (i < TOTAL_BOXES_COUNT / 2) ? 1 : -1;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Wallpaper gfx
 //------------------------------------------------------------------------------
-
 
 static void SetWallpaperForCurrentBox(u8 wallpaperId)
 {
@@ -5510,11 +5476,9 @@ static void TrimOldWallpaper(void *tilemap)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Box Title
 //------------------------------------------------------------------------------
-
 
 static void InitBoxTitle(u8 boxId)
 {
@@ -5525,8 +5489,7 @@ static void InitBoxTitle(u8 boxId)
     struct SpriteSheet spriteSheet = {sStorage->boxTitleTiles, 0x200, GFXTAG_BOX_TITLE};
     struct SpritePalette palettes[] = {
         {sStorage->boxTitlePal, PALTAG_BOX_TITLE},
-        {}
-    };
+        {}};
 
     u16 wallpaperId = GetBoxWallpaper(boxId);
 
@@ -5565,10 +5528,10 @@ static void InitBoxTitle(u8 boxId)
 // Sprite data for moving title text
 #define sSpeed data[0]
 // Flipped between incoming/outgoing for some reason
-#define sIncomingX     data[1]
+#define sIncomingX data[1]
 #define sIncomingDelay data[2]
 #define sOutgoingDelay data[1]
-#define sOutgoingX     data[2]
+#define sOutgoingX data[2]
 
 static void CreateIncomingBoxTitle(u8 boxId, s8 direction)
 {
@@ -5673,11 +5636,9 @@ static s16 GetBoxTitleBaseX(const u8 *string)
     return DISPLAY_WIDTH - 64 - GetStringWidth(FONT_NORMAL, string, 0) / 2;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Scroll arrows
 //------------------------------------------------------------------------------
-
 
 // Sprite data for box scroll arrows
 #define sState data[0]
@@ -5826,14 +5787,12 @@ static struct Sprite *CreateChooseBoxArrows(u16 x, u16 y, u8 animId, u8 priority
     return &gSprites[spriteId];
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Cursor movement
 //
 //  The functions below generally handle the cursor's movement, including
 //  moving around the box and picking up/putting down Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void InitCursor(void)
 {
@@ -5873,7 +5832,7 @@ static void GetCursorCoordsByPos(u8 cursorArea, u8 cursorPosition, u16 *x, u16 *
     {
     case CURSOR_AREA_IN_BOX:
         *x = (cursorPosition % IN_BOX_COLUMNS) * 24 + 100;
-        *y = (cursorPosition / IN_BOX_COLUMNS) * 24 +  32;
+        *y = (cursorPosition / IN_BOX_COLUMNS) * 24 + 32;
         break;
     case CURSOR_AREA_IN_PARTY:
         if (cursorPosition == 0)
@@ -6007,28 +5966,28 @@ static void InitCursorMove(void)
 
     switch (sStorage->cursorVerticalWrap)
     {
-        default: // No wrap
-            yDistance = sStorage->cursorTargetY - sStorage->cursorSprite->y;
-            break;
-        case -1: // Wrap from top to bottom
-            yDistance = sStorage->cursorTargetY - 192 - sStorage->cursorSprite->y;
-            break;
-        case 1: // Wrap from bottom to top
-            yDistance = sStorage->cursorTargetY + 192 - sStorage->cursorSprite->y;
-            break;
+    default: // No wrap
+        yDistance = sStorage->cursorTargetY - sStorage->cursorSprite->y;
+        break;
+    case -1: // Wrap from top to bottom
+        yDistance = sStorage->cursorTargetY - 192 - sStorage->cursorSprite->y;
+        break;
+    case 1: // Wrap from bottom to top
+        yDistance = sStorage->cursorTargetY + 192 - sStorage->cursorSprite->y;
+        break;
     }
 
     switch (sStorage->cursorHorizontalWrap)
     {
-        default: // No Wrap
-            xDistance = sStorage->cursorTargetX - sStorage->cursorSprite->x;
-            break;
-        case -1: // Wrap from left to right
-            xDistance = sStorage->cursorTargetX - 192 - sStorage->cursorSprite->x;
-            break;
-        case 1: // Wrap from right to left
-            xDistance = sStorage->cursorTargetX + 192 - sStorage->cursorSprite->x;
-            break;
+    default: // No Wrap
+        xDistance = sStorage->cursorTargetX - sStorage->cursorSprite->x;
+        break;
+    case -1: // Wrap from left to right
+        xDistance = sStorage->cursorTargetX - 192 - sStorage->cursorSprite->x;
+        break;
+    case 1: // Wrap from right to left
+        xDistance = sStorage->cursorTargetX + 192 - sStorage->cursorSprite->x;
+        break;
     }
 
     yDistance <<= 8;
@@ -6183,11 +6142,11 @@ static u8 GetSavedCursorPos(void)
 static void InitMonPlaceChange(u8 type)
 {
     static bool8 (*const placeChangeFuncs[])(void) =
-    {
-        [CHANGE_GRAB]  = MonPlaceChange_Grab,
-        [CHANGE_PLACE] = MonPlaceChange_Place,
-        [CHANGE_SHIFT] = MonPlaceChange_Shift,
-    };
+        {
+            [CHANGE_GRAB] = MonPlaceChange_Grab,
+            [CHANGE_PLACE] = MonPlaceChange_Place,
+            [CHANGE_SHIFT] = MonPlaceChange_Shift,
+        };
 
     sStorage->monPlaceChangeFunc = placeChangeFuncs[type];
     sStorage->monPlaceChangeState = 0;
@@ -6341,7 +6300,6 @@ static bool8 MonPlaceChange_CursorUp(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Pokémon data
 //
@@ -6349,7 +6307,6 @@ static bool8 MonPlaceChange_CursorUp(void)
 //  including changing the positions of Pokémon, releasing Pokémon, viewing the
 //  summary screen, and updating the display of the currently selected Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void MoveMon(void)
 {
@@ -6544,13 +6501,13 @@ struct
     s8 mapNum;
     u16 move;
 } static const sRestrictedReleaseMoves[] =
-{
-    {MAP_GROUPS_COUNT, 0, MOVE_SURF},
-    {MAP_GROUPS_COUNT, 0, MOVE_DIVE},
-    {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_STRENGTH},
-    {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_ROCK_SMASH},
-    {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_STRENGTH},
-    {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_ROCK_SMASH},
+    {
+        {MAP_GROUPS_COUNT, 0, MOVE_SURF},
+        {MAP_GROUPS_COUNT, 0, MOVE_DIVE},
+        {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_STRENGTH},
+        {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_ROCK_SMASH},
+        {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_STRENGTH},
+        {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_ROCK_SMASH},
 };
 
 static void GetRestrictedReleaseMoves(u16 *moves)
@@ -6559,9 +6516,7 @@ static void GetRestrictedReleaseMoves(u16 *moves)
 
     for (i = 0; i < ARRAY_COUNT(sRestrictedReleaseMoves); i++)
     {
-        if (sRestrictedReleaseMoves[i].mapGroup == MAP_GROUPS_COUNT
-        || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup
-         && sRestrictedReleaseMoves[i].mapNum == gSaveBlock1Ptr->location.mapNum))
+        if (sRestrictedReleaseMoves[i].mapGroup == MAP_GROUPS_COUNT || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup && sRestrictedReleaseMoves[i].mapNum == gSaveBlock1Ptr->location.mapNum))
         {
             *moves = sRestrictedReleaseMoves[i].move;
             moves++;
@@ -6695,8 +6650,7 @@ static s8 RunCanReleaseMon(void)
         for (i = 0; i < IN_BOX_COUNT; i++)
         {
             knownMoves = GetAndCopyBoxMonDataAt(sStorage->releaseCheckBoxId, sStorage->releaseCheckBoxPos, MON_DATA_KNOWN_MOVES, (u8 *)sStorage->restrictedMoveList);
-            if (knownMoves != 0 && !(sStorage->releaseBoxId == sStorage->releaseCheckBoxId
-                                  && sStorage->releaseBoxPos == sStorage->releaseCheckBoxPos))
+            if (knownMoves != 0 && !(sStorage->releaseBoxId == sStorage->releaseCheckBoxId && sStorage->releaseBoxPos == sStorage->releaseCheckBoxPos))
             {
                 // Found PC Pokémon with restricted move, clear move from list
                 sStorage->restrictedReleaseMonMoves &= ~(knownMoves);
@@ -6971,7 +6925,6 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             else
                 sStorage->displayMonIsEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
 
-
             GetBoxMonData(boxMon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGet_Nickname(sStorage->displayMonName);
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
@@ -7063,13 +7016,11 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Input handlers
 //
 //  The functions below process context-dependent input
 //------------------------------------------------------------------------------
-
 
 static u8 HandleInput_InBox(void)
 {
@@ -7655,13 +7606,13 @@ static u8 HandleInput(void)
         u8 (*func)(void);
         s8 area;
     } static const inputFuncs[] =
-    {
-        {HandleInput_InBox,     CURSOR_AREA_IN_BOX},
-        {HandleInput_InParty,   CURSOR_AREA_IN_PARTY},
-        {HandleInput_OnBox,     CURSOR_AREA_BOX_TITLE},
-        {HandleInput_OnButtons, CURSOR_AREA_BUTTONS},
-        {},
-    };
+        {
+            {HandleInput_InBox, CURSOR_AREA_IN_BOX},
+            {HandleInput_InParty, CURSOR_AREA_IN_PARTY},
+            {HandleInput_OnBox, CURSOR_AREA_BOX_TITLE},
+            {HandleInput_OnButtons, CURSOR_AREA_BUTTONS},
+            {},
+        };
 
     u16 i = 0;
     while (inputFuncs[i].func != NULL)
@@ -7792,13 +7743,11 @@ static bool8 SetMenuTexts_Item(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Cursor
 //
 //  The functions below handle a few of the generic cursor features.
 //------------------------------------------------------------------------------
-
 
 static void SpriteCB_CursorShadow(struct Sprite *sprite)
 {
@@ -7812,82 +7761,75 @@ static void CreateCursorSprites(void)
     u8 spriteId;
     u8 priority, subpriority;
     struct SpriteSheet spriteSheets[] =
-    {
-        {sHandCursor_Gfx, 0x800, GFXTAG_CURSOR},
-        {sHandCursorShadow_Gfx, 0x80, GFXTAG_CURSOR_SHADOW},
-        {}
-    };
+        {
+            {sHandCursor_Gfx, 0x800, GFXTAG_CURSOR},
+            {sHandCursorShadow_Gfx, 0x80, GFXTAG_CURSOR_SHADOW},
+            {}};
 
     struct SpritePalette spritePalettes[] =
-    {
-        {sHandCursor_Pal, PALTAG_MISC_1},
-        {}
-    };
+        {
+            {sHandCursor_Pal, PALTAG_MISC_1},
+            {}};
 
     static const struct OamData sOamData_Cursor =
-    {
-        .shape = SPRITE_SHAPE(32x32),
-        .size = SPRITE_SIZE(32x32),
-        .priority = 1,
-    };
+        {
+            .shape = SPRITE_SHAPE(32x32),
+            .size = SPRITE_SIZE(32x32),
+            .priority = 1,
+        };
     static const struct OamData sOamData_CursorShadow =
-    {
-        .shape = SPRITE_SHAPE(16x16),
-        .size = SPRITE_SIZE(16x16),
-        .priority = 1,
-    };
+        {
+            .shape = SPRITE_SHAPE(16x16),
+            .size = SPRITE_SIZE(16x16),
+            .priority = 1,
+        };
 
     static const union AnimCmd sAnim_Cursor_Bouncing[] =
-    {
-        ANIMCMD_FRAME(0, 30),
-        ANIMCMD_FRAME(16, 30),
-        ANIMCMD_JUMP(0)
-    };
+        {
+            ANIMCMD_FRAME(0, 30),
+            ANIMCMD_FRAME(16, 30),
+            ANIMCMD_JUMP(0)};
     static const union AnimCmd sAnim_Cursor_Still[] =
-    {
-        ANIMCMD_FRAME(0, 5),
-        ANIMCMD_END
-    };
+        {
+            ANIMCMD_FRAME(0, 5),
+            ANIMCMD_END};
     static const union AnimCmd sAnim_Cursor_Open[] =
-    {
-        ANIMCMD_FRAME(32, 5),
-        ANIMCMD_END
-    };
+        {
+            ANIMCMD_FRAME(32, 5),
+            ANIMCMD_END};
     static const union AnimCmd sAnim_Cursor_Fist[] =
-    {
-        ANIMCMD_FRAME(48, 5),
-        ANIMCMD_END
-    };
+        {
+            ANIMCMD_FRAME(48, 5),
+            ANIMCMD_END};
 
     static const union AnimCmd *const sAnims_Cursor[] =
-    {
-        [CURSOR_ANIM_BOUNCE] = sAnim_Cursor_Bouncing,
-        [CURSOR_ANIM_STILL]  = sAnim_Cursor_Still,
-        [CURSOR_ANIM_OPEN]   = sAnim_Cursor_Open,
-        [CURSOR_ANIM_FIST]   = sAnim_Cursor_Fist
-    };
+        {
+            [CURSOR_ANIM_BOUNCE] = sAnim_Cursor_Bouncing,
+            [CURSOR_ANIM_STILL] = sAnim_Cursor_Still,
+            [CURSOR_ANIM_OPEN] = sAnim_Cursor_Open,
+            [CURSOR_ANIM_FIST] = sAnim_Cursor_Fist};
 
     static const struct SpriteTemplate sSpriteTemplate_Cursor =
-    {
-        .tileTag = GFXTAG_CURSOR,
-        .paletteTag = PALTAG_MISC_2,
-        .oam = &sOamData_Cursor,
-        .anims = sAnims_Cursor,
-        .images = NULL,
-        .affineAnims = gDummySpriteAffineAnimTable,
-        .callback = SpriteCallbackDummy,
-    };
+        {
+            .tileTag = GFXTAG_CURSOR,
+            .paletteTag = PALTAG_MISC_2,
+            .oam = &sOamData_Cursor,
+            .anims = sAnims_Cursor,
+            .images = NULL,
+            .affineAnims = gDummySpriteAffineAnimTable,
+            .callback = SpriteCallbackDummy,
+        };
 
     static const struct SpriteTemplate sSpriteTemplate_CursorShadow =
-    {
-        .tileTag = GFXTAG_CURSOR_SHADOW,
-        .paletteTag = PALTAG_MISC_2,
-        .oam = &sOamData_CursorShadow,
-        .anims = gDummySpriteAnimTable,
-        .images = NULL,
-        .affineAnims = gDummySpriteAffineAnimTable,
-        .callback = SpriteCB_CursorShadow,
-    };
+        {
+            .tileTag = GFXTAG_CURSOR_SHADOW,
+            .paletteTag = PALTAG_MISC_2,
+            .oam = &sOamData_CursorShadow,
+            .anims = gDummySpriteAnimTable,
+            .images = NULL,
+            .affineAnims = gDummySpriteAffineAnimTable,
+            .callback = SpriteCB_CursorShadow,
+        };
 
     LoadSpriteSheets(spriteSheets);
     LoadSpritePalettes(spritePalettes);
@@ -7986,14 +7928,12 @@ static void TryShowItemAtCursor(void)
         TryLoadItemIconAtPos(CURSOR_AREA_IN_BOX, sCursorPosition);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Menu
 //
 //  The functions below handle the generic options menu that comes up whenever
 //  something in the PC is selected.
 //------------------------------------------------------------------------------
-
 
 static void InitMenu(void)
 {
@@ -8005,46 +7945,46 @@ static void InitMenu(void)
 }
 
 static const u8 *const sMenuTexts[] =
-{
-    [MENU_CANCEL]     = gPCText_Cancel,
-    [MENU_STORE]      = gPCText_Store,
-    [MENU_WITHDRAW]   = gPCText_Withdraw,
-    [MENU_MOVE]       = gPCText_Move,
-    [MENU_SHIFT]      = gPCText_Shift,
-    [MENU_PLACE]      = gPCText_Place,
-    [MENU_SUMMARY]    = gPCText_Summary,
-    [MENU_RELEASE]    = gPCText_Release,
-    [MENU_MARK]       = gPCText_Mark,
-    [MENU_JUMP]       = gPCText_Jump,
-    [MENU_WALLPAPER]  = gPCText_Wallpaper,
-    [MENU_NAME]       = gPCText_Name,
-    [MENU_TAKE]       = gPCText_Take,
-    [MENU_GIVE]       = gPCText_Give,
-    [MENU_GIVE_2]     = gPCText_Give,
-    [MENU_SWITCH]     = gPCText_Switch,
-    [MENU_BAG]        = gPCText_Bag,
-    [MENU_INFO]       = gPCText_Info,
-    [MENU_SCENERY_1]  = gPCText_Scenery1,
-    [MENU_SCENERY_2]  = gPCText_Scenery2,
-    [MENU_SCENERY_3]  = gPCText_Scenery3,
-    [MENU_ETCETERA]   = gPCText_Etcetera,
-    [MENU_FRIENDS]    = gPCText_Friends,
-    [MENU_FOREST]     = gPCText_Forest,
-    [MENU_CITY]       = gPCText_City,
-    [MENU_DESERT]     = gPCText_Desert,
-    [MENU_SAVANNA]    = gPCText_Savanna,
-    [MENU_CRAG]       = gPCText_Crag,
-    [MENU_VOLCANO]    = gPCText_Volcano,
-    [MENU_SNOW]       = gPCText_Snow,
-    [MENU_CAVE]       = gPCText_Cave,
-    [MENU_BEACH]      = gPCText_Beach,
-    [MENU_SEAFLOOR]   = gPCText_Seafloor,
-    [MENU_RIVER]      = gPCText_River,
-    [MENU_SKY]        = gPCText_Sky,
-    [MENU_POLKADOT]   = gPCText_PolkaDot,
-    [MENU_POKECENTER] = gPCText_Pokecenter,
-    [MENU_MACHINE]    = gPCText_Machine,
-    [MENU_SIMPLE]     = gPCText_Simple,
+    {
+        [MENU_CANCEL] = gPCText_Cancel,
+        [MENU_STORE] = gPCText_Store,
+        [MENU_WITHDRAW] = gPCText_Withdraw,
+        [MENU_MOVE] = gPCText_Move,
+        [MENU_SHIFT] = gPCText_Shift,
+        [MENU_PLACE] = gPCText_Place,
+        [MENU_SUMMARY] = gPCText_Summary,
+        [MENU_RELEASE] = gPCText_Release,
+        [MENU_MARK] = gPCText_Mark,
+        [MENU_JUMP] = gPCText_Jump,
+        [MENU_WALLPAPER] = gPCText_Wallpaper,
+        [MENU_NAME] = gPCText_Name,
+        [MENU_TAKE] = gPCText_Take,
+        [MENU_GIVE] = gPCText_Give,
+        [MENU_GIVE_2] = gPCText_Give,
+        [MENU_SWITCH] = gPCText_Switch,
+        [MENU_BAG] = gPCText_Bag,
+        [MENU_INFO] = gPCText_Info,
+        [MENU_SCENERY_1] = gPCText_Scenery1,
+        [MENU_SCENERY_2] = gPCText_Scenery2,
+        [MENU_SCENERY_3] = gPCText_Scenery3,
+        [MENU_ETCETERA] = gPCText_Etcetera,
+        [MENU_FRIENDS] = gPCText_Friends,
+        [MENU_FOREST] = gPCText_Forest,
+        [MENU_CITY] = gPCText_City,
+        [MENU_DESERT] = gPCText_Desert,
+        [MENU_SAVANNA] = gPCText_Savanna,
+        [MENU_CRAG] = gPCText_Crag,
+        [MENU_VOLCANO] = gPCText_Volcano,
+        [MENU_SNOW] = gPCText_Snow,
+        [MENU_CAVE] = gPCText_Cave,
+        [MENU_BEACH] = gPCText_Beach,
+        [MENU_SEAFLOOR] = gPCText_Seafloor,
+        [MENU_RIVER] = gPCText_River,
+        [MENU_SKY] = gPCText_Sky,
+        [MENU_POLKADOT] = gPCText_PolkaDot,
+        [MENU_POKECENTER] = gPCText_Pokecenter,
+        [MENU_MACHINE] = gPCText_Machine,
+        [MENU_SIMPLE] = gPCText_Simple,
 };
 
 static void SetMenuText(u8 textId)
@@ -8139,7 +8079,6 @@ static void RemoveMenu(void)
     RemoveWindow(sStorage->menuWindowId);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: MultiMove
 //
@@ -8148,16 +8087,15 @@ static void RemoveMenu(void)
 //  them as a group.
 //------------------------------------------------------------------------------
 
-
 static const struct WindowTemplate sWindowTemplate_MultiMove =
-{
-    .bg = 0,
-    .tilemapLeft = 10,
-    .tilemapTop = 3,
-    .width = 20,
-    .height = 18,
-    .paletteNum = 9,
-    .baseBlock = 0xA,
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 3,
+        .width = 20,
+        .height = 18,
+        .paletteNum = 9,
+        .baseBlock = 0xA,
 };
 
 EWRAM_DATA static struct
@@ -8688,8 +8626,7 @@ static bool8 MultiMove_CanPlaceSelection(void)
         u8 boxPosition = (IN_BOX_COLUMNS * i) + sMultiMove->minColumn;
         for (j = sMultiMove->minColumn; j < columnCount; j++)
         {
-            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SANITY_HAS_SPECIES)
-                && GetCurrentBoxMonData(boxPosition, MON_DATA_SANITY_HAS_SPECIES))
+            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SANITY_HAS_SPECIES) && GetCurrentBoxMonData(boxPosition, MON_DATA_SANITY_HAS_SPECIES))
                 return FALSE;
 
             monArrayId++;
@@ -8699,102 +8636,91 @@ static bool8 MultiMove_CanPlaceSelection(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Item mode
 //
 //  The functions below handle the Move Items mode
 //------------------------------------------------------------------------------
 
-
 static const u32 sItemInfoFrame_Gfx[] = INCBIN_U32("graphics/pokemon_storage/item_info_frame.4bpp");
 
 static const struct OamData sOamData_ItemIcon =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_NORMAL,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(32x32),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(32x32),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 0,
-    .affineParam = 0
-};
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_NORMAL,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(32x32),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(32x32),
+        .tileNum = 0,
+        .priority = 1,
+        .paletteNum = 0,
+        .affineParam = 0};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_Small[] =
-{
-    AFFINEANIMCMD_FRAME(128, 128, 0, 0),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(128, 128, 0, 0),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_Appear[] =
-{
-    AFFINEANIMCMD_FRAME(88, 88, 0, 0),
-    AFFINEANIMCMD_FRAME(5, 5, 0, 8),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(88, 88, 0, 0),
+        AFFINEANIMCMD_FRAME(5, 5, 0, 8),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_Disappear[] =
-{
-    AFFINEANIMCMD_FRAME(128, 128, 0, 0),
-    AFFINEANIMCMD_FRAME(-5, -5, 0, 8),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(128, 128, 0, 0),
+        AFFINEANIMCMD_FRAME(-5, -5, 0, 8),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_PickUp[] =
-{
-    AFFINEANIMCMD_FRAME(128, 128, 0, 0),
-    AFFINEANIMCMD_FRAME(10, 10, 0, 12),
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(128, 128, 0, 0),
+        AFFINEANIMCMD_FRAME(10, 10, 0, 12),
+        AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_PutDown[] =
-{
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_FRAME(-10, -10, 0, 12),
-    AFFINEANIMCMD_FRAME(128, 128, 0, 0),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+        AFFINEANIMCMD_FRAME(-10, -10, 0, 12),
+        AFFINEANIMCMD_FRAME(128, 128, 0, 0),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_PutAway[] =
-{
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_FRAME(-5, -5, 0, 16),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+        AFFINEANIMCMD_FRAME(-5, -5, 0, 16),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd sAffineAnim_ItemIcon_Large[] =
-{
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_END
-};
+    {
+        AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+        AFFINEANIMCMD_END};
 
 static const union AffineAnimCmd *const sAffineAnims_ItemIcon[] =
-{
-    [ITEM_ANIM_NONE] = sAffineAnim_ItemIcon_Small,
-    [ITEM_ANIM_APPEAR] = sAffineAnim_ItemIcon_Appear,
-    [ITEM_ANIM_DISAPPEAR] = sAffineAnim_ItemIcon_Disappear,
-    [ITEM_ANIM_PICK_UP] = sAffineAnim_ItemIcon_PickUp,
-    [ITEM_ANIM_PUT_DOWN] = sAffineAnim_ItemIcon_PutDown,
-    [ITEM_ANIM_PUT_AWAY] = sAffineAnim_ItemIcon_PutAway,
-    [ITEM_ANIM_LARGE] = sAffineAnim_ItemIcon_Large
-};
+    {
+        [ITEM_ANIM_NONE] = sAffineAnim_ItemIcon_Small,
+        [ITEM_ANIM_APPEAR] = sAffineAnim_ItemIcon_Appear,
+        [ITEM_ANIM_DISAPPEAR] = sAffineAnim_ItemIcon_Disappear,
+        [ITEM_ANIM_PICK_UP] = sAffineAnim_ItemIcon_PickUp,
+        [ITEM_ANIM_PUT_DOWN] = sAffineAnim_ItemIcon_PutDown,
+        [ITEM_ANIM_PUT_AWAY] = sAffineAnim_ItemIcon_PutAway,
+        [ITEM_ANIM_LARGE] = sAffineAnim_ItemIcon_Large};
 
 static const struct SpriteTemplate sSpriteTemplate_ItemIcon =
-{
-    .tileTag = GFXTAG_ITEM_ICON_0,
-    .paletteTag = PALTAG_ITEM_ICON_0,
-    .oam = &sOamData_ItemIcon,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = sAffineAnims_ItemIcon,
-    .callback = SpriteCallbackDummy,
+    {
+        .tileTag = GFXTAG_ITEM_ICON_0,
+        .paletteTag = PALTAG_ITEM_ICON_0,
+        .oam = &sOamData_ItemIcon,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = sAffineAnims_ItemIcon,
+        .callback = SpriteCallbackDummy,
 };
 
 static void CreateItemIconSprites(void)
@@ -9029,8 +8955,7 @@ static void MoveHeldItemWithPartyMenu(void)
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
-        if (sStorage->itemIcons[i].active
-         && sStorage->itemIcons[i].area == CURSOR_AREA_IN_PARTY)
+        if (sStorage->itemIcons[i].active && sStorage->itemIcons[i].area == CURSOR_AREA_IN_PARTY)
             SetItemIconCallback(i, ITEM_CB_HIDE_PARTY, CURSOR_AREA_IN_HAND, 0);
     }
 }
@@ -9043,11 +8968,9 @@ static bool8 IsItemIconAnimActive(void)
     {
         if (sStorage->itemIcons[i].active)
         {
-            if (!sStorage->itemIcons[i].sprite->affineAnimEnded
-              && sStorage->itemIcons[i].sprite->affineAnimBeginning)
+            if (!sStorage->itemIcons[i].sprite->affineAnimEnded && sStorage->itemIcons[i].sprite->affineAnimBeginning)
                 return TRUE;
-            if (sStorage->itemIcons[i].sprite->callback != SpriteCallbackDummy
-             && sStorage->itemIcons[i].sprite->callback != SpriteCB_ItemIcon_SetPosToCursor)
+            if (sStorage->itemIcons[i].sprite->callback != SpriteCallbackDummy && sStorage->itemIcons[i].sprite->callback != SpriteCB_ItemIcon_SetPosToCursor)
                 return TRUE;
         }
     }
@@ -9062,8 +8985,7 @@ static bool8 IsMovingItem(void)
     {
         for (i = 0; i < MAX_ITEM_ICONS; i++)
         {
-            if (sStorage->itemIcons[i].active
-             && sStorage->itemIcons[i].area == CURSOR_AREA_IN_HAND)
+            if (sStorage->itemIcons[i].active && sStorage->itemIcons[i].area == CURSOR_AREA_IN_HAND)
                 return TRUE;
         }
     }
@@ -9101,9 +9023,7 @@ static bool32 IsItemIconAtPosition(u8 cursorArea, u8 cursorPos)
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
-        if (sStorage->itemIcons[i].active
-         && sStorage->itemIcons[i].area == cursorArea
-         && sStorage->itemIcons[i].pos == cursorPos)
+        if (sStorage->itemIcons[i].active && sStorage->itemIcons[i].area == cursorArea && sStorage->itemIcons[i].pos == cursorPos)
             return TRUE;
     }
     return FALSE;
@@ -9115,9 +9035,7 @@ static u8 GetItemIconIdxByPosition(u8 cursorArea, u8 cursorPos)
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
-        if (sStorage->itemIcons[i].active
-         && sStorage->itemIcons[i].area == cursorArea
-         && sStorage->itemIcons[i].pos == cursorPos)
+        if (sStorage->itemIcons[i].active && sStorage->itemIcons[i].area == cursorArea && sStorage->itemIcons[i].pos == cursorPos)
             return i;
     }
     return MAX_ITEM_ICONS;
@@ -9129,8 +9047,7 @@ static u8 GetItemIconIdxBySprite(struct Sprite *sprite)
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
-        if (sStorage->itemIcons[i].active
-         && sStorage->itemIcons[i].sprite == sprite)
+        if (sStorage->itemIcons[i].active && sStorage->itemIcons[i].sprite == sprite)
             return i;
     }
     return MAX_ITEM_ICONS;
@@ -9197,9 +9114,9 @@ static void SetItemIconAffineAnim(u8 id, u8 animNum)
 }
 
 #define sItemIconId data[0]
-#define sState      data[0]
+#define sState data[0]
 #define sCursorArea data[6]
-#define sCursorPos  data[7]
+#define sCursorPos data[7]
 
 static void SetItemIconCallback(u8 id, u8 callbackId, u8 cursorArea, u8 cursorPos)
 {
@@ -9468,20 +9385,18 @@ static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 #undef sCursorArea
 #undef sCursorPos
 
-
 //------------------------------------------------------------------------------
 //  SECTION: General utility
 //------------------------------------------------------------------------------
 
-
 // Leftover from FRLG
-static void UNUSED BackupPokemonStorage(void/*struct PokemonStorage * dest*/)
+static void UNUSED BackupPokemonStorage(void /*struct PokemonStorage * dest*/)
 {
     //*dest = *gPokemonStoragePtr;
 }
 
 // Leftover from FRLG
-static void UNUSED RestorePokemonStorage(void/*struct PokemonStorage * src*/)
+static void UNUSED RestorePokemonStorage(void /*struct PokemonStorage * src*/)
 {
     //*gPokemonStoragePtr = *src;
 }
@@ -9646,8 +9561,7 @@ s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex
     {
         for (i = (s8)currIndex + direction; i >= 0 && i <= maxIndex; i += direction)
         {
-            if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE
-                && !GetBoxMonData(&boxMons[i], MON_DATA_IS_EGG))
+            if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE && !GetBoxMonData(&boxMons[i], MON_DATA_IS_EGG))
                 return i;
         }
     }
@@ -9673,11 +9587,7 @@ bool8 CheckFreePokemonStorageSpace(void)
 
 bool32 CheckBoxMonSanityAt(u32 boxId, u32 boxPosition)
 {
-    if (boxId < TOTAL_BOXES_COUNT
-        && boxPosition < IN_BOX_COUNT
-        && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES)
-        && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_EGG)
-        && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_BAD_EGG))
+    if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES) && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_EGG) && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_BAD_EGG))
         return TRUE;
     else
         return FALSE;
@@ -9692,8 +9602,7 @@ u32 CountStorageNonEggMons(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
+            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES) && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
                 count++;
         }
     }
@@ -9710,8 +9619,7 @@ u32 CountAllStorageMons(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                || GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
+            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES) || GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
                 count++;
         }
     }
@@ -9728,9 +9636,7 @@ bool32 AnyStorageMonWithMove(u16 moveId)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG)
-                && GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_KNOWN_MOVES, (u8 *)moves))
+            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES) && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG) && GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_KNOWN_MOVES, (u8 *)moves))
                 return TRUE;
         }
     }
@@ -9738,11 +9644,9 @@ bool32 AnyStorageMonWithMove(u16 moveId)
     return FALSE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Walda
 //------------------------------------------------------------------------------
-
 
 void ResetWaldaWallpaper(void)
 {
@@ -9812,7 +9716,6 @@ bool32 IsWaldaPhraseEmpty(void)
     return (gSaveBlock1Ptr->waldaPhrase.text[0] == EOS);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: TilemapUtil
 //
@@ -9824,7 +9727,6 @@ bool32 IsWaldaPhraseEmpty(void)
 //  reveals one at a time.
 //  Each tilemap is tracked with a TILEMAPID that can be used to reference it.
 //------------------------------------------------------------------------------
-
 
 struct TilemapUtil_RectData
 {
@@ -9845,7 +9747,7 @@ struct TilemapUtil
     u16 altWidth;
     u16 altHeight; // Never read
     u16 width;
-    u16 height; // Never read
+    u16 height;  // Never read
     u16 rowSize; // Never read
     u8 tileSize;
     u8 bg;
@@ -9889,19 +9791,19 @@ struct
     u16 width;
     u16 height;
 } static const sTilemapDimensions[][4] =
-{
-    [BG_TYPE_NORMAL] = {
-        { 256,  256},
-        { 512,  256},
-        { 256,  512},
-        { 512,  512},
-    },
-    [BG_TYPE_AFFINE] = {
-        { 128,  128},
-        { 256,  256},
-        { 512,  512},
-        {1024, 1024},
-    },
+    {
+        [BG_TYPE_NORMAL] = {
+            {256, 256},
+            {512, 256},
+            {256, 512},
+            {512, 512},
+        },
+        [BG_TYPE_AFFINE] = {
+            {128, 128},
+            {256, 256},
+            {512, 512},
+            {1024, 1024},
+        },
 };
 
 static void TilemapUtil_SetMap(u8 id, u8 bg, const void *tilemap, u16 width, u16 height)
@@ -10018,8 +9920,7 @@ static void TilemapUtil_DrawPrev(u8 id)
 {
     s32 i;
     u32 adder = sTilemapUtil[id].tileSize * sTilemapUtil[id].altWidth;
-    const void *tiles = (sTilemapUtil[id].savedTilemap + (adder * sTilemapUtil[id].prev.destY))
-                      + (sTilemapUtil[id].tileSize * sTilemapUtil[id].prev.destX);
+    const void *tiles = (sTilemapUtil[id].savedTilemap + (adder * sTilemapUtil[id].prev.destY)) + (sTilemapUtil[id].tileSize * sTilemapUtil[id].prev.destX);
 
     for (i = 0; i < sTilemapUtil[id].prev.height; i++)
     {
@@ -10037,8 +9938,7 @@ static void TilemapUtil_Draw(u8 id)
 {
     s32 i;
     u32 adder = sTilemapUtil[id].tileSize * sTilemapUtil[id].width;
-    const void *tiles = (sTilemapUtil[id].tilemap + (adder * sTilemapUtil[id].cur.y))
-                      + (sTilemapUtil[id].tileSize * sTilemapUtil[id].cur.x);
+    const void *tiles = (sTilemapUtil[id].tilemap + (adder * sTilemapUtil[id].cur.y)) + (sTilemapUtil[id].tileSize * sTilemapUtil[id].cur.x);
 
     for (i = 0; i < sTilemapUtil[id].cur.height; i++)
     {
@@ -10052,7 +9952,6 @@ static void TilemapUtil_Draw(u8 id)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: UnkUtil
 //
@@ -10061,7 +9960,6 @@ static void TilemapUtil_Draw(u8 id)
 //  Storage with UnkUtil_Run, but neither of the Add functions are ever used,
 //  so UnkUtil_Run performs no actions.
 //------------------------------------------------------------------------------
-
 
 EWRAM_DATA static struct UnkUtil *sUnkUtil = NULL;
 

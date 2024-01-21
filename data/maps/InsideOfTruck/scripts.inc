@@ -8,8 +8,6 @@ InsideOfTruck_OnLoad:
 	setmetatile 4, 2, METATILE_InsideOfTruck_ExitLight_Mid, FALSE
 	setmetatile 4, 3, METATILE_InsideOfTruck_ExitLight_Bottom, FALSE
 	setflag FLAG_SYS_B_DASH
-	setflag FLAG_SYS_DEXNAV_GET
-	setflag FLAG_SYS_DETECTOR_MODE
 	end
 
 InsideOfTruck_OnResume:

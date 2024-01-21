@@ -227,9 +227,9 @@ static void CancelSell(u8);
 static void ItemMenu_RegisterSelect(u8 taskId);
 static void ItemMenu_RegisterList(u8 taskId);
 static void ItemMenu_Deselect(u8 taskId);
-static u8 Register_GetItemListPosition(u16 itemId);
-static bool8 Register_IsItemInList(u16 itemId);
-static void Task_ScrollingMultichoiceInput(u8 taskId);
+// static u8 Register_GetItemListPosition(u16 itemId);
+// static bool8 Register_IsItemInList(u16 itemId);
+// static void Task_ScrollingMultichoiceInput(u8 taskId);
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
     {
@@ -299,10 +299,10 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_SHOW] = {gMenuText_Show, {ItemMenu_Show}},
     [ACTION_GIVE_FAVOR_LADY] = {gMenuText_Give2, {ItemMenu_GiveFavorLady}},
     [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm, {ItemMenu_ConfirmQuizLady}},
-    [ACTION_DESELECT] = {gMenuText_Deselect, ItemMenu_Deselect},
-    [ACTION_SELECT_BUTTON] = {sMenuText_Select, ItemMenu_RegisterSelect},
-    [ACTION_L_BUTTON] = {sMenuText_L, ItemMenu_RegisterList},
-    [ACTION_DUMMY] = {gText_EmptyString2, NULL}};
+    [ACTION_DESELECT] = {gMenuText_Deselect, {ItemMenu_Deselect}},
+    [ACTION_SELECT_BUTTON] = {sMenuText_Select, {ItemMenu_RegisterSelect}},
+    [ACTION_L_BUTTON] = {sMenuText_L, {ItemMenu_RegisterList}},
+    [ACTION_DUMMY] = {gText_EmptyString2, {NULL}}};
 
 // these are all 2D arrays with a width of 2 but are represented as 1D arrays
 // ACTION_DUMMY is used to represent blank spaces
@@ -574,7 +574,7 @@ static EWRAM_DATA struct TempWallyBag *sTempWallyBag = 0;
 
 // tx_registered_items_menu
 static EWRAM_DATA bool8 sRegisterSubMenu = FALSE;
-static EWRAM_DATA u8 sRegisteredItemsMenuIcon = 0xFF;
+// static EWRAM_DATA u8 sRegisteredItemsMenuIcon = 0xFF;
 extern const u8 EventScript_SelectWithoutRegisteredItem[];
 
 void ResetBagScrollPositions(void)
@@ -2021,8 +2021,8 @@ static const u8 gText_TooManyRegistered[] = _("You already have too\nmany items 
 static void ItemMenu_Cancel2(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
-    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+    // u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    // u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
 
     sRegisterSubMenu = FALSE;
 
@@ -2706,7 +2706,7 @@ static void PrintTMHMMoveData(u16 itemId)
 // tx_registered_items_menu, based on code from ghoulslash
 static void ResetRegisteredItem(u16 itemId)
 {
-    u8 i;
+    // u8 i;
     if (gSaveBlock1Ptr->registeredItemSelect == itemId)
         gSaveBlock1Ptr->registeredItemSelect = ITEM_NONE;
     else
@@ -2785,8 +2785,8 @@ static void ItemMenu_RegisterSelect(u8 taskId)
 
 static void ItemMenu_RegisterList(u8 taskId)
 {
-    u8 i;
-    u8 slot = 0xFF;
+    // u8 i;
+    // u8 slot = 0xFF;
 
     if (TxRegItemsMenu_AddRegisteredItem(gSpecialVar_ItemId))
         gTasks[taskId].func = ItemMenu_FinishRegister;
@@ -2797,8 +2797,8 @@ static void ItemMenu_RegisterList(u8 taskId)
 static void ItemMenu_Deselect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
-    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+    // u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    // u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
     int listPosition = ListMenu_ProcessInput(tListTaskId);
     u16 itemId = BagGetItemIdByPocketPosition(gBagPosition.pocket + 1, listPosition);
 

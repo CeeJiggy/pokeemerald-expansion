@@ -113,7 +113,9 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedBButton = TRUE;
             if (newKeys & R_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH))
                 input->pressedRButton = TRUE;
-            if (newKeys & L_BUTTON)
+            if (newKeys & R_BUTTON && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+                input->pressedRButton = TRUE;
+            if (newKeys & L_BUTTON && TxRegItemsMenu_CountUsedRegisteredItemSlots > 0)
                 input->pressedListButton = TRUE;
         }
 
@@ -210,7 +212,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField(0) == TRUE)
         return TRUE;
-    else if (input->pressedListButton)
+
+    if (input->pressedListButton)
     {
         TxRegItemsMenu_OpenMenu();
         return TRUE;
@@ -218,6 +221,25 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedRButton && TryStartDexnavSearch())
         return TRUE;
+
+    if (input->pressedRButton && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    {
+        ObjectEventClearHeldMovementIfActive(&gObjectEvents[gPlayerAvatar.objectEventId]);
+        if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
+        {
+            gPlayerAvatar.flags -= PLAYER_AVATAR_FLAG_MACH_BIKE;
+            gPlayerAvatar.flags += PLAYER_AVATAR_FLAG_ACRO_BIKE;
+            SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+            PlaySE(SE_BIKE_HOP);
+        }
+        else
+        {
+            gPlayerAvatar.flags -= PLAYER_AVATAR_FLAG_ACRO_BIKE;
+            gPlayerAvatar.flags += PLAYER_AVATAR_FLAG_MACH_BIKE;
+            SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
+            PlaySE(SE_BIKE_BELL);
+        }
+    }
 
 #if DEBUG_OVERWORLD_MENU == TRUE && DEBUG_OVERWORLD_IN_MENU == FALSE
     if (input->input_field_1_2)
