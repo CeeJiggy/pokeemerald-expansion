@@ -38,56 +38,48 @@ static const u16 sTrainerHillWindowPalette[] = INCBIN_U16("graphics/trainer_hill
 static const u32 sTrainerHillWindowTilemap[] = INCBIN_U32("graphics/trainer_hill/records_window.bin");
 
 static const struct BgTemplate sTrainerHillRecordsBgTemplates[] =
-{
     {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    },
-    {
-        .bg = 3,
-        .charBaseIndex = 1,
-        .mapBaseIndex = 30,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 3,
-        .baseTile = 0
-    }
-};
+        {.bg = 0,
+         .charBaseIndex = 0,
+         .mapBaseIndex = 31,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 0,
+         .baseTile = 0},
+        {.bg = 3,
+         .charBaseIndex = 1,
+         .mapBaseIndex = 30,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 3,
+         .baseTile = 0}};
 
 static const struct WindowTemplate sTrainerHillRecordsWindowTemplates[] =
-{
+    {
+        {.bg = 0,
+         .tilemapLeft = 2,
+         .tilemapTop = 1,
+         .width = 26,
+         .height = 18,
+         .paletteNum = 15,
+         .baseBlock = 20},
+        DUMMY_WIN_TEMPLATE};
+
+static const struct WindowTemplate sLinkBattleRecordsWindow =
     {
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 1,
         .width = 26,
-        .height = 18,
+        .height = 17,
         .paletteNum = 15,
-        .baseBlock = 20
-    },
-    DUMMY_WIN_TEMPLATE
-};
-
-static const struct WindowTemplate sLinkBattleRecordsWindow =
-{
-    .bg = 0,
-    .tilemapLeft = 2,
-    .tilemapTop = 1,
-    .width = 26,
-    .height = 17,
-    .paletteNum = 15,
-    .baseBlock = 1
-};
+        .baseBlock = 1};
 
 static const u8 sText_DashesNoPlayer[] = _("-------");
 static const u8 sText_DashesNoScore[] = _("----");
 
 // code
+#ifndef FREE_LINK_BATTLE_RECORDS
 static void ClearLinkBattleRecord(struct LinkBattleRecord *record)
 {
     CpuFill16(0, record, sizeof(struct LinkBattleRecord));
@@ -219,12 +211,16 @@ static void UpdateLinkBattleRecords(struct LinkBattleRecords *records, const u8 
     UpdateLinkBattleRecord(&records->entries[index], battleOutcome);
     SortLinkBattleRecords(records);
 }
+#endif
 
 void ClearPlayerLinkBattleRecords(void)
 {
+#ifndef FREE_LINK_BATTLE_RECORDS
     ClearLinkBattleRecords(gSaveBlock1Ptr->linkBattleRecords.entries);
+#endif
 }
 
+#ifndef FREE_LINK_BATTLE_RECORDS
 static void IncTrainerCardWins(s32 battlerId)
 {
     u16 *wins = &gTrainerCards[battlerId].linkBattleWins;
@@ -255,9 +251,11 @@ static void UpdateTrainerCardWinsLosses(s32 battlerId)
         break;
     }
 }
+#endif
 
 void UpdatePlayerLinkBattleRecords(s32 battlerId)
 {
+#ifndef FREE_LINK_BATTLE_RECORDS
     if (InUnionRoom() != TRUE)
     {
         UpdateTrainerCardWinsLosses(battlerId);
@@ -268,8 +266,10 @@ void UpdatePlayerLinkBattleRecords(s32 battlerId)
             gBattleOutcome,
             battlerId);
     }
+#endif
 }
 
+#ifndef FREE_LINK_BATTLE_RECORDS
 static void PrintLinkBattleWinsLossesDraws(struct LinkBattleRecord *records)
 {
     s32 x;
@@ -288,8 +288,8 @@ static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 lan
     if (record->wins == 0 && record->losses == 0 && record->draws == 0)
     {
         // empty slot
-        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoPlayer,   8, (y * 8) + 1, 0, NULL);
-        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoScore,  80, (y * 8) + 1, 0, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoPlayer, 8, (y * 8) + 1, 0, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoScore, 80, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoScore, 128, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, sText_DashesNoScore, 176, (y * 8) + 1, 0, NULL);
     }
@@ -302,7 +302,7 @@ static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 lan
         AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar1, 8, (y * 8) + 1, 0, NULL);
 
         ConvertIntToDecimalStringN(gStringVar1, record->wins, STR_CONV_MODE_RIGHT_ALIGN, 4);
-        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar1,  80, (y * 8) + 1, 0, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar1, 80, (y * 8) + 1, 0, NULL);
 
         ConvertIntToDecimalStringN(gStringVar1, record->losses, STR_CONV_MODE_RIGHT_ALIGN, 4);
         AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar1, 128, (y * 8) + 1, 0, NULL);
@@ -311,10 +311,15 @@ static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 lan
         AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar1, 176, (y * 8) + 1, 0, NULL);
     }
 }
+#endif
 
 void ShowLinkBattleRecords(void)
 {
+#ifndef FREE_LINK_BATTLE_RECORDS
     s32 i, x;
+#else
+    s32 x;
+#endif
 
     gRecordsWindowId = AddWindow(&sLinkBattleRecordsWindow);
     DrawStdWindowFrame(gRecordsWindowId, FALSE);
@@ -323,6 +328,7 @@ void ShowLinkBattleRecords(void)
 
     x = GetStringCenterAlignXOffset(FONT_NORMAL, gStringVar4, 208);
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar4, x, 1, 0, NULL);
+#ifndef FREE_LINK_BATTLE_RECORDS
     PrintLinkBattleWinsLossesDraws(gSaveBlock1Ptr->linkBattleRecords.entries);
 
     StringExpandPlaceholders(gStringVar4, gText_WinLoseDraw);
@@ -332,7 +338,7 @@ void ShowLinkBattleRecords(void)
     {
         PrintLinkBattleRecord(&gSaveBlock1Ptr->linkBattleRecords.entries[i], 7 + (i * 2), gSaveBlock1Ptr->linkBattleRecords.languages[i]);
     }
-
+#endif
     PutWindowTilemap(gRecordsWindowId);
     CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);
 }

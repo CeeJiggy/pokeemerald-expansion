@@ -50,7 +50,8 @@
 
 #define rbernoulli(num, den) BernoulliTrial(0xFFFF * (num) / (den))
 
-enum {
+enum
+{
     TVGROUP_NONE,
     TVGROUP_UNUSED,
     TVGROUP_NORMAL,
@@ -58,7 +59,8 @@ enum {
     TVGROUP_OUTBREAK,
 };
 
-enum {
+enum
+{
     SLOT_MACHINE,
     ROULETTE,
 };
@@ -66,7 +68,8 @@ enum {
 s8 sCurTVShowSlot;
 u16 sTV_SecretBaseVisitMovesTemp[8];
 u8 sTV_DecorationsBuffer[DECOR_MAX_SECRET_BASE];
-struct {
+struct
+{
     u8 level;
     u16 species;
     u16 move;
@@ -188,18 +191,17 @@ static void DoTVShowSecretBaseSecrets(void);
 static void DoTVShowSafariFanClub(void);
 static void DoTVShowLilycoveContestLady(void);
 
-static const struct {
+static const struct
+{
     u16 species;
     u16 moves[MAX_MON_MOVES];
     u8 level;
     u8 location;
 } sPokeOutbreakSpeciesList[] = {
-    {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_BIDE, MOVE_HARDEN, MOVE_LEECH_SEED},
-        .level = 3,
-        .location = MAP_NUM(ROUTE102)
-    },
+    {.species = SPECIES_SEEDOT,
+     .moves = {MOVE_BIDE, MOVE_HARDEN, MOVE_LEECH_SEED},
+     .level = 3,
+     .location = MAP_NUM(ROUTE102)},
     {
         .species = SPECIES_NUZLEAF,
         .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
@@ -223,68 +225,60 @@ static const struct {
         .moves = {MOVE_GROWL, MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_ATTRACT},
         .level = 8,
         .location = MAP_NUM(ROUTE116),
-    }
-};
+    }};
 
 static const u16 sGoldSymbolFlags[NUM_FRONTIER_FACILITIES] = {
-    [FRONTIER_FACILITY_TOWER]   = FLAG_SYS_TOWER_GOLD,
-    [FRONTIER_FACILITY_DOME]    = FLAG_SYS_DOME_GOLD,
-    [FRONTIER_FACILITY_PALACE]  = FLAG_SYS_PALACE_GOLD,
-    [FRONTIER_FACILITY_ARENA]   = FLAG_SYS_ARENA_GOLD,
+    [FRONTIER_FACILITY_TOWER] = FLAG_SYS_TOWER_GOLD,
+    [FRONTIER_FACILITY_DOME] = FLAG_SYS_DOME_GOLD,
+    [FRONTIER_FACILITY_PALACE] = FLAG_SYS_PALACE_GOLD,
+    [FRONTIER_FACILITY_ARENA] = FLAG_SYS_ARENA_GOLD,
     [FRONTIER_FACILITY_FACTORY] = FLAG_SYS_FACTORY_GOLD,
-    [FRONTIER_FACILITY_PIKE]    = FLAG_SYS_PIKE_GOLD,
-    [FRONTIER_FACILITY_PYRAMID] = FLAG_SYS_PYRAMID_GOLD
-};
+    [FRONTIER_FACILITY_PIKE] = FLAG_SYS_PIKE_GOLD,
+    [FRONTIER_FACILITY_PYRAMID] = FLAG_SYS_PYRAMID_GOLD};
 
 static const u16 sSilverSymbolFlags[NUM_FRONTIER_FACILITIES] = {
-    [FRONTIER_FACILITY_TOWER]   = FLAG_SYS_TOWER_SILVER,
-    [FRONTIER_FACILITY_DOME]    = FLAG_SYS_DOME_SILVER,
-    [FRONTIER_FACILITY_PALACE]  = FLAG_SYS_PALACE_SILVER,
-    [FRONTIER_FACILITY_ARENA]   = FLAG_SYS_ARENA_SILVER,
+    [FRONTIER_FACILITY_TOWER] = FLAG_SYS_TOWER_SILVER,
+    [FRONTIER_FACILITY_DOME] = FLAG_SYS_DOME_SILVER,
+    [FRONTIER_FACILITY_PALACE] = FLAG_SYS_PALACE_SILVER,
+    [FRONTIER_FACILITY_ARENA] = FLAG_SYS_ARENA_SILVER,
     [FRONTIER_FACILITY_FACTORY] = FLAG_SYS_FACTORY_SILVER,
-    [FRONTIER_FACILITY_PIKE]    = FLAG_SYS_PIKE_SILVER,
-    [FRONTIER_FACILITY_PYRAMID] = FLAG_SYS_PYRAMID_SILVER
-};
+    [FRONTIER_FACILITY_PIKE] = FLAG_SYS_PIKE_SILVER,
+    [FRONTIER_FACILITY_PYRAMID] = FLAG_SYS_PYRAMID_SILVER};
 
 static const u16 sNumberOneVarsAndThresholds[][2] = {
     {VAR_DAILY_SLOTS, 100},
-    {VAR_DAILY_ROULETTE,  50},
+    {VAR_DAILY_ROULETTE, 50},
     {VAR_DAILY_WILDS, 100},
-    {VAR_DAILY_BLENDER,  20},
-    {VAR_DAILY_PLANTED_BERRIES,  20},
-    {VAR_DAILY_PICKED_BERRIES,  20},
-    {VAR_DAILY_BP,  30}
-};
+    {VAR_DAILY_BLENDER, 20},
+    {VAR_DAILY_PLANTED_BERRIES, 20},
+    {VAR_DAILY_PICKED_BERRIES, 20},
+    {VAR_DAILY_BP, 30}};
 
 static const u8 *const sPokeNewsTextGroup_Upcoming[NUM_POKENEWS_TYPES + 1] = {
-    [POKENEWS_NONE]        = NULL,
-    [POKENEWS_SLATEPORT]   = gPokeNewsTextSlateport_Upcoming,
+    [POKENEWS_NONE] = NULL,
+    [POKENEWS_SLATEPORT] = gPokeNewsTextSlateport_Upcoming,
     [POKENEWS_GAME_CORNER] = gPokeNewsTextGameCorner_Upcoming,
-    [POKENEWS_LILYCOVE]    = gPokeNewsTextLilycove_Upcoming,
-    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Upcoming
-};
+    [POKENEWS_LILYCOVE] = gPokeNewsTextLilycove_Upcoming,
+    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Upcoming};
 
 static const u8 *const sPokeNewsTextGroup_Ongoing[NUM_POKENEWS_TYPES + 1] = {
-    [POKENEWS_NONE]        = NULL,
-    [POKENEWS_SLATEPORT]   = gPokeNewsTextSlateport_Ongoing,
+    [POKENEWS_NONE] = NULL,
+    [POKENEWS_SLATEPORT] = gPokeNewsTextSlateport_Ongoing,
     [POKENEWS_GAME_CORNER] = gPokeNewsTextGameCorner_Ongoing,
-    [POKENEWS_LILYCOVE]    = gPokeNewsTextLilycove_Ongoing,
-    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Ongoing
-};
+    [POKENEWS_LILYCOVE] = gPokeNewsTextLilycove_Ongoing,
+    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Ongoing};
 
 static const u8 *const sPokeNewsTextGroup_Ending[NUM_POKENEWS_TYPES + 1] = {
-    [POKENEWS_NONE]        = NULL,
-    [POKENEWS_SLATEPORT]   = gPokeNewsTextSlateport_Ending,
+    [POKENEWS_NONE] = NULL,
+    [POKENEWS_SLATEPORT] = gPokeNewsTextSlateport_Ending,
     [POKENEWS_GAME_CORNER] = gPokeNewsTextGameCorner_Ending,
-    [POKENEWS_LILYCOVE]    = gPokeNewsTextLilycove_Ending,
-    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Ending
-};
+    [POKENEWS_LILYCOVE] = gPokeNewsTextLilycove_Ending,
+    [POKENEWS_BLENDMASTER] = gPokeNewsTextBlendMaster_Ending};
 
 u8 *const gTVStringVarPtrs[] = {
     gStringVar1,
     gStringVar2,
-    gStringVar3
-};
+    gStringVar3};
 
 static const u8 *const sTVFanClubTextGroup[] = {
     gTVFanClubText00,
@@ -294,8 +288,7 @@ static const u8 *const sTVFanClubTextGroup[] = {
     gTVFanClubText04,
     gTVFanClubText05,
     gTVFanClubText06,
-    gTVFanClubText07
-};
+    gTVFanClubText07};
 
 static const u8 *const sTVRecentHappeninssTextGroup[] = {
     gTVRecentHappeningsText00,
@@ -303,20 +296,17 @@ static const u8 *const sTVRecentHappeninssTextGroup[] = {
     gTVRecentHappeningsText02,
     gTVRecentHappeningsText03,
     gTVRecentHappeningsText04,
-    gTVRecentHappeningsText05
-};
+    gTVRecentHappeningsText05};
 
 static const u8 *const sTVFanClubOpinionsTextGroup[] = {
     gTVFanClubOpinionsText00,
     gTVFanClubOpinionsText01,
     gTVFanClubOpinionsText02,
     gTVFanClubOpinionsText03,
-    gTVFanClubOpinionsText04
-};
+    gTVFanClubOpinionsText04};
 
 static const u8 *const sTVMassOutbreakTextGroup[] = {
-    gTVMassOutbreakText00
-};
+    gTVMassOutbreakText00};
 
 static const u8 *const sTVPokemonTodaySuccessfulTextGroup[] = {
     gTVPokemonTodaySuccessfulText00,
@@ -330,24 +320,22 @@ static const u8 *const sTVPokemonTodaySuccessfulTextGroup[] = {
     gTVPokemonTodaySuccessfulText08,
     gTVPokemonTodaySuccessfulText09,
     gTVPokemonTodaySuccessfulText10,
-    gTVPokemonTodaySuccessfulText11
-};
+    gTVPokemonTodaySuccessfulText11};
 
 static const u8 *const sTVTodaysSmartShopperTextGroup[] = {
-    [SMARTSHOPPER_STATE_INTRO]          = SmartShopper_Text_Intro,
-    [SMARTSHOPPER_STATE_CLERK_NORMAL]   = SmartShopper_Text_ClerkNormal,
+    [SMARTSHOPPER_STATE_INTRO] = SmartShopper_Text_Intro,
+    [SMARTSHOPPER_STATE_CLERK_NORMAL] = SmartShopper_Text_ClerkNormal,
     [SMARTSHOPPER_STATE_RAND_COMMENT_1] = SmartShopper_Text_RandomComment1,
     [SMARTSHOPPER_STATE_RAND_COMMENT_2] = SmartShopper_Text_RandomComment2,
     [SMARTSHOPPER_STATE_RAND_COMMENT_3] = SmartShopper_Text_RandomComment3,
     [SMARTSHOPPER_STATE_RAND_COMMENT_4] = SmartShopper_Text_RandomComment4,
-    [SMARTSHOPPER_STATE_SECOND_ITEM]    = SmartShopper_Text_SecondItem,
-    [SMARTSHOPPER_STATE_THIRD_ITEM]     = SmartShopper_Text_ThirdItem,
-    [SMARTSHOPPER_STATE_DURING_SALE]    = SmartShopper_Text_DuringSale,
-    [SMARTSHOPPER_STATE_OUTRO_NORMAL]   = SmartShopper_Text_OutroNormal,
-    [SMARTSHOPPER_STATE_IS_VIP]         = SmartShopper_Text_IsVIP,
-    [SMARTSHOPPER_STATE_CLERK_MAX]      = SmartShopper_Text_ClerkMax,
-    [SMARTSHOPPER_STATE_OUTRO_MAX]      = SmartShopper_Text_OutroMax
-};
+    [SMARTSHOPPER_STATE_SECOND_ITEM] = SmartShopper_Text_SecondItem,
+    [SMARTSHOPPER_STATE_THIRD_ITEM] = SmartShopper_Text_ThirdItem,
+    [SMARTSHOPPER_STATE_DURING_SALE] = SmartShopper_Text_DuringSale,
+    [SMARTSHOPPER_STATE_OUTRO_NORMAL] = SmartShopper_Text_OutroNormal,
+    [SMARTSHOPPER_STATE_IS_VIP] = SmartShopper_Text_IsVIP,
+    [SMARTSHOPPER_STATE_CLERK_MAX] = SmartShopper_Text_ClerkMax,
+    [SMARTSHOPPER_STATE_OUTRO_MAX] = SmartShopper_Text_OutroMax};
 
 static const u8 *const sTVBravoTrainerTextGroup[] = {
     gTVBravoTrainerText00,
@@ -358,8 +346,7 @@ static const u8 *const sTVBravoTrainerTextGroup[] = {
     gTVBravoTrainerText05,
     gTVBravoTrainerText06,
     gTVBravoTrainerText07,
-    gTVBravoTrainerText08
-};
+    gTVBravoTrainerText08};
 
 static const u8 *const sTV3CheersForPokeblocksTextGroup[] = {
     gTV3CheersForPokeblocksText00,
@@ -367,62 +354,59 @@ static const u8 *const sTV3CheersForPokeblocksTextGroup[] = {
     gTV3CheersForPokeblocksText02,
     gTV3CheersForPokeblocksText03,
     gTV3CheersForPokeblocksText04,
-    gTV3CheersForPokeblocksText05
-};
+    gTV3CheersForPokeblocksText05};
 
 static const u8 *const sTVBravoTrainerBattleTowerTextGroup[] = {
-    [BRAVOTOWER_STATE_INTRO]                = BravoTrainerBattleTower_Text_Intro,
-    [BRAVOTOWER_STATE_NEW_RECORD]           = BravoTrainerBattleTower_Text_NewRecord,
-    [BRAVOTOWER_STATE_LOST]                 = BravoTrainerBattleTower_Text_Lost,
-    [BRAVOTOWER_STATE_WON]                  = BravoTrainerBattleTower_Text_Won,
-    [BRAVOTOWER_STATE_LOST_FINAL]           = BravoTrainerBattleTower_Text_LostFinal,
-    [BRAVOTOWER_STATE_SATISFIED]            = BravoTrainerBattleTower_Text_Satisfied,
-    [BRAVOTOWER_STATE_UNSATISFIED]          = BravoTrainerBattleTower_Text_Unsatisfied,
-    [BRAVOTOWER_STATE_UNUSED_1]             = BravoTrainerBattleTower_Text_None1,
-    [BRAVOTOWER_STATE_UNUSED_2]             = BravoTrainerBattleTower_Text_None2,
-    [BRAVOTOWER_STATE_UNUSED_3]             = BravoTrainerBattleTower_Text_None3,
-    [BRAVOTOWER_STATE_UNUSED_4]             = BravoTrainerBattleTower_Text_None4,
-    [BRAVOTOWER_STATE_RESPONSE]             = BravoTrainerBattleTower_Text_Response,
-    [BRAVOTOWER_STATE_RESPONSE_SATISFIED]   = BravoTrainerBattleTower_Text_ResponseSatisfied,
+    [BRAVOTOWER_STATE_INTRO] = BravoTrainerBattleTower_Text_Intro,
+    [BRAVOTOWER_STATE_NEW_RECORD] = BravoTrainerBattleTower_Text_NewRecord,
+    [BRAVOTOWER_STATE_LOST] = BravoTrainerBattleTower_Text_Lost,
+    [BRAVOTOWER_STATE_WON] = BravoTrainerBattleTower_Text_Won,
+    [BRAVOTOWER_STATE_LOST_FINAL] = BravoTrainerBattleTower_Text_LostFinal,
+    [BRAVOTOWER_STATE_SATISFIED] = BravoTrainerBattleTower_Text_Satisfied,
+    [BRAVOTOWER_STATE_UNSATISFIED] = BravoTrainerBattleTower_Text_Unsatisfied,
+    [BRAVOTOWER_STATE_UNUSED_1] = BravoTrainerBattleTower_Text_None1,
+    [BRAVOTOWER_STATE_UNUSED_2] = BravoTrainerBattleTower_Text_None2,
+    [BRAVOTOWER_STATE_UNUSED_3] = BravoTrainerBattleTower_Text_None3,
+    [BRAVOTOWER_STATE_UNUSED_4] = BravoTrainerBattleTower_Text_None4,
+    [BRAVOTOWER_STATE_RESPONSE] = BravoTrainerBattleTower_Text_Response,
+    [BRAVOTOWER_STATE_RESPONSE_SATISFIED] = BravoTrainerBattleTower_Text_ResponseSatisfied,
     [BRAVOTOWER_STATE_RESPONSE_UNSATISFIED] = BravoTrainerBattleTower_Text_ResponseUnsatisfied,
-    [BRAVOTOWER_STATE_OUTRO]                = BravoTrainerBattleTower_Text_Outro
-};
+    [BRAVOTOWER_STATE_OUTRO] = BravoTrainerBattleTower_Text_Outro};
 
 static const u8 *const sTVContestLiveUpdatesTextGroup[] = {
-    [CONTESTLIVE_STATE_INTRO]                 = ContestLiveUpdates_Text_Intro,
-    [CONTESTLIVE_STATE_WON_BOTH_ROUNDS]       = ContestLiveUpdates_Text_WonBothRounds,
-    [CONTESTLIVE_STATE_BETTER_ROUND2]         = ContestLiveUpdates_Text_BetterRound2,
-    [CONTESTLIVE_STATE_EQUAL_ROUNDS]          = ContestLiveUpdates_Text_EqualRounds,
-    [CONTESTLIVE_STATE_BETTER_ROUND1]         = ContestLiveUpdates_Text_BetterRound1,
-    [CONTESTLIVE_STATE_GOT_NERVOUS]           = ContestLiveUpdates_Text_GotNervous,
-    [CONTESTLIVE_STATE_STARTLED_OTHER]        = ContestLiveUpdates_Text_StartledFoes,
-    [CONTESTLIVE_STATE_USED_COMBO]            = ContestLiveUpdates_Text_UsedCombo,
-    [CONTESTLIVE_STATE_EXCITING_APPEAL]       = ContestLiveUpdates_Text_ExcitingAppeal,
-    [CONTESTLIVE_STATE_COOL]                  = ContestLiveUpdates_Text_WasCool,
-    [CONTESTLIVE_STATE_BEAUTIFUL]             = ContestLiveUpdates_Text_WasBeautiful,
-    [CONTESTLIVE_STATE_CUTE]                  = ContestLiveUpdates_Text_WasCute,
-    [CONTESTLIVE_STATE_SMART]                 = ContestLiveUpdates_Text_WasSmart,
-    [CONTESTLIVE_STATE_TOUGH]                 = ContestLiveUpdates_Text_WasTough,
-    [CONTESTLIVE_STATE_VERY_EXCITING_APPEAL]  = ContestLiveUpdates_Text_VeryExcitingAppeal,
-    [CONTESTLIVE_STATE_VERY_COOL]             = ContestLiveUpdates_Text_VeryCool,
-    [CONTESTLIVE_STATE_VERY_BEAUTIFUL]        = ContestLiveUpdates_Text_VeryBeautiful,
-    [CONTESTLIVE_STATE_VERY_CUTE]             = ContestLiveUpdates_Text_VeryCute,
-    [CONTESTLIVE_STATE_VERY_SMART]            = ContestLiveUpdates_Text_VerySmart,
-    [CONTESTLIVE_STATE_VERY_TOUGH]            = ContestLiveUpdates_Text_VeryTough,
-    [CONTESTLIVE_STATE_TOOK_BREAK]            = ContestLiveUpdates_Text_TookBreak,
-    [CONTESTLIVE_STATE_GOT_STARTLED]          = ContestLiveUpdates_Text_GotStartled,
-    [CONTESTLIVE_STATE_USED_MOVE]             = ContestLiveUpdates_Text_MoveWonderful,
-    [CONTESTLIVE_STATE_TALK_ABOUT_LOSER]      = ContestLiveUpdates_Text_TalkAboutAnotherMon,
-    [CONTESTLIVE_STATE_NO_APPEALS]            = ContestLiveUpdates_Text_FailedToAppeal,
-    [CONTESTLIVE_STATE_LAST_BOTH]             = ContestLiveUpdates_Text_LastInBothRounds,
-    [CONTESTLIVE_STATE_NOT_EXCITING_ENOUGH]   = ContestLiveUpdates_Text_NotExcitingEnough,
+    [CONTESTLIVE_STATE_INTRO] = ContestLiveUpdates_Text_Intro,
+    [CONTESTLIVE_STATE_WON_BOTH_ROUNDS] = ContestLiveUpdates_Text_WonBothRounds,
+    [CONTESTLIVE_STATE_BETTER_ROUND2] = ContestLiveUpdates_Text_BetterRound2,
+    [CONTESTLIVE_STATE_EQUAL_ROUNDS] = ContestLiveUpdates_Text_EqualRounds,
+    [CONTESTLIVE_STATE_BETTER_ROUND1] = ContestLiveUpdates_Text_BetterRound1,
+    [CONTESTLIVE_STATE_GOT_NERVOUS] = ContestLiveUpdates_Text_GotNervous,
+    [CONTESTLIVE_STATE_STARTLED_OTHER] = ContestLiveUpdates_Text_StartledFoes,
+    [CONTESTLIVE_STATE_USED_COMBO] = ContestLiveUpdates_Text_UsedCombo,
+    [CONTESTLIVE_STATE_EXCITING_APPEAL] = ContestLiveUpdates_Text_ExcitingAppeal,
+    [CONTESTLIVE_STATE_COOL] = ContestLiveUpdates_Text_WasCool,
+    [CONTESTLIVE_STATE_BEAUTIFUL] = ContestLiveUpdates_Text_WasBeautiful,
+    [CONTESTLIVE_STATE_CUTE] = ContestLiveUpdates_Text_WasCute,
+    [CONTESTLIVE_STATE_SMART] = ContestLiveUpdates_Text_WasSmart,
+    [CONTESTLIVE_STATE_TOUGH] = ContestLiveUpdates_Text_WasTough,
+    [CONTESTLIVE_STATE_VERY_EXCITING_APPEAL] = ContestLiveUpdates_Text_VeryExcitingAppeal,
+    [CONTESTLIVE_STATE_VERY_COOL] = ContestLiveUpdates_Text_VeryCool,
+    [CONTESTLIVE_STATE_VERY_BEAUTIFUL] = ContestLiveUpdates_Text_VeryBeautiful,
+    [CONTESTLIVE_STATE_VERY_CUTE] = ContestLiveUpdates_Text_VeryCute,
+    [CONTESTLIVE_STATE_VERY_SMART] = ContestLiveUpdates_Text_VerySmart,
+    [CONTESTLIVE_STATE_VERY_TOUGH] = ContestLiveUpdates_Text_VeryTough,
+    [CONTESTLIVE_STATE_TOOK_BREAK] = ContestLiveUpdates_Text_TookBreak,
+    [CONTESTLIVE_STATE_GOT_STARTLED] = ContestLiveUpdates_Text_GotStartled,
+    [CONTESTLIVE_STATE_USED_MOVE] = ContestLiveUpdates_Text_MoveWonderful,
+    [CONTESTLIVE_STATE_TALK_ABOUT_LOSER] = ContestLiveUpdates_Text_TalkAboutAnotherMon,
+    [CONTESTLIVE_STATE_NO_APPEALS] = ContestLiveUpdates_Text_FailedToAppeal,
+    [CONTESTLIVE_STATE_LAST_BOTH] = ContestLiveUpdates_Text_LastInBothRounds,
+    [CONTESTLIVE_STATE_NOT_EXCITING_ENOUGH] = ContestLiveUpdates_Text_NotExcitingEnough,
     [CONTESTLIVE_STATE_LOST_AFTER_ROUND1_WIN] = ContestLiveUpdates_Text_LostAfterWinningRound1,
-    [CONTESTLIVE_STATE_NO_EXCITING_APPEALS]   = ContestLiveUpdates_Text_NeverExciting,
-    [CONTESTLIVE_STATE_LOST_SMALL_MARGIN]     = ContestLiveUpdates_Text_LostBySmallMargin,
-    [CONTESTLIVE_STATE_REPEATED_APPEALS]      = ContestLiveUpdates_Text_RepeatedAppeals,
-    [CONTESTLIVE_STATE_LOST]                  = ContestLiveUpdates_Text_ValiantEffortButLost,
-    [CONTESTLIVE_STATE_OUTRO]                 = ContestLiveUpdates_Text_Outro
-};
+    [CONTESTLIVE_STATE_NO_EXCITING_APPEALS] = ContestLiveUpdates_Text_NeverExciting,
+    [CONTESTLIVE_STATE_LOST_SMALL_MARGIN] = ContestLiveUpdates_Text_LostBySmallMargin,
+    [CONTESTLIVE_STATE_REPEATED_APPEALS] = ContestLiveUpdates_Text_RepeatedAppeals,
+    [CONTESTLIVE_STATE_LOST] = ContestLiveUpdates_Text_ValiantEffortButLost,
+    [CONTESTLIVE_STATE_OUTRO] = ContestLiveUpdates_Text_Outro};
 
 static const u8 *const sTVPokemonBattleUpdateTextGroup[] = {
     gTVPokemonBattleUpdateText00,
@@ -432,8 +416,7 @@ static const u8 *const sTVPokemonBattleUpdateTextGroup[] = {
     gTVPokemonBattleUpdateText04,
     gTVPokemonBattleUpdateText05,
     gTVPokemonBattleUpdateText06,
-    gTVPokemonBattleUpdateText07
-};
+    gTVPokemonBattleUpdateText07};
 
 static const u8 *const sTVTrainerFanClubSpecialTextGroup[] = {
     gTVTrainerFanClubSpecialText00,
@@ -441,8 +424,7 @@ static const u8 *const sTVTrainerFanClubSpecialTextGroup[] = {
     gTVTrainerFanClubSpecialText02,
     gTVTrainerFanClubSpecialText03,
     gTVTrainerFanClubSpecialText04,
-    gTVTrainerFanClubSpecialText05
-};
+    gTVTrainerFanClubSpecialText05};
 
 static const u8 *const sTVNameRaterTextGroup[] = {
     gTVNameRaterText00,
@@ -463,15 +445,13 @@ static const u8 *const sTVNameRaterTextGroup[] = {
     gTVNameRaterText15,
     gTVNameRaterText16,
     gTVNameRaterText17,
-    gTVNameRaterText18
-};
+    gTVNameRaterText18};
 
 static const u8 *const sTVLilycoveContestLadyTextGroup[] = {
-    [CONTESTLADYLIVE_STATE_INTRO]      = ContestLadyShow_Text_Intro,
-    [CONTESTLADYLIVE_STATE_WON]        = ContestLadyShow_Text_Won,
-    [CONTESTLADYLIVE_STATE_LOST]       = ContestLadyShow_Text_Lost,
-    [CONTESTLADYLIVE_STATE_LOST_BADLY] = ContestLadyShow_Text_LostBadly
-};
+    [CONTESTLADYLIVE_STATE_INTRO] = ContestLadyShow_Text_Intro,
+    [CONTESTLADYLIVE_STATE_WON] = ContestLadyShow_Text_Won,
+    [CONTESTLADYLIVE_STATE_LOST] = ContestLadyShow_Text_Lost,
+    [CONTESTLADYLIVE_STATE_LOST_BADLY] = ContestLadyShow_Text_LostBadly};
 
 static const u8 *const sTVPokemonTodayFailedTextGroup[] = {
     gTVPokemonTodayFailedText00,
@@ -480,19 +460,16 @@ static const u8 *const sTVPokemonTodayFailedTextGroup[] = {
     gTVPokemonTodayFailedText03,
     gTVPokemonTodayFailedText04,
     gTVPokemonTodayFailedText05,
-    gTVPokemonTodayFailedText06
-};
+    gTVPokemonTodayFailedText06};
 
 static const u8 *const sTVPokemonAnglerTextGroup[] = {
     gTVPokemonAnglerText00,
-    gTVPokemonAnglerText01
-};
+    gTVPokemonAnglerText01};
 
 static const u8 *const sTVWorldOfMastersTextGroup[] = {
     gTVWorldOfMastersText00,
     gTVWorldOfMastersText01,
-    gTVWorldOfMastersText02
-};
+    gTVWorldOfMastersText02};
 
 static const u8 *const sTVTodaysRivalTrainerTextGroup[] = {
     gTVTodaysRivalTrainerText00,
@@ -505,31 +482,27 @@ static const u8 *const sTVTodaysRivalTrainerTextGroup[] = {
     gTVTodaysRivalTrainerText07,
     gTVTodaysRivalTrainerText08,
     gTVTodaysRivalTrainerText09,
-    gTVTodaysRivalTrainerText10
-};
+    gTVTodaysRivalTrainerText10};
 
 static const u8 *const sTVDewfordTrendWatcherNetworkTextGroup[] = {
-    [TRENDWATCHER_STATE_INTRO]           = TrendWatcher_Text_Intro,
-    [TRENDWATCHER_STATE_TAUGHT_MALE]     = TrendWatcher_Text_MaleTaughtMePhrase,
-    [TRENDWATCHER_STATE_TAUGHT_FEMALE]   = TrendWatcher_Text_FemaleTaughtMePhrase,
+    [TRENDWATCHER_STATE_INTRO] = TrendWatcher_Text_Intro,
+    [TRENDWATCHER_STATE_TAUGHT_MALE] = TrendWatcher_Text_MaleTaughtMePhrase,
+    [TRENDWATCHER_STATE_TAUGHT_FEMALE] = TrendWatcher_Text_FemaleTaughtMePhrase,
     [TRENDWATCHER_STATE_PHRASE_HOPELESS] = TrendWatcher_Text_PhraseWasHopeless,
-    [TRENDWATCHER_STATE_BIGGER_MALE]     = TrendWatcher_Text_MaleTellMeBigger,
-    [TRENDWATCHER_STATE_BIGGER_FEMALE]   = TrendWatcher_Text_FemaleTellMeBigger,
-    [TRENDWATCHER_STATE_OUTRO]           = TrendWatcher_Text_Outro
-};
+    [TRENDWATCHER_STATE_BIGGER_MALE] = TrendWatcher_Text_MaleTellMeBigger,
+    [TRENDWATCHER_STATE_BIGGER_FEMALE] = TrendWatcher_Text_FemaleTellMeBigger,
+    [TRENDWATCHER_STATE_OUTRO] = TrendWatcher_Text_Outro};
 
 static const u8 *const sTVHoennTreasureInvestisatorsTextGroup[] = {
     gTVHoennTreasureInvestigatorsText00,
     gTVHoennTreasureInvestigatorsText01,
-    gTVHoennTreasureInvestigatorsText02
-};
+    gTVHoennTreasureInvestigatorsText02};
 
 static const u8 *const sTVFindThatGamerTextGroup[] = {
     gTVFindThatGamerText00,
     gTVFindThatGamerText01,
     gTVFindThatGamerText02,
-    gTVFindThatGamerText03
-};
+    gTVFindThatGamerText03};
 
 static const u8 *const sTVBreakingNewsTextGroup[] = {
     gTVBreakingNewsText00,
@@ -544,8 +517,7 @@ static const u8 *const sTVBreakingNewsTextGroup[] = {
     gTVBreakingNewsText09,
     gTVBreakingNewsText10,
     gTVBreakingNewsText11,
-    gTVBreakingNewsText12
-};
+    gTVBreakingNewsText12};
 
 static const u8 *const sTVSecretBaseVisitTextGroup[] = {
     gTVSecretBaseVisitText00,
@@ -561,12 +533,10 @@ static const u8 *const sTVSecretBaseVisitTextGroup[] = {
     gTVSecretBaseVisitText10,
     gTVSecretBaseVisitText11,
     gTVSecretBaseVisitText12,
-    gTVSecretBaseVisitText13
-};
+    gTVSecretBaseVisitText13};
 
 static const u8 *const sTVPokemonLotteryWinnerFlashReportTextGroup[] = {
-    gTVPokemonLotteryWinnerFlashReportText00
-};
+    gTVPokemonLotteryWinnerFlashReportText00};
 
 static const u8 *const sTVThePokemonBattleSeminarTextGroup[] = {
     gTVThePokemonBattleSeminarText00,
@@ -575,8 +545,7 @@ static const u8 *const sTVThePokemonBattleSeminarTextGroup[] = {
     gTVThePokemonBattleSeminarText03,
     gTVThePokemonBattleSeminarText04,
     gTVThePokemonBattleSeminarText05,
-    gTVThePokemonBattleSeminarText06
-};
+    gTVThePokemonBattleSeminarText06};
 
 static const u8 *const sTVTrainerFanClubTextGroup[] = {
     gTVTrainerFanClubText00,
@@ -590,27 +559,25 @@ static const u8 *const sTVTrainerFanClubTextGroup[] = {
     gTVTrainerFanClubText08,
     gTVTrainerFanClubText09,
     gTVTrainerFanClubText10,
-    gTVTrainerFanClubText11
-};
+    gTVTrainerFanClubText11};
 
 static const u8 *const sTVCutiesTextGroup[] = {
-    [SPOTCUTIES_STATE_INTRO]           = TVSpotTheCuties_Text_Intro,
-    [SPOTCUTIES_STATE_RIBBONS_LOW]     = TVSpotTheCuties_Text_RibbonsLow,
-    [SPOTCUTIES_STATE_RIBBONS_MID]     = TVSpotTheCuties_Text_RibbonsMid,
-    [SPOTCUTIES_STATE_RIBBONS_HIGH]    = TVSpotTheCuties_Text_RibbonsHigh,
-    [SPOTCUTIES_STATE_RIBBON_INTRO]    = TVSpotTheCuties_Text_RibbonIntro,
+    [SPOTCUTIES_STATE_INTRO] = TVSpotTheCuties_Text_Intro,
+    [SPOTCUTIES_STATE_RIBBONS_LOW] = TVSpotTheCuties_Text_RibbonsLow,
+    [SPOTCUTIES_STATE_RIBBONS_MID] = TVSpotTheCuties_Text_RibbonsMid,
+    [SPOTCUTIES_STATE_RIBBONS_HIGH] = TVSpotTheCuties_Text_RibbonsHigh,
+    [SPOTCUTIES_STATE_RIBBON_INTRO] = TVSpotTheCuties_Text_RibbonIntro,
     [SPOTCUTIES_STATE_RIBBON_CHAMPION] = TVSpotTheCuties_Text_RibbonChampion,
-    [SPOTCUTIES_STATE_RIBBON_COOL]     = TVSpotTheCuties_Text_RibbonCool,
-    [SPOTCUTIES_STATE_RIBBON_BEAUTY]   = TVSpotTheCuties_Text_RibbonBeauty,
-    [SPOTCUTIES_STATE_RIBBON_CUTE]     = TVSpotTheCuties_Text_RibbonCute,
-    [SPOTCUTIES_STATE_RIBBON_SMART]    = TVSpotTheCuties_Text_RibbonSmart,
-    [SPOTCUTIES_STATE_RIBBON_TOUGH]    = TVSpotTheCuties_Text_RibbonTough,
-    [SPOTCUTIES_STATE_RIBBON_WINNING]  = TVSpotTheCuties_Text_RibbonWinning,
-    [SPOTCUTIES_STATE_RIBBON_VICTORY]  = TVSpotTheCuties_Text_RibbonVictory,
-    [SPOTCUTIES_STATE_RIBBON_ARTIST]   = TVSpotTheCuties_Text_RibbonArtist,
-    [SPOTCUTIES_STATE_RIBBON_EFFORT]   = TVSpotTheCuties_Text_RibbonEffort,
-    [SPOTCUTIES_STATE_OUTRO]           = TVSpotTheCuties_Text_Outro
-};
+    [SPOTCUTIES_STATE_RIBBON_COOL] = TVSpotTheCuties_Text_RibbonCool,
+    [SPOTCUTIES_STATE_RIBBON_BEAUTY] = TVSpotTheCuties_Text_RibbonBeauty,
+    [SPOTCUTIES_STATE_RIBBON_CUTE] = TVSpotTheCuties_Text_RibbonCute,
+    [SPOTCUTIES_STATE_RIBBON_SMART] = TVSpotTheCuties_Text_RibbonSmart,
+    [SPOTCUTIES_STATE_RIBBON_TOUGH] = TVSpotTheCuties_Text_RibbonTough,
+    [SPOTCUTIES_STATE_RIBBON_WINNING] = TVSpotTheCuties_Text_RibbonWinning,
+    [SPOTCUTIES_STATE_RIBBON_VICTORY] = TVSpotTheCuties_Text_RibbonVictory,
+    [SPOTCUTIES_STATE_RIBBON_ARTIST] = TVSpotTheCuties_Text_RibbonArtist,
+    [SPOTCUTIES_STATE_RIBBON_EFFORT] = TVSpotTheCuties_Text_RibbonEffort,
+    [SPOTCUTIES_STATE_OUTRO] = TVSpotTheCuties_Text_Outro};
 
 static const u8 *const sTVPokemonNewsBattleFrontierTextGroup[] = {
     gTVPokemonNewsBattleFrontierText00,
@@ -631,8 +598,7 @@ static const u8 *const sTVPokemonNewsBattleFrontierTextGroup[] = {
     gTVPokemonNewsBattleFrontierText15,
     gTVPokemonNewsBattleFrontierText16,
     gTVPokemonNewsBattleFrontierText17,
-    gTVPokemonNewsBattleFrontierText18
-};
+    gTVPokemonNewsBattleFrontierText18};
 
 static const u8 *const sTVWhatsNo1InHoennTodayTextGroup[] = {
     gTVWhatsNo1InHoennTodayText00,
@@ -643,55 +609,53 @@ static const u8 *const sTVWhatsNo1InHoennTodayTextGroup[] = {
     gTVWhatsNo1InHoennTodayText05,
     gTVWhatsNo1InHoennTodayText06,
     gTVWhatsNo1InHoennTodayText07,
-    gTVWhatsNo1InHoennTodayText08
-};
+    gTVWhatsNo1InHoennTodayText08};
 
 static const u8 *const sTVSecretBaseSecretsTextGroup[SBSECRETS_NUM_STATES] =
-{
-    [SBSECRETS_STATE_INTRO]               = TVSecretBaseSecrets_Text_Intro,
-    [SBSECRETS_STATE_DO_NEXT1]            = TVSecretBaseSecrets_Text_WhatWillPlayerDoNext1,
-    [SBSECRETS_STATE_DO_NEXT2]            = TVSecretBaseSecrets_Text_WhatWillPlayerDoNext2,
-    [SBSECRETS_STATE_TOOK_X_STEPS]        = TVSecretBaseSecrets_Text_TookXStepsBeforeLeaving,
-    [SBSECRETS_STATE_BASE_INTEREST_LOW]   = TVSecretBaseSecrets_Text_BaseFailedToInterestPlayer,
-    [SBSECRETS_STATE_BASE_INTEREST_MED]   = TVSecretBaseSecrets_Text_PlayerEnjoyedBase,
-    [SBSECRETS_STATE_BASE_INTEREST_HIGH]  = TVSecretBaseSecrets_Text_PlayerHugeFanOfBase,
-    [SBSECRETS_STATE_OUTRO]               = TVSecretBaseSecrets_Text_Outro,
-    [SBSECRETS_STATE_NOTHING_USED1]       = TVSecretBaseSecrets_Text_StoppedMoving1,
-    [SBSECRETS_STATE_NOTHING_USED2]       = TVSecretBaseSecrets_Text_StoppedMoving2,
-    [SBSECRETS_STATE_USED_CHAIR]          = TVSecretBaseSecrets_Text_UsedChair,
-    [SBSECRETS_STATE_USED_BALLOON]        = TVSecretBaseSecrets_Text_UsedBalloon,
-    [SBSECRETS_STATE_USED_TENT]           = TVSecretBaseSecrets_Text_UsedTent,
-    [SBSECRETS_STATE_USED_PLANT]          = TVSecretBaseSecrets_Text_UsedPlant,
-    [SBSECRETS_STATE_USED_GOLD_SHIELD]    = TVSecretBaseSecrets_Text_UsedGoldShield,
-    [SBSECRETS_STATE_USED_SILVER_SHIELD]  = TVSecretBaseSecrets_Text_UsedSilverShield,
-    [SBSECRETS_STATE_USED_GLASS_ORNAMENT] = TVSecretBaseSecrets_Text_UsedGlassOrnament,
-    [SBSECRETS_STATE_USED_TV]             = TVSecretBaseSecrets_Text_UsedTV,
-    [SBSECRETS_STATE_USED_MUD_BALL]       = TVSecretBaseSecrets_Text_UsedMudBall,
-    [SBSECRETS_STATE_USED_BAG]            = TVSecretBaseSecrets_Text_UsedBag,
-    [SBSECRETS_STATE_USED_CUSHION]        = TVSecretBaseSecrets_Text_UsedCushion,
-    [SBSECRETS_STATE_HIT_CUSHION]         = TVSecretBaseSecrets_Text_HitCushion,
-    [SBSECRETS_STATE_HUGGED_CUSHION]      = TVSecretBaseSecrets_Text_HuggedCushion,
-    [SBSECRETS_STATE_BATTLED_WON]         = TVSecretBaseSecrets_Text_BattledWon,
-    [SBSECRETS_STATE_BATTLED_LOST]        = TVSecretBaseSecrets_Text_BattledLost,
-    [SBSECRETS_STATE_DECLINED_BATTLE]     = TVSecretBaseSecrets_Text_DeclinedBattle,
-    [SBSECRETS_STATE_USED_POSTER]         = TVSecretBaseSecrets_Text_UsedPoster,
-    [SBSECRETS_STATE_USED_NOTE_MAT]       = TVSecretBaseSecrets_Text_UsedNoteMat,
-    [SBSECRETS_STATE_BATTLED_DRAW]        = TVSecretBaseSecrets_Text_BattledDraw,
-    [SBSECRETS_STATE_USED_SPIN_MAT]       = TVSecretBaseSecrets_Text_UsedSpinMat,
-    [SBSECRETS_STATE_USED_SAND_ORNAMENT]  = TVSecretBaseSecrets_Text_UsedSandOrnament,
-    [SBSECRETS_STATE_USED_DESK]           = TVSecretBaseSecrets_Text_UsedDesk,
-    [SBSECRETS_STATE_USED_BRICK]          = TVSecretBaseSecrets_Text_UsedBrick,
-    [SBSECRETS_STATE_USED_SOLID_BOARD]    = TVSecretBaseSecrets_Text_UsedSolidBoard,
-    [SBSECRETS_STATE_USED_FENCE]          = TVSecretBaseSecrets_Text_UsedFence,
-    [SBSECRETS_STATE_USED_GLITTER_MAT]    = TVSecretBaseSecrets_Text_UsedGlitterMat,
-    [SBSECRETS_STATE_USED_TIRE]           = TVSecretBaseSecrets_Text_UsedTire,
-    [SBSECRETS_STATE_USED_STAND]          = TVSecretBaseSecrets_Text_UsedStand,
-    [SBSECRETS_STATE_USED_BREAKABLE_DOOR] = TVSecretBaseSecrets_Text_BrokeDoor,
-    [SBSECRETS_STATE_USED_DOLL]           = TVSecretBaseSecrets_Text_UsedDoll,
-    [SBSECRETS_STATE_USED_SLIDE]          = TVSecretBaseSecrets_Text_UsedSlide,
-    [SBSECRETS_STATE_DECLINED_SLIDE]      = TVSecretBaseSecrets_Text_UsedSlideButDidntGoDown,
-    [SBSECRETS_STATE_USED_JUMP_MAT]       = TVSecretBaseSecrets_Text_UsedJumpMat
-};
+    {
+        [SBSECRETS_STATE_INTRO] = TVSecretBaseSecrets_Text_Intro,
+        [SBSECRETS_STATE_DO_NEXT1] = TVSecretBaseSecrets_Text_WhatWillPlayerDoNext1,
+        [SBSECRETS_STATE_DO_NEXT2] = TVSecretBaseSecrets_Text_WhatWillPlayerDoNext2,
+        [SBSECRETS_STATE_TOOK_X_STEPS] = TVSecretBaseSecrets_Text_TookXStepsBeforeLeaving,
+        [SBSECRETS_STATE_BASE_INTEREST_LOW] = TVSecretBaseSecrets_Text_BaseFailedToInterestPlayer,
+        [SBSECRETS_STATE_BASE_INTEREST_MED] = TVSecretBaseSecrets_Text_PlayerEnjoyedBase,
+        [SBSECRETS_STATE_BASE_INTEREST_HIGH] = TVSecretBaseSecrets_Text_PlayerHugeFanOfBase,
+        [SBSECRETS_STATE_OUTRO] = TVSecretBaseSecrets_Text_Outro,
+        [SBSECRETS_STATE_NOTHING_USED1] = TVSecretBaseSecrets_Text_StoppedMoving1,
+        [SBSECRETS_STATE_NOTHING_USED2] = TVSecretBaseSecrets_Text_StoppedMoving2,
+        [SBSECRETS_STATE_USED_CHAIR] = TVSecretBaseSecrets_Text_UsedChair,
+        [SBSECRETS_STATE_USED_BALLOON] = TVSecretBaseSecrets_Text_UsedBalloon,
+        [SBSECRETS_STATE_USED_TENT] = TVSecretBaseSecrets_Text_UsedTent,
+        [SBSECRETS_STATE_USED_PLANT] = TVSecretBaseSecrets_Text_UsedPlant,
+        [SBSECRETS_STATE_USED_GOLD_SHIELD] = TVSecretBaseSecrets_Text_UsedGoldShield,
+        [SBSECRETS_STATE_USED_SILVER_SHIELD] = TVSecretBaseSecrets_Text_UsedSilverShield,
+        [SBSECRETS_STATE_USED_GLASS_ORNAMENT] = TVSecretBaseSecrets_Text_UsedGlassOrnament,
+        [SBSECRETS_STATE_USED_TV] = TVSecretBaseSecrets_Text_UsedTV,
+        [SBSECRETS_STATE_USED_MUD_BALL] = TVSecretBaseSecrets_Text_UsedMudBall,
+        [SBSECRETS_STATE_USED_BAG] = TVSecretBaseSecrets_Text_UsedBag,
+        [SBSECRETS_STATE_USED_CUSHION] = TVSecretBaseSecrets_Text_UsedCushion,
+        [SBSECRETS_STATE_HIT_CUSHION] = TVSecretBaseSecrets_Text_HitCushion,
+        [SBSECRETS_STATE_HUGGED_CUSHION] = TVSecretBaseSecrets_Text_HuggedCushion,
+        [SBSECRETS_STATE_BATTLED_WON] = TVSecretBaseSecrets_Text_BattledWon,
+        [SBSECRETS_STATE_BATTLED_LOST] = TVSecretBaseSecrets_Text_BattledLost,
+        [SBSECRETS_STATE_DECLINED_BATTLE] = TVSecretBaseSecrets_Text_DeclinedBattle,
+        [SBSECRETS_STATE_USED_POSTER] = TVSecretBaseSecrets_Text_UsedPoster,
+        [SBSECRETS_STATE_USED_NOTE_MAT] = TVSecretBaseSecrets_Text_UsedNoteMat,
+        [SBSECRETS_STATE_BATTLED_DRAW] = TVSecretBaseSecrets_Text_BattledDraw,
+        [SBSECRETS_STATE_USED_SPIN_MAT] = TVSecretBaseSecrets_Text_UsedSpinMat,
+        [SBSECRETS_STATE_USED_SAND_ORNAMENT] = TVSecretBaseSecrets_Text_UsedSandOrnament,
+        [SBSECRETS_STATE_USED_DESK] = TVSecretBaseSecrets_Text_UsedDesk,
+        [SBSECRETS_STATE_USED_BRICK] = TVSecretBaseSecrets_Text_UsedBrick,
+        [SBSECRETS_STATE_USED_SOLID_BOARD] = TVSecretBaseSecrets_Text_UsedSolidBoard,
+        [SBSECRETS_STATE_USED_FENCE] = TVSecretBaseSecrets_Text_UsedFence,
+        [SBSECRETS_STATE_USED_GLITTER_MAT] = TVSecretBaseSecrets_Text_UsedGlitterMat,
+        [SBSECRETS_STATE_USED_TIRE] = TVSecretBaseSecrets_Text_UsedTire,
+        [SBSECRETS_STATE_USED_STAND] = TVSecretBaseSecrets_Text_UsedStand,
+        [SBSECRETS_STATE_USED_BREAKABLE_DOOR] = TVSecretBaseSecrets_Text_BrokeDoor,
+        [SBSECRETS_STATE_USED_DOLL] = TVSecretBaseSecrets_Text_UsedDoll,
+        [SBSECRETS_STATE_USED_SLIDE] = TVSecretBaseSecrets_Text_UsedSlide,
+        [SBSECRETS_STATE_DECLINED_SLIDE] = TVSecretBaseSecrets_Text_UsedSlideButDidntGoDown,
+        [SBSECRETS_STATE_USED_JUMP_MAT] = TVSecretBaseSecrets_Text_UsedJumpMat};
 
 static const u8 *const sTVSafariFanClubTextGroup[] = {
     gTVSafariFanClubText00,
@@ -704,8 +668,7 @@ static const u8 *const sTVSafariFanClubTextGroup[] = {
     gTVSafariFanClubText07,
     gTVSafariFanClubText08,
     gTVSafariFanClubText09,
-    gTVSafariFanClubText10
-};
+    gTVSafariFanClubText10};
 
 static const u8 *const sTVInSearchOfTrainersTextGroup[] = {
     gTVInSearchOfTrainersText00,
@@ -716,45 +679,44 @@ static const u8 *const sTVInSearchOfTrainersTextGroup[] = {
     gTVInSearchOfTrainersText05,
     gTVInSearchOfTrainersText06,
     gTVInSearchOfTrainersText07,
-    gTVInSearchOfTrainersText08
-};
+    gTVInSearchOfTrainersText08};
 
 // Secret Base Secrets TV Show states for actions that can be taken in a secret base
 // The flags that determine whether or not the action was taken are commented
 static const u8 sTVSecretBaseSecretsActions[NUM_SECRET_BASE_FLAGS] =
-{
-    SBSECRETS_STATE_USED_CHAIR,             // SECRET_BASE_USED_CHAIR
-    SBSECRETS_STATE_USED_BALLOON,           // SECRET_BASE_USED_BALLOON
-    SBSECRETS_STATE_USED_TENT,              // SECRET_BASE_USED_TENT
-    SBSECRETS_STATE_USED_PLANT,             // SECRET_BASE_USED_PLANT
-    SBSECRETS_STATE_USED_GOLD_SHIELD,       // SECRET_BASE_USED_GOLD_SHIELD
-    SBSECRETS_STATE_USED_SILVER_SHIELD,     // SECRET_BASE_USED_SILVER_SHIELD
-    SBSECRETS_STATE_USED_GLASS_ORNAMENT,    // SECRET_BASE_USED_GLASS_ORNAMENT
-    SBSECRETS_STATE_USED_TV,                // SECRET_BASE_USED_TV
-    SBSECRETS_STATE_USED_MUD_BALL,          // SECRET_BASE_USED_MUD_BALL
-    SBSECRETS_STATE_USED_BAG,               // SECRET_BASE_USED_BAG
-    SBSECRETS_STATE_USED_CUSHION,           // SECRET_BASE_USED_CUSHION
-    SBSECRETS_STATE_BATTLED_WON,            // SECRET_BASE_BATTLED_WON
-    SBSECRETS_STATE_BATTLED_LOST,           // SECRET_BASE_BATTLED_LOST
-    SBSECRETS_STATE_DECLINED_BATTLE,        // SECRET_BASE_DECLINED_BATTLE
-    SBSECRETS_STATE_USED_POSTER,            // SECRET_BASE_USED_POSTER
-    SBSECRETS_STATE_USED_NOTE_MAT,          // SECRET_BASE_USED_NOTE_MAT
-    SBSECRETS_STATE_BATTLED_DRAW,           // SECRET_BASE_BATTLED_DRAW
-    SBSECRETS_STATE_USED_SPIN_MAT,          // SECRET_BASE_USED_SPIN_MAT
-    SBSECRETS_STATE_USED_SAND_ORNAMENT,     // SECRET_BASE_USED_SAND_ORNAMENT
-    SBSECRETS_STATE_USED_DESK,              // SECRET_BASE_USED_DESK
-    SBSECRETS_STATE_USED_BRICK,             // SECRET_BASE_USED_BRICK
-    SBSECRETS_STATE_USED_SOLID_BOARD,       // SECRET_BASE_USED_SOLID_BOARD
-    SBSECRETS_STATE_USED_FENCE,             // SECRET_BASE_USED_FENCE
-    SBSECRETS_STATE_USED_GLITTER_MAT,       // SECRET_BASE_USED_GLITTER_MAT
-    SBSECRETS_STATE_USED_TIRE,              // SECRET_BASE_USED_TIRE
-    SBSECRETS_STATE_USED_STAND,             // SECRET_BASE_USED_STAND
-    SBSECRETS_STATE_USED_BREAKABLE_DOOR,    // SECRET_BASE_USED_BREAKABLE_DOOR
-    SBSECRETS_STATE_USED_DOLL,              // SECRET_BASE_USED_DOLL
-    SBSECRETS_STATE_USED_SLIDE,             // SECRET_BASE_USED_SLIDE
-    SBSECRETS_STATE_DECLINED_SLIDE,         // SECRET_BASE_DECLINED_SLIDE
-    SBSECRETS_STATE_USED_JUMP_MAT,          // SECRET_BASE_USED_JUMP_MAT
-    SBSECRETS_NUM_STATES                    // SECRET_BASE_UNUSED_FLAG. Odd that this is included, if it were used it would overflow sTVSecretBaseSecretsTextGroup
+    {
+        SBSECRETS_STATE_USED_CHAIR,          // SECRET_BASE_USED_CHAIR
+        SBSECRETS_STATE_USED_BALLOON,        // SECRET_BASE_USED_BALLOON
+        SBSECRETS_STATE_USED_TENT,           // SECRET_BASE_USED_TENT
+        SBSECRETS_STATE_USED_PLANT,          // SECRET_BASE_USED_PLANT
+        SBSECRETS_STATE_USED_GOLD_SHIELD,    // SECRET_BASE_USED_GOLD_SHIELD
+        SBSECRETS_STATE_USED_SILVER_SHIELD,  // SECRET_BASE_USED_SILVER_SHIELD
+        SBSECRETS_STATE_USED_GLASS_ORNAMENT, // SECRET_BASE_USED_GLASS_ORNAMENT
+        SBSECRETS_STATE_USED_TV,             // SECRET_BASE_USED_TV
+        SBSECRETS_STATE_USED_MUD_BALL,       // SECRET_BASE_USED_MUD_BALL
+        SBSECRETS_STATE_USED_BAG,            // SECRET_BASE_USED_BAG
+        SBSECRETS_STATE_USED_CUSHION,        // SECRET_BASE_USED_CUSHION
+        SBSECRETS_STATE_BATTLED_WON,         // SECRET_BASE_BATTLED_WON
+        SBSECRETS_STATE_BATTLED_LOST,        // SECRET_BASE_BATTLED_LOST
+        SBSECRETS_STATE_DECLINED_BATTLE,     // SECRET_BASE_DECLINED_BATTLE
+        SBSECRETS_STATE_USED_POSTER,         // SECRET_BASE_USED_POSTER
+        SBSECRETS_STATE_USED_NOTE_MAT,       // SECRET_BASE_USED_NOTE_MAT
+        SBSECRETS_STATE_BATTLED_DRAW,        // SECRET_BASE_BATTLED_DRAW
+        SBSECRETS_STATE_USED_SPIN_MAT,       // SECRET_BASE_USED_SPIN_MAT
+        SBSECRETS_STATE_USED_SAND_ORNAMENT,  // SECRET_BASE_USED_SAND_ORNAMENT
+        SBSECRETS_STATE_USED_DESK,           // SECRET_BASE_USED_DESK
+        SBSECRETS_STATE_USED_BRICK,          // SECRET_BASE_USED_BRICK
+        SBSECRETS_STATE_USED_SOLID_BOARD,    // SECRET_BASE_USED_SOLID_BOARD
+        SBSECRETS_STATE_USED_FENCE,          // SECRET_BASE_USED_FENCE
+        SBSECRETS_STATE_USED_GLITTER_MAT,    // SECRET_BASE_USED_GLITTER_MAT
+        SBSECRETS_STATE_USED_TIRE,           // SECRET_BASE_USED_TIRE
+        SBSECRETS_STATE_USED_STAND,          // SECRET_BASE_USED_STAND
+        SBSECRETS_STATE_USED_BREAKABLE_DOOR, // SECRET_BASE_USED_BREAKABLE_DOOR
+        SBSECRETS_STATE_USED_DOLL,           // SECRET_BASE_USED_DOLL
+        SBSECRETS_STATE_USED_SLIDE,          // SECRET_BASE_USED_SLIDE
+        SBSECRETS_STATE_DECLINED_SLIDE,      // SECRET_BASE_DECLINED_SLIDE
+        SBSECRETS_STATE_USED_JUMP_MAT,       // SECRET_BASE_USED_JUMP_MAT
+        SBSECRETS_NUM_STATES                 // SECRET_BASE_UNUSED_FLAG. Odd that this is included, if it were used it would overflow sTVSecretBaseSecretsTextGroup
 };
 
 void ClearTVShowData(void)
@@ -815,8 +777,7 @@ u8 FindAnyTVShowOnTheAir(void)
     if (slot == 0xFF)
         return 0xFF;
 
-    if (gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE
-     && gSaveBlock1Ptr->tvShows[slot].common.kind == TVSHOW_MASS_OUTBREAK)
+    if (gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE && gSaveBlock1Ptr->tvShows[slot].common.kind == TVSHOW_MASS_OUTBREAK)
         return FindFirstActiveTVShowThatIsNotAMassOutbreak();
 
     return slot;
@@ -833,10 +794,9 @@ void UpdateTVScreensOnMap(int width, int height)
     case PLAYERS_HOUSE_TV_MOVIE:
         // Don't flash TV for movie text in player's house
         break;
-//  case PLAYERS_HOUSE_TV_NONE:
+        //  case PLAYERS_HOUSE_TV_NONE:
     default:
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_COVE_LILY_MOTEL_1F)
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(LILYCOVE_CITY_COVE_LILY_MOTEL_1F))
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_COVE_LILY_MOTEL_1F) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(LILYCOVE_CITY_COVE_LILY_MOTEL_1F))
         {
             // NPC in Lilycove Hotel is always watching TV
             SetTVMetatilesOnMap(width, height, METATILE_Building_TV_On);
@@ -889,9 +849,7 @@ static u8 FindFirstActiveTVShowThatIsNotAMassOutbreak(void)
 
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->tvShows) - 1; i++)
     {
-        if (gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_OFF_AIR
-         && gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_MASS_OUTBREAK
-         && gSaveBlock1Ptr->tvShows[i].common.active == TRUE)
+        if (gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_OFF_AIR && gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_MASS_OUTBREAK && gSaveBlock1Ptr->tvShows[i].common.active == TRUE)
             return i;
     }
     return 0xFF;
@@ -1334,10 +1292,17 @@ void PutFanClubSpecialOnTheAir(void)
     StringCopy(show->fanClubSpecial.idolName, name);
     StorePlayerIdInNormalShow(show);
     show->fanClubSpecial.language = gGameLanguage;
+#ifndef FREE_LINK_BATTLE_RECORDS
     if (show->fanClubSpecial.language == LANGUAGE_JAPANESE || gSaveBlock1Ptr->linkBattleRecords.languages[0] == LANGUAGE_JAPANESE)
         show->fanClubSpecial.idolNameLanguage = LANGUAGE_JAPANESE;
     else
         show->fanClubSpecial.idolNameLanguage = gSaveBlock1Ptr->linkBattleRecords.languages[0];
+#else
+    if (show->fanClubSpecial.language == LANGUAGE_JAPANESE)
+    {
+        show->fanClubSpecial.idolNameLanguage = LANGUAGE_JAPANESE;
+    }
+#endif
 }
 
 void ContestLiveUpdates_Init(u8 round1Placing)
@@ -1485,9 +1450,7 @@ void TryPutSmartShopperOnAir(void)
     TVShow *show;
     u8 i;
 
-    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRAINER_HILL_ENTRANCE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRAINER_HILL_ENTRANCE))
-     && !(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_MART) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_MART))
-     && !rbernoulli(1, 3))
+    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRAINER_HILL_ENTRANCE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRAINER_HILL_ENTRANCE)) && !(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_MART) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_MART)) && !rbernoulli(1, 3))
     {
         sCurTVShowSlot = FindFirstEmptyRecordMixTVShowSlot(gSaveBlock1Ptr->tvShows);
         if (sCurTVShowSlot != -1 && IsRecordMixShowAlreadySpawned(TVSHOW_SMART_SHOPPER, FALSE) != TRUE)
@@ -2270,23 +2233,40 @@ u8 GetRibbonCount(struct Pokemon *pokemon)
 
 static u8 MonDataIdxToRibbon(u8 monDataIdx)
 {
-    if (monDataIdx == MON_DATA_CHAMPION_RIBBON) return CHAMPION_RIBBON;
-    if (monDataIdx == MON_DATA_COOL_RIBBON)     return COOL_RIBBON_NORMAL;
-    if (monDataIdx == MON_DATA_BEAUTY_RIBBON)   return BEAUTY_RIBBON_NORMAL;
-    if (monDataIdx == MON_DATA_CUTE_RIBBON)     return CUTE_RIBBON_NORMAL;
-    if (monDataIdx == MON_DATA_SMART_RIBBON)    return SMART_RIBBON_NORMAL;
-    if (monDataIdx == MON_DATA_TOUGH_RIBBON)    return TOUGH_RIBBON_NORMAL;
-    if (monDataIdx == MON_DATA_WINNING_RIBBON)  return WINNING_RIBBON;
-    if (monDataIdx == MON_DATA_VICTORY_RIBBON)  return VICTORY_RIBBON;
-    if (monDataIdx == MON_DATA_ARTIST_RIBBON)   return ARTIST_RIBBON;
-    if (monDataIdx == MON_DATA_EFFORT_RIBBON)   return EFFORT_RIBBON;
-    if (monDataIdx == MON_DATA_MARINE_RIBBON)   return MARINE_RIBBON;
-    if (monDataIdx == MON_DATA_LAND_RIBBON)     return LAND_RIBBON;
-    if (monDataIdx == MON_DATA_SKY_RIBBON)      return SKY_RIBBON;
-    if (monDataIdx == MON_DATA_COUNTRY_RIBBON)  return COUNTRY_RIBBON;
-    if (monDataIdx == MON_DATA_NATIONAL_RIBBON) return NATIONAL_RIBBON;
-    if (monDataIdx == MON_DATA_EARTH_RIBBON)    return EARTH_RIBBON;
-    if (monDataIdx == MON_DATA_WORLD_RIBBON)    return WORLD_RIBBON;
+    if (monDataIdx == MON_DATA_CHAMPION_RIBBON)
+        return CHAMPION_RIBBON;
+    if (monDataIdx == MON_DATA_COOL_RIBBON)
+        return COOL_RIBBON_NORMAL;
+    if (monDataIdx == MON_DATA_BEAUTY_RIBBON)
+        return BEAUTY_RIBBON_NORMAL;
+    if (monDataIdx == MON_DATA_CUTE_RIBBON)
+        return CUTE_RIBBON_NORMAL;
+    if (monDataIdx == MON_DATA_SMART_RIBBON)
+        return SMART_RIBBON_NORMAL;
+    if (monDataIdx == MON_DATA_TOUGH_RIBBON)
+        return TOUGH_RIBBON_NORMAL;
+    if (monDataIdx == MON_DATA_WINNING_RIBBON)
+        return WINNING_RIBBON;
+    if (monDataIdx == MON_DATA_VICTORY_RIBBON)
+        return VICTORY_RIBBON;
+    if (monDataIdx == MON_DATA_ARTIST_RIBBON)
+        return ARTIST_RIBBON;
+    if (monDataIdx == MON_DATA_EFFORT_RIBBON)
+        return EFFORT_RIBBON;
+    if (monDataIdx == MON_DATA_MARINE_RIBBON)
+        return MARINE_RIBBON;
+    if (monDataIdx == MON_DATA_LAND_RIBBON)
+        return LAND_RIBBON;
+    if (monDataIdx == MON_DATA_SKY_RIBBON)
+        return SKY_RIBBON;
+    if (monDataIdx == MON_DATA_COUNTRY_RIBBON)
+        return COUNTRY_RIBBON;
+    if (monDataIdx == MON_DATA_NATIONAL_RIBBON)
+        return NATIONAL_RIBBON;
+    if (monDataIdx == MON_DATA_EARTH_RIBBON)
+        return EARTH_RIBBON;
+    if (monDataIdx == MON_DATA_WORLD_RIBBON)
+        return WORLD_RIBBON;
     return CHAMPION_RIBBON;
 }
 
@@ -2318,8 +2298,10 @@ bool8 ShouldHideFanClubInterviewer(void)
     if (gSpecialVar_Result == TRUE)
         return TRUE;
 
+#ifndef FREE_LINK_BATTLE_RECORDS
     if (gSaveBlock1Ptr->linkBattleRecords.entries[0].name[0] == EOS)
         return TRUE;
+#endif
 
     return FALSE;
 }
@@ -2579,9 +2561,7 @@ static u8 FindAnyPokeNewsOnTheAir(void)
 
     for (i = 0; i < POKE_NEWS_COUNT; i++)
     {
-        if (gSaveBlock1Ptr->pokeNews[i].kind != POKENEWS_NONE
-         && gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_UPCOMING
-         && gSaveBlock1Ptr->pokeNews[i].dayCountdown < POKENEWS_COUNTDOWN - 1)
+        if (gSaveBlock1Ptr->pokeNews[i].kind != POKENEWS_NONE && gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_UPCOMING && gSaveBlock1Ptr->pokeNews[i].dayCountdown < POKENEWS_COUNTDOWN - 1)
             return i;
     }
     return 0xFF;
@@ -2649,14 +2629,11 @@ static bool8 ShouldApplyPokeNewsEffect(u8 newsKind)
     switch (newsKind)
     {
     case POKENEWS_SLATEPORT:
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SLATEPORT_CITY)
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SLATEPORT_CITY)
-         && gSpecialVar_LastTalked == LOCALID_SLATEPORT_ENERGY_GURU)
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SLATEPORT_CITY) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SLATEPORT_CITY) && gSpecialVar_LastTalked == LOCALID_SLATEPORT_ENERGY_GURU)
             return TRUE;
         return FALSE;
     case POKENEWS_LILYCOVE:
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_DEPARTMENT_STORE_ROOFTOP)
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_ROOFTOP))
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_DEPARTMENT_STORE_ROOFTOP) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_ROOFTOP))
             return TRUE;
         return FALSE;
     }
@@ -2759,14 +2736,22 @@ void ConvertIntToDecimalString(u8 varIdx, int value)
 
 size_t CountDigits(int value)
 {
-    if (value / 10 == 0)        return 1;
-    if (value / 100 == 0)       return 2;
-    if (value / 1000 == 0)      return 3;
-    if (value / 10000 == 0)     return 4;
-    if (value / 100000 == 0)    return 5;
-    if (value / 1000000 == 0)   return 6;
-    if (value / 10000000 == 0)  return 7;
-    if (value / 100000000 == 0) return 8;
+    if (value / 10 == 0)
+        return 1;
+    if (value / 100 == 0)
+        return 2;
+    if (value / 1000 == 0)
+        return 3;
+    if (value / 10000 == 0)
+        return 4;
+    if (value / 100000 == 0)
+        return 5;
+    if (value / 1000000 == 0)
+        return 6;
+    if (value / 10000000 == 0)
+        return 7;
+    if (value / 100000000 == 0)
+        return 8;
 
     return 1;
 }
@@ -2797,9 +2782,7 @@ static bool8 IsRecordMixShowAlreadySpawned(u8 kind, bool8 delete)
     playerId = GetPlayerIDAsU32();
     for (i = NUM_NORMAL_TVSHOW_SLOTS; i < LAST_TVSHOW_IDX; i++)
     {
-        if (shows[i].common.kind == kind
-         && (playerId & 0xFF) == shows[i].common.trainerIdLo
-         && ((playerId >> 8) & 0xFF) == shows[i].common.trainerIdHi)
+        if (shows[i].common.kind == kind && (playerId & 0xFF) == shows[i].common.trainerIdLo && ((playerId >> 8) & 0xFF) == shows[i].common.trainerIdHi)
         {
             if (delete == TRUE)
             {
@@ -2905,7 +2888,7 @@ static void InterviewBefore_FanClubLetter(void)
     {
         StringCopy(gStringVar1, GetSpeciesName(GetMonData(&gPlayerParty[GetLeadMonIndex()], MON_DATA_SPECIES, NULL)));
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubLetter.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubLetter.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubLetter.words));
     }
 }
 
@@ -2915,7 +2898,7 @@ static void InterviewBefore_RecentHappenings(void)
     if (!gSpecialVar_Result)
     {
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].recentHappenings.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].recentHappenings.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].recentHappenings.words));
     }
 }
 
@@ -2928,7 +2911,7 @@ static void InterviewBefore_PkmnFanClubOpinions(void)
         GetMonData(&gPlayerParty[GetLeadMonIndex()], MON_DATA_NICKNAME, gStringVar2);
         StringGet_Nickname(gStringVar2);
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubOpinions.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubOpinions.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanclubOpinions.words));
     }
 }
 
@@ -2947,7 +2930,7 @@ static void InterviewBefore_BravoTrainerPkmnProfile(void)
     TryReplaceOldTVShowOfKind(TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE);
     if (!gSpecialVar_Result)
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainer.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainer.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainer.words));
 }
 
 static void InterviewBefore_ContestLiveUpdates(void)
@@ -2965,7 +2948,7 @@ static void InterviewBefore_BravoTrainerBTProfile(void)
     TryReplaceOldTVShowOfKind(TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE);
     if (!gSpecialVar_Result)
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainerTower.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainerTower.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainerTower.words));
 }
 
 static void InterviewBefore_FanClubSpecial(void)
@@ -2973,7 +2956,7 @@ static void InterviewBefore_FanClubSpecial(void)
     TryReplaceOldTVShowOfKind(TVSHOW_FAN_CLUB_SPECIAL);
     if (!gSpecialVar_Result)
         InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanClubSpecial.words,
-                        ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanClubSpecial.words));
+                                    ARRAY_COUNT(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].fanClubSpecial.words));
 }
 
 static bool8 IsPartyMonNicknamedOrNotEnglish(u8 monIdx)
@@ -3079,7 +3062,7 @@ static void Script_FindFirstEmptyNormalTVShowSlot(void)
     sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
     gSpecialVar_0x8006 = sCurTVShowSlot;
     if (sCurTVShowSlot == -1)
-        gSpecialVar_Result = TRUE;  // Failed to find empty slot
+        gSpecialVar_Result = TRUE; // Failed to find empty slot
     else
         gSpecialVar_Result = FALSE; // Found empty slot
 }
@@ -3419,8 +3402,8 @@ void ReceiveTvShowsData(void *src, u32 size, u8 playersLinkId)
 {
     u8 i;
     u16 version;
-    TVShow (*rmBuffer2)[MAX_LINK_PLAYERS][TV_SHOWS_COUNT];
-    TVShow (*rmBuffer)[MAX_LINK_PLAYERS][TV_SHOWS_COUNT];
+    TVShow(*rmBuffer2)[MAX_LINK_PLAYERS][TV_SHOWS_COUNT];
+    TVShow(*rmBuffer)[MAX_LINK_PLAYERS][TV_SHOWS_COUNT];
 
     rmBuffer2 = Alloc(MAX_LINK_PLAYERS * TV_SHOWS_COUNT * sizeof(TVShow));
     if (rmBuffer2 != NULL)
@@ -3494,8 +3477,7 @@ static void SetMixedTVShows(TVShow player1[TV_SHOWS_COUNT], TVShow player2[TV_SH
                 for (j = 0; j < sTVShowMixingNumPlayers - 1; j++)
                 {
                     sCurTVShowSlot = FindFirstEmptyRecordMixTVShowSlot(tvShows[(i + j + 1) % sTVShowMixingNumPlayers][0]);
-                    if (sCurTVShowSlot != -1
-                        && TryMixTVShow(&tvShows[(i + j + 1) % sTVShowMixingNumPlayers][0], &tvShows[i][0], (i + j + 1) % sTVShowMixingNumPlayers) == 1)
+                    if (sCurTVShowSlot != -1 && TryMixTVShow(&tvShows[(i + j + 1) % sTVShowMixingNumPlayers][0], &tvShows[i][0], (i + j + 1) % sTVShowMixingNumPlayers) == 1)
                         break;
                 }
                 if (j == sTVShowMixingNumPlayers - 1)
@@ -3540,8 +3522,7 @@ static bool8 TryMixNormalTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
-    && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
     src->common.trainerIdLo = src->common.srcTrainerIdLo;
@@ -3557,12 +3538,10 @@ static bool8 TryMixRecordMixTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.srcTrainerIdLo
-    && ((linkTrainerId >> 8) & 0xFF) == src->common.srcTrainerIdHi)
+    if ((linkTrainerId & 0xFF) == src->common.srcTrainerIdLo && ((linkTrainerId >> 8) & 0xFF) == src->common.srcTrainerIdHi)
         return FALSE;
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
-    && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
     src->common.srcTrainerIdLo = src->common.srcTrainerId2Lo;
@@ -3578,8 +3557,7 @@ static bool8 TryMixOutbreakTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
-    && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
     src->common.trainerIdLo = src->common.srcTrainerIdLo;
@@ -3804,8 +3782,8 @@ static void DeleteExcessMixedShows(void)
 void ReceivePokeNewsData(void *src, u32 size, u8 playersLinkId)
 {
     u8 i;
-    PokeNews (*rmBuffer2)[MAX_LINK_PLAYERS][POKE_NEWS_COUNT];
-    PokeNews (*rmBuffer)[MAX_LINK_PLAYERS][POKE_NEWS_COUNT];
+    PokeNews(*rmBuffer2)[MAX_LINK_PLAYERS][POKE_NEWS_COUNT];
+    PokeNews(*rmBuffer)[MAX_LINK_PLAYERS][POKE_NEWS_COUNT];
 
     rmBuffer2 = Alloc(MAX_LINK_PLAYERS * POKE_NEWS_COUNT * sizeof(PokeNews));
     if (rmBuffer2 != NULL)
@@ -3923,14 +3901,14 @@ static void ClearPokeNewsIfGameNotComplete(void)
 }
 
 #define SetStrLanguage(strptr, langptr, langfix) \
-if (IsStringJapanese(strptr)) \
-{   \
-    (langptr) = LANGUAGE_JAPANESE; \
-} \
-else \
-{ \
-    (langptr) = langfix; \
-}
+    if (IsStringJapanese(strptr))                \
+    {                                            \
+        (langptr) = LANGUAGE_JAPANESE;           \
+    }                                            \
+    else                                         \
+    {                                            \
+        (langptr) = langfix;                     \
+    }
 
 static void UNUSED TranslateShowNames(TVShow *show, u32 language)
 {
@@ -4006,8 +3984,7 @@ void SanitizeTVShowsForRuby(TVShow *shows)
     {
         if (curShow->bravoTrainerTower.kind == TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE)
         {
-            if ((curShow->bravoTrainerTower.playerLanguage == LANGUAGE_JAPANESE && curShow->bravoTrainerTower.opponentLanguage != LANGUAGE_JAPANESE)
-             || (curShow->bravoTrainerTower.playerLanguage != LANGUAGE_JAPANESE && curShow->bravoTrainerTower.opponentLanguage == LANGUAGE_JAPANESE))
+            if ((curShow->bravoTrainerTower.playerLanguage == LANGUAGE_JAPANESE && curShow->bravoTrainerTower.opponentLanguage != LANGUAGE_JAPANESE) || (curShow->bravoTrainerTower.playerLanguage != LANGUAGE_JAPANESE && curShow->bravoTrainerTower.opponentLanguage == LANGUAGE_JAPANESE))
                 memset(curShow, 0, sizeof(TVShow));
         }
     }
@@ -4040,7 +4017,7 @@ static void TranslateJapaneseEmeraldShows(TVShow *shows)
 
     for (curShow = shows; curShow < shows + LAST_TVSHOW_IDX; curShow++)
     {
-        switch(curShow->common.kind)
+        switch (curShow->common.kind)
         {
         case TVSHOW_FAN_CLUB_LETTER:
             curShow->fanclubLetter.language = GetStringLanguage(curShow->fanclubLetter.playerName);
@@ -4353,7 +4330,7 @@ static void DoTVShowBravoTrainerBattleTower(void)
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     gSpecialVar_Result = FALSE;
     state = sTVShowState;
-    switch(state)
+    switch (state)
     {
     case BRAVOTOWER_STATE_INTRO:
         TVShowConvertInternationalString(gStringVar1, show->bravoTrainerTower.playerName, show->bravoTrainerTower.playerLanguage);
@@ -4448,7 +4425,7 @@ static void DoTVShowTodaysSmartShopper(void)
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     gSpecialVar_Result = FALSE;
     state = sTVShowState;
-    switch(state)
+    switch (state)
     {
     case SMARTSHOPPER_STATE_INTRO:
         TVShowConvertInternationalString(gStringVar1, show->smartshopperShow.playerName, show->smartshopperShow.language);
@@ -4861,7 +4838,6 @@ static void DoTVShowPokemonFanClubOpinions(void)
 
 static void DoTVShowDummiedOut(void)
 {
-
 }
 
 static void DoTVShowPokemonNewsMassOutbreak(void)
@@ -5335,7 +5311,8 @@ static void DoTVShow3CheersForPokeblocks(void)
         if (show->threeCheers.sheen > 24)
         {
             StringCopy(gStringVar2, gText_Excellent);
-        } else if (show->threeCheers.sheen > 22)
+        }
+        else if (show->threeCheers.sheen > 22)
         {
             StringCopy(gStringVar2, gText_VeryGood);
         }
@@ -5757,7 +5734,8 @@ static void DoTVShowFindThatGamer(void)
             break;
         }
         ConvertIntToDecimalString(2, show->findThatGamer.nCoins);
-        TVShowDone(); break;
+        TVShowDone();
+        break;
     case 2:
         TVShowConvertInternationalString(gStringVar1, show->findThatGamer.playerName, show->findThatGamer.language);
         switch (show->findThatGamer.whichGame)
@@ -6277,9 +6255,9 @@ static void DoTVShowSpotTheCuties(void)
         case EFFORT_RIBBON:
             sTVShowState = SPOTCUTIES_STATE_RIBBON_EFFORT;
             break;
-        // No comment is made for any of the gift ribbons.
-        // If the show is created for a gift ribbon
-        // then this state will repeat indefinitely
+            // No comment is made for any of the gift ribbons.
+            // If the show is created for a gift ribbon
+            // then this state will repeat indefinitely
         }
         break;
     case SPOTCUTIES_STATE_RIBBON_CHAMPION:

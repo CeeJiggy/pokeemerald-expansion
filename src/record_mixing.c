@@ -41,7 +41,7 @@
 #define NUM_SWAP_COMBOS 3
 
 // Used by several tasks in this file
-#define tState        data[0]
+#define tState data[0]
 
 struct RecordMixingHallRecords
 {
@@ -97,7 +97,9 @@ static void *sApprenticesSave;
 static void *sBattleTowerSave_Duplicate;
 static u32 sRecordStructSize;
 static u8 sDaycareMailRandSum;
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
 static struct PlayerHallRecords *sPartnerHallRecords[HALL_RECORDS_COUNT];
+#endif
 
 static EWRAM_DATA struct RecordMixingDaycareMail sRecordMixMail = {0};
 static EWRAM_DATA union PlayerRecord *sReceivedRecords = NULL;
@@ -117,7 +119,7 @@ static void ReceiveBattleTowerData(void *, size_t, u8);
 static void ReceiveLilycoveLadyData(LilycoveLady *, size_t, u8);
 static void CalculateDaycareMailRandSum(const u8 *);
 static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *, size_t, u8, TVShow *);
-static void ReceiveGiftItem(u16 *, u8 );
+static void ReceiveGiftItem(u16 *, u8);
 static void Task_DoRecordMixing(u8);
 static void GetSavedApprentices(struct Apprentice *, struct Apprentice *);
 static void ReceiveApprenticeData(struct Apprentice *, size_t, u32);
@@ -130,37 +132,37 @@ static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *);
 static const u8 sPlayerIdxOrders_2Player[] = {1, 0};
 
 static const u8 sPlayerIdxOrders_3Player[][3] =
-{
-    {1, 2, 0},
-    {2, 0, 1},
+    {
+        {1, 2, 0},
+        {2, 0, 1},
 };
 
 static const u8 sPlayerIdxOrders_4Player[][4] =
-{
-    {1, 0, 3, 2},
-    {3, 0, 1, 2},
-    {2, 0, 3, 1},
-    {1, 3, 0, 2},
-    {2, 3, 0, 1},
-    {3, 2, 0, 1},
-    {1, 2, 3, 0},
-    {2, 3, 1, 0},
-    {3, 2, 1, 0},
+    {
+        {1, 0, 3, 2},
+        {3, 0, 1, 2},
+        {2, 0, 3, 1},
+        {1, 3, 0, 2},
+        {2, 3, 0, 1},
+        {3, 2, 0, 1},
+        {1, 2, 3, 0},
+        {2, 3, 1, 0},
+        {3, 2, 1, 0},
 };
 
 // When 3 players can swap mail 2 players are randomly selected and the 3rd is left out
 static const u8 sDaycareMailSwapIds_3Player[NUM_SWAP_COMBOS][2] =
-{
-    {0, 1},
-    {1, 2},
-    {2, 0},
+    {
+        {0, 1},
+        {1, 2},
+        {2, 0},
 };
 
 static const u8 sDaycareMailSwapIds_4Player[NUM_SWAP_COMBOS][4] =
-{
-    {0, 1,   2, 3}, // 0 swaps with 1, 2 swaps with 3
-    {0, 2,   1, 3},
-    {0, 3,   2, 1},
+    {
+        {0, 1, 2, 3}, // 0 swaps with 1, 2 swaps with 3
+        {0, 2, 1, 3},
+        {0, 3, 2, 1},
 };
 
 void RecordMixingPlayerSpotTriggered(void)
@@ -303,8 +305,8 @@ static void Task_RecordMixing_SoundEffect(u8 taskId)
 
 #undef tCounter
 
-#define tTimer       data[8]
-#define tLinkTaskId  data[10]
+#define tTimer data[8]
+#define tLinkTaskId data[10]
 #define tSoundTaskId data[15]
 
 // Note: gSpecialVar_0x8005 here contains the player's spot id.
@@ -376,15 +378,15 @@ static void Task_RecordMixing_Main(u8 taskId)
 #undef tSoundTaskId
 
 // Task data for Task_MixingRecordsRecv and subsequent tasks
-#define tSentRecord    data[2] // Used to store a ptr, so data[2] and data[3]
+#define tSentRecord data[2] // Used to store a ptr, so data[2] and data[3]
 #define tNumChunksSent data[4]
 #define tMultiplayerId data[5]
-#define tCopyTaskId    data[10]
+#define tCopyTaskId data[10]
 
 // Task data for Task_CopyReceiveBuffer
-#define tParentTaskId     data[0]
+#define tParentTaskId data[0]
 #define tNumChunksRecv(i) data[1 + (i)] // Number of chunks of the record received per player
-#define tRecvRecords      data[5] // Used to store a ptr, so data[5] and data[6]
+#define tRecvRecords data[5]            // Used to store a ptr, so data[5] and data[6]
 
 static void Task_MixingRecordsRecv(u8 taskId)
 {
@@ -406,24 +408,24 @@ static void Task_MixingRecordsRecv(u8 taskId)
         }
         break;
     case 101:
+    {
+        u8 players = GetLinkPlayerCount_2();
+        if (IsLinkMaster() == TRUE)
         {
-            u8 players = GetLinkPlayerCount_2();
-            if (IsLinkMaster() == TRUE)
+            if (players == GetSavedPlayerCount())
             {
-                if (players == GetSavedPlayerCount())
-                {
-                    PlaySE(SE_PIN);
-                    task->tState = 201;
-                    task->data[12] = 0;
-                }
-            }
-            else
-            {
-                PlaySE(SE_BOO);
-                task->tState = 301;
+                PlaySE(SE_PIN);
+                task->tState = 201;
+                task->data[12] = 0;
             }
         }
-        break;
+        else
+        {
+            PlaySE(SE_BOO);
+            task->tState = 301;
+        }
+    }
+    break;
     case 201:
         // We're the link master. Delay for 30 frames per connected player.
         if (GetSavedPlayerCount() == GetLinkPlayerCount_2() && ++task->data[12] > (GetLinkPlayerCount_2() * 30))
@@ -451,33 +453,33 @@ static void Task_MixingRecordsRecv(u8 taskId)
         }
         break;
     case 2:
-        {
-            u8 subTaskId;
+    {
+        u8 subTaskId;
 
-            task->data[6] = GetLinkPlayerCount_2();
-            task->tState = 0;
-            task->tMultiplayerId = GetMultiplayerId_();
-            task->func = Task_SendPacket;
-            if (Link_AnyPartnersPlayingRubyOrSapphire())
-            {
-                StorePtrInTaskData(sSentRecord, (u16*) &task->tSentRecord);
-                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
-                task->tCopyTaskId = subTaskId;
-                gTasks[subTaskId].tParentTaskId = taskId;
-                StorePtrInTaskData(sReceivedRecords, (u16*) &gTasks[subTaskId].tRecvRecords);
-                sRecordStructSize = sizeof(struct PlayerRecordRS);
-            }
-            else
-            {
-                StorePtrInTaskData(sSentRecord, (u16*)  &task->tSentRecord);
-                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
-                task->tCopyTaskId = subTaskId;
-                gTasks[subTaskId].tParentTaskId = taskId;
-                StorePtrInTaskData(sReceivedRecords,(u16*) &gTasks[subTaskId].tRecvRecords);
-                sRecordStructSize = sizeof(struct PlayerRecordEmerald);
-            }
+        task->data[6] = GetLinkPlayerCount_2();
+        task->tState = 0;
+        task->tMultiplayerId = GetMultiplayerId_();
+        task->func = Task_SendPacket;
+        if (Link_AnyPartnersPlayingRubyOrSapphire())
+        {
+            StorePtrInTaskData(sSentRecord, (u16 *)&task->tSentRecord);
+            subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
+            task->tCopyTaskId = subTaskId;
+            gTasks[subTaskId].tParentTaskId = taskId;
+            StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].tRecvRecords);
+            sRecordStructSize = sizeof(struct PlayerRecordRS);
         }
-        break;
+        else
+        {
+            StorePtrInTaskData(sSentRecord, (u16 *)&task->tSentRecord);
+            subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
+            task->tCopyTaskId = subTaskId;
+            gTasks[subTaskId].tParentTaskId = taskId;
+            StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].tRecvRecords);
+            sRecordStructSize = sizeof(struct PlayerRecordEmerald);
+        }
+    }
+    break;
     case 5: // wait 60 frames
         if (++task->data[10] > 60)
         {
@@ -494,13 +496,13 @@ static void Task_SendPacket(u8 taskId)
     switch (task->tState)
     {
     case 0: // Copy record data chunk to send buffer
-        {
-            void *recordData = LoadPtrFromTaskData((u16*)&task->tSentRecord) + task->tNumChunksSent * BUFFER_CHUNK_SIZE;
+    {
+        void *recordData = LoadPtrFromTaskData((u16 *)&task->tSentRecord) + task->tNumChunksSent * BUFFER_CHUNK_SIZE;
 
-            memcpy(gBlockSendBuffer, recordData, BUFFER_CHUNK_SIZE);
-            task->tState++;
-        }
-        break;
+        memcpy(gBlockSendBuffer, recordData, BUFFER_CHUNK_SIZE);
+        task->tState++;
+    }
+    break;
     case 1:
         if (GetMultiplayerId() == 0)
             SendBlockRequest(BLOCK_REQ_SIZE_200);
@@ -537,7 +539,7 @@ static void Task_CopyReceiveBuffer(u8 taskId)
         {
             if ((status >> i) & 1)
             {
-                void *dest = LoadPtrFromTaskData((u16*) &task->tRecvRecords) + task->tNumChunksRecv(i) * BUFFER_CHUNK_SIZE + sRecordStructSize * i;
+                void *dest = LoadPtrFromTaskData((u16 *)&task->tRecvRecords) + task->tNumChunksRecv(i) * BUFFER_CHUNK_SIZE + sRecordStructSize * i;
                 void *src = GetPlayerRecvBuffer(i);
                 if ((task->tNumChunksRecv(i) + 1) * BUFFER_CHUNK_SIZE > sRecordStructSize)
                     memcpy(dest, src, sRecordStructSize - task->tNumChunksRecv(i) * BUFFER_CHUNK_SIZE);
@@ -716,7 +718,8 @@ static u8 GetDaycareMailItemId(struct DaycareMail *mail)
 
 // Indexes for a 2 element array used to store the multiplayer id and daycare
 // slot that correspond to a daycare Pokémon that can hold an item.
-enum {
+enum
+{
     MULTIPLAYER_ID,
     DAYCARE_SLOT,
 };
@@ -909,7 +912,7 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *records, size
             else if (itemId1 && !itemId2)
                 idxs[j][DAYCARE_SLOT] = 0;
             else if (!itemId1 && itemId2)
-                 idxs[j][DAYCARE_SLOT] = 1;
+                idxs[j][DAYCARE_SLOT] = 1;
 
             j++;
         }
@@ -958,7 +961,6 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *records, size
     memcpy(&gSaveBlock1Ptr->daycare.mons[1].mail, &mixMail->mail[1], sizeof(struct DaycareMail));
     SeedRng(oldSeed);
 }
-
 
 static void ReceiveGiftItem(u16 *item, u8 multiplayerId)
 {
@@ -1152,8 +1154,7 @@ static bool32 IsApprenticeAlreadySaved(struct Apprentice *mixApprentice, struct 
 
     for (i = 0; i < APPRENTICE_COUNT; i++)
     {
-        if (GetTrainerId(mixApprentice->playerId) == GetTrainerId(apprentices[i].playerId)
-            && mixApprentice->number == apprentices[i].number)
+        if (GetTrainerId(mixApprentice->playerId) == GetTrainerId(apprentices[i].playerId) && mixApprentice->number == apprentices[i].number)
             return TRUE;
     }
 
@@ -1198,8 +1199,10 @@ static void ReceiveApprenticeData(struct Apprentice *records, size_t recordSize,
     }
 }
 
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
 static void GetNewHallRecords(struct RecordMixingHallRecords *dst, void *records, size_t recordSize, u32 multiplayerId, s32 linkPlayerCount)
 {
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
     s32 i, j, k, l;
     s32 repeatTrainers;
 
@@ -1261,8 +1264,7 @@ static void GetNewHallRecords(struct RecordMixingHallRecords *dst, void *records
             {
                 // If the new trainer pair is already in the existing saved records, only
                 // use the new pair if the win streak is better
-                if (GetTrainerId(dst->hallRecords2P[j][l].id1) == GetTrainerId(sPartnerHallRecords[k]->twoPlayers[j].id1)
-                 && GetTrainerId(dst->hallRecords2P[j][l].id2) == GetTrainerId(sPartnerHallRecords[k]->twoPlayers[j].id2))
+                if (GetTrainerId(dst->hallRecords2P[j][l].id1) == GetTrainerId(sPartnerHallRecords[k]->twoPlayers[j].id1) && GetTrainerId(dst->hallRecords2P[j][l].id2) == GetTrainerId(sPartnerHallRecords[k]->twoPlayers[j].id2))
                 {
                     repeatTrainers++;
                     if (dst->hallRecords2P[j][l].winStreak < sPartnerHallRecords[k]->twoPlayers[j].winStreak)
@@ -1275,6 +1277,7 @@ static void GetNewHallRecords(struct RecordMixingHallRecords *dst, void *records
                 dst->hallRecords2P[j][k + HALL_RECORDS_COUNT] = sPartnerHallRecords[k]->twoPlayers[j];
         }
     }
+#endif
 }
 
 static void FillWinStreakRecords1P(struct RankingHall1P *playerRecords, struct RankingHall1P *mixRecords)
@@ -1332,9 +1335,12 @@ static void FillWinStreakRecords2P(struct RankingHall2P *playerRecords, struct R
         }
     }
 }
+#endif
 
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
 static void SaveHighestWinStreakRecords(struct RecordMixingHallRecords *mixHallRecords)
 {
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
     s32 i, j;
 
     for (i = 0; i < HALL_FACILITIES_COUNT; i++)
@@ -1344,10 +1350,13 @@ static void SaveHighestWinStreakRecords(struct RecordMixingHallRecords *mixHallR
     }
     for (j = 0; j < FRONTIER_LVL_MODE_COUNT; j++)
         FillWinStreakRecords2P(gSaveBlock2Ptr->hallRecords2P[j], mixHallRecords->hallRecords2P[j]);
+#endif
 }
+#endif
 
 static void ReceiveRankingHallRecords(struct PlayerHallRecords *records, size_t recordSize, u32 multiplayerId)
 {
+#ifndef FREE_RECORD_MIXING_HALL_RECORDS
     u8 linkPlayerCount = GetLinkPlayerCount();
     struct RecordMixingHallRecords *mixHallRecords = AllocZeroed(sizeof(*mixHallRecords));
 
@@ -1355,6 +1364,7 @@ static void ReceiveRankingHallRecords(struct PlayerHallRecords *records, size_t 
     SaveHighestWinStreakRecords(mixHallRecords);
 
     Free(mixHallRecords);
+#endif
 }
 
 static void GetRecordMixingDaycareMail(struct RecordMixingDaycareMail *dst)
@@ -1384,7 +1394,6 @@ static void SanitizeDaycareMailForRuby(struct RecordMixingDaycareMail *src)
 
 static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *src)
 {
-
 }
 
 static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *dst)
