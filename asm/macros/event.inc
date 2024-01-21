@@ -1931,6 +1931,16 @@
 	dofieldeffect FLDEFF_SPARKLE
 	.endm
 
+	.macro scrollingmultichoice id:req, x:req, y:req, show:req, b:req
+	setvar VAR_0x8004, \id,
+	setvar VAR_0x8005, \x,
+	setvar VAR_0x8006, \y,
+	setvar VAR_0x8007, \show,
+	setvar VAR_0x8008, \b,
+	callnative ScriptMenu_ScrollingMultichoice
+	waitstate
+	.endm
+
 	@ Prints a braille message, waits for an A or B press, then closes the message.
 	.macro braillemsgbox text:req
 	braillemessage \text
@@ -1944,6 +1954,12 @@
 	setvar VAR_0x8005, \level
 	setvar VAR_0x8006, \item
 	special CreateEnemyEventMon
+	.endm
+
+		@ Checks if the Player is currently in the Battle Pyramid.
+	.macro goto_if_in_battle_pyramid dest:req
+	specialvar VAR_RESULT, InBattlePyramid
+	goto_if_eq VAR_RESULT, TRUE, \dest
 	.endm
 
 	@ Set up a totem boost for the next battle.

@@ -34,6 +34,7 @@
 #include "constants/rgb.h"
 #include "trainer_hill.h"
 #include "fldeff.h"
+#include "event_scripts.h"
 
 static void Task_ExitNonAnimDoor(u8);
 static void Task_ExitNonDoor(u8);
@@ -47,18 +48,17 @@ static void Task_DoDoorWarp(u8 taskId);
 static void Task_EnableScriptAfterMusicFade(u8 taskId);
 
 // data[0] is used universally by tasks in this file as a state for switches
-#define tState       data[0]
+#define tState data[0]
 
 // Smaller flash level -> larger flash radius
-static const u16 sFlashLevelToRadius[] = { 200, 72, 64, 56, 48, 40, 32, 24, 0 };
+static const u16 sFlashLevelToRadius[] = {200, 72, 64, 56, 48, 40, 32, 24, 0};
 const s32 gMaxFlashLevel = ARRAY_COUNT(sFlashLevelToRadius) - 1;
 
 static const struct ScanlineEffectParams sFlashEffectParams =
-{
-    &REG_WIN0H,
-    ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | 1,
-    1
-};
+    {
+        &REG_WIN0H,
+        ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | 1,
+        1};
 
 // code
 static void FillPalBufferWhite(void)
@@ -439,8 +439,9 @@ void ReturnToFieldOpenStartMenu(void)
 
 bool8 FieldCB_ReturnToFieldOpenStartMenu(void)
 {
-    ShowReturnToFieldStartMenu();
-    return FALSE;
+    FadeInFromBlack();
+    ScriptContext_SetupScript(EventScript_StartMenu);
+    LockPlayerFieldControls();
 }
 
 static void Task_ReturnToFieldNoScript(u8 taskId)
@@ -837,11 +838,11 @@ static void SetOrbFlashScanlineEffectWindowBoundaries(u16 *dest, s32 centerX, s3
     }
 }
 
-#define tFlashCenterX        data[1]
-#define tFlashCenterY        data[2]
-#define tCurFlashRadius      data[3]
-#define tDestFlashRadius     data[4]
-#define tFlashRadiusDelta    data[5]
+#define tFlashCenterX data[1]
+#define tFlashCenterY data[2]
+#define tCurFlashRadius data[3]
+#define tDestFlashRadius data[4]
+#define tFlashRadiusDelta data[5]
 #define tClearScanlineEffect data[6]
 
 static void UpdateFlashLevelEffect(u8 taskId)
@@ -1106,16 +1107,16 @@ static bool8 UpdateOrbEffectBlend(u16 shakeDir)
         return FALSE;
 }
 
-#define tBlueOrb     data[1]
-#define tCenterX     data[2]
-#define tCenterY     data[3]
-#define tShakeDelay  data[4]
-#define tShakeDir    data[5]
-#define tDispCnt     data[6]
-#define tBldCnt      data[7]
-#define tBldAlpha    data[8]
-#define tWinIn       data[9]
-#define tWinOut      data[10]
+#define tBlueOrb data[1]
+#define tCenterX data[2]
+#define tCenterY data[3]
+#define tShakeDelay data[4]
+#define tShakeDir data[5]
+#define tDispCnt data[6]
+#define tBldCnt data[7]
+#define tBldAlpha data[8]
+#define tWinIn data[9]
+#define tWinOut data[10]
 
 static void Task_OrbEffect(u8 taskId)
 {
