@@ -3,7 +3,8 @@
 
 #include "list_menu.h"
 
-enum {
+enum
+{
     PYRAMIDBAG_LOC_FIELD,
     PYRAMIDBAG_LOC_BATTLE,
     PYRAMIDBAG_LOC_PARTY,
@@ -11,7 +12,8 @@ enum {
     PYRAMIDBAG_LOC_PREV,
 };
 
-enum {
+enum
+{
     PBAG_SPRITE_BAG,
     PBAG_SPRITE_ITEM_ICON,
     PBAG_SPRITE_ITEM_ICON_ALT,

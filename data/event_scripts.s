@@ -1017,6 +1017,7 @@ EventScript_VsSeekerChargingDone::
 EventScript_StartMenu::
 	goto_if_set FLAG_SYS_SAFARI_MODE, EventScript_StartMenu_BuildSafariZoneMenu
 	goto_if_in_battle_pyramid EventScript_StartMenu_BuildBattlePyramidMenu
+	goto_if_in_battle_pike EventScript_StartMenu_BuildBattlePikeMenu
 	call_if_set FLAG_SYS_POKEDEX_GET, EventScript_StartMenu_TogglePokedex
 	call_if_set FLAG_SYS_POKEMON_GET, EventScript_StartMenu_TogglePokemon
 	call_if_set FLAG_SYS_BAG, EventScript_StartMenu_ToggleBag
@@ -1026,7 +1027,7 @@ EventScript_StartMenu::
 	dynmultipush StartMenu_Text_Option, 6
 	dynmultipush StartMenu_Text_Exit, 7
 	special PlayRainStoppingSoundEffect
-	dynmultistack 22, 1, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
+	dynmultistack 22, 0, 18, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, 2, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
 	switch VAR_RESULT
 	case 0, EventScript_StartMenu_PokedexAccess
 	case 1, EventScript_StartMenu_PokemonAccess
@@ -1124,7 +1125,7 @@ EventScript_StartMenu_BuildSafariZoneMenu:
 	dynmultipush StartMenu_Text_Exit, 6
 	special PlayRainStoppingSoundEffect
 	special ShowSafariBallsWindow
-	dynmultistack 22, 1, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
+	dynmultistack 22, 0, 16, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, 2, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
 	switch VAR_RESULT
 	case 0, EventScript_StartMenu_RetireSafariAccess
 	case 1, EventScript_StartMenu_PokedexAccess
@@ -1160,19 +1161,19 @@ EventScript_StartMenu_BuildBattlePyramidMenu:
 	call_if_set FLAG_SYS_POKEMON_GET, EventScript_StartMenu_TogglePokemonInBattlePyramid
 	call_if_set FLAG_SYS_BAG, EventScript_StartMenu_ToggleBagInBattlePyramid
 	call_if_set FLAG_SYS_TRAINER_CARD, EventScript_StartMenu_ToggleTrainerCardInBattlePyramid
-	dynmultipush StartMenu_Text_Retire, 3
-	dynmultipush StartMenu_Text_Rest, 4
+	dynmultipush StartMenu_Text_Rest, 3
+	dynmultipush StartMenu_Text_Retire, 4
 	dynmultipush StartMenu_Text_Option, 5
 	dynmultipush StartMenu_Text_Exit, 6
 	special PlayRainStoppingSoundEffect
 	special ShowPyramidFloorWindow
-	dynmultistack 22, 1, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
+	dynmultistack 22, 0, 16, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, 2, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
 	switch VAR_RESULT
 	case 0, EventScript_StartMenu_PokemonAccess
 	case 1, EventScript_StartMenu_BagAccess
 	case 2, EventScript_StartMenu_TrainerCardAccess
-	case 3, EventScript_StartMenu_RetireBattlePyramidAccess
-	case 4, EventScript_StartMenu_SaveAccess
+	case 3, EventScript_StartMenu_Rest
+	case 4, EventScript_StartMenu_RetireBattlePyramidAccess
 	case 5, EventScript_StartMenu_OptionAccess
 	case 6, EventScript_StartMenu_ExitAccess
 	case MULTI_B_PRESSED, EventScript_StartMenu_ExitAccess
@@ -1184,16 +1185,51 @@ EventScript_StartMenu_TogglePokemonInBattlePyramid:
 EventScript_StartMenu_ToggleBagInBattlePyramid:
 	dynmultipush StartMenu_Text_Bag, 1
 	return
+EventScript_StartMenu_ToggleTrainerCardInBattlePike:
 EventScript_StartMenu_ToggleTrainerCardInBattlePyramid:
 	dynmultipush StartMenu_Text_TrainerCard, 2
 	return
 
+EventScript_StartMenu_Rest:
+	special RemoveExtraStartMenuWindows
+	call Common_EventScript_SaveGame
+	goto_if_eq VAR_RESULT, NO, EventScript_StartMenu_BuildBattlePyramidMenu
+	callnative DoSoftReset
+	releaseall
+	end
+
 EventScript_StartMenu_RetireBattlePyramidAccess:
-	special Script_StartMenu_OpenRetireBattlePyramid
+	msgbox gText_BattlePyramidConfirmRetire, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EventScript_StartMenu_RebuildBattlePyramidMenu
+	closemessage
+	special RemoveExtraStartMenuWindows
+	goto BattleFrontier_BattlePyramid_EventScript_WarpToLobbyLost
+	end
+
+EventScript_StartMenu_RebuildBattlePyramidMenu:
+	closemessage
+	goto EventScript_StartMenu_BuildBattlePyramidMenu
 	end
 
 StartMenu_Text_Rest:
     .string "Rest$"
+
+EventScript_StartMenu_BuildBattlePikeMenu:
+	call_if_set FLAG_SYS_POKEDEX_GET, EventScript_StartMenu_TogglePokedex
+	call_if_set FLAG_SYS_POKEMON_GET, EventScript_StartMenu_TogglePokemon
+	call_if_set FLAG_SYS_TRAINER_CARD, EventScript_StartMenu_ToggleTrainerCardInBattlePike
+	dynmultipush StartMenu_Text_Option, 3
+	dynmultipush StartMenu_Text_Exit, 4
+	special PlayRainStoppingSoundEffect
+	dynmultistack 22, 0, 16, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, 2, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
+	switch VAR_RESULT
+	case 0, EventScript_StartMenu_PokedexAccess
+	case 1, EventScript_StartMenu_PokemonAccess
+	case 2, EventScript_StartMenu_TrainerCardAccess
+	case 3, EventScript_StartMenu_OptionAccess
+	case 4, EventScript_StartMenu_ExitAccess
+	case MULTI_B_PRESSED, EventScript_StartMenu_ExitAccess
+	end
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

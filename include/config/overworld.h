@@ -2,8 +2,7 @@
 #define GUARD_CONFIG_OVERWORLD_H
 
 // Movement config
-#define OW_RUNNING_INDOORS GEN_LATEST         // In Gen4+, players are allowed to run indoors.
-#define DEBUG_OVERWORLD_TRIGGER_EVENT pressed // The event that opens the menu when holding the key(s) defined in DEBUG_OVERWORLD_HELD_KEYS.
+#define OW_RUNNING_INDOORS GEN_LATEST // In Gen4+, players are allowed to run indoors.
 
 // Other settings
 #define OW_POISON_DAMAGE GEN_LATEST // In Gen4, Pokémon no longer faint from Poison in the overworld. In Gen5+, they no longer take damage at all.

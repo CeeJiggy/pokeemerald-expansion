@@ -1331,9 +1331,7 @@ static void Task_NewGameBirchSpeech_MainSpeech(u8 taskId)
     {
         StringExpandPlaceholders(gStringVar4, gText_Birch_MainSpeech);
         AddTextPrinterForMessage(TRUE);
-        setflag
-            gTasks[taskId]
-                .func = Task_NewGameBirchSpeech_AndYouAre;
+        gTasks[taskId].func = Task_NewGameBirchSpeech_AndYouAre;
     }
 }
 

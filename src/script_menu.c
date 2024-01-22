@@ -880,7 +880,7 @@ static void Task_ScrollingMultichoiceInput(u8 taskId)
         DestroyListMenuTask(gTasks[taskId].data[0], NULL, NULL);
         ClearStdWindowAndFrame(gTasks[taskId].data[2], TRUE);
         RemoveWindow(gTasks[taskId].data[2]);
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
 }

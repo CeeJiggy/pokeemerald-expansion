@@ -76,6 +76,7 @@
 #include "option_menu.h"
 #include "safari_zone.h"
 #include "battle_pyramid.h"
+#include "battle_pyramid_bag.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -95,7 +96,6 @@ static EWRAM_DATA u8 sTutorMoveAndElevatorWindowId = 0;
 static EWRAM_DATA u16 sLilycoveDeptStore_NeverRead = 0;
 static EWRAM_DATA u16 sLilycoveDeptStore_DefaultFloorChoice = 0;
 static EWRAM_DATA struct ListMenuItem *sScrollableMultichoice_ListMenuItem = NULL;
-static EWRAM_DATA u16 sScrollableMultichoice_ScrollOffset = 0;
 static EWRAM_DATA u16 sFrontierExchangeCorner_NeverRead = 0;
 static EWRAM_DATA u8 sScrollableMultichoice_ItemSpriteId = 0;
 static EWRAM_DATA u8 sBattlePointsWindowId = 0;
@@ -105,6 +105,7 @@ static EWRAM_DATA u32 sBattleTowerMultiBattleTypeFlags = 0;
 
 struct ListMenuTemplate gScrollableMultichoice_ListMenuTemplate;
 EWRAM_DATA u16 gScrollableMultichoice_ScrollOffset = 0;
+
 static EWRAM_DATA u8 sSafariBallsWindowId = 0;
 static EWRAM_DATA u8 sBattlePyramidFloorWindowId = 0;
 
@@ -2533,7 +2534,7 @@ static void Task_ShowScrollableMultichoice(u8 taskId)
     struct Task *task = &gTasks[taskId];
 
     LockPlayerFieldControls();
-    sScrollableMultichoice_ScrollOffset = 0;
+    gScrollableMultichoice_ScrollOffset = 0;
     sScrollableMultichoice_ItemSpriteId = MAX_SPRITES;
     FillFrontierExchangeCornerWindowAndItemIcon(task->tScrollMultiId, 0);
     ShowBattleFrontierTutorWindow(task->tScrollMultiId, 0);
@@ -2607,7 +2608,7 @@ static void ScrollableMultichoice_MoveCursor(s32 itemIndex, bool8 onInit, struct
         u16 selection;
         struct Task *task = &gTasks[taskId];
         ListMenuGetScrollAndRow(task->tListTaskId, &selection, NULL);
-        sScrollableMultichoice_ScrollOffset = selection;
+        gScrollableMultichoice_ScrollOffset = selection;
         ListMenuGetCurrentItemArrayId(task->tListTaskId, &selection);
         HideFrontierExchangeCornerItemIcon(task->tScrollMultiId, sFrontierExchangeCorner_NeverRead);
         FillFrontierExchangeCornerWindowAndItemIcon(task->tScrollMultiId, selection);
@@ -2727,7 +2728,7 @@ static void ScrollableMultichoice_UpdateScrollArrows(u8 taskId)
         template.secondY = task->tHeight * 8 + 10;
         template.fullyUpThreshold = 0;
         template.fullyDownThreshold = task->tNumItems - task->tMaxItemsOnScreen;
-        task->tScrollArrowId = AddScrollIndicatorArrowPair(&template, &sScrollableMultichoice_ScrollOffset);
+        task->tScrollArrowId = AddScrollIndicatorArrowPair(&template, &gScrollableMultichoice_ScrollOffset);
     }
 }
 
@@ -4264,7 +4265,10 @@ void Script_StartMenu_OpenPokemonMenu(void)
 void Script_StartMenu_OpenBagMenu(void)
 {
     CleanupOverworldWindowsAndTilemaps();
-    SetMainCallback2(CB2_BagMenuFromStartMenu); // Display bag menu
+    if (InBattlePyramid())
+        SetMainCallback2(CB2_PyramidBagMenuFromStartMenu);
+    else
+        SetMainCallback2(CB2_BagMenuFromStartMenu); // Display bag menu
 }
 
 void Script_StartMenu_OpenPokenavMenu(void)
@@ -4295,11 +4299,6 @@ void Script_StartMenu_OpenOptionsMenu(void)
 void Script_StartMenu_OpenRetireSafari(void)
 {
     SafariZoneRetirePrompt();
-}
-
-void Script_StartMenu_OpenRetireBattlePyramid(void)
-{
-    // TODO: Remake this in a saner manner, probably within a script, idk.
 }
 
 void ShowSafariBallsWindow(void)

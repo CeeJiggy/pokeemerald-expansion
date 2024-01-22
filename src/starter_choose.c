@@ -108,48 +108,9 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
 
 static const u16 sStarterMon[STARTER_MON_COUNT] =
     {
-        if (gSpecialVar_Result == 0){
-            SPECIES_BULBASAUR,
-            SPECIES_CHARMANDER,
-            SPECIES_SQUIRTLE,
-        } else if (gSpecialVar_Result == 1){
-            SPECIES_CHIKORITA,
-            SPECIES_CYNDAQUIL,
-            SPECIES_TOTODILE,
-        } else if (gSpecialVar_Result == 2){
-            SPECIES_TREECKO,
-            SPECIES_TORCHIC,
-            SPECIES_MUDKIP,
-        } else if (gSpecialVar_Result == 3){
-            SPECIES_TURTWIG,
-            SPECIES_CHIMCHAR,
-            SPECIES_PIPLUP,
-        } else if (gSpecialVar_Result == 4){
-            SPECIES_SNIVY,
-            SPECIES_TEPIG,
-            SPECIES_OSHAWOTT,
-        } else if (gSpecialVar_Result == 5){
-            SPECIES_CHESPIN,
-            SPECIES_FENNEKIN,
-            SPECIES_FROAKIE,
-        } else if (gSpecialVar_Result == 6){
-            SPECIES_ROWLET,
-            SPECIES_LITTEN,
-            SPECIES_POPPLIO,
-        } else if (gSpecialVar_Result == 7){
-            SPECIES_GROOKEY,
-            SPECIES_SCORBUNNY,
-            SPECIES_SOBBLE,
-        } else if (gSpecialVar_Result == 8){
-            SPECIES_SPRIGATITO,
-            SPECIES_FUECOCO,
-            SPECIES_QUAXLY,
-        } else {
-            SPECIES_TREECKO,
-            SPECIES_TORCHIC,
-            SPECIES_MUDKIP,
-        }
-
+        SPECIES_TURTWIG,
+        SPECIES_LITTEN,
+        SPECIES_FROAKIE,
 };
 
 static const struct BgTemplate sBgTemplates[3] =

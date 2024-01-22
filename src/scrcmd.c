@@ -48,6 +48,8 @@
 #include "trainer_see.h"
 #include "tv.h"
 #include "window.h"
+#include "list_menu.h"
+#include "malloc.h"
 #include "constants/event_objects.h"
 
 typedef u16 (*SpecialFunc)(void);
@@ -69,27 +71,28 @@ extern const u8 *gStdScripts[];
 extern const u8 *gStdScripts_End[];
 
 static void CloseBrailleWindow(void);
+static void DynamicMultichoiceSortList(struct ListMenuItem *items, u32 count);
 
 // This is defined in here so the optimizer can't see its value when compiling
 // script.c.
-void * const gNullScriptPtr = NULL;
+void *const gNullScriptPtr = NULL;
 
 static const u8 sScriptConditionTable[6][3] =
-{
-//  <  =  >
-    {1, 0, 0}, // <
-    {0, 1, 0}, // =
-    {0, 0, 1}, // >
-    {1, 1, 0}, // <=
-    {0, 1, 1}, // >=
-    {1, 0, 1}, // !=
+    {
+        //  <  =  >
+        {1, 0, 0}, // <
+        {0, 1, 0}, // =
+        {0, 0, 1}, // >
+        {1, 1, 0}, // <=
+        {0, 1, 1}, // >=
+        {1, 0, 1}, // !=
 };
 
 static u8 *const sScriptStringVars[] =
-{
-    gStringVar1,
-    gStringVar2,
-    gStringVar3,
+    {
+        gStringVar1,
+        gStringVar2,
+        gStringVar3,
 };
 
 bool8 ScrCmd_nop(struct ScriptContext *ctx)
@@ -110,7 +113,7 @@ bool8 ScrCmd_end(struct ScriptContext *ctx)
 
 bool8 ScrCmd_gotonative(struct ScriptContext *ctx)
 {
-    bool8 (*addr)(void) = (bool8 (*)(void))ScriptReadWord(ctx);
+    bool8 (*addr)(void) = (bool8(*)(void))ScriptReadWord(ctx);
 
     SetupNativeScript(ctx, addr);
     return TRUE;
@@ -1350,7 +1353,101 @@ bool8 ScrCmd_yesnobox(struct ScriptContext *ctx)
         return FALSE;
     }
 }
+static void DynamicMultichoiceSortList(struct ListMenuItem *items, u32 count)
+{
+    u32 i, j;
+    struct ListMenuItem tmp;
+    for (i = 0; i < count - 1; ++i)
+    {
+        for (j = 0; j < count - i - 1; ++j)
+        {
+            if (items[j].id > items[j + 1].id)
+            {
+                tmp = items[j];
+                items[j] = items[j + 1];
+                items[j + 1] = tmp;
+            }
+        }
+    }
+}
 
+#define DYN_MULTICHOICE_DEFAULT_MAX_BEFORE_SCROLL 6
+
+bool8 ScrCmd_dynmultichoice(struct ScriptContext *ctx)
+{
+    u32 i;
+    u32 left = ScriptReadByte(ctx);
+    u32 top = ScriptReadByte(ctx);
+    u32 height = ScriptReadByte(ctx);
+    bool32 ignoreBPress = ScriptReadByte(ctx);
+    u32 maxBeforeScroll = ScriptReadByte(ctx);
+    bool32 shouldSort = ScriptReadByte(ctx);
+    u32 initialSelected = VarGet(ScriptReadHalfword(ctx));
+    u32 choicesSpacing = ScriptReadByte(ctx);
+    u32 callbackSet = ScriptReadByte(ctx);
+    u32 initialRow = 0;
+    // Read vararg
+    u32 argc = ScriptReadByte(ctx);
+    struct ListMenuItem *items;
+
+    if (argc == 0)
+        return FALSE;
+
+    if (maxBeforeScroll == 0xFF)
+        maxBeforeScroll = DYN_MULTICHOICE_DEFAULT_MAX_BEFORE_SCROLL;
+
+    if ((const u8 *)ScriptPeekWord(ctx) != NULL)
+    {
+        items = AllocZeroed(sizeof(struct ListMenuItem) * argc);
+        for (i = 0; i < argc; ++i)
+        {
+            u8 *nameBuffer = Alloc(100);
+            const u8 *arg = (const u8 *)ScriptReadWord(ctx);
+            StringExpandPlaceholders(nameBuffer, arg);
+            items[i].name = nameBuffer;
+            items[i].id = i;
+            if (i == initialSelected)
+                initialRow = i;
+        }
+    }
+    else
+    {
+        argc = MultichoiceDynamic_StackSize();
+        items = AllocZeroed(sizeof(struct ListMenuItem) * argc);
+        for (i = 0; i < argc; ++i)
+        {
+            struct ListMenuItem *currentItem = MultichoiceDynamic_PeekElementAt(i);
+            items[i] = *currentItem;
+            if (currentItem->id == initialSelected)
+                initialRow = i;
+        }
+        if (shouldSort)
+            DynamicMultichoiceSortList(items, argc);
+        MultichoiceDynamic_DestroyStack();
+    }
+
+    if (ScriptMenu_MultichoiceDynamic(left, top, height, argc, items, ignoreBPress, maxBeforeScroll, initialRow, choicesSpacing, callbackSet))
+    {
+        ScriptContext_Stop();
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+bool8 ScrCmd_dynmultipush(struct ScriptContext *ctx)
+{
+    u8 *nameBuffer = Alloc(100);
+    const u8 *name = (const u8 *)ScriptReadWord(ctx);
+    u32 id = VarGet(ScriptReadHalfword(ctx));
+    struct ListMenuItem item;
+    StringExpandPlaceholders(nameBuffer, name);
+    item.name = nameBuffer;
+    item.id = id;
+    MultichoiceDynamic_PushElement(item);
+    return FALSE;
+}
 bool8 ScrCmd_multichoice(struct ScriptContext *ctx)
 {
     u8 left = ScriptReadByte(ctx);
@@ -1876,7 +1973,7 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
     u8 level2 = ScriptReadByte(ctx);
     u16 item2 = ScriptReadHalfword(ctx);
 
-    if(species2 == SPECIES_NONE)
+    if (species2 == SPECIES_NONE)
     {
         CreateScriptedWildMon(species, level, item);
         sIsScriptedWildDouble = FALSE;
@@ -1966,7 +2063,6 @@ bool8 ScrCmd_choosecontestmon(struct ScriptContext *ctx)
     ScriptContext_Stop();
     return TRUE;
 }
-
 
 bool8 ScrCmd_startcontest(struct ScriptContext *ctx)
 {
@@ -2133,7 +2229,7 @@ bool8 ScrCmd_addelevmenuitem(struct ScriptContext *ctx)
     u16 UNUSED v7 = VarGet(ScriptReadHalfword(ctx));
     u16 UNUSED v9 = VarGet(ScriptReadHalfword(ctx));
 
-    //ScriptAddElevatorMenuItem(v3, v5, v7, v9);
+    // ScriptAddElevatorMenuItem(v3, v5, v7, v9);
     return FALSE;
 }
 

@@ -542,7 +542,7 @@ gSpecials::
 	def_special TrySkyBattle
 	def_special VsSeekerResetObjectMovementAfterChargeComplete
 	def_special VsSeekerFreezeObjectsAfterChargeComplete
-	@ Start Menu functions begin below:
+@ Start Menu functions begin below:
 	def_special PlayRainStoppingSoundEffect
 	def_special Script_StartMenu_OpenPokedexMenu
 	def_special Script_StartMenu_OpenPokemonMenu
@@ -555,5 +555,5 @@ gSpecials::
 	def_special ShowPyramidFloorWindow
 	def_special RemoveExtraStartMenuWindows
 	def_special Script_StartMenu_OpenRetireSafari
-	def_special Script_StartMenu_OpenRetireBattlePyramid
+	def_special InBattlePike
 @ Start menu functions end above:
