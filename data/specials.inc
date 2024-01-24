@@ -546,6 +546,8 @@ gSpecials::
 	def_special PlayRainStoppingSoundEffect
 	def_special Script_StartMenu_OpenPokedexMenu
 	def_special Script_StartMenu_OpenPokemonMenu
+	def_special Script_StartMenu_OpenBox
+	def_special Script_StartMenu_OpenDexNav
 	def_special Script_StartMenu_OpenBagMenu
 	def_special Script_StartMenu_OpenPokenavMenu
 	def_special Script_StartMenu_OpenTrainerCardMenu

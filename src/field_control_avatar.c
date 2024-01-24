@@ -90,7 +90,6 @@ void FieldClearPlayerInput(struct FieldInput *input)
     input->input_field_1_2 = FALSE;
     input->input_field_1_3 = FALSE;
     input->dpadDirection = 0;
-    input->pressedListButton = FALSE;
 }
 
 void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
@@ -115,8 +114,6 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedRButton = TRUE;
             if (newKeys & R_BUTTON && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                 input->pressedRButton = TRUE;
-            if (newKeys & L_BUTTON && TxRegItemsMenu_CountUsedRegisteredItemSlots > 0)
-                input->pressedListButton = TRUE;
         }
 
         if (heldKeys & (DPAD_UP | DPAD_DOWN | DPAD_LEFT | DPAD_RIGHT))
@@ -146,8 +143,11 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     // If B is pressed, field controls are allowed, and the player is either running or walking.
     if ((newKeys & B_BUTTON) && (!ArePlayerFieldControlsLocked()) && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_DASH | PLAYER_AVATAR_FLAG_ON_FOOT)))
     {
-        PlaySE(SE_SHOP);
         gRunToggleBtnSet = TRUE;
+        if (FlagGet(FLAG_RUNNING_SHOES_TOGGLE) == FALSE)
+        {
+            PlaySE(SE_FLEE);
+        }
     }
 
 #if DEBUG_OVERWORLD_MENU == TRUE && DEBUG_OVERWORLD_IN_MENU == FALSE
@@ -218,16 +218,22 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->tookStep && TryFindHiddenPokemon())
         return TRUE;
 
-    if (input->pressedSelectButton && UseRegisteredKeyItemOnField(0) == TRUE)
-        return TRUE;
-
-    if (input->pressedListButton)
+    if (input->pressedSelectButton)
     {
-        TxRegItemsMenu_OpenMenu();
-        return TRUE;
+        if (gSaveBlock1Ptr->registeredItemListCount == 1)
+        {
+            UseRegisteredKeyItemOnField(1);
+            return TRUE;
+        }
+        else if (gSaveBlock1Ptr->registeredItemListCount > 0)
+        {
+
+            TxRegItemsMenu_OpenMenu();
+            return TRUE;
+        }
     }
 
-    if (input->pressedRButton && TryStartDexnavSearch())
+    if (input->pressedRButton && TryStartDexnavSearch() && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         return TRUE;
 
     if (input->pressedRButton && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))

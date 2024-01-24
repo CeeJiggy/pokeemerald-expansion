@@ -24,3 +24,14 @@ Help from Community
 	Running shoes right away
 	Box from menu
 	PSS display in battle
+	Toggle Run with B button
+
+
+
+
+TO FIX
+New start menu flicker back to field
+Cant sneak in dex nav when run toggled
+completely fucked up running toggle
+completely fucked up select menu
+Register menu make only 1 option

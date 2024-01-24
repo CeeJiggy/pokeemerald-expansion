@@ -1436,6 +1436,7 @@ bool8 ScrCmd_dynmultichoice(struct ScriptContext *ctx)
         return FALSE;
     }
 }
+
 bool8 ScrCmd_dynmultipush(struct ScriptContext *ctx)
 {
     u8 *nameBuffer = Alloc(100);
@@ -1448,6 +1449,7 @@ bool8 ScrCmd_dynmultipush(struct ScriptContext *ctx)
     MultichoiceDynamic_PushElement(item);
     return FALSE;
 }
+
 bool8 ScrCmd_multichoice(struct ScriptContext *ctx)
 {
     u8 left = ScriptReadByte(ctx);

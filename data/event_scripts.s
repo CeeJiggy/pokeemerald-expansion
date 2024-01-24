@@ -1020,23 +1020,27 @@ EventScript_StartMenu::
 	goto_if_in_battle_pike EventScript_StartMenu_BuildBattlePikeMenu
 	call_if_set FLAG_SYS_POKEDEX_GET, EventScript_StartMenu_TogglePokedex
 	call_if_set FLAG_SYS_POKEMON_GET, EventScript_StartMenu_TogglePokemon
+	call_if_set FLAG_SYS_POKEMON_GET, EventScript_StartMenu_ToggleBox
+	call_if_set FLAG_SYS_DEXNAV_GET, EventScript_StartMenu_ToggleDexNav
 	call_if_set FLAG_SYS_BAG, EventScript_StartMenu_ToggleBag
 	call_if_set FLAG_SYS_POKENAV_GET, EventScript_StartMenu_TogglePokenav
 	call_if_set FLAG_SYS_TRAINER_CARD, EventScript_StartMenu_ToggleTrainerCard
 	call_if_set FLAG_SYS_SAVE, EventScript_StartMenu_ToggleSave
-	dynmultipush StartMenu_Text_Option, 6
-	dynmultipush StartMenu_Text_Exit, 7
+	dynmultipush StartMenu_Text_Option, 8
+	dynmultipush StartMenu_Text_Exit, 9
 	special PlayRainStoppingSoundEffect
 	dynmultistack 22, 0, 18, TRUE, 8, FALSE, VAR_START_MENU_CURSOR_POS, 2, DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS
 	switch VAR_RESULT
 	case 0, EventScript_StartMenu_PokedexAccess
 	case 1, EventScript_StartMenu_PokemonAccess
-	case 2, EventScript_StartMenu_BagAccess
-	case 3, EventScript_StartMenu_PokenavAccess
-	case 4, EventScript_StartMenu_TrainerCardAccess
-	case 5, EventScript_StartMenu_SaveAccess
-	case 6, EventScript_StartMenu_OptionAccess
-	case 7, EventScript_StartMenu_ExitAccess
+	case 2, EventScript_StartMenu_BoxAccess
+	case 3, EventScript_StartMenu_DexNavAccess
+	case 4, EventScript_StartMenu_BagAccess
+	case 5, EventScript_StartMenu_PokenavAccess
+	case 6, EventScript_StartMenu_TrainerCardAccess
+	case 7, EventScript_StartMenu_SaveAccess
+	case 8, EventScript_StartMenu_OptionAccess
+	case 9, EventScript_StartMenu_ExitAccess
 	case MULTI_B_PRESSED, EventScript_StartMenu_ExitAccess
 	end
 
@@ -1046,17 +1050,23 @@ EventScript_StartMenu_TogglePokedex:
 EventScript_StartMenu_TogglePokemon:
 	dynmultipush StartMenu_Text_Pokemon, 1
 	return
+EventScript_StartMenu_ToggleBox:
+	dynmultipush StartMenu_Text_Box, 2
+	return
+EventScript_StartMenu_ToggleDexNav:
+	dynmultipush StartMenu_Text_DexNav, 3
+	return
 EventScript_StartMenu_ToggleBag:
-	dynmultipush StartMenu_Text_Bag, 2
+	dynmultipush StartMenu_Text_Bag, 4
 	return
 EventScript_StartMenu_TogglePokenav:
-	dynmultipush StartMenu_Text_Pokenav, 3
+	dynmultipush StartMenu_Text_Pokenav, 5
 	return
 EventScript_StartMenu_ToggleTrainerCard:
-	dynmultipush StartMenu_Text_TrainerCard, 4
+	dynmultipush StartMenu_Text_TrainerCard, 6
 	return
 EventScript_StartMenu_ToggleSave:
-	dynmultipush StartMenu_Text_Save, 5
+	dynmultipush StartMenu_Text_Save, 7
 	return
 
 EventScript_StartMenu_PokedexAccess:
@@ -1068,6 +1078,16 @@ EventScript_StartMenu_PokemonAccess:
 	special RemoveExtraStartMenuWindows
 	fadescreen FADE_TO_BLACK
 	special Script_StartMenu_OpenPokemonMenu
+	end
+EventScript_StartMenu_BoxAccess:
+	special RemoveExtraStartMenuWindows
+	fadescreen FADE_TO_BLACK
+	special Script_StartMenu_OpenBox
+	end
+EventScript_StartMenu_DexNavAccess:
+	special RemoveExtraStartMenuWindows
+	fadescreen FADE_TO_BLACK
+	special Script_StartMenu_OpenDexNav
 	end
 EventScript_StartMenu_BagAccess:
 	special RemoveExtraStartMenuWindows
@@ -1102,6 +1122,10 @@ StartMenu_Text_Pokedex:
     .string "Pokédex$"
 StartMenu_Text_Pokemon:
     .string "Pokémon$"
+StartMenu_Text_Box:
+    .string "PC$"
+StartMenu_Text_DexNav:
+    .string "DexNav$"
 StartMenu_Text_Bag:
     .string "Bag$"
 StartMenu_Text_Pokenav:

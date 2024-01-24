@@ -71,6 +71,7 @@
 #include "pokedex.h"
 #include "item_menu.h"
 #include "pokenav.h"
+#include "dexnav.h"
 #include "trainer_card.h"
 #include "frontier_pass.h"
 #include "option_menu.h"
@@ -4269,6 +4270,16 @@ void Script_StartMenu_OpenBagMenu(void)
         SetMainCallback2(CB2_PyramidBagMenuFromStartMenu);
     else
         SetMainCallback2(CB2_BagMenuFromStartMenu); // Display bag menu
+}
+void Script_StartMenu_OpenBox(void)
+{
+    CleanupOverworldWindowsAndTilemaps();
+    EnterPokeStorage(0);
+}
+void Script_StartMenu_OpenDexNav(void)
+{
+    CleanupOverworldWindowsAndTilemaps();
+    CreateTask(Task_OpenDexNavFromStartMenu, 0);
 }
 
 void Script_StartMenu_OpenPokenavMenu(void)

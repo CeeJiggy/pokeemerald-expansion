@@ -342,7 +342,7 @@ static const u8 sContextMenuItems_KeyItemsPocket[] = {
 
 // tx_registered_items_menu
 static const u8 sContextMenuItems_RegisterKeyItem[] = {
-    ACTION_SELECT_BUTTON, ACTION_L_BUTTON,
+    ACTION_SELECT_BUTTON, ACTION_DUMMY,
     ACTION_DUMMY, ACTION_CANCEL};
 
 static const u8 sContextMenuItems_BallsPocket[] = {
@@ -412,9 +412,6 @@ static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate = {
     .palNum = 0,
 };
 
-static const u8 sSelectButtonGfx[] = INCBIN_U8("graphics/interface/select_button.4bpp");
-static const u8 sLButtonGfx[] = INCBIN_U8("graphics/interface/L_button.4bpp");
-static const u8 sRButtonGfx[] = INCBIN_U8("graphics/interface/R_button.4bpp");
 static const u8 sRegisteredSelect_Gfx[] = INCBIN_U8("graphics/bag/select_button.4bpp"); // tx_registered_items_menu
 
 enum
@@ -1045,10 +1042,7 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
 
             if (TxRegItemsMenu_CheckRegisteredHasItem(itemId))
             {
-                if (gSaveBlock2Ptr->optionsButtonMode != 2)
-                    BlitBitmapToWindow(windowId, sLButtonGfx, 96, y - 1, 24, 16);
-                else
-                    BlitBitmapToWindow(windowId, sRButtonGfx, 96, y - 1, 24, 16);
+                BlitBitmapToWindow(windowId, sRegisteredSelect_Gfx, 96, y - 1, 24, 16);
             }
         }
     }
@@ -1311,6 +1305,11 @@ static void Task_BagMenu_HandleInput(u8 taskId)
 
                 data[1] = GetItemListPosition(gBagPosition.pocket);
                 data[2] = BagGetQuantityByPocketPosition(gBagPosition.pocket + 1, data[1]);
+
+                // don't allow opening sort menu on close bag item
+                if (data[1] >= gBagPockets[gBagPosition.pocket].capacity)
+                    break;
+
                 if (gBagPosition.cursorPosition[gBagPosition.pocket] == gBagMenu->numItemStacks[gBagPosition.pocket] - 1)
                     break;
                 else
@@ -1374,12 +1373,14 @@ static u8 GetSwitchBagPocketDirection(void)
     LRKeys = GetLRKeysPressed();
     if (JOY_NEW(DPAD_LEFT) || LRKeys == MENU_L_PRESSED)
     {
-        PlaySE(SE_SELECT);
+        PlaySE(SE_RG_BAG_POCKET);
+
         return SWITCH_POCKET_LEFT;
     }
     if (JOY_NEW(DPAD_RIGHT) || LRKeys == MENU_R_PRESSED)
     {
-        PlaySE(SE_SELECT);
+        PlaySE(SE_RG_BAG_POCKET);
+
         return SWITCH_POCKET_RIGHT;
     }
     return SWITCH_POCKET_NONE;
@@ -2056,7 +2057,7 @@ static void ItemMenu_Cancel(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    sRegisterSubMenu = FALSE; // tx_registered_items_menu
+    // sRegisterSubMenu = FALSE; // tx_registered_items_menu
 
     RemoveContextWindow();
     PrintItemDescription(tListPosition);
@@ -2071,8 +2072,6 @@ static const u8 gText_TooManyRegistered[] = _("You already have too\nmany items 
 static void ItemMenu_Cancel2(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    // u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
-    // u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
 
     sRegisterSubMenu = FALSE;
 

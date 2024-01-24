@@ -1735,7 +1735,7 @@
 	.2byte \quantity
 	.endm
 
-	.macro _dynmultichoice left:req, top:req, height:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, choicesSpacing:req, callbacks:req argv:vararg
+.macro _dynmultichoice left:req, top:req, height:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, choicesSpacing:req, callbacks:req argv:vararg
 	.byte 0xe3
 	.byte \left
 	.byte \top
