@@ -31,7 +31,5 @@ Help from Community
 
 TO FIX
 New start menu flicker back to field
-Cant sneak in dex nav when run toggled
-completely fucked up running toggle
 completely fucked up select menu
 Register menu make only 1 option

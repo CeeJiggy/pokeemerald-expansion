@@ -74,6 +74,7 @@ static void UpdateFriendshipStepCounter(void);
 #if OW_POISON_DAMAGE < GEN_5
 static bool8 UpdatePoisonStepCounter(void);
 #endif // OW_POISON_DAMAGE
+static bool8 EnableAutoRun(void);
 
 void FieldClearPlayerInput(struct FieldInput *input)
 {
@@ -86,7 +87,7 @@ void FieldClearPlayerInput(struct FieldInput *input)
     input->tookStep = FALSE;
     input->pressedBButton = FALSE;
     input->pressedRButton = FALSE;
-    input->input_field_1_1 = FALSE;
+    input->pressedLButton = FALSE;
     input->input_field_1_2 = FALSE;
     input->input_field_1_3 = FALSE;
     input->dpadDirection = 0;
@@ -110,7 +111,9 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedAButton = TRUE;
             if (newKeys & B_BUTTON)
                 input->pressedBButton = TRUE;
-            if (newKeys & R_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH))
+            if (newKeys & L_BUTTON)
+                input->pressedLButton = TRUE;
+            if (newKeys & R_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH) && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                 input->pressedRButton = TRUE;
             if (newKeys & R_BUTTON && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                 input->pressedRButton = TRUE;
@@ -139,16 +142,6 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
         input->dpadDirection = DIR_WEST;
     else if (heldKeys & DPAD_RIGHT)
         input->dpadDirection = DIR_EAST;
-
-    // If B is pressed, field controls are allowed, and the player is either running or walking.
-    if ((newKeys & B_BUTTON) && (!ArePlayerFieldControlsLocked()) && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_DASH | PLAYER_AVATAR_FLAG_ON_FOOT)))
-    {
-        gRunToggleBtnSet = TRUE;
-        if (FlagGet(FLAG_RUNNING_SHOES_TOGGLE) == FALSE)
-        {
-            PlaySE(SE_FLEE);
-        }
-    }
 
 #if DEBUG_OVERWORLD_MENU == TRUE && DEBUG_OVERWORLD_IN_MENU == FALSE
     if ((heldKeys & DEBUG_OVERWORLD_HELD_KEYS) && input->DEBUG_OVERWORLD_TRIGGER_EVENT)
@@ -232,6 +225,9 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
             return TRUE;
         }
     }
+
+    if (input->pressedLButton && EnableAutoRun())
+        return TRUE;
 
     if (input->pressedRButton && TryStartDexnavSearch() && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         return TRUE;
@@ -1075,4 +1071,27 @@ int SetCableClubWarp(void)
     MapGridGetMetatileBehaviorAt(position.x, position.y); // unnecessary
     SetupWarp(&gMapHeader, GetWarpEventAtMapPosition(&gMapHeader, &position), &position);
     return 0;
+}
+
+extern const u8 EventScript_DisableAutoRun[];
+extern const u8 EventScript_EnableAutoRun[];
+static bool8 EnableAutoRun(void)
+{
+    if (!FlagGet(FLAG_SYS_B_DASH))
+        return FALSE; // auto run unusable until you get running shoes
+
+    if (gSaveBlock2Ptr->autoRun)
+    {
+        PlaySE(SE_M_POISON_POWDER);
+        gSaveBlock2Ptr->autoRun = FALSE;
+        ScriptContext_SetupScript(EventScript_DisableAutoRun);
+    }
+    else
+    {
+        PlaySE(SE_FLEE);
+        gSaveBlock2Ptr->autoRun = TRUE;
+        ScriptContext_SetupScript(EventScript_EnableAutoRun);
+    }
+
+    return TRUE;
 }

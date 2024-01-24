@@ -30,8 +30,6 @@
 #include "constants/songs.h"
 #include "constants/trainer_types.h"
 
-EWRAM_DATA bool8 gRunToggleBtnSet = FALSE;
-
 #define NUM_FORCED_MOVEMENTS 18
 #define NUM_ACRO_BIKE_COLLISIONS 5
 
@@ -638,7 +636,8 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
             gPlayerAvatar.creeping = TRUE;
             PlayerGoSlow(direction);
         }
-        else if (gRunToggleBtnSet || FlagGet(FLAG_RUNNING_SHOES_TOGGLE))
+        else if (gSaveBlock2Ptr->autoRun == TRUE)
+
         {
             PlayerWalkFaster(direction);
         }
@@ -656,35 +655,23 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         PlayerGoSlow(direction);
     }
 
-    else if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER) && (gRunToggleBtnSet || FlagGet(FLAG_RUNNING_SHOES_TOGGLE)) && FlagGet(FLAG_SYS_B_DASH) && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0)
+    else if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER) && (heldKeys & B_BUTTON || gSaveBlock2Ptr->autoRun) && FlagGet(FLAG_SYS_B_DASH) && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0)
     {
-        if (gRunToggleBtnSet)
 
+        if (heldKeys & B_BUTTON && gSaveBlock2Ptr->autoRun == TRUE)
         {
-            gRunToggleBtnSet = FALSE;
-            if (FlagGet(FLAG_RUNNING_SHOES_TOGGLE) == FALSE)
-            {
-                FlagSet(FLAG_RUNNING_SHOES_TOGGLE);
-                PlayerRun(direction);
-                gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
-                return;
-            }
-            else
-            {
-                FlagClear(FLAG_RUNNING_SHOES_TOGGLE);
-                gRunToggleBtnSet = FALSE;
-                PlayerWalkNormal(direction);
-                return;
-            }
+            PlayerWalkNormal(direction);
         }
-
-        PlayerRun(direction);
-        gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
+        else
+        {
+            PlayerRun(direction);
+            gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
+        }
         return;
     }
+
     else
     {
-        gRunToggleBtnSet = FALSE;
         PlayerWalkNormal(direction);
     }
 }
