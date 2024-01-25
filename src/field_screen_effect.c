@@ -440,8 +440,8 @@ void ReturnToFieldOpenStartMenu(void)
 bool8 FieldCB_ReturnToFieldOpenStartMenu(void)
 {
     FadeInFromBlack();
-    ScriptContext_SetupScript(EventScript_StartMenu);
     LockPlayerFieldControls();
+    ScriptContext_SetupScript(EventScript_StartMenu);
     return TRUE;
 }
 

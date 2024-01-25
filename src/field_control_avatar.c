@@ -111,9 +111,9 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedAButton = TRUE;
             if (newKeys & B_BUTTON)
                 input->pressedBButton = TRUE;
-            if (newKeys & L_BUTTON)
+            if (newKeys & L_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH))
                 input->pressedLButton = TRUE;
-            if (newKeys & R_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH) && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+            if (newKeys & R_BUTTON && !FlagGet(FLAG_SYS_DEXNAV_SEARCH))
                 input->pressedRButton = TRUE;
             if (newKeys & R_BUTTON && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                 input->pressedRButton = TRUE;
@@ -202,6 +202,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
     if (input->pressedStartButton)
     {
+        u8 taskId = FindTaskIdByFunc(Task_DexNavSearch);
+        if (taskId != 0xFF)
+        {
+            gTasks[taskId].func = EndDexNavSearch;
+        }
         PlaySE(SE_WIN_OPEN);
         LockPlayerFieldControls();
         ScriptContext_SetupScript(EventScript_StartMenu);
@@ -229,9 +234,6 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->pressedLButton && EnableAutoRun())
         return TRUE;
 
-    if (input->pressedRButton && TryStartDexnavSearch() && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-        return TRUE;
-
     if (input->pressedRButton && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
     {
         ObjectEventClearHeldMovementIfActive(&gObjectEvents[gPlayerAvatar.objectEventId]);
@@ -249,6 +251,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
             SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
             PlaySE(SE_BIKE_BELL);
         }
+    }
+
+    else if (input->pressedRButton && TryStartDexnavSearch() && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    {
+        return TRUE;
     }
 
 #if DEBUG_OVERWORLD_MENU == TRUE && DEBUG_OVERWORLD_IN_MENU == FALSE

@@ -149,7 +149,7 @@ static void DexNavProximityUpdate(void);
 static void DexNavDrawIcons(void);
 static void DexNavUpdateSearchWindow(u8 proximity, u8 searchLevel);
 // static void DexNavSightUpdate(u8 index);
-static void Task_DexNavSearch(u8 taskId);
+
 static void EndDexNavSearchSetupScript(const u8 *script, u8 taskId);
 // HIDDEN MONS
 static void DexNavDrawHiddenIcons(void);
@@ -1036,7 +1036,7 @@ static void Task_RevealHiddenMon(u8 taskId)
     task->tFrameCount = 0; // restart search clock
 }
 
-static void Task_DexNavSearch(u8 taskId)
+void Task_DexNavSearch(u8 taskId)
 {
     u32 species = sDexNavSearchDataPtr->species;
     struct Task *task = &gTasks[taskId];
