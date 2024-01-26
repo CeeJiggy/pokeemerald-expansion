@@ -4414,8 +4414,8 @@
     {
       "id": "LAYOUT_PETALBURG_MEADOWS",
       "name": "PetalburgMeadows_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 28,
+      "height": 28,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/PetalburgMeadows/border.bin",
