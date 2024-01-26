@@ -25,13 +25,13 @@
 #define VERSION_GAMECUBE 15
 
 #define LANGUAGE_JAPANESE 1
-#define LANGUAGE_ENGLISH  2
-#define LANGUAGE_FRENCH   3
-#define LANGUAGE_ITALIAN  4
-#define LANGUAGE_GERMAN   5
-#define LANGUAGE_KOREAN   6 // 6 goes unused but the theory is it was meant to be Korean
-#define LANGUAGE_SPANISH  7
-#define NUM_LANGUAGES     7
+#define LANGUAGE_ENGLISH 2
+#define LANGUAGE_FRENCH 3
+#define LANGUAGE_ITALIAN 4
+#define LANGUAGE_GERMAN 5
+#define LANGUAGE_KOREAN 6 // 6 goes unused but the theory is it was meant to be Korean
+#define LANGUAGE_SPANISH 7
+#define NUM_LANGUAGES 7
 
 #define GAME_VERSION (VERSION_EMERALD)
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
@@ -39,13 +39,13 @@
 // party sizes
 #define PARTY_SIZE 6
 #define MULTI_PARTY_SIZE (PARTY_SIZE / 2)
-#define FRONTIER_PARTY_SIZE         3
+#define FRONTIER_PARTY_SIZE 3
 #define FRONTIER_DOUBLES_PARTY_SIZE 4
-#define FRONTIER_MULTI_PARTY_SIZE   2
-#define MAX_FRONTIER_PARTY_SIZE    (max(FRONTIER_PARTY_SIZE,        \
-                                    max(FRONTIER_DOUBLES_PARTY_SIZE,\
-                                        FRONTIER_MULTI_PARTY_SIZE)))
-#define UNION_ROOM_PARTY_SIZE       2
+#define FRONTIER_MULTI_PARTY_SIZE 2
+#define MAX_FRONTIER_PARTY_SIZE (max(FRONTIER_PARTY_SIZE,             \
+                                     max(FRONTIER_DOUBLES_PARTY_SIZE, \
+                                         FRONTIER_MULTI_PARTY_SIZE)))
+#define UNION_ROOM_PARTY_SIZE 2
 
 // capacities of various saveblock objects
 #define DAYCARE_MON_COUNT 2
@@ -72,6 +72,9 @@
 #define SAVED_TRENDS_COUNT 5
 #define PYRAMID_BAG_ITEMS_COUNT 10
 
+// tx_registered_items_menu
+#define REGISTERED_ITEMS_MAX 10
+
 // Number of facilities for Ranking Hall.
 // 7 facilities for single mode + tower double mode + tower multi mode.
 // Excludes link modes. See RANKING_HALL_* in include/constants/battle_frontier.h
@@ -80,22 +83,22 @@
 #define HALL_RECORDS_COUNT 3
 
 // Battle Frontier level modes.
-#define FRONTIER_LVL_50         0
-#define FRONTIER_LVL_OPEN       1
+#define FRONTIER_LVL_50 0
+#define FRONTIER_LVL_OPEN 1
 #define FRONTIER_LVL_MODE_COUNT 2
-#define FRONTIER_LVL_TENT       FRONTIER_LVL_MODE_COUNT // Special usage for indicating Battle Tent
+#define FRONTIER_LVL_TENT FRONTIER_LVL_MODE_COUNT // Special usage for indicating Battle Tent
 
 #define TRAINER_ID_LENGTH 4
 #define MAX_MON_MOVES 4
 #define ALL_MOVES_MASK ((1 << MAX_MON_MOVES) - 1)
 
 #define CONTESTANT_COUNT 4
-#define CONTEST_CATEGORY_COOL     0
-#define CONTEST_CATEGORY_BEAUTY   1
-#define CONTEST_CATEGORY_CUTE     2
-#define CONTEST_CATEGORY_SMART    3
-#define CONTEST_CATEGORY_TOUGH    4
-#define CONTEST_CATEGORIES_COUNT  5
+#define CONTEST_CATEGORY_COOL 0
+#define CONTEST_CATEGORY_BEAUTY 1
+#define CONTEST_CATEGORY_CUTE 2
+#define CONTEST_CATEGORY_SMART 3
+#define CONTEST_CATEGORY_TOUGH 4
+#define CONTEST_CATEGORIES_COUNT 5
 
 // string lengths
 #define ITEM_NAME_LENGTH 14
@@ -129,11 +132,11 @@
 #define FEMALE 1
 #define GENDER_COUNT 2
 
-#define BARD_SONG_LENGTH       6
-#define NUM_STORYTELLER_TALES  4
-#define NUM_TRADER_ITEMS       4
-#define GIDDY_MAX_TALES       10
-#define GIDDY_MAX_QUESTIONS    8
+#define BARD_SONG_LENGTH 6
+#define NUM_STORYTELLER_TALES 4
+#define NUM_TRADER_ITEMS 4
+#define GIDDY_MAX_TALES 10
+#define GIDDY_MAX_QUESTIONS 8
 
 #define OPTIONS_BUTTON_MODE_NORMAL 0
 #define OPTIONS_BUTTON_MODE_LR 1
@@ -149,23 +152,23 @@
 #define OPTIONS_BATTLE_STYLE_SHIFT 0
 #define OPTIONS_BATTLE_STYLE_SET 1
 
-#define DIR_NONE        0
-#define DIR_SOUTH       1
-#define DIR_NORTH       2
-#define DIR_WEST        3
-#define DIR_EAST        4
-#define DIR_SOUTHWEST   5
-#define DIR_SOUTHEAST   6
-#define DIR_NORTHWEST   7
-#define DIR_NORTHEAST   8
+#define DIR_NONE 0
+#define DIR_SOUTH 1
+#define DIR_NORTH 2
+#define DIR_WEST 3
+#define DIR_EAST 4
+#define DIR_SOUTHWEST 5
+#define DIR_SOUTHEAST 6
+#define DIR_NORTHWEST 7
+#define DIR_NORTHEAST 8
 
 #define CONNECTION_INVALID -1
-#define CONNECTION_NONE     0
-#define CONNECTION_SOUTH    1
-#define CONNECTION_NORTH    2
-#define CONNECTION_WEST     3
-#define CONNECTION_EAST     4
-#define CONNECTION_DIVE     5
-#define CONNECTION_EMERGE   6
+#define CONNECTION_NONE 0
+#define CONNECTION_SOUTH 1
+#define CONNECTION_NORTH 2
+#define CONNECTION_WEST 3
+#define CONNECTION_EAST 4
+#define CONNECTION_DIVE 5
+#define CONNECTION_EMERGE 6
 
 #endif // GUARD_CONSTANTS_GLOBAL_H

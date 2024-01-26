@@ -203,13 +203,15 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->pressedStartButton)
     {
         u8 taskId = FindTaskIdByFunc(Task_DexNavSearch);
-        if (taskId != 0xFF)
-        {
-            gTasks[taskId].func = EndDexNavSearch;
-        }
         PlaySE(SE_WIN_OPEN);
         LockPlayerFieldControls();
-        ScriptContext_SetupScript(EventScript_StartMenu);
+        if (taskId != TASK_NONE)
+        {
+            EndDexNavSearch(taskId);
+            ScriptContext_SetupScript(EventScript_StartMenu);
+        }
+        else
+            ScriptContext_SetupScript(EventScript_StartMenu);
         return TRUE;
     }
 
