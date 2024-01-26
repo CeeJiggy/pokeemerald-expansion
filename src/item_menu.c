@@ -3503,7 +3503,7 @@ static void ItemMenu_FinishRegister(u8 taskId)
     ItemMenu_Cancel(taskId);
 }
 
-static void ItemMenu_FailRegister(u8 taskId) // returns error message if no free slot left
+/*static void ItemMenu_FailRegister(u8 taskId) // returns error message if no free slot left
 {
     s16 *data = gTasks[taskId].data;
     u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
@@ -3514,7 +3514,7 @@ static void ItemMenu_FailRegister(u8 taskId) // returns error message if no free
     data[0] = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
     ScheduleBgCopyTilemapToVram(0);
     ItemMenu_Cancel2(taskId);
-}
+}*/
 
 void ItemMenu_Register(u8 taskId)
 {
@@ -3536,7 +3536,7 @@ void ItemMenu_Register(u8 taskId)
     sContextMenuFuncs[gBagPosition.location](taskId);
 }
 
-static void ItemMenu_RegisterList(u8 taskId)
+/*static void ItemMenu_RegisterList(u8 taskId)
 {
     // u8 i;
     // u8 slot = 0xFF;
@@ -3545,7 +3545,7 @@ static void ItemMenu_RegisterList(u8 taskId)
         gTasks[taskId].func = ItemMenu_FinishRegister;
     else
         gTasks[taskId].func = ItemMenu_FailRegister;
-}
+}*/
 
 static void ItemMenu_Deselect(u8 taskId)
 {
