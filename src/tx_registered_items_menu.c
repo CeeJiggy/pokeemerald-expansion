@@ -155,7 +155,7 @@ static void TxRegItemsMenu_InitMenuFunctions(u8 taskId)
 
 static void TxRegItemsMenu_ClearAndInitData(u8 taskId)
 {
-    // s16 *data = gTasks[taskId].data;
+    // u16 *data = gTasks[taskId].data;
     u8 offset = 0;
     u8 cursorStart = gSaveBlock1Ptr->registeredItemLastSelected;
     u8 count = TxRegItemsMenu_CountUsedRegisteredItemSlots();
@@ -199,7 +199,7 @@ static void TxRegItemsMenu_InitDataAndCreateListMenu(u8 taskId)
 {
     s16 *data;
     // u32 i, x;
-    //  const u8 *text;
+    // const u8 *text;
 
     data = gTasks[taskId].data;
     TxRegItemsMenu_CalculateUsedSlots(); // calculate used slots
