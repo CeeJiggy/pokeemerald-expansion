@@ -199,7 +199,7 @@ static void TxRegItemsMenu_InitDataAndCreateListMenu(u8 taskId)
 {
     s16 *data;
     // u32 i, x;
-    // const u8 *text;
+    //  const u8 *text;
 
     data = gTasks[taskId].data;
     TxRegItemsMenu_CalculateUsedSlots(); // calculate used slots
