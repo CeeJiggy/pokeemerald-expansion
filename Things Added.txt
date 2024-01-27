@@ -14,10 +14,9 @@ Ghoulslash
 	DexNav
 	Auto-Run
 
-
 The Xaman
 	Register item list
-
+	Options Menu
 
 Lunos
 	2-in-1 Bike
@@ -27,7 +26,14 @@ Help from Community
 	Box from menu
 	PSS display in battle
 
+RavePossum
+	Pokedex from Party Menu
 
+Special Thanks
+	ghoulslash
+	Lunos
+	RavePossum
+	Alex (rainonline)	
 
 
 TO FIX

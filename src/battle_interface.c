@@ -35,8 +35,8 @@
 #include "constants/items.h"
 
 enum
-{ // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
-  // These are indexes into the tables, which are filled with 8x8 square pixel data.
+{                                      // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
+                                       // These are indexes into the tables, which are filled with 8x8 square pixel data.
     HEALTHBOX_GFX_0,                   // hp bar [black section]
     HEALTHBOX_GFX_1,                   // hp bar "H"
     HEALTHBOX_GFX_2,                   // hp bar "P"
@@ -2548,7 +2548,7 @@ static s32 SetInstantBarMove(struct BattleBarInfo *bar)
 
 s32 MoveBattleBar(u8 battlerId, u8 healthboxSpriteId, u8 whichBar, u8 unused)
 {
-    s32 currentBarValue;
+    s32 currentBarValue = 0;
     s32 i, previousVal = 0, toLoop;
     bool32 instant;
 
@@ -2602,7 +2602,7 @@ s32 MoveBattleBar(u8 battlerId, u8 healthboxSpriteId, u8 whichBar, u8 unused)
         {
             gBattleSpritesDataPtr->battleBars[battlerId].currValue = 0;
             if ((i != 0 || instant) && whichBar == HEALTH_BAR)
-                UpdateHpTextInHealthbox(gHealthboxSpriteIds[battlerId], previousVal, HP_CURRENT);
+                UpdateHpTextInHealthbox(gHealthboxSpriteIds[battlerId], previousVal, HP_CURRENT, HP_MAX);
             break;
         }
     }

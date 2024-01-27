@@ -18,32 +18,31 @@ struct UnknownStruct
 };
 
 static const struct UnknownStruct sBigMonSizeTable[] =
-{
-    {  290,   1,      0 },
-    {  300,   1,     10 },
-    {  400,   2,    110 },
-    {  500,   4,    310 },
-    {  600,  20,    710 },
-    {  700,  50,   2710 },
-    {  800, 100,   7710 },
-    {  900, 150,  17710 },
-    { 1000, 150,  32710 },
-    { 1100, 100, -17826 },
-    { 1200,  50,  -7826 },
-    { 1300,  20,  -2826 },
-    { 1400,   5,   -826 },
-    { 1500,   2,   -326 },
-    { 1600,   1,   -126 },
-    { 1700,   1,   -26 },
+    {
+        {290, 1, 0},
+        {300, 1, 10},
+        {400, 2, 110},
+        {500, 4, 310},
+        {600, 20, 710},
+        {700, 50, 2710},
+        {800, 100, 7710},
+        {900, 150, 17710},
+        {1000, 150, 32710},
+        {1100, 100, -17826},
+        {1200, 50, -7826},
+        {1300, 20, -2826},
+        {1400, 5, -826},
+        {1500, 2, -326},
+        {1600, 1, -126},
+        {1700, 1, -26},
 };
 
 // - 4 for unused gift ribbon bits in MON_DATA_UNUSED_RIBBONS
 static const u8 sGiftRibbonsMonDataIds[GIFT_RIBBONS_COUNT - 4] =
-{
-    MON_DATA_MARINE_RIBBON, MON_DATA_LAND_RIBBON, MON_DATA_SKY_RIBBON,
-    MON_DATA_COUNTRY_RIBBON, MON_DATA_NATIONAL_RIBBON, MON_DATA_EARTH_RIBBON,
-    MON_DATA_WORLD_RIBBON
-};
+    {
+        MON_DATA_MARINE_RIBBON, MON_DATA_LAND_RIBBON, MON_DATA_SKY_RIBBON,
+        MON_DATA_COUNTRY_RIBBON, MON_DATA_NATIONAL_RIBBON, MON_DATA_EARTH_RIBBON,
+        MON_DATA_WORLD_RIBBON};
 
 extern const u8 gText_DecimalPoint[];
 extern const u8 gText_Marco[];
@@ -68,32 +67,29 @@ static const u8 gText_Kilogram[] = _("kilogram");
 static const u8 gText_KilogramPlural[] = _("kilograms");
 static const u8 gText_KilogramSymbol[] = _("kg");
 
-static const u8* const sImperialText[] =
-{
-    [UNIT_TEXT_LENGTH_SMALL_SINGLE]  = gText_Inch,
-    [UNIT_TEXT_LENGTH_SMALL_PLURAL]  = gText_InchPlural,
-    [UNIT_TEXT_LENGTH_SMALL_SYMBOL]  = gText_InchSymbol,
-    [UNIT_TEXT_LENGTH_MEDIUM_SINGLE] = gText_Foot,
-    [UNIT_TEXT_LENGTH_MEDIUM_PLURAL] = gText_FootPlural,
-    [UNIT_TEXT_LENGTH_MEDIUM_SYMBOL] = gText_FootSymbol,
-    [UNIT_TEXT_WEIGHT_SINGLE]        = gText_Pound,
-    [UNIT_TEXT_WEIGHT_PLURAL]        = gText_PoundPlural,
-    [UNIT_TEXT_WEIGHT_SYMBOL]        = gText_PoundSymbol
-};
+static const u8 *const sImperialText[] =
+    {
+        [UNIT_TEXT_LENGTH_SMALL_SINGLE] = gText_Inch,
+        [UNIT_TEXT_LENGTH_SMALL_PLURAL] = gText_InchPlural,
+        [UNIT_TEXT_LENGTH_SMALL_SYMBOL] = gText_InchSymbol,
+        [UNIT_TEXT_LENGTH_MEDIUM_SINGLE] = gText_Foot,
+        [UNIT_TEXT_LENGTH_MEDIUM_PLURAL] = gText_FootPlural,
+        [UNIT_TEXT_LENGTH_MEDIUM_SYMBOL] = gText_FootSymbol,
+        [UNIT_TEXT_WEIGHT_SINGLE] = gText_Pound,
+        [UNIT_TEXT_WEIGHT_PLURAL] = gText_PoundPlural,
+        [UNIT_TEXT_WEIGHT_SYMBOL] = gText_PoundSymbol};
 
-static const u8* const sMetricText[] =
-{
-    [UNIT_TEXT_LENGTH_SMALL_SINGLE] = gText_Centimeter,
-    [UNIT_TEXT_LENGTH_SMALL_PLURAL] = gText_CentimeterPlural,
-    [UNIT_TEXT_LENGTH_SMALL_SYMBOL] = gText_CentimeterSymbol,
-    [UNIT_TEXT_LENGTH_MEDIUM_SINGLE] = gText_Meter,
-    [UNIT_TEXT_LENGTH_MEDIUM_PLURAL] = gText_MeterPlural,
-    [UNIT_TEXT_LENGTH_MEDIUM_SYMBOL] = gText_MeterSymbol,
-    [UNIT_TEXT_WEIGHT_SINGLE]        = gText_Kilogram,
-    [UNIT_TEXT_WEIGHT_PLURAL]        = gText_KilogramPlural,
-    [UNIT_TEXT_WEIGHT_SYMBOL]        = gText_KilogramSymbol
-};
-
+static const u8 *const sMetricText[] =
+    {
+        [UNIT_TEXT_LENGTH_SMALL_SINGLE] = gText_Centimeter,
+        [UNIT_TEXT_LENGTH_SMALL_PLURAL] = gText_CentimeterPlural,
+        [UNIT_TEXT_LENGTH_SMALL_SYMBOL] = gText_CentimeterSymbol,
+        [UNIT_TEXT_LENGTH_MEDIUM_SINGLE] = gText_Meter,
+        [UNIT_TEXT_LENGTH_MEDIUM_PLURAL] = gText_MeterPlural,
+        [UNIT_TEXT_LENGTH_MEDIUM_SYMBOL] = gText_MeterSymbol,
+        [UNIT_TEXT_WEIGHT_SINGLE] = gText_Kilogram,
+        [UNIT_TEXT_WEIGHT_PLURAL] = gText_KilogramPlural,
+        [UNIT_TEXT_WEIGHT_SYMBOL] = gText_KilogramSymbol};
 
 #define CM_PER_INCH 2.54
 
@@ -143,7 +139,7 @@ static u32 GetMonSize(u16 species, u16 b)
 
 static void FormatMonSizeRecord(u8 *string, u32 size)
 {
-    if (gSaveBlock2Ptr->optionsUnitSystem == 0) //Imperial
+    if (gSaveBlock2Ptr->optionsUnitSystem == 0) // Imperial
         size = (f64)(size * 10) / (CM_PER_INCH * 10);
 
     string = ConvertIntToDecimalStringN(string, size / 10, STR_CONV_MODE_LEFT_ALIGN, 8);
@@ -201,33 +197,31 @@ static void GetMonSizeRecordInfo(u16 species, u16 *sizeRecord)
         StringCopy(gStringVar2, gSaveBlock2Ptr->playerName);
 }
 
-
-
 void BufferUnitSystemText(void)
 {
-    u8 *strvar, *text;
+    u8 *strvar;
     u8 textType = gSpecialVar_0x8000;
     u8 stringVarNum = gSpecialVar_0x8001;
 
     switch (stringVarNum)
     {
-        case 1:
-        default:
-            strvar = gStringVar1;
-            break;
-        case 2:
-            strvar = gStringVar2;
-            break;
-        case 3:
-            strvar = gStringVar3;
-            break;
+    case 1:
+    default:
+        strvar = gStringVar1;
+        break;
+    case 2:
+        strvar = gStringVar2;
+        break;
+    case 3:
+        strvar = gStringVar3;
+        break;
     }
 
-    if (gSaveBlock2Ptr->optionsUnitSystem == 0) //Imperial
+    if (gSaveBlock2Ptr->optionsUnitSystem == 0) // Imperial
     {
         StringCopy(strvar, sImperialText[textType]);
     }
-    else //Metric
+    else // Metric
     {
         StringCopy(strvar, sMetricText[textType]);
     }
