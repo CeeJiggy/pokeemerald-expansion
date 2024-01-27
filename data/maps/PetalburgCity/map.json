@@ -25,7 +25,7 @@
     },
     {
       "map": "MAP_PETALBURG_MEADOWS",
-      "offset": 10,
+      "offset": 2,
       "direction": "up"
     }
   ],
@@ -74,7 +74,7 @@
       "x": 21,
       "y": 11,
       "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_WANDER_UP_AND_DOWN",
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 0,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",

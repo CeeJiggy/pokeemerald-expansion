@@ -7,14 +7,16 @@ pokeemerald-expansion
 	Updated Moves
 	Fixed RNG
 	Repel Use New
+	New Pokemon
 
 Ghoulslash
-	Bag Sort
+	//Bag Sort
 	DexNav
+	Auto-Run
 
 
 The Xaman
-	Register item list on L
+	Register item list
 
 
 Lunos
@@ -24,12 +26,9 @@ Help from Community
 	Running shoes right away
 	Box from menu
 	PSS display in battle
-	Toggle Run with B button
 
 
 
 
 TO FIX
 New start menu flicker back to field
-completely fucked up select menu
-Register menu make only 1 option

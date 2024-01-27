@@ -3,7 +3,7 @@
   "name": "PetalburgMeadows",
   "layout": "LAYOUT_PETALBURG_MEADOWS",
   "music": "MUS_GSC_PEWTER",
-  "region_map_section": "MAPSEC_PETALBURG_CITY",
+  "region_map_section": "MAPSEC_PETALBURG_GARDENS",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_ROUTE",

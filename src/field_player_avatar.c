@@ -636,7 +636,7 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
             gPlayerAvatar.creeping = TRUE;
             PlayerGoSlow(direction);
         }
-        else if (gSaveBlock2Ptr->autoRun == TRUE)
+        else if ((gSaveBlock2Ptr->autoRun == TRUE && !(heldKeys & B_BUTTON)) || (gSaveBlock2Ptr->autoRun == FALSE && (heldKeys & B_BUTTON)))
 
         {
             PlayerWalkFaster(direction);

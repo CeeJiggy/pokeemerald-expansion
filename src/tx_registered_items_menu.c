@@ -572,13 +572,13 @@ static void TxRegItemsMenu_ChangeLastSelectedItemIndex(u8 index)
         gSaveBlock1Ptr->registeredItemLastSelected--;
 }
 
-/*static void TxRegItemsMenu_RemoveRegisteredItemIndex(u8 index)
+static void UNUSED TxRegItemsMenu_RemoveRegisteredItemIndex(u8 index)
 {
     TxRegItemsMenu_ChangeLastSelectedItemIndex(index);
     gSaveBlock1Ptr->registeredItems[index].itemId = ITEM_NONE;
     gSaveBlock1Ptr->registeredItemListCount--;
     TxRegItemsMenu_CompactRegisteredItems();
-}*/
+}
 
 void TxRegItemsMenu_RemoveRegisteredItem(u16 itemId)
 {

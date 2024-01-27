@@ -1,8 +1,8 @@
 .set LOCALID_WALLY, 2
 .set LOCALID_BOY, 3
 .set LOCALID_WALLYS_DAD, 5
-.set LOCALID_GYM_BOY, 8
-.set LOCALID_SCOTT, 9
+.set LOCALID_GYM_BOY, 6
+.set LOCALID_SCOTT, 7
 
 PetalburgCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, PetalburgCity_OnTransition
@@ -732,10 +732,11 @@ PetalburgCity_Text_WaterReflection:
 	.string "What do you see reflected in your face?$"
 
 PetalburgCity_Text_FullPartyExplanation:
-	.string "Let's say you have six POKéMON.\n"
-	.string "If you catch another one…\p"
-	.string "It is automatically sent to a STORAGE\n"
-	.string "BOX over a PC connection.$"
+	.string "If you follow this path, you'll find \n"
+	.string "yourself in Petalburg Garden.\p"
+	.string "All of us here do our part to tend to \n"
+	.string "the garden so the Pokémon can live \l"
+	.string "happily there!$"
 
 PetalburgCity_Text_GymSign:
 	.string "PETALBURG CITY POKéMON GYM\n"
