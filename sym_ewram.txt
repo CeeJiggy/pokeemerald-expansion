@@ -154,5 +154,4 @@
 	.include "src/pokedex_plus_hgss.o"
 	.include "src/dexnav.o"
 	.include "src/tx_registered_items_menu.o"
-
-
+	.include "src/option_plus_menu.o"

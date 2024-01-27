@@ -559,3 +559,4 @@ gSpecials::
 	def_special Script_StartMenu_OpenRetireSafari
 	def_special InBattlePike
 @ Start menu functions end above:
+	def_special BufferUnitSystemText
