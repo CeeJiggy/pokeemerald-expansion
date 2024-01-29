@@ -15,6 +15,7 @@
 #include "menu_specialized.h"
 #include "overworld.h"
 #include "palette.h"
+#include "party_menu.h"
 #include "pokemon_summary_screen.h"
 #include "script.h"
 #include "sound.h"
@@ -145,7 +146,8 @@
 
 // The different versions of hearts are selected using animation
 // commands.
-enum {
+enum
+{
     APPEAL_HEART_EMPTY,
     APPEAL_HEART_FULL,
     JAM_HEART_EMPTY,
@@ -154,28 +156,29 @@ enum {
 
 #define TAG_MODE_ARROWS 5325
 #define TAG_LIST_ARROWS 5425
-#define GFXTAG_UI       5525
-#define PALTAG_UI       5526
+#define GFXTAG_UI 5525
+#define PALTAG_UI 5526
 
 #define MAX_RELEARNER_MOVES max(MAX_LEVEL_UP_MOVES, 25)
 
 static EWRAM_DATA struct
 {
     u8 state;
-    u8 heartSpriteIds[16];                               /*0x001*/
-    u16 movesToLearn[MAX_RELEARNER_MOVES];               /*0x01A*/
-    u8 partyMon;                                         /*0x044*/
-    u8 moveSlot;                                         /*0x045*/
-    struct ListMenuItem menuItems[MAX_RELEARNER_MOVES];  /*0x0E8*/
-    u8 numMenuChoices;                                   /*0x110*/
-    u8 numToShowAtOnce;                                  /*0x111*/
-    u8 moveListMenuTask;                                 /*0x112*/
-    u8 moveListScrollArrowTask;                          /*0x113*/
-    u8 moveDisplayArrowTask;                             /*0x114*/
-    u16 scrollOffset;                                    /*0x116*/
+    u8 heartSpriteIds[16];                              /*0x001*/
+    u16 movesToLearn[MAX_RELEARNER_MOVES];              /*0x01A*/
+    u8 partyMon;                                        /*0x044*/
+    u8 moveSlot;                                        /*0x045*/
+    struct ListMenuItem menuItems[MAX_RELEARNER_MOVES]; /*0x0E8*/
+    u8 numMenuChoices;                                  /*0x110*/
+    u8 numToShowAtOnce;                                 /*0x111*/
+    u8 moveListMenuTask;                                /*0x112*/
+    u8 moveListScrollArrowTask;                         /*0x113*/
+    u8 moveDisplayArrowTask;                            /*0x114*/
+    u16 scrollOffset;                                   /*0x116*/
 } *sMoveRelearnerStruct = {0};
 
-static EWRAM_DATA struct {
+static EWRAM_DATA struct
+{
     u16 listOffset;
     u16 listRow;
     bool8 showContestInfo;
@@ -188,162 +191,155 @@ static const u16 sUI_Pal[] = INCBIN_U16("graphics/interface/ui_learn_move.gbapal
 static const u8 sUI_Tiles[] = INCBIN_U8("graphics/interface/ui_learn_move.4bpp");
 
 static const struct OamData sHeartSpriteOamData =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(8x8),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(8x8),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0,
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(8x8),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(8x8),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0,
 };
 
 static const struct OamData sUnusedOam1 =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(8x16),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(8x16),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0,
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(8x16),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(8x16),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0,
 };
 
 static const struct OamData sUnusedOam2 =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(16x8),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(16x8),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0,
+    {
+        .y = 0,
+        .affineMode = ST_OAM_AFFINE_OFF,
+        .objMode = ST_OAM_OBJ_NORMAL,
+        .mosaic = FALSE,
+        .bpp = ST_OAM_4BPP,
+        .shape = SPRITE_SHAPE(16x8),
+        .x = 0,
+        .matrixNum = 0,
+        .size = SPRITE_SIZE(16x8),
+        .tileNum = 0,
+        .priority = 0,
+        .paletteNum = 0,
+        .affineParam = 0,
 };
 
 static const struct SpriteSheet sMoveRelearnerSpriteSheet =
-{
-    .data = sUI_Tiles,
-    .size = sizeof(sUI_Tiles),
-    .tag = GFXTAG_UI
-};
+    {
+        .data = sUI_Tiles,
+        .size = sizeof(sUI_Tiles),
+        .tag = GFXTAG_UI};
 
 static const struct SpritePalette sMoveRelearnerPalette =
-{
-    .data = sUI_Pal,
-    .tag = PALTAG_UI
-};
+    {
+        .data = sUI_Pal,
+        .tag = PALTAG_UI};
 
 static const struct ScrollArrowsTemplate sDisplayModeArrowsTemplate =
-{
-    .firstArrowType = SCROLL_ARROW_LEFT,
-    .firstX = 27,
-    .firstY = 16,
-    .secondArrowType = SCROLL_ARROW_RIGHT,
-    .secondX = 117,
-    .secondY = 16,
-    .fullyUpThreshold = -1,
-    .fullyDownThreshold = -1,
-    .tileTag = TAG_MODE_ARROWS,
-    .palTag = TAG_MODE_ARROWS,
-    .palNum = 0,
+    {
+        .firstArrowType = SCROLL_ARROW_LEFT,
+        .firstX = 27,
+        .firstY = 16,
+        .secondArrowType = SCROLL_ARROW_RIGHT,
+        .secondX = 117,
+        .secondY = 16,
+        .fullyUpThreshold = -1,
+        .fullyDownThreshold = -1,
+        .tileTag = TAG_MODE_ARROWS,
+        .palTag = TAG_MODE_ARROWS,
+        .palNum = 0,
 };
 
 static const struct ScrollArrowsTemplate sMoveListScrollArrowsTemplate =
-{
-    .firstArrowType = SCROLL_ARROW_UP,
-    .firstX = 192,
-    .firstY = 8,
-    .secondArrowType = SCROLL_ARROW_DOWN,
-    .secondX = 192,
-    .secondY = 104,
-    .fullyUpThreshold = 0,
-    .fullyDownThreshold = 0,
-    .tileTag = TAG_LIST_ARROWS,
-    .palTag = TAG_LIST_ARROWS,
-    .palNum = 0,
+    {
+        .firstArrowType = SCROLL_ARROW_UP,
+        .firstX = 192,
+        .firstY = 8,
+        .secondArrowType = SCROLL_ARROW_DOWN,
+        .secondX = 192,
+        .secondY = 104,
+        .fullyUpThreshold = 0,
+        .fullyDownThreshold = 0,
+        .tileTag = TAG_LIST_ARROWS,
+        .palTag = TAG_LIST_ARROWS,
+        .palNum = 0,
 };
 
 static const union AnimCmd sHeartSprite_AppealEmptyFrame[] =
-{
-    ANIMCMD_FRAME(8, 5, FALSE, FALSE),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(8, 5, FALSE, FALSE),
+        ANIMCMD_END};
 
 static const union AnimCmd sHeartSprite_AppealFullFrame[] =
-{
-    ANIMCMD_FRAME(9, 5, FALSE, FALSE),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(9, 5, FALSE, FALSE),
+        ANIMCMD_END};
 
 static const union AnimCmd sHeartSprite_JamEmptyFrame[] =
-{
-    ANIMCMD_FRAME(10, 5, FALSE, FALSE),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(10, 5, FALSE, FALSE),
+        ANIMCMD_END};
 
 static const union AnimCmd sHeartSprite_JamFullFrame[] =
-{
-    ANIMCMD_FRAME(11, 5, FALSE, FALSE),
-    ANIMCMD_END
-};
+    {
+        ANIMCMD_FRAME(11, 5, FALSE, FALSE),
+        ANIMCMD_END};
 
 static const union AnimCmd *const sHeartSpriteAnimationCommands[] =
-{
-    [APPEAL_HEART_EMPTY] = sHeartSprite_AppealEmptyFrame,
-    [APPEAL_HEART_FULL] = sHeartSprite_AppealFullFrame,
-    [JAM_HEART_EMPTY] = sHeartSprite_JamEmptyFrame,
-    [JAM_HEART_FULL] = sHeartSprite_JamFullFrame,
+    {
+        [APPEAL_HEART_EMPTY] = sHeartSprite_AppealEmptyFrame,
+        [APPEAL_HEART_FULL] = sHeartSprite_AppealFullFrame,
+        [JAM_HEART_EMPTY] = sHeartSprite_JamEmptyFrame,
+        [JAM_HEART_FULL] = sHeartSprite_JamFullFrame,
 };
 
 static const struct SpriteTemplate sConstestMoveHeartSprite =
-{
-    .tileTag = GFXTAG_UI,
-    .paletteTag = PALTAG_UI,
-    .oam = &sHeartSpriteOamData,
-    .anims = sHeartSpriteAnimationCommands,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = GFXTAG_UI,
+        .paletteTag = PALTAG_UI,
+        .oam = &sHeartSpriteOamData,
+        .anims = sHeartSpriteAnimationCommands,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static const struct BgTemplate sMoveRelearnerMenuBackgroundTemplates[] =
-{
     {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0,
-    },
-    {
-        .bg = 1,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 30,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0,
-    },
+        {
+            .bg = 0,
+            .charBaseIndex = 0,
+            .mapBaseIndex = 31,
+            .screenSize = 0,
+            .paletteMode = 0,
+            .priority = 0,
+            .baseTile = 0,
+        },
+        {
+            .bg = 1,
+            .charBaseIndex = 0,
+            .mapBaseIndex = 30,
+            .screenSize = 0,
+            .paletteMode = 0,
+            .priority = 1,
+            .baseTile = 0,
+        },
 };
 
 static void DoMoveRelearnerMain(void);
@@ -448,8 +444,8 @@ static void InitMoveRelearnerBackgroundLayers(void)
     InitBgsFromTemplates(0, sMoveRelearnerMenuBackgroundTemplates, ARRAY_COUNT(sMoveRelearnerMenuBackgroundTemplates));
     ResetAllBgsCoordinates();
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 |
-                                  DISPCNT_OBJ_1D_MAP |
-                                  DISPCNT_OBJ_ON);
+                                      DISPCNT_OBJ_1D_MAP |
+                                      DISPCNT_OBJ_ON);
     ShowBg(0);
     ShowBg(1);
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
@@ -515,35 +511,35 @@ static void DoMoveRelearnerMain(void)
         }
         break;
     case MENU_STATE_TEACH_MOVE_CONFIRM:
-        {
-            s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
+    {
+        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
 
-            if (selection == 0)
+        if (selection == 0)
+        {
+            if (GiveMoveToMon(&gPlayerParty[sMoveRelearnerStruct->partyMon], GetCurrentSelectedMove()) != MON_HAS_MAX_MOVES)
             {
-                if (GiveMoveToMon(&gPlayerParty[sMoveRelearnerStruct->partyMon], GetCurrentSelectedMove()) != MON_HAS_MAX_MOVES)
-                {
-                    PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnLearnedMove);
-                    gSpecialVar_0x8004 = TRUE;
-                    sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEXT_THEN_FANFARE;
-                }
-                else
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
-                }
+                PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnLearnedMove);
+                gSpecialVar_0x8004 = TRUE;
+                sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEXT_THEN_FANFARE;
             }
-            else if (selection == MENU_B_PRESSED || selection == 1)
+            else
             {
-                if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-                }
-                else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-                }
+                sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
             }
         }
-        break;
+        else if (selection == MENU_B_PRESSED || selection == 1)
+        {
+            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
+            {
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
+            }
+            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
+            {
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
+            }
+        }
+    }
+    break;
     case MENU_STATE_PRINT_GIVE_UP_PROMPT:
         if (!MoveRelearnerRunTextPrinters())
         {
@@ -552,27 +548,27 @@ static void DoMoveRelearnerMain(void)
         }
         break;
     case MENU_STATE_GIVE_UP_CONFIRM:
-        {
-            s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
+    {
+        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
 
-            if (selection == 0)
+        if (selection == 0)
+        {
+            gSpecialVar_0x8004 = FALSE;
+            sMoveRelearnerStruct->state = MENU_STATE_FADE_AND_RETURN;
+        }
+        else if (selection == MENU_B_PRESSED || selection == 1)
+        {
+            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
             {
-                gSpecialVar_0x8004 = FALSE;
-                sMoveRelearnerStruct->state = MENU_STATE_FADE_AND_RETURN;
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
             }
-            else if (selection == MENU_B_PRESSED || selection == 1)
+            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
             {
-                if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-                }
-                else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-                }
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
             }
         }
-        break;
+    }
+    break;
     case MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT:
         PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnTryingToLearnMove);
         sMoveRelearnerStruct->state++;
@@ -585,20 +581,20 @@ static void DoMoveRelearnerMain(void)
         }
         break;
     case MENU_STATE_CONFIRM_DELETE_OLD_MOVE:
-        {
-            s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
+    {
+        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
 
-            if (selection == 0)
-            {
-                PrintMessageWithPlaceholders(gText_MoveRelearnerWhichMoveToForget);
-                sMoveRelearnerStruct->state = MENU_STATE_PRINT_WHICH_MOVE_PROMPT;
-            }
-            else if (selection == MENU_B_PRESSED || selection == 1)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_PRINT_STOP_TEACHING;
-            }
+        if (selection == 0)
+        {
+            PrintMessageWithPlaceholders(gText_MoveRelearnerWhichMoveToForget);
+            sMoveRelearnerStruct->state = MENU_STATE_PRINT_WHICH_MOVE_PROMPT;
         }
-        break;
+        else if (selection == MENU_B_PRESSED || selection == 1)
+        {
+            sMoveRelearnerStruct->state = MENU_STATE_PRINT_STOP_TEACHING;
+        }
+    }
+    break;
     case MENU_STATE_PRINT_STOP_TEACHING:
         StringCopy(gStringVar2, gMoveNames[GetCurrentSelectedMove()]);
         PrintMessageWithPlaceholders(gText_MoveRelearnerStopTryingToTeachMove);
@@ -612,28 +608,28 @@ static void DoMoveRelearnerMain(void)
         }
         break;
     case MENU_STATE_CONFIRM_STOP_TEACHING:
-        {
-            s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
+    {
+        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
 
-            if (selection == 0)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_CHOOSE_SETUP_STATE;
-            }
-            else if (selection == MENU_B_PRESSED || selection == 1)
-            {
-                // What's the point? It gets set to MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT, anyway.
-                if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-                }
-                else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-                {
-                    sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-                }
-                sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
-            }
+        if (selection == 0)
+        {
+            sMoveRelearnerStruct->state = MENU_STATE_CHOOSE_SETUP_STATE;
         }
-        break;
+        else if (selection == MENU_B_PRESSED || selection == 1)
+        {
+            // What's the point? It gets set to MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT, anyway.
+            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
+            {
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
+            }
+            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
+            {
+                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
+            }
+            sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
+        }
+    }
+    break;
     case MENU_STATE_CHOOSE_SETUP_STATE:
         if (!MoveRelearnerRunTextPrinters())
         {
@@ -679,7 +675,15 @@ static void DoMoveRelearnerMain(void)
         if (!gPaletteFade.active)
         {
             FreeMoveRelearnerResources();
-            SetMainCallback2(CB2_ReturnToField);
+            if (FlagGet(FLAG_PARTY_MOVES))
+            {
+                CB2_ReturnToPartyMenuFromSummaryScreen();
+                FlagClear(FLAG_PARTY_MOVES);
+            }
+            else
+            {
+                SetMainCallback2(CB2_ReturnToField);
+            }
         }
         break;
     case MENU_STATE_FADE_FROM_SUMMARY_SCREEN:
@@ -707,9 +711,14 @@ static void DoMoveRelearnerMain(void)
             {
                 u16 moveId = GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_MOVE1 + sMoveRelearnerStruct->moveSlot);
 
+                u8 oldPP;
+
                 StringCopy(gStringVar3, gMoveNames[moveId]);
                 RemoveMonPPBonus(&gPlayerParty[sMoveRelearnerStruct->partyMon], sMoveRelearnerStruct->moveSlot);
+                oldPP = GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_PP1 + GetMoveSlotToReplace(), NULL);
                 SetMonMoveSlot(&gPlayerParty[sMoveRelearnerStruct->partyMon], GetCurrentSelectedMove(), sMoveRelearnerStruct->moveSlot);
+                if (GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_PP1 + GetMoveSlotToReplace(), NULL) > oldPP)
+                    SetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_PP1 + GetMoveSlotToReplace(), &oldPP);
                 StringCopy(gStringVar2, gMoveNames[GetCurrentSelectedMove()]);
                 PrintMessageWithPlaceholders(gText_MoveRelearnerAndPoof);
                 sMoveRelearnerStruct->state = MENU_STATE_DOUBLE_FANFARE_FORGOT_MOVE;

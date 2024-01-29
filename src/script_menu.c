@@ -83,8 +83,7 @@ static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollecti
                 .OnDestroy = MultichoiceDynamicEventShowItem_OnDestroy},
         [DYN_MULTICHOICE_CB_UPDATE_START_MENU_CURSOR_POS] =
             {
-                .OnSelectionChanged = MultichoiceDynamicEventUpdateStartMenuCursorPos_OnSelectionChanged,
-            }};
+                .OnSelectionChanged = MultichoiceDynamicEventUpdateStartMenuCursorPos_OnSelectionChanged}};
 
 static const struct ListMenuTemplate sScriptableListMenuTemplate =
     {
@@ -231,6 +230,11 @@ static void MultichoiceDynamicEventUpdateStartMenuCursorPos_OnSelectionChanged(s
 {
     VarSet(VAR_START_MENU_CURSOR_POS, eventArgs->selectedItem);
 }
+
+/*static void MultichoiceDynamicEventChooseRegion_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
+{
+    VarSet(VAR_REGION_CHOSEN, eventArgs->selectedItem);
+}*/
 
 #undef sAuxWindowId
 #undef sItemSpriteId

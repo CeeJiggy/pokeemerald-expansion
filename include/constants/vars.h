@@ -50,7 +50,7 @@
 #define VAR_RECYCLE_GOODS 0x4020
 #define VAR_REPEL_STEP_COUNT 0x4021
 #define VAR_ICE_STEP_COUNT 0x4022
-#define VAR_STARTER_MON 0x4023 // 0=Treecko, 1=Torchic, 2=Mudkip
+#define VAR_STARTER_MON 0x4023 // 0=Grass, 1=Fire, 2=Water
 #define VAR_MIRAGE_RND_H 0x4024
 #define VAR_MIRAGE_RND_L 0x4025
 #define VAR_SECRET_BASE_MAP 0x4026
@@ -266,7 +266,7 @@
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER 0x40F6
 #define VAR_DEXNAV_SPECIES 0x40F7      // Registered dexnav species
 #define VAR_DEXNAV_STEP_COUNTER 0x40F8 // steps for finding hidden pokemon
-#define VAR_UNUSED_0x40F9 0x40F9       // Unused Var
+#define VAR_REGION_CHOSEN 0x40F9       // Region chosen for starter
 #define VAR_UNUSED_0x40FA 0x40FA       // Unused Var
 #define VAR_UNUSED_0x40FB 0x40FB       // Unused Var
 #define VAR_UNUSED_0x40FC 0x40FC       // Unused Var

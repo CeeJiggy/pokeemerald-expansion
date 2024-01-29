@@ -533,6 +533,7 @@ struct SaveBlock2
     u16 optionsSound : 1;              // OPTIONS_SOUND_[MONO/STEREO]
     u16 optionsBattleStyle : 1;        // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
     u16 optionsLevelCaps : 1;          // OPTIONS_LEVEL_CAPS_[NONE/SOFT]
+    u16 optionsBattleIntro : 1;        // OPTIONS_BATTLE_INTRO_[NORMAL/FAST]
     u16 optionsBattleSceneOff : 1;     // whether battle animations are disabled
     u16 regionMapZoom : 1;             // whether the map is zoomed in
     u16 optionsUnitSystem : 1;         // tx_optionsPlus

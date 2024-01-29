@@ -167,6 +167,17 @@ PlayersHouse_1F_EventScript_PetalburgGymReportMale::
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	msgbox PlayersHouse_1F_Text_ItsOverWeMissedHim, MSGBOX_DEFAULT
+	dynmultipush EventScript_Kanto, 0
+	dynmultipush EventScript_Johto, 1
+	dynmultipush EventScript_Hoenn, 2
+	dynmultipush EventScript_Sinnoh, 3
+	dynmultipush EventScript_Unova, 4
+	dynmultipush EventScript_Kalos, 5
+	dynmultipush EventScript_Alola, 6
+	dynmultipush EventScript_Galar, 7
+	dynmultipush EventScript_Paldea, 8
+	dynmultistack 0, 0, 10, TRUE, 5, TRUE, 0, 1,DYN_MULTICHOICE_CB_NONE
+	copyvar VAR_REGION_CHOSEN, VAR_RESULT
 	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_1, 1
@@ -192,6 +203,17 @@ PlayersHouse_1F_EventScript_PetalburgGymReportFemale::
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox PlayersHouse_1F_Text_ItsOverWeMissedHim, MSGBOX_DEFAULT
+	dynmultipush EventScript_Kanto, 0
+	dynmultipush EventScript_Johto, 1
+	dynmultipush EventScript_Hoenn, 2
+	dynmultipush EventScript_Sinnoh, 3
+	dynmultipush EventScript_Unova, 4
+	dynmultipush EventScript_Kalos, 5
+	dynmultipush EventScript_Alola, 6
+	dynmultipush EventScript_Galar, 7
+	dynmultipush EventScript_Paldea, 8
+	dynmultistack 0, 0, 18, TRUE, 5, TRUE, 0, 1,DYN_MULTICHOICE_CB_NONE	
+	copyvar VAR_REGION_CHOSEN, VAR_RESULT
 	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_1, 1
@@ -679,3 +701,30 @@ PlayersHouse_1F_Movement_PlayerApproachTVForLatiFemale:
 EventScript_RunningShoesManual::
 	msgbox PlayersHouse_1F_Text_RunningShoesManual, MSGBOX_SIGN
 	end
+
+EventScript_Kanto:
+	.string "Kanto$"
+
+EventScript_Johto:
+	.string "Johto$"
+
+EventScript_Hoenn:
+	.string "Hoenn$"
+
+EventScript_Sinnoh:
+	.string "Sinnoh$"
+
+EventScript_Unova:
+	.string "Unova$"
+
+EventScript_Kalos:
+	.string "Kalos$"
+
+EventScript_Alola:
+	.string "Alola$"
+
+EventScript_Galar:
+	.string "Galar$"
+
+EventScript_Paldea:
+	.string "Paldea$"

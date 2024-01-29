@@ -304,6 +304,11 @@ static const struct ListMenuTemplate sItemListMenu =
 
 static const u8 sMenuText_Select[] = _("SELECT");
 static const u8 sMenuText_L[] = _("LIST");
+static const u8 sMenuText_ByName[] = _("Name");
+static const u8 sMenuText_ByType[] = _("Type");
+static const u8 sMenuText_ByAmount[] = _("Amount");
+static const u8 sMenuText_ByNumber[] = _("Number");
+static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
 static const struct MenuAction sItemMenuActions[] = {
     [ACTION_USE] = {gMenuText_Use, {ItemMenu_UseOutOfBattle}},
     [ACTION_TOSS] = {gMenuText_Toss, {ItemMenu_Toss}},
@@ -2756,6 +2761,10 @@ static void ResetRegisteredItem(u16 itemId)
 
 static void ItemMenu_FinishRegister(u8 taskId)
 {
+    s16 *data = gTasks[taskId].data;
+    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+
     DestroyListMenuTask(data[0], scrollPos, cursorPos);
     LoadBagItemListBuffers(gBagPosition.pocket);
     data[0] = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
@@ -3337,10 +3346,6 @@ static void ItemMenu_SortByAmount(u8 taskId)
     gTasks[taskId].func = SortBagItems;
 }
 
-s16 *data = gTasks[taskId].data;
-u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
-u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
-
 static void ItemMenu_FailRegister(u8 taskId) // returns error message if no free slot left
 {
     s16 *data = gTasks[taskId].data;
@@ -3429,7 +3434,7 @@ static void SortBagItems(u8 taskId)
 
 static void Task_SortFinish(u8 taskId)
 {
-    s16 *data = gTasks[taskId].data;
+    // s16 *data = gTasks[taskId].data;
 
     if (gMain.newKeys & (A_BUTTON | B_BUTTON))
     {
@@ -3442,7 +3447,7 @@ static void SortItemsInBag(u8 pocket, u8 type)
 {
     struct ItemSlot *itemMem;
     u16 itemAmount;
-    s8 (*func)(struct ItemSlot *, struct ItemSlot *);
+    // s8 (*func)(struct ItemSlot *, struct ItemSlot *);
 
     switch (pocket)
     {

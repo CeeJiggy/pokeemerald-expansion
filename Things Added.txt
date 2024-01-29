@@ -10,7 +10,7 @@ pokeemerald-expansion
 	New Pokemon
 
 Ghoulslash
-	//Bag Sort
+	Bag Sort
 	DexNav
 	Auto-Run
 
@@ -22,12 +22,11 @@ Lunos
 	2-in-1 Bike
 
 Help from Community
+	Move as first Box Option (AsparagusEduardo)
 	Running shoes right away
-	Box from menu
-	PSS display in battle
-
-RavePossum
-	Pokedex from Party Menu
+	Box from menu (Diego Mertens)
+	PSS display in battle (Jaizu and Anon822)
+	Change Direction while moving (cbt)
 
 Special Thanks
 	ghoulslash
@@ -38,3 +37,4 @@ Special Thanks
 
 TO FIX
 New start menu flicker back to field
+Koffing in hidden for dex nav

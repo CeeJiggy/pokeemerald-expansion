@@ -397,7 +397,7 @@ static void HandleInputChooseAction(u32 battler)
                 ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
             }
         }
-        }
+    }
     else if (JOY_NEW(START_BUTTON))
     {
         SwapHpBarsWithHpText();

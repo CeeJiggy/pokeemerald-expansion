@@ -10,14 +10,14 @@ struct PartyMenu
 {
     MainCallback exitCallback;
     TaskFunc task;
-    u8 menuType:4;
-    u8 layout:2;
+    u8 menuType : 4;
+    u8 layout : 2;
     s8 slotId;
     s8 slotId2;
     u8 action;
     u16 bagItem;
-    s16 data1;           // used variously as a moveId, counter, moveSlotId, or cursorPos
-    s16 learnMoveState;  // data2, used only as a learn move state
+    s16 data1;          // used variously as a moveId, counter, moveSlotId, or cursorPos
+    s16 learnMoveState; // data2, used only as a learn move state
 };
 
 extern struct PartyMenu gPartyMenu;
@@ -49,6 +49,7 @@ u8 GetMonAilment(struct Pokemon *mon);
 void DisplayPartyMenuStdMessage(u32 stringId);
 bool8 FieldCallback_PrepareFadeInFromMenu(void);
 void CB2_ReturnToPartyMenuFromFlyMap(void);
+void CB2_ReturnToPartyMenuFromSummaryScreen(void);
 void LoadHeldItemIcons(void);
 void DrawHeldItemIconsForTrade(u8 *partyCounts, u8 *partySpriteIds, u8 whichParty);
 void LoadPartyMenuAilmentGfx(void);
@@ -74,7 +75,7 @@ void ItemUseCB_FormChange_ConsumedOnUse(u8 taskId, TaskFunc task);
 void ItemUseCB_RotomCatalog(u8 taskId, TaskFunc task);
 void ItemUseCB_ZygardeCube(u8 taskId, TaskFunc task);
 void ItemUseCB_Fusion(u8 taskId, TaskFunc task);
-const u8* GetItemEffect(u16 item);
+const u8 *GetItemEffect(u16 item);
 u8 GetItemEffectType(u16 item);
 void CB2_PartyMenuFromStartMenu(void);
 void CB2_ChooseMonToGiveItem(void);

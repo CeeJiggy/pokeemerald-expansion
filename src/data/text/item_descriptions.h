@@ -1303,7 +1303,8 @@ static const u8 sEverstoneDesc[] = _(
 static const u8 sBlackAuguriteDesc[] = _(
     "A black stone that\n"
     "makes some Pokémon\n"
-    "evolve.");;
+    "evolve.");
+;
 
 static const u8 sLinkingCordDesc[] = _(
     "A mysterious string\n"
@@ -3561,14 +3562,14 @@ static const u8 sBicycleDesc[] = _(
     "the Running Shoes.");
 
 static const u8 sMachBikeDesc[] = _(
-    "A folding bicycle\n"
-    "that doubles your\n"
-    "speed or better.");
+    "A folding bicycle.\n"
+    "Press R to swap\n"
+    "between modes!");
 
 static const u8 sAcroBikeDesc[] = _(
-    "A folding bicycle\n"
-    "capable of jumps\n"
-    "and wheelies.");
+    "A folding bicycle.\n"
+    "Press R to swap\n"
+    "between modes!");
 
 static const u8 sOldRodDesc[] = _(
     "Use by any body of\n"

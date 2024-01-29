@@ -505,6 +505,7 @@ ALIGNED(4)
 const u8 gText_NotPkmnOtherTrainerWants[] = _("That isn't the type of POKéMON\nthat the other TRAINER wants.");
 ALIGNED(4)
 const u8 gText_ThatIsntAnEgg[] = _("That isn't an EGG.");
+const u8 gText_Moves_Menu[] = _("Change Moves");
 const u8 gText_Register[] = _("REGISTER");
 const u8 gText_Attack3[] = _("ATTACK");
 const u8 gText_Defense3[] = _("DEFENSE");
@@ -1555,6 +1556,8 @@ const u8 gText_OptionMenuSave[] = _("SAVE");
 const u8 gText_ButtonMode[] = _("BUTTON MODE");
 const u8 gText_NoCaps[] = _("NONE");
 const u8 gText_SoftCaps[] = _("SOFT CAPS");
+const u8 gText_NormalIntro[] = _("NORMAL");
+const u8 gText_FastIntro[] = _("FAST");
 const u8 gText_TextSpeedSlow[] = _("SLOW");
 const u8 gText_TextSpeedMid[] = _("MID");
 const u8 gText_TextSpeedFast[] = _("FAST");

@@ -475,7 +475,7 @@ static void AddSearchWindow(u8 width)
 #define WINDOW_COL_0 (SPECIES_ICON_X + 4)
 #define WINDOW_COL_1 (WINDOW_COL_0 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * (POKEMON_NAME_LENGTH)))
 #define WINDOW_MOVE_NAME_X (WINDOW_COL_1 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * 6))
-#define SEARCH_ARROW_X (WINDOW_MOVE_NAME_X + 90)
+#define SEARCH_ARROW_X (WINDOW_MOVE_NAME_X + 80)
 #define SEARCH_ARROW_Y 0
 static void AddSearchWindowText(u16 species, u8 proximity, u8 searchLevel, bool8 hidden)
 {
@@ -1974,12 +1974,20 @@ static void DexNavLoadEncounterData(void)
 
 static void TryDrawIconInSlot(u16 species, s16 x, s16 y)
 {
-    if (species == SPECIES_NONE || species > NUM_SPECIES)
-        CreateNoDataIcon(x, y); //'X' in slot
-    // else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
-    // CreateMonIcon(SPECIES_NONE, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF); // question mark
+    if (MapHasNoEncounterData())
+    {
+        CreateNoDataIcon(x, y);
+    }
     else
-        CreateMonIcon(species, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF);
+    {
+        if (species == SPECIES_NONE || species > NUM_SPECIES)
+            CreateNoDataIcon(x, y); //'X' in slot
+        /*else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+            CreateMonIcon(SPECIES_NONE, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF);*/
+        // question mark
+        else
+            CreateMonIcon(species, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF);
+    }
 }
 
 static void DrawSpeciesIcons(void)

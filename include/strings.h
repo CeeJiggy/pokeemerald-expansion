@@ -327,6 +327,8 @@ extern const u8 gText_ButtonMode[];
 extern const u8 gText_LevelCaps[];
 extern const u8 gText_NoCaps[];
 extern const u8 gText_SoftCaps[];
+extern const u8 gText_NormalIntro[];
+extern const u8 gText_FastIntro[];
 
 extern const u8 gText_MaleSymbol[];
 extern const u8 gText_FemaleSymbol[];
@@ -2193,6 +2195,7 @@ extern const u8 gText_ThatIsntAnEgg[];
 extern const u8 gText_OtherTrainersPkmnCantBeTraded[];
 extern const u8 gText_OtherTrainerCantAcceptPkmn[];
 extern const u8 gText_CantTradeWithTrainer[];
+extern const u8 gText_Moves_Menu[];
 
 // trade
 extern const u8 gText_XWillBeSentToY[];

@@ -321,12 +321,15 @@ PlayersHouse_1F_Text_MaybeDadWillBeOn:
 PlayersHouse_1F_Text_ItsOverWeMissedHim:
 	.string "MOM: Oh… It's over.\p"
 	.string "I think DAD was on, but we missed him.\n"
-	.string "Too bad.$"
+	.string "Too bad.\p"
+	.string "{PLAYER}, were you able to hear\n"
+	.string "where they said that conference was?$"
 
 PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor:
-	.string "Oh, yes.\n"
-	.string "One of DAD's friends lives in town.\p"
-	.string "PROF. BIRCH is his name.\p"
+	.string "Wow, I'm amazed you were able to\n"
+	.string "make that out through all the static!\p"
+	.string "Anyway, that very same Professor\n"
+	.string "Birch is our new neighbor!\p"
 	.string "He lives right next door, so you should\n"
 	.string "go over and introduce yourself.$"
 
@@ -373,7 +376,12 @@ PlayersHouse_1F_Text_Vigoroth2:
 
 PlayersHouse_1F_Text_ReportFromPetalburgGym:
 	.string "INTERVIEWER: …We brought you this\n"
-	.string "report from in front of PETALBURG GYM.$"
+	.string "report from in front of PETALBURG GYM.\p"
+	.string "In other news, Hoenn's very own\n"
+	.string "Professor Birch is returning today\l"
+	.string "from the Pokémon Researchers \l"
+	.string "Conference in ..BZZT.. and is expected\l"
+	.string "to...$"
 
 PlayersHouse_1F_Text_TheresAMovieOnTV:
 	.string "There is a movie on TV.\p"
@@ -438,3 +446,4 @@ PlayersHouse_1F_Text_WhatColorDidTheySay:
 PlayersHouse_1F_Text_StillUnknownPokemon:
 	.string "MOM: Well, isn't that something!\n"
 	.string "There are still unknown POKéMON.$"
+
