@@ -49,7 +49,11 @@ gText_Birch_YourePlayer::
 	.string "I get it now!\p"
 	.string "$"
 
-gText_Birch_AreYouReady::
+gText_Birch_AreYouReady::	
+	.string "Don't forget to check out the options\n"
+	.string "menu to customize your experience.\l"
+	.string "There are lots of cool features to\l"
+	.string "mess around with in there!\p"
 	.string "All right, are you ready?\p"
 	.string "Your very own adventure is about\n"
 	.string "to unfold.\p"
@@ -57,5 +61,6 @@ gText_Birch_AreYouReady::
 	.string "world of POKéMON where dreams,\l"
 	.string "adventure, and friendships await!\p"
 	.string "Well, I'll be expecting you later.\n"
+
 	.string "Come see me in my POKéMON LAB.\p"
 	.string "$"

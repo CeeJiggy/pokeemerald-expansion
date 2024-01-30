@@ -176,7 +176,7 @@ PlayersHouse_1F_EventScript_PetalburgGymReportMale::
 	dynmultipush EventScript_Alola, 6
 	dynmultipush EventScript_Galar, 7
 	dynmultipush EventScript_Paldea, 8
-	dynmultistack 0, 0, 10, TRUE, 5, TRUE, 0, 1,DYN_MULTICHOICE_CB_NONE
+	dynmultistack 0, 0, 11, FALSE, 5, TRUE, 0, 2,DYN_MULTICHOICE_CB_NONE
 	copyvar VAR_REGION_CHOSEN, VAR_RESULT
 	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
 	closemessage
@@ -212,7 +212,7 @@ PlayersHouse_1F_EventScript_PetalburgGymReportFemale::
 	dynmultipush EventScript_Alola, 6
 	dynmultipush EventScript_Galar, 7
 	dynmultipush EventScript_Paldea, 8
-	dynmultistack 0, 0, 18, TRUE, 5, TRUE, 0, 1,DYN_MULTICHOICE_CB_NONE	
+	dynmultistack 0, 0, 11, FALSE, 5, TRUE, 0, 2,DYN_MULTICHOICE_CB_NONE	
 	copyvar VAR_REGION_CHOSEN, VAR_RESULT
 	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
 	closemessage
