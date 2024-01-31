@@ -226,10 +226,10 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         if (taskId != TASK_NONE)
         {
             EndDexNavSearch(taskId);
-            ScriptContext_SetupScript(EventScript_StartMenu);
+            ShowStartMenu();
         }
         else
-            ScriptContext_SetupScript(EventScript_StartMenu);
+            ShowStartMenu();
         return TRUE;
     }
 

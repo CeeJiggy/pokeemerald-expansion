@@ -542,21 +542,4 @@ gSpecials::
 	def_special TrySkyBattle
 	def_special VsSeekerResetObjectMovementAfterChargeComplete
 	def_special VsSeekerFreezeObjectsAfterChargeComplete
-@ Start Menu functions begin below:
-	def_special PlayRainStoppingSoundEffect
-	def_special Script_StartMenu_OpenPokedexMenu
-	def_special Script_StartMenu_OpenPokemonMenu
-	def_special Script_StartMenu_OpenBox
-	def_special Script_StartMenu_OpenDexNav
-	def_special Script_StartMenu_OpenBagMenu
-	def_special Script_StartMenu_OpenPokenavMenu
-	def_special Script_StartMenu_OpenTrainerCardMenu
-	def_special Script_StartMenu_OpenOptionsMenu
-	def_special InBattlePyramid
-	def_special ShowSafariBallsWindow
-	def_special ShowPyramidFloorWindow
-	def_special RemoveExtraStartMenuWindows
-	def_special Script_StartMenu_OpenRetireSafari
-	def_special InBattlePike
-@ Start menu functions end above:
 	def_special BufferUnitSystemText

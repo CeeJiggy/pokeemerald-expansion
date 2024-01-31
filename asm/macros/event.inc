@@ -1990,19 +1990,6 @@
 	setvar VAR_0x8006, \item
 	special CreateEnemyEventMon
 	.endm
-
-
-	@ Checks if the Player is currently in the Battle Pyramid.
-	.macro goto_if_in_battle_pyramid dest:req
-	specialvar VAR_RESULT, InBattlePyramid
-	goto_if_ne VAR_RESULT, FALSE, \dest
-	.endm
-
-	@ Checks if the Player is currently in the Battle Pike.
-	.macro goto_if_in_battle_pike dest:req
-	specialvar VAR_RESULT, InBattlePike
-	goto_if_ne VAR_RESULT, FALSE, \dest
-	.endm
 	
 	@ Set up a totem boost for the next battle.
 	@ 'battler' is the position of the mon you want to gain a boost. see B_POSITION_xx in include/constants/battle.h.
