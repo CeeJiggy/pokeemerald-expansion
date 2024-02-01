@@ -7,6 +7,7 @@ void ItemUseOutOfBattle_Rod(u8);
 void ItemUseOutOfBattle_Itemfinder(u8);
 void ItemUseOutOfBattle_PokeblockCase(u8);
 void ItemUseOutOfBattle_CoinCase(u8);
+void ItemUseOutOfBattle_PokemonBoxLink(u8);
 void ItemUseOutOfBattle_PowderJar(u8);
 void ItemUseOutOfBattle_SSTicket(u8);
 void ItemUseOutOfBattle_WailmerPail(u8);
@@ -44,7 +45,8 @@ u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 void FieldUseFunc_VsSeeker(u8 taskId);
 void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId);
 
-enum {
+enum
+{
     BALL_THROW_UNABLE_TWO_MONS,
     BALL_THROW_UNABLE_NO_ROOM,
     BALL_THROW_UNABLE_SEMI_INVULNERABLE,

@@ -59,10 +59,25 @@ EventScript_TurnOffPC::
 	releaseall
 	end
 
+EventScript_TurnOffPCLink::
+	setvar VAR_0x8004, PC_LOCATION_OTHER
+	special DoPCTurnOffEffect
+	clearflag FLAG_POKEMONPCMENU
+	releaseall
+	end
+
 EventScript_AccessHallOfFame::
 	goto_if_unset FLAG_SYS_GAME_CLEAR, EventScript_TurnOffPC
 	playse SE_PC_LOGIN
 	special AccessHallOfFamePC
 	waitstate
 	goto EventScript_AccessPC
+	end
+
+EventScript_AccessPokemonBoxLink::
+	playse SE_PC_LOGIN
+	msgbox gText_StorageSystemOpened, MSGBOX_DEFAULT
+	special ShowPokemonStorageSystemPC
+	waitstate
+	goto EventScript_TurnOffPCLink
 	end

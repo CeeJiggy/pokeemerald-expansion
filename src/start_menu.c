@@ -328,7 +328,6 @@ static void BuildNormalStartMenu(void)
     if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
     {
         AddStartMenuAction(MENU_ACTION_POKEMON);
-        AddStartMenuAction(MENU_ACTION_PC);
     }
 
     AddStartMenuAction(MENU_ACTION_BAG);
@@ -351,6 +350,8 @@ static void BuildDebugStartMenu(void)
     if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
         AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
+    if (FlagGet(FLAG_SYS_DEXNAV_GET))
+        AddStartMenuAction(MENU_ACTION_DEXNAV);
     if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
         AddStartMenuAction(MENU_ACTION_POKENAV);
     AddStartMenuAction(MENU_ACTION_PLAYER);
@@ -366,6 +367,7 @@ static void BuildSafariZoneStartMenu(void)
     AddStartMenuAction(MENU_ACTION_BAG);
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_OPTION);
+    AddStartMenuAction(MENU_ACTION_EXIT);
 }
 
 static void BuildLinkModeStartMenu(void)
