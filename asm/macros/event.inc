@@ -1770,6 +1770,24 @@
 	_dynmultichoice \left, \top, \height, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \choicesSpacing, \callbacks, NULL
 	.endm
 
+	.macro showdescription
+    .byte 0xe5
+   	.endm
+
+   	.macro showitemdesc
+   	setvar VAR_0x8009, 0
+   	showdescription
+   	.endm
+
+   	.macro showberrydesc
+   	setvar VAR_0x8009, 1
+   	showdescription
+   	.endm
+
+    .macro hideitemdesc
+    .byte 0xe6
+    .endm
+
 
 @ Supplementary
 

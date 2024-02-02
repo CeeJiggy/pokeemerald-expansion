@@ -517,6 +517,9 @@ struct RankingHall2P
     // u8 padding;
 };
 
+#include "constants/items.h"
+#define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -1124,6 +1127,7 @@ struct SaveBlock1
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     /*0x3???*/ u8 dexNavSearchLevels[NUM_SPECIES];
     /*0x3???*/ u8 dexNavChain;
+    u8 itemFlags[ITEM_FLAGS_COUNT];
     // sizeof: 0x3???
 
     u8 registeredItemLastSelected : 4; // max 16 items

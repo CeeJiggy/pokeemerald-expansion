@@ -1715,18 +1715,18 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
 
     if (modifier == UQ_4_12(0.0))
     {
-        return COLOR_IMMUNE; // 26 - no effect
+        return 26; // 26 - no effect
     }
     else if (modifier <= UQ_4_12(0.5))
     {
-        return COLOR_NOT_VERY_EFFECTIVE; // 25 - not very effective
+        return 25; // 25 - not very effective
     }
     else if (modifier >= UQ_4_12(2.0))
     {
-        return COLOR_SUPER_EFFECTIVE; // 24 - super effective
+        return 24; // 24 - super effective
     }
     else
-        return COLOR_EFFECTIVE; // 10 - normal effectiveness
+        return 10; // 10 - normal effectiveness
 }
 
 static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
@@ -1799,8 +1799,8 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     else
         type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
 
-    // StringCopy(txtPtr, gTypeNames[type]);
-    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    // StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[battler]]].type]);
+    BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
 
     MoveSelectionDisplaySplitIcon(battler);
 }

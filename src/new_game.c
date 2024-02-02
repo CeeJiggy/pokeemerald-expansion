@@ -215,6 +215,7 @@ void NewGameInitData(void)
     ResetContestLinkResults();
     memset(gSaveBlock1Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock1Ptr->dexNavSearchLevels));
     gSaveBlock1Ptr->dexNavChain = 0;
+    memset(&gSaveBlock1Ptr->itemFlags, 0, sizeof(gSaveBlock1Ptr->itemFlags));
     gSaveBlock2Ptr->autoRun = FALSE;
 }
 
