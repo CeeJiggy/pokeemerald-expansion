@@ -356,7 +356,6 @@ static const u16 sEncouragedEncoreEffects[] =
     EFFECT_IMPRISON,
     EFFECT_REFRESH,
     EFFECT_GRUDGE,
-    EFFECT_TEETER_DANCE,
     EFFECT_MUD_SPORT,
     EFFECT_WATER_SPORT,
     EFFECT_DRAGON_DANCE,
@@ -972,7 +971,7 @@ static bool32 AI_IsMoveEffectInMinus(u32 battlerAtk, u32 battlerDef, u32 move, s
     case EFFECT_OVERHEAT:
     case EFFECT_MAKE_IT_RAIN:
     case EFFECT_MIND_BLOWN:
-    case EFFECT_STEEL_BEAM:
+    case EFFECT_MAX_HP_50_RECOIL:
         return TRUE;
     case EFFECT_RECOIL_25:
     case EFFECT_RECOIL_IF_MISS:
@@ -1422,7 +1421,6 @@ bool32 IsConfusionMoveEffect(u32 moveEffect)
     case EFFECT_CONFUSE:
     case EFFECT_SWAGGER:
     case EFFECT_FLATTER:
-    case EFFECT_TEETER_DANCE:
         return TRUE;
     default:
         return FALSE;
@@ -2750,17 +2748,11 @@ bool32 AI_CanPutToSleep(u32 battlerAtk, u32 battlerDef, u32 defAbility, u32 move
     return TRUE;
 }
 
-static bool32 AI_CanPoisonType(u32 battlerAttacker, u32 battlerTarget, u32 move)
-{
-    return ((AI_DATA->abilities[battlerAttacker] == ABILITY_CORROSION && gBattleMoves[move].split == SPLIT_STATUS)
-            || !(IS_BATTLER_OF_TYPE(battlerTarget, TYPE_POISON) || IS_BATTLER_OF_TYPE(battlerTarget, TYPE_STEEL)));
-}
-
 static bool32 AI_CanBePoisoned(u32 battlerAtk, u32 battlerDef, u32 move)
 {
     u32 ability = AI_DATA->abilities[battlerDef];
 
-    if (!(AI_CanPoisonType(battlerAtk, battlerDef, move))
+    if (!(CanPoisonType(battlerAtk, battlerDef))
      || gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_SAFEGUARD
      || gBattleMons[battlerDef].status1 & STATUS1_ANY
      || ability == ABILITY_IMMUNITY
@@ -2825,25 +2817,27 @@ bool32 AI_CanParalyze(u32 battlerAtk, u32 battlerDef, u32 defAbility, u32 move, 
     return TRUE;
 }
 
-bool32 AI_CanBeConfused(u32 battler, u32 ability)
+bool32 AI_CanBeConfused(u32 battlerAtk, u32 battlerDef, u32 move, u32 ability)
 {
-    if ((gBattleMons[battler].status2 & STATUS2_CONFUSION)
-      || (ability == ABILITY_OWN_TEMPO)
-      || (IsBattlerGrounded(battler) && (gFieldStatuses & STATUS_FIELD_MISTY_TERRAIN)))
+    if ((gBattleMons[battlerDef].status2 & STATUS2_CONFUSION)
+     || (ability == ABILITY_OWN_TEMPO && !DoesBattlerIgnoreAbilityChecks(AI_DATA->abilities[battlerAtk], move))
+     || (IsBattlerGrounded(battlerDef) && (gFieldStatuses & STATUS_FIELD_MISTY_TERRAIN))
+     || gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_SAFEGUARD
+     || DoesSubstituteBlockMove(battlerAtk, battlerDef, move))
         return FALSE;
     return TRUE;
 }
 
 bool32 AI_CanConfuse(u32 battlerAtk, u32 battlerDef, u32 defAbility, u32 battlerAtkPartner, u32 move, u32 partnerMove)
 {
-    if (!AI_CanBeConfused(battlerDef, defAbility)
-      || AI_GetMoveEffectiveness(move, battlerAtk, battlerDef) == AI_EFFECTIVENESS_x0
-      || gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_SAFEGUARD
-      || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
-      || DoesPartnerHaveSameMoveEffect(battlerAtkPartner, battlerDef, move, partnerMove))
-    {
+    if (gBattleMoves[move].target == MOVE_TARGET_FOES_AND_ALLY
+     && AI_CanBeConfused(battlerAtk, battlerDef, move, defAbility)
+     && !AI_CanBeConfused(battlerAtk, BATTLE_PARTNER(battlerDef), move, AI_DATA->abilities[BATTLE_PARTNER(battlerDef)]))
         return FALSE;
-    }
+
+    if (!AI_CanBeConfused(battlerAtk, battlerDef, move, defAbility)
+     || DoesPartnerHaveSameMoveEffect(battlerAtkPartner, battlerDef, move, partnerMove))
+        return FALSE;
 
     return TRUE;
 }
