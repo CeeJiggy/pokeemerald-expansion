@@ -259,17 +259,17 @@ void Task_OpenStatEditorFromStartMenu(u8 taskId)
 }
 
 // This is our main initialization function if you want to call the menu from elsewhere
-void StatEditor_Init(MainCallback callback)
+void StatEditor_Init()
 {
     if ((sStatEditorDataPtr = AllocZeroed(sizeof(struct StatEditorResources))) == NULL)
     {
-        SetMainCallback2(callback);
+        SetMainCallback2(CB2_ReturnToFieldContinueScript);
         return;
     }
 
     // initialize stuff
     sStatEditorDataPtr->gfxLoadState = 0;
-    sStatEditorDataPtr->savedCallback = callback;
+    sStatEditorDataPtr->savedCallback = CB2_ReturnToFieldContinueScript;
     sStatEditorDataPtr->selectorSpriteId = 0xFF;
     sStatEditorDataPtr->partyid = gSpecialVar_0x8004;
 

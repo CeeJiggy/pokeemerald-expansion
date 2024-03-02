@@ -1679,6 +1679,13 @@ void CB2_ReturnToFieldContinueScript(void)
     CB2_ReturnToField();
 }
 
+void CB2_ReturnToFieldStatEdit(void)
+{
+    FieldClearVBlankHBlankCallbacks();
+    gFieldCallback = FieldCB_ContinueScript;
+    CB2_ReturnToField();
+}
+
 void CB2_ReturnToFieldContinueScriptPlayMapMusic(void)
 {
     FieldClearVBlankHBlankCallbacks();

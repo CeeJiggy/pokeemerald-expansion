@@ -70,7 +70,7 @@ EventScript_AccessHallOfFame::
 	goto_if_unset FLAG_SYS_GAME_CLEAR, EventScript_TurnOffPC
 	playse SE_PC_LOGIN
 	special AccessHallOfFamePC
-	waitstate
+	waitste
 	goto EventScript_AccessPC
 	end
 
@@ -81,3 +81,4 @@ EventScript_AccessPokemonBoxLink::
 	waitstate
 	goto EventScript_TurnOffPCLink
 	end
+	
