@@ -41,13 +41,13 @@
 #include "field_screen_effect.h"
 
 /*
- * 
+ *
  */
- 
+
 //==========DEFINES==========//
 struct StatEditorResources
 {
-    MainCallback savedCallback;     // determines callback to run when we exit. e.g. where do we want to go after closing the menu
+    MainCallback savedCallback; // determines callback to run when we exit. e.g. where do we want to go after closing the menu
     u8 gfxLoadState;
     u8 mode;
     u8 monIconSpriteId;
@@ -59,6 +59,7 @@ struct StatEditorResources
     u32 editingStat;
     u16 normalTotal;
     u16 evTotal;
+    u16 cappedEvTotal;
     u16 ivTotal;
     u16 partyid;
     u16 inputMode;
@@ -66,6 +67,8 @@ struct StatEditorResources
 
 #define INPUT_SELECT_STAT 0
 #define INPUT_EDIT_STAT 1
+
+#define IV_EDIT_LEVEL 50
 
 enum WindowIds
 {
@@ -92,6 +95,7 @@ static void Task_StatEditorMain(u8 taskId);
 static void Task_MenuEditingStat(u8 taskId);
 static void SampleUi_DrawMonIcon(u16 dexNum);
 static void PrintMonStats(void);
+static void calcCaps(void);
 static void SelectorCallback(struct Sprite *sprite);
 static struct Pokemon *ReturnPartyMon();
 static u8 CreateSelector();
@@ -99,59 +103,52 @@ static void DestroySelector();
 
 //==========CONST=DATA==========//
 static const struct BgTemplate sStatEditorBgTemplates[] =
-{
     {
-        .bg = 0,    // windows, etc
-        .charBaseIndex = 0,
-        .mapBaseIndex = 30,
-        .priority = 1
-    }, 
-    {
-        .bg = 1,    // this bg loads the UI tilemap
-        .charBaseIndex = 3,
-        .mapBaseIndex = 28,
-        .priority = 2
-    },
-    {
-        .bg = 2,    // this bg loads the UI tilemap
-        .charBaseIndex = 0,
-        .mapBaseIndex = 26,
-        .priority = 0
-    }
-};
+        {.bg = 0, // windows, etc
+         .charBaseIndex = 0,
+         .mapBaseIndex = 30,
+         .priority = 1},
+        {.bg = 1, // this bg loads the UI tilemap
+         .charBaseIndex = 3,
+         .mapBaseIndex = 28,
+         .priority = 2},
+        {.bg = 2, // this bg loads the UI tilemap
+         .charBaseIndex = 0,
+         .mapBaseIndex = 26,
+         .priority = 0}};
 
-static const struct WindowTemplate sMenuWindowTemplates[] = 
-{
-    [WINDOW_1] = 
+static const struct WindowTemplate sMenuWindowTemplates[] =
     {
-        .bg = 0,            // which bg to print text on
-        .tilemapLeft = 1,   // position from left (per 8 pixels)
-        .tilemapTop = 0,    // position from top (per 8 pixels)
-        .width = 30,        // width (per 8 pixels)
-        .height = 2,        // height (per 8 pixels)
-        .paletteNum = 15,   // palette index to use for text
-        .baseBlock = 1,     // tile start in VRAM
-    },
-    [WINDOW_2] = 
-    {
-        .bg = 0,            // which bg to print text on
-        .tilemapLeft = 11,   // position from left (per 8 pixels)
-        .tilemapTop = 2,    // position from top (per 8 pixels)
-        .width = 18,        // width (per 8 pixels)
-        .height = 17,        // height (per 8 pixels)
-        .paletteNum = 15,   // palette index to use for text
-        .baseBlock = 1 + 70,     // tile start in VRAM
-    },
-    [WINDOW_3] = 
-    {
-        .bg = 0,            // which bg to print text on
-        .tilemapLeft = 1,   // position from left (per 8 pixels)
-        .tilemapTop = 11,    // position from top (per 8 pixels)
-        .width = 8,        // width (per 8 pixels)
-        .height = 9,        // height (per 8 pixels)
-        .paletteNum = 15,   // palette index to use for text
-        .baseBlock = 1 + 70 + 306,     // tile start in VRAM
-    },
+        [WINDOW_1] =
+            {
+                .bg = 0,          // which bg to print text on
+                .tilemapLeft = 1, // position from left (per 8 pixels)
+                .tilemapTop = 0,  // position from top (per 8 pixels)
+                .width = 30,      // width (per 8 pixels)
+                .height = 2,      // height (per 8 pixels)
+                .paletteNum = 15, // palette index to use for text
+                .baseBlock = 1,   // tile start in VRAM
+            },
+        [WINDOW_2] =
+            {
+                .bg = 0,             // which bg to print text on
+                .tilemapLeft = 11,   // position from left (per 8 pixels)
+                .tilemapTop = 2,     // position from top (per 8 pixels)
+                .width = 18,         // width (per 8 pixels)
+                .height = 17,        // height (per 8 pixels)
+                .paletteNum = 15,    // palette index to use for text
+                .baseBlock = 1 + 70, // tile start in VRAM
+            },
+        [WINDOW_3] =
+            {
+                .bg = 0,                   // which bg to print text on
+                .tilemapLeft = 1,          // position from left (per 8 pixels)
+                .tilemapTop = 11,          // position from top (per 8 pixels)
+                .width = 8,                // width (per 8 pixels)
+                .height = 9,               // height (per 8 pixels)
+                .paletteNum = 15,          // palette index to use for text
+                .baseBlock = 1 + 70 + 306, // tile start in VRAM
+            },
 };
 
 static const u32 sStatEditorBgTiles[] = INCBIN_U32("graphics/ui_menu/background_tileset.4bpp.lz");
@@ -161,94 +158,94 @@ static const u16 sStatEditorBgPalette[] = INCBIN_U16("graphics/ui_menu/backgroun
 enum Colors
 {
     FONT_BLACK,
+    FONT_GRAY,
     FONT_WHITE,
     FONT_RED,
     FONT_BLUE,
 };
-static const u8 sMenuWindowFontColors[][3] = 
-{
-    [FONT_BLACK]  = {TEXT_COLOR_TRANSPARENT,  TEXT_COLOR_DARK_GRAY,  TEXT_COLOR_LIGHT_GRAY},
-    [FONT_WHITE]  = {TEXT_COLOR_TRANSPARENT,  TEXT_COLOR_WHITE,  TEXT_COLOR_DARK_GRAY},
-    [FONT_RED]   = {TEXT_COLOR_TRANSPARENT,  TEXT_COLOR_RED,        TEXT_COLOR_LIGHT_GRAY},
-    [FONT_BLUE]  = {TEXT_COLOR_TRANSPARENT,  TEXT_COLOR_BLUE,       TEXT_COLOR_LIGHT_GRAY},
+static const u8 sMenuWindowFontColors[][3] =
+    {
+        [FONT_BLACK] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY},
+        [FONT_GRAY] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY, TEXT_COLOR_DARK_GRAY},
+        [FONT_WHITE] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY},
+        [FONT_RED] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_GRAY},
+        [FONT_BLUE] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE},
 };
 
 #define TAG_SELECTOR 30004
 
 static const u16 sSelector_Pal[] = INCBIN_U16("graphics/ui_menu/selector.gbapal");
 static const u32 sSelector_Gfx[] = INCBIN_U32("graphics/ui_menu/selector.4bpp.lz");
-static const u8 sA_ButtonGfx[]         = INCBIN_U8("graphics/ui_menu/a_button.4bpp");
-static const u8 sB_ButtonGfx[]         = INCBIN_U8("graphics/ui_menu/b_button.4bpp");
-static const u8 sR_ButtonGfx[]         = INCBIN_U8("graphics/ui_menu/r_button.4bpp");
-static const u8 sDPad_ButtonGfx[]         = INCBIN_U8("graphics/ui_menu/dpad_button.4bpp");
+static const u8 sA_ButtonGfx[] = INCBIN_U8("graphics/ui_menu/a_button.4bpp");
+static const u8 sB_ButtonGfx[] = INCBIN_U8("graphics/ui_menu/b_button.4bpp");
+static const u8 sR_ButtonGfx[] = INCBIN_U8("graphics/ui_menu/r_button.4bpp");
+static const u8 sDPad_ButtonGfx[] = INCBIN_U8("graphics/ui_menu/dpad_button.4bpp");
 
 static const struct OamData sOamData_Selector =
-{
-    .size = SPRITE_SIZE(32x32),
-    .shape = SPRITE_SHAPE(32x32),
-    .priority = 0,
+    {
+        .size = SPRITE_SIZE(32x32),
+        .shape = SPRITE_SHAPE(32x32),
+        .priority = 0,
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_Selector =
-{
-    .data = sSelector_Gfx,
-    .size = 32*32*4/2,
-    .tag = TAG_SELECTOR,
+    {
+        .data = sSelector_Gfx,
+        .size = 32 * 32 * 4 / 2,
+        .tag = TAG_SELECTOR,
 };
 
 static const struct SpritePalette sSpritePal_Selector =
-{
-    .data = sSelector_Pal,
-    .tag = TAG_SELECTOR
-};
+    {
+        .data = sSelector_Pal,
+        .tag = TAG_SELECTOR};
 
 static const union AnimCmd sSpriteAnim_Selector0[] =
-{
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_FRAME(0, 32),
-    //ANIMCMD_FRAME(48, 10),
-    ANIMCMD_JUMP(0),
+    {
+        ANIMCMD_FRAME(0, 32),
+        ANIMCMD_FRAME(0, 32),
+        // ANIMCMD_FRAME(48, 10),
+        ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sSpriteAnim_Selector1[] =
-{
-    ANIMCMD_FRAME(32, 32),
-    ANIMCMD_FRAME(32, 32),
-    ANIMCMD_JUMP(0),
+    {
+        ANIMCMD_FRAME(32, 32),
+        ANIMCMD_FRAME(32, 32),
+        ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sSpriteAnim_Selector2[] =
-{
-    ANIMCMD_FRAME(16, 32),
-    ANIMCMD_FRAME(16, 32),
-    ANIMCMD_JUMP(0),
+    {
+        ANIMCMD_FRAME(16, 32),
+        ANIMCMD_FRAME(16, 32),
+        ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sSpriteAnim_Selector3[] =
-{
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_JUMP(0),
+    {
+        ANIMCMD_FRAME(0, 32),
+        ANIMCMD_FRAME(0, 32),
+        ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd *const sSpriteAnimTable_Selector[] =
-{
-    sSpriteAnim_Selector0,
-    sSpriteAnim_Selector1,
-    sSpriteAnim_Selector2,
-    sSpriteAnim_Selector3,
+    {
+        sSpriteAnim_Selector0,
+        sSpriteAnim_Selector1,
+        sSpriteAnim_Selector2,
+        sSpriteAnim_Selector3,
 };
 
 static const struct SpriteTemplate sSpriteTemplate_Selector =
-{
-    .tileTag = TAG_SELECTOR,
-    .paletteTag = TAG_SELECTOR,
-    .oam = &sOamData_Selector,
-    .anims = sSpriteAnimTable_Selector,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SelectorCallback
-};
+    {
+        .tileTag = TAG_SELECTOR,
+        .paletteTag = TAG_SELECTOR,
+        .oam = &sOamData_Selector,
+        .anims = sSpriteAnimTable_Selector,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SelectorCallback};
 
 // Begin Generic UI Initialization Code
 void Task_OpenStatEditorFromStartMenu(u8 taskId)
@@ -269,13 +266,13 @@ void StatEditor_Init(MainCallback callback)
         SetMainCallback2(callback);
         return;
     }
-    
+
     // initialize stuff
     sStatEditorDataPtr->gfxLoadState = 0;
     sStatEditorDataPtr->savedCallback = callback;
     sStatEditorDataPtr->selectorSpriteId = 0xFF;
     sStatEditorDataPtr->partyid = gSpecialVar_0x8004;
-    
+
     SetMainCallback2(StatEditor_RunSetup);
 }
 
@@ -310,7 +307,7 @@ static bool8 StatEditor_DoGfxSetup(void)
     {
     case 0:
         DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000)
-        SetVBlankHBlankCallbacksToNull();
+            SetVBlankHBlankCallbacksToNull();
         ResetVramOamAndBgCntRegs();
         ClearScheduledBgCopiesToVram();
         gMain.state++;
@@ -349,6 +346,7 @@ static bool8 StatEditor_DoGfxSetup(void)
         gMain.state++;
         break;
     case 5:
+        calcCaps();
         StatEditor_InitWindows();
         PrintTitleToWindowMainState();
         sStatEditorDataPtr->inputMode = INPUT_SELECT_STAT;
@@ -373,10 +371,10 @@ static bool8 StatEditor_DoGfxSetup(void)
     return FALSE;
 }
 
-#define try_free(ptr) ({        \
-    void ** ptr__ = (void **)&(ptr);   \
-    if (*ptr__ != NULL)                \
-        Free(*ptr__);                  \
+#define try_free(ptr) ({            \
+    void **ptr__ = (void **)&(ptr); \
+    if (*ptr__ != NULL)             \
+        Free(*ptr__);               \
 })
 
 static void StatEditor_FreeResources(void)
@@ -387,7 +385,6 @@ static void StatEditor_FreeResources(void)
     try_free(sBg1TilemapBuffer);
     FreeAllWindowBuffers();
 }
-
 
 static void Task_StatEditorWaitFadeAndBail(u8 taskId)
 {
@@ -413,7 +410,7 @@ static bool8 StatEditor_InitBgs(void)
     sBg1TilemapBuffer = Alloc(0x800);
     if (sBg1TilemapBuffer == NULL)
         return FALSE;
-    
+
     memset(sBg1TilemapBuffer, 0, 0x800);
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sStatEditorBgTemplates, NELEMS(sStatEditorBgTemplates));
@@ -458,11 +455,11 @@ static void StatEditor_InitWindows(void)
     InitWindows(sMenuWindowTemplates);
     DeactivateAllTextPrinters();
     ScheduleBgCopyTilemapToVram(0);
-    
+
     FillWindowPixelBuffer(WINDOW_1, 0);
     PutWindowTilemap(WINDOW_1);
     CopyWindowToVram(WINDOW_1, 3);
-    
+
     ScheduleBgCopyTilemapToVram(2);
 }
 
@@ -493,8 +490,8 @@ static struct Pokemon *ReturnPartyMon()
     return &gPlayerParty[sStatEditorDataPtr->partyid];
 }
 
-#define MON_ICON_X     32 + 8
-#define MON_ICON_Y     32 + 24
+#define MON_ICON_X 32 + 8
+#define MON_ICON_Y 32 + 24
 static void SampleUi_DrawMonIcon(u16 dexNum)
 {
     u16 speciesId = dexNum;
@@ -527,56 +524,70 @@ static void DestroySelector()
 #define STARTING_X 60
 #define STARTING_Y 26
 
-struct MonPrintData {
+struct MonPrintData
+{
     u16 x;
     u16 y;
 };
 
 static const struct MonPrintData StatPrintData[] =
-{
-    [MON_DATA_MAX_HP] = {STARTING_X, STARTING_Y},
-    [MON_DATA_HP_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y},
-    [MON_DATA_HP_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y},
+    {
+        [MON_DATA_MAX_HP] = {STARTING_X, STARTING_Y},
+        [MON_DATA_HP_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y},
+        [MON_DATA_HP_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y},
 
-    [MON_DATA_ATK] = {STARTING_X, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
-    [MON_DATA_ATK_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
-    [MON_DATA_ATK_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
+        [MON_DATA_ATK] = {STARTING_X, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
+        [MON_DATA_ATK_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
+        [MON_DATA_ATK_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + DISTANCE_BETWEEN_STATS_Y},
 
-    [MON_DATA_DEF] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
-    [MON_DATA_DEF_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
-    [MON_DATA_DEF_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
+        [MON_DATA_DEF] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
+        [MON_DATA_DEF_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
+        [MON_DATA_DEF_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 2)},
 
-    [MON_DATA_SPATK] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
-    [MON_DATA_SPATK_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
-    [MON_DATA_SPATK_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
+        [MON_DATA_SPATK] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
+        [MON_DATA_SPATK_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
+        [MON_DATA_SPATK_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 3)},
 
-    [MON_DATA_SPDEF] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
-    [MON_DATA_SPDEF_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
-    [MON_DATA_SPDEF_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
+        [MON_DATA_SPDEF] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
+        [MON_DATA_SPDEF_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
+        [MON_DATA_SPDEF_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 4)},
 
-    [MON_DATA_SPEED] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
-    [MON_DATA_SPEED_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
-    [MON_DATA_SPEED_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
+        [MON_DATA_SPEED] = {STARTING_X, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
+        [MON_DATA_SPEED_EV] = {STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
+        [MON_DATA_SPEED_IV] = {STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 5)},
 };
 
 static const u16 statsToPrintActual[] = {
-        MON_DATA_MAX_HP, MON_DATA_ATK, MON_DATA_DEF, MON_DATA_SPEED, MON_DATA_SPATK, MON_DATA_SPDEF,
+    MON_DATA_MAX_HP,
+    MON_DATA_ATK,
+    MON_DATA_DEF,
+    MON_DATA_SPEED,
+    MON_DATA_SPATK,
+    MON_DATA_SPDEF,
 };
 
 static const u16 statsToPrintEVs[] = {
-        MON_DATA_HP_EV, MON_DATA_ATK_EV, MON_DATA_DEF_EV, MON_DATA_SPEED_EV, MON_DATA_SPATK_EV, MON_DATA_SPDEF_EV,
+    MON_DATA_HP_EV,
+    MON_DATA_ATK_EV,
+    MON_DATA_DEF_EV,
+    MON_DATA_SPEED_EV,
+    MON_DATA_SPATK_EV,
+    MON_DATA_SPDEF_EV,
 };
 
 static const u16 statsToPrintIVs[] = {
-        MON_DATA_HP_IV, MON_DATA_ATK_IV, MON_DATA_DEF_IV, MON_DATA_SPEED_IV, MON_DATA_SPATK_IV, MON_DATA_SPDEF_IV,
+    MON_DATA_HP_IV,
+    MON_DATA_ATK_IV,
+    MON_DATA_DEF_IV,
+    MON_DATA_SPEED_IV,
+    MON_DATA_SPATK_IV,
+    MON_DATA_SPDEF_IV,
 };
-
 
 static const u8 sGenderColors[2][3] =
-{
-    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_BLUE, TEXT_COLOR_BLUE},
-    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED}
-};
+    {
+        {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_BLUE, TEXT_COLOR_BLUE},
+        {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED}};
 
 static const u8 sText_MenuTitle[] = _("Stat Editor");
 static const u8 sText_MenuHP[] = _("HP");
@@ -590,18 +601,20 @@ static const u8 sText_MenuStat[] = _("Stat");
 static const u8 sText_MenuActual[] = _("Actual");
 static const u8 sText_MenuEV[] = _("EV");
 static const u8 sText_MenuIV[] = _("IV");
-static const u8 sText_MonLevel[]         = _("Lv.{CLEAR 1}{STR_VAR_1}");
+static const u8 sText_MonLevel[] = _("Lv.{CLEAR 1}{STR_VAR_1}");
 
-static const u8 sText_MenuLRButtonTextMain[]   = _("Cycle Party");
-static const u8 sText_MenuAButtonTextMain[]    = _("Edit Stats");
-static const u8 sText_MenuBButtonTextMain[]    = _("Back");
+static const u8 sText_MenuLRButtonTextMain[] = _("Cycle Party");
+static const u8 sText_MenuAButtonTextMain[] = _("Edit Stats");
+static const u8 sText_MenuBButtonTextMain[] = _("Back");
 static const u8 sText_MenuDPadButtonTextMain[] = _("Change Stat");
+static const u8 sText_evArrow[] = _("{LEFT_ARROW}");
+static const u8 sText_test[] = _("510");
 
 #define BUTTON_Y 4
 static void PrintTitleToWindowMainState()
 {
     FillWindowPixelBuffer(WINDOW_1, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    
+
     AddTextPrinterParameterized4(WINDOW_1, FONT_NORMAL, 1, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuTitle);
 
     BlitBitmapToWindow(WINDOW_1, sR_ButtonGfx, 75, (BUTTON_Y), 24, 8);
@@ -614,17 +627,31 @@ static void PrintTitleToWindowMainState()
     CopyWindowToVram(WINDOW_1, 3);
 }
 
+static void calcCaps()
+{
+    u8 i;
+    u16 currentStat;
+    sStatEditorDataPtr->cappedEvTotal = 0;
+    for (i = 0; i < 6; i++)
+    {
+        currentStat = GetMonData(ReturnPartyMon(), statsToPrintEVs[i]);
+        sStatEditorDataPtr->cappedEvTotal += currentStat;
+    }
+}
+
 static void PrintTitleToWindowEditState()
 {
     FillWindowPixelBuffer(WINDOW_1, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    
+
     AddTextPrinterParameterized4(WINDOW_1, FONT_NORMAL, 1, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuTitle);
 
     BlitBitmapToWindow(WINDOW_1, sDPad_ButtonGfx, 75, (BUTTON_Y), 24, 8);
-    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 102, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuDPadButtonTextMain);
+    BlitBitmapToWindow(WINDOW_1, sR_ButtonGfx, 99, (BUTTON_Y), 24, 8);
 
-    BlitBitmapToWindow(WINDOW_1, sB_ButtonGfx, 160, (BUTTON_Y), 8, 8);
-    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 172, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuBButtonTextMain);
+    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 125, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuDPadButtonTextMain);
+
+    BlitBitmapToWindow(WINDOW_1, sB_ButtonGfx, 190, (BUTTON_Y), 8, 8);
+    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 200, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuBButtonTextMain);
 
     PutWindowTilemap(WINDOW_1);
     CopyWindowToVram(WINDOW_1, 3);
@@ -661,43 +688,59 @@ static void PrintMonStats()
     AddTextPrinterParameterized4(WINDOW_2, FONT_NARROW, 16, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, sText_MenuTotal);
 
     // Print Mon Stats
-    for(i = 0; i < 6; i++)
+    for (i = 0; i < 6; i++)
     {
         currentStat = GetMonData(ReturnPartyMon(), statsToPrintActual[i]);
         sStatEditorDataPtr->normalTotal += currentStat;
         DebugPrintf("Stat: %d", currentStat);
         ConvertIntToDecimalStringN(gStringVar2, currentStat, STR_CONV_MODE_RIGHT_ALIGN, 3);
-        AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintActual[i]].x, StatPrintData[statsToPrintActual[i]].y, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+        AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintActual[i]].x, StatPrintData[statsToPrintActual[i]].y + 1, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
     }
 
-    for(i = 0; i < 6; i++)
+    for (i = 0; i < 6; i++)
     {
         currentStat = GetMonData(ReturnPartyMon(), statsToPrintEVs[i]);
         sStatEditorDataPtr->evTotal += currentStat;
         DebugPrintf("Stat: %d", currentStat);
         ConvertIntToDecimalStringN(gStringVar2, currentStat, STR_CONV_MODE_RIGHT_ALIGN, 3);
-        AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintEVs[i]].x, StatPrintData[statsToPrintEVs[i]].y, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+        AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintEVs[i]].x, StatPrintData[statsToPrintEVs[i]].y + 1, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
     }
 
-    for(i = 0; i < 6; i++)
+    currentStat = sStatEditorDataPtr->cappedEvTotal - sStatEditorDataPtr->evTotal;
+    ConvertIntToDecimalStringN(gStringVar2, currentStat, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
+    {
+        AddTextPrinterParameterized4(WINDOW_2, FONT_SMALL, STARTING_X + 53, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, sText_evArrow);
+        AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+    }
+    else
+    {
+        AddTextPrinterParameterized4(WINDOW_2, FONT_SMALL, STARTING_X + 53, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_RED], 0xFF, sText_evArrow);
+        AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_RED], 0xFF, gStringVar2);
+    }
+
+    for (i = 0; i < 6; i++)
     {
         currentStat = GetMonData(ReturnPartyMon(), statsToPrintIVs[i]);
         sStatEditorDataPtr->ivTotal += currentStat;
         DebugPrintf("Stat: %d", currentStat);
         ConvertIntToDecimalStringN(gStringVar2, currentStat, STR_CONV_MODE_RIGHT_ALIGN, 3);
-        AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintIVs[i]].x, StatPrintData[statsToPrintIVs[i]].y, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+        if (level < IV_EDIT_LEVEL)
+        {
+            AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintIVs[i]].x, StatPrintData[statsToPrintIVs[i]].y + 1, 0, 0, sMenuWindowFontColors[FONT_GRAY], 0xFF, gStringVar2);
+        }
+        else
+        {
+            AddTextPrinterParameterized4(WINDOW_2, 1, StatPrintData[statsToPrintIVs[i]].x, StatPrintData[statsToPrintIVs[i]].y + 1, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+        }
     }
 
     // Calc Totals
     ConvertIntToDecimalStringN(gStringVar2, sStatEditorDataPtr->normalTotal, STR_CONV_MODE_RIGHT_ALIGN, 4);
-    AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X - 6, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+    AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X - 6, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
 
     ConvertIntToDecimalStringN(gStringVar2, sStatEditorDataPtr->evTotal, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
-
-    ConvertIntToDecimalStringN(gStringVar2, sStatEditorDataPtr->ivTotal, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
-
+    AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + SECOND_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
 
     // Print ability / nature / name / level / gender
 
@@ -737,7 +780,8 @@ static void PrintMonStats()
     CopyWindowToVram(WINDOW_2, 3);
 }
 
-struct SpriteCordsStruct {
+struct SpriteCordsStruct
+{
     u8 x;
     u8 y;
 };
@@ -753,13 +797,13 @@ static void SelectorCallback(struct Sprite *sprite)
         {{188, 110 + 20}, {220, 110 + 20}}, // Thanks Jaizu
     };
 
-    if(sStatEditorDataPtr->inputMode == INPUT_EDIT_STAT)
+    if (sStatEditorDataPtr->inputMode == INPUT_EDIT_STAT)
     {
-        if(sprite->data[0] == 32)
+        if (sprite->data[0] == 32)
         {
             sprite->invisible = TRUE;
         }
-        if(sprite->data[0] >= 48)
+        if (sprite->data[0] >= 48)
         {
             sprite->invisible = FALSE;
             sprite->data[0] = 0;
@@ -781,16 +825,29 @@ static void SelectorCallback(struct Sprite *sprite)
 }
 
 static const u16 selectedStatToStatEnum[] = {
-        MON_DATA_HP_EV, MON_DATA_HP_IV, MON_DATA_ATK_EV, MON_DATA_ATK_IV, MON_DATA_DEF_EV, MON_DATA_DEF_IV,
-        MON_DATA_SPATK_EV, MON_DATA_SPATK_IV, MON_DATA_SPDEF_EV, MON_DATA_SPDEF_IV, MON_DATA_SPEED_EV, MON_DATA_SPEED_IV,
+    MON_DATA_HP_EV,
+    MON_DATA_HP_IV,
+    MON_DATA_ATK_EV,
+    MON_DATA_ATK_IV,
+    MON_DATA_DEF_EV,
+    MON_DATA_DEF_IV,
+    MON_DATA_SPATK_EV,
+    MON_DATA_SPATK_IV,
+    MON_DATA_SPDEF_EV,
+    MON_DATA_SPDEF_IV,
+    MON_DATA_SPEED_EV,
+    MON_DATA_SPEED_IV,
 };
 
 static void Task_DelayedSpriteLoad(u8 taskId) // wait 4 frames after changing the mon you're editing so there are no palette problems
-{   
+{
     if (gTasks[taskId].data[11] >= 4)
     {
         SampleUi_DrawMonIcon(sStatEditorDataPtr->speciesID);
+        calcCaps();
         PrintMonStats();
+        sStatEditorDataPtr->selector_x = 0;
+        sStatEditorDataPtr->selector_y = 0;
         gTasks[taskId].func = Task_StatEditorMain;
         return;
     }
@@ -819,48 +876,80 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
         PrintTitleToWindowEditState();
         sStatEditorDataPtr->inputMode = INPUT_EDIT_STAT;
         gTasks[taskId].func = Task_MenuEditingStat;
-        if(sStatEditorDataPtr->editingStat == 0)
+        if (sStatEditorDataPtr->editingStat == 0)
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1);
-        if((sStatEditorDataPtr->editingStat == 255 || (sStatEditorDataPtr->evTotal == 510)) && (sStatEditorDataPtr->selector_x == 0))
+        if ((sStatEditorDataPtr->editingStat == 255 || (sStatEditorDataPtr->evTotal == 510)) && (sStatEditorDataPtr->selector_x == 0))
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
-        if((sStatEditorDataPtr->editingStat == 31) && (sStatEditorDataPtr->selector_x == 1))
+        if ((sStatEditorDataPtr->editingStat == 31) && (sStatEditorDataPtr->selector_x == 1))
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
         return;
     }
     if (JOY_NEW(L_BUTTON))
     {
-        u16 partyid = sStatEditorDataPtr->partyid;
-        if (partyid == 0)
-            partyid = gPlayerPartyCount - 1;
+        if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
+        {
+            u16 partyid = sStatEditorDataPtr->partyid;
+            if (partyid == 0)
+                partyid = gPlayerPartyCount - 1;
+            else
+                partyid -= 1;
+            sStatEditorDataPtr->partyid = partyid;
+            PlaySE(SE_SELECT);
+            ReloadNewPokemon(taskId);
+        }
         else
-            partyid -= 1;
-        sStatEditorDataPtr->partyid = partyid;
-        PlaySE(SE_SELECT);
-        ReloadNewPokemon(taskId);
+        {
+            PlaySE(SE_FAILURE);
+        }
     }
     if (JOY_NEW(R_BUTTON))
     {
-        u16 partyid = sStatEditorDataPtr->partyid;
-        if (partyid == gPlayerPartyCount - 1)
-            partyid = 0;
+        if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
+        {
+            u16 partyid = sStatEditorDataPtr->partyid;
+            if (partyid == gPlayerPartyCount - 1)
+                partyid = 0;
+            else
+                partyid += 1;
+            sStatEditorDataPtr->partyid = partyid;
+            PlaySE(SE_SELECT);
+            ReloadNewPokemon(taskId);
+        }
         else
-            partyid += 1;
-        sStatEditorDataPtr->partyid = partyid;
-        PlaySE(SE_SELECT);
-        ReloadNewPokemon(taskId);
+        {
+            PlaySE(SE_FAILURE);
+        }
     }
     if (JOY_NEW(B_BUTTON))
     {
-        PlaySE(SE_PC_OFF);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_StatEditorTurnOff;
+        if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
+        {
+            PlaySE(SE_PC_OFF);
+            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+            gTasks[taskId].func = Task_StatEditorTurnOff;
+        }
+        else
+        {
+            PlaySE(SE_FAILURE);
+        }
     }
     if (JOY_NEW(DPAD_LEFT) || JOY_NEW(DPAD_RIGHT))
     {
-        if(sStatEditorDataPtr->selector_x == 0)
-            sStatEditorDataPtr->selector_x = 1;
+        if (sStatEditorDataPtr->selector_x == 0)
+        {
+            if (GetMonData(ReturnPartyMon(), MON_DATA_LEVEL) >= IV_EDIT_LEVEL)
+            {
+                sStatEditorDataPtr->selector_x = 1;
+            }
+            else
+            {
+                sStatEditorDataPtr->selector_x = 0;
+            }
+        }
         else
-            sStatEditorDataPtr->selector_x = 0; 
+        {
+            sStatEditorDataPtr->selector_x = 0;
+        }
     }
     if (JOY_NEW(DPAD_UP))
     {
@@ -876,7 +965,6 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
         else
             sStatEditorDataPtr->selector_y++;
     }
-
 }
 
 static void ChangeAndUpdateStat()
@@ -903,91 +991,162 @@ static void ChangeAndUpdateStat()
         tempDifference = GetMonData(ReturnPartyMon(), MON_DATA_MAX_HP) - amountHPLost;
         if (tempDifference < 0)
             tempDifference = 0;
-        newDifference = (u32) tempDifference;
+        newDifference = (u32)tempDifference;
         SetMonData(ReturnPartyMon(), MON_DATA_HP, &newDifference);
     }
 
     PrintMonStats();
 }
 
-#define EDIT_INPUT_INCREASE_STATE           0
-#define EDIT_INPUT_MAX_INCREASE_STATE       1
-#define EDIT_INPUT_DECREASE_STATE           2
-#define EDIT_INPUT_MAX_DECREASE_STATE       3
+#define EDIT_INPUT_INCREASE_STATE 0
+#define EDIT_INPUT_MAX_INCREASE_STATE 1
+#define EDIT_INPUT_INCREASE_10_STATE 3
+#define EDIT_INPUT_DECREASE_STATE 4
+#define EDIT_INPUT_MAX_DECREASE_STATE 5
+#define EDIT_INPUT_DECREASE_10_STATE 6
 
-#define STAT_MINIMUM          0  
-#define IV_MAX_SINGLE_STAT    31   
-#define EV_MAX_SINGLE_STAT    255   
-#define EV_MAX_TOTAL          510            
-                
-#define EDITING_EVS     0
-#define EDITING_IVS     1
+#define STAT_MINIMUM 0
+#define IV_MAX_SINGLE_STAT 31
+#define EV_MAX_SINGLE_STAT 252
+#define EV_MAX_TOTAL 510
 
-#define CHECK_IF_STAT_CANT_INCREASE (((sStatEditorDataPtr->editingStat == ((sStatEditorDataPtr->selector_x == EDITING_EVS) ? (EV_MAX_SINGLE_STAT) : (IV_MAX_SINGLE_STAT))) \
-                                     || ((sStatEditorDataPtr->selector_x == EDITING_EVS) && (sStatEditorDataPtr->evTotal == EV_MAX_TOTAL))))
+#define EDITING_EVS 0
+#define EDITING_IVS 1
+
+#define CHECK_IF_STAT_CANT_INCREASE (((sStatEditorDataPtr->editingStat == ((sStatEditorDataPtr->selector_x == EDITING_EVS) ? (EV_MAX_SINGLE_STAT) : (IV_MAX_SINGLE_STAT))) || ((sStatEditorDataPtr->selector_x == EDITING_EVS) && (sStatEditorDataPtr->evTotal == EV_MAX_TOTAL))))
 
 static void HandleEditingStatInput(u32 input)
 {
     u16 iterator = 0;
-    if((input <= EDIT_INPUT_MAX_INCREASE_STATE) && CHECK_IF_STAT_CANT_INCREASE)
+    if ((input <= EDIT_INPUT_INCREASE_10_STATE) && CHECK_IF_STAT_CANT_INCREASE)
     {
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
         return;
     }
 
-    if((input >= EDIT_INPUT_DECREASE_STATE) && (sStatEditorDataPtr->editingStat == STAT_MINIMUM))
+    if ((input >= EDIT_INPUT_DECREASE_STATE) && (sStatEditorDataPtr->editingStat == STAT_MINIMUM))
     {
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1);
         return;
     }
 
-    #define INCREASE_DECREASE_AMOUNT 1
+#define INCREASE_DECREASE_AMOUNT 1
 
-    switch(input)
+    switch (input)
     {
-        case EDIT_INPUT_DECREASE_STATE:
+    case EDIT_INPUT_DECREASE_STATE:
+        for (iterator = 0; iterator < INCREASE_DECREASE_AMOUNT; iterator++)
+        {
+            if (!(sStatEditorDataPtr->editingStat == STAT_MINIMUM))
+                sStatEditorDataPtr->editingStat--;
+            else
+                break;
+        }
+        break;
+    case EDIT_INPUT_MAX_DECREASE_STATE:
+        sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+        break;
+    case EDIT_INPUT_INCREASE_STATE:
+        if ((sStatEditorDataPtr->selector_x == EDITING_EVS))
+        {
             for (iterator = 0; iterator < INCREASE_DECREASE_AMOUNT; iterator++)
             {
-                if(!(sStatEditorDataPtr->editingStat == STAT_MINIMUM))
-                    sStatEditorDataPtr->editingStat--;
+                if (sStatEditorDataPtr->evTotal + iterator < sStatEditorDataPtr->cappedEvTotal)
+                {
+                    if (sStatEditorDataPtr->editingStat < EV_MAX_SINGLE_STAT)
+                    {
+                        sStatEditorDataPtr->editingStat++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                    break;
+            }
+        }
+        else
+        {
+            sStatEditorDataPtr->editingStat = IV_MAX_SINGLE_STAT;
+        }
+        break;
+    case EDIT_INPUT_MAX_INCREASE_STATE:
+        if ((sStatEditorDataPtr->selector_x == EDITING_EVS))
+        {
+            for (iterator = 0; iterator < EV_MAX_SINGLE_STAT; iterator++)
+            {
+                if (sStatEditorDataPtr->evTotal + iterator < sStatEditorDataPtr->cappedEvTotal)
+                {
+                    if (sStatEditorDataPtr->editingStat < EV_MAX_SINGLE_STAT)
+                    {
+                        sStatEditorDataPtr->editingStat++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                    break;
+            }
+        }
+        else
+        {
+            sStatEditorDataPtr->editingStat = IV_MAX_SINGLE_STAT;
+        }
+        break;
+    case EDIT_INPUT_INCREASE_10_STATE:
+        if ((sStatEditorDataPtr->selector_x == EDITING_EVS))
+        {
+            for (iterator = 0; iterator < 10; iterator++)
+            {
+                if (sStatEditorDataPtr->evTotal + iterator < sStatEditorDataPtr->cappedEvTotal)
+                {
+                    if (sStatEditorDataPtr->editingStat < EV_MAX_SINGLE_STAT)
+                    {
+                        sStatEditorDataPtr->editingStat++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
                 else
                     break;
             }
             break;
-       case EDIT_INPUT_MAX_DECREASE_STATE:
-            sStatEditorDataPtr->editingStat = STAT_MINIMUM;
-            break;
-        case EDIT_INPUT_INCREASE_STATE:
-            for (iterator = 0; iterator < INCREASE_DECREASE_AMOUNT; iterator++)
+        }
+        else
+        {
+            for (iterator = 0; iterator < 10; iterator++)
             {
-                if(!CHECK_IF_STAT_CANT_INCREASE)
+                if (!CHECK_IF_STAT_CANT_INCREASE)
                     sStatEditorDataPtr->editingStat++;
                 else
                     break;
             }
             break;
-        case EDIT_INPUT_MAX_INCREASE_STATE:
-            if((sStatEditorDataPtr->selector_x == EDITING_EVS))
-            {
-                if (EV_MAX_TOTAL - sStatEditorDataPtr->evTotal < EV_MAX_SINGLE_STAT)
-                    sStatEditorDataPtr->editingStat += EV_MAX_TOTAL - sStatEditorDataPtr->evTotal;
-                else
-                    sStatEditorDataPtr->editingStat = EV_MAX_SINGLE_STAT;
-            }
+        }
+    case EDIT_INPUT_DECREASE_10_STATE:
+        for (iterator = 0; iterator < 10; iterator++)
+        {
+            if (!(sStatEditorDataPtr->editingStat == STAT_MINIMUM))
+                sStatEditorDataPtr->editingStat--;
             else
-            {
-                sStatEditorDataPtr->editingStat = IV_MAX_SINGLE_STAT;
-            }
+                break;
+        }
+        break;
     }
 
     ChangeAndUpdateStat();
 
-    if(CHECK_IF_STAT_CANT_INCREASE)
+    if (CHECK_IF_STAT_CANT_INCREASE)
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
-    else if(sStatEditorDataPtr->editingStat == STAT_MINIMUM)
-        StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1); 
+    else if (sStatEditorDataPtr->editingStat == STAT_MINIMUM)
+        StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1);
     else
-        StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 3);       
+        StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 3);
 }
 
 static void Task_MenuEditingStat(u8 taskId) // This function should be refactored to not be a hot mess
@@ -1005,11 +1164,12 @@ static void Task_MenuEditingStat(u8 taskId) // This function should be refactore
         HandleEditingStatInput(EDIT_INPUT_DECREASE_STATE);
     if (JOY_NEW(DPAD_RIGHT))
         HandleEditingStatInput(EDIT_INPUT_INCREASE_STATE);
-    if (JOY_NEW(DPAD_UP) || JOY_NEW(R_BUTTON))
+    if (JOY_NEW(DPAD_UP))
+        HandleEditingStatInput(EDIT_INPUT_INCREASE_10_STATE);
+    if (JOY_NEW(DPAD_DOWN))
+        HandleEditingStatInput(EDIT_INPUT_DECREASE_10_STATE);
+    if (JOY_NEW(R_BUTTON))
         HandleEditingStatInput(EDIT_INPUT_MAX_INCREASE_STATE);
-    if (JOY_NEW(DPAD_DOWN) || JOY_NEW(L_BUTTON))
+    if (JOY_NEW(L_BUTTON))
         HandleEditingStatInput(EDIT_INPUT_MAX_DECREASE_STATE);
-
 }
-
-
