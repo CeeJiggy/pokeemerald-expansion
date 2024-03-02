@@ -70,7 +70,7 @@ EventScript_AccessHallOfFame::
 	goto_if_unset FLAG_SYS_GAME_CLEAR, EventScript_TurnOffPC
 	playse SE_PC_LOGIN
 	special AccessHallOfFamePC
-	waitste
+	waitstate
 	goto EventScript_AccessPC
 	end
 
