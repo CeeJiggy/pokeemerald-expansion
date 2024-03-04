@@ -1056,7 +1056,7 @@ static u8 SaveYesNoCallback(void)
 
 static u8 SaveConfirmInputCallback(void)
 {
-    switch (ProcessInputNoWrapClearOnChoose())
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0: // Yes
         switch (gSaveFileStatus)
