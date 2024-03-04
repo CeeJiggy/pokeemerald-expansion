@@ -161,6 +161,7 @@ enum Colors
     FONT_GRAY,
     FONT_WHITE,
     FONT_RED,
+    FONT_GREEN,
     FONT_BLUE,
 };
 static const u8 sMenuWindowFontColors[][3] =
@@ -168,7 +169,8 @@ static const u8 sMenuWindowFontColors[][3] =
         [FONT_BLACK] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY},
         [FONT_GRAY] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY, TEXT_COLOR_DARK_GRAY},
         [FONT_WHITE] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY},
-        [FONT_RED] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_GRAY},
+        [FONT_RED] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED},
+        [FONT_GREEN] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GREEN, TEXT_COLOR_GREEN},
         [FONT_BLUE] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE},
 };
 
@@ -710,8 +712,8 @@ static void PrintMonStats()
     ConvertIntToDecimalStringN(gStringVar2, currentStat, STR_CONV_MODE_RIGHT_ALIGN, 3);
     if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
     {
-        AddTextPrinterParameterized4(WINDOW_2, FONT_SMALL, STARTING_X + 53, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, sText_evArrow);
-        AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, gStringVar2);
+        AddTextPrinterParameterized4(WINDOW_2, FONT_SMALL, STARTING_X + 53, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6), 0, 0, sMenuWindowFontColors[FONT_GREEN], 0xFF, sText_evArrow);
+        AddTextPrinterParameterized4(WINDOW_2, 1, STARTING_X + THIRD_COLUMN, STARTING_Y + (DISTANCE_BETWEEN_STATS_Y * 6 + 1), 0, 0, sMenuWindowFontColors[FONT_GREEN], 0xFF, gStringVar2);
     }
     else
     {

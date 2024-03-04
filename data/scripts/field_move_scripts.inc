@@ -295,14 +295,14 @@ EventScript_OpenSubMenu::
     end
 
 EventScript_AddDexNavMenu::
-	dynmultipush EventScript_ClearDexNav, 1
+	dynmultipush EventScript_DexNav, 1
 	goto EventScript_FinishSubMenu
 	end
 
 EventScript_FinishSubMenu::
 	dynmultistack 0, 0, 0xFF, TRUE, 3, TRUE, 0, 0,DYN_MULTICHOICE_CB_NONE
 	goto_if_eq VAR_RESULT, 0, EventScript_ToggleAutoRun
-    goto_if_eq VAR_RESULT, 1, EventScript_ClearNavTarget
+    goto_if_eq VAR_RESULT, 1, EventScript_OpenDexNav
 	goto_if_eq VAR_RESULT, 127, EventScript_Release
 
 EventScript_ToggleAutoRun:
@@ -314,16 +314,17 @@ EventScript_Release:
 	releaseall
 	end
 
-EventScript_ClearNavTarget:
-	setvar VAR_DEXNAV_SPECIES, 0
-	msgbox ClearedTarget MSGBOX_SIGN
+EventScript_OpenDexNav:
+	fadescreen FADE_TO_BLACK
+	special OpenDexNavSub
+	waitstate
 	end
 
 EventScript_AutoRun:
 	.string "Auto Run$"
 
-EventScript_ClearDexNav:
-	.string "Clear DexNav Target$"
+EventScript_DexNav:
+	.string "DexNav$"
 
 EventScript_DisableAutoRun::
     msgbox AutoRunDisabled MSGBOX_SIGN
@@ -331,9 +332,6 @@ EventScript_DisableAutoRun::
 AutoRunDisabled:
     .string "Auto Run {COLOR RED}Disabled{COLOR DARK_GRAY}.$"
 
-ClearedTarget:
-	.string "Cleared the Dex Nav target.$"
-    
 EventScript_EnableAutoRun::
     msgbox AutoRunEnabled MSGBOX_SIGN
     end

@@ -2328,14 +2328,29 @@ static void DexNavGuiInit(MainCallback callback)
     SetMainCallback2(DexNav_RunSetup);
 }
 
-void Task_OpenDexNavFromStartMenu(u8 taskId)
+// void Task_OpenDexNavFromStartMenu(u8 taskId)
+// {
+//     if (!gPaletteFade.active)
+//     {
+//         CleanupOverworldWindowsAndTilemaps();
+//         DexNavGuiInit(CB2_ReturnToFieldWithOpenMenu);
+//         DestroyTask(taskId);
+//     }
+// }
+
+void Task_OpenDexNavFromSubMenu(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         CleanupOverworldWindowsAndTilemaps();
-        DexNavGuiInit(CB2_ReturnToFieldWithOpenMenu);
+        DexNavGuiInit(CB2_ReturnToFieldContinueScript);
         DestroyTask(taskId);
     }
+}
+
+void OpenDexNavSub()
+{
+    CreateTask(Task_OpenDexNavFromSubMenu, 0);
 }
 
 static void Task_DexNavWaitFadeIn(u8 taskId)
@@ -2355,6 +2370,7 @@ static void Task_DexNavMain(u8 taskId)
     if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_POKENAV_OFF);
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 256);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
         task->func = Task_DexNavFadeAndExit;
     }
