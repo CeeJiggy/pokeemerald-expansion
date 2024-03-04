@@ -268,11 +268,11 @@ void StatEditor_Init()
     }
 
     // initialize stuff
+    gSpecialVar_0x8004 = 0;
     sStatEditorDataPtr->gfxLoadState = 0;
     sStatEditorDataPtr->savedCallback = CB2_ReturnToFieldContinueScript;
     sStatEditorDataPtr->selectorSpriteId = 0xFF;
     sStatEditorDataPtr->partyid = gSpecialVar_0x8004;
-
     SetMainCallback2(StatEditor_RunSetup);
 }
 
@@ -924,7 +924,6 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
     {
         if (sStatEditorDataPtr->cappedEvTotal == sStatEditorDataPtr->evTotal)
         {
-            PlaySE(SE_PC_OFF);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_StatEditorTurnOff;
         }

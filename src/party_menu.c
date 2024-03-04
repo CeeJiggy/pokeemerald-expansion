@@ -79,7 +79,6 @@
 enum
 {
     MENU_SUMMARY,
-    // MENU_STAT_EDIT,
     MENU_SWITCH,
     MENU_CANCEL1,
     MENU_ITEM,
@@ -2973,7 +2972,7 @@ static void CursorCb_Moves(u8 taskId)
     FlagSet(FLAG_PARTY_MOVES);
     gSpecialVar_0x8004 = gPartyMenu.slotId;
     gSpecialVar_0x8005 = GetNumberOfRelearnableMoves(&gPlayerParty[gSpecialVar_0x8004]);
-    DisplayPartyPokemonDataForRelearner(gSpecialVar_0x8004);
+    // DisplayPartyPokemonDataForRelearner(gSpecialVar_0x8004);
     TeachMoveRelearnerMove();
     sPartyMenuInternal->exitCallback = TeachMoveRelearnerMove;
     Task_ClosePartyMenu(taskId);
@@ -2999,11 +2998,11 @@ void CB2_ReturnToPartyMenuFromSummaryScreen(void)
     InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
 }
 
-// void CB2_ReturnToFieldFromSummaryScreen(void)
-// {
-//     gPaletteFade.bufferTransferDisabled = TRUE;
-//     InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
-// }
+void CB2_ReturnToPartyMenuFromMoveRelearner(void)
+{
+    gPaletteFade.bufferTransferDisabled = TRUE;
+    InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
+}
 
 static void CursorCb_Switch(u8 taskId)
 {

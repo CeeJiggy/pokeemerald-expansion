@@ -288,11 +288,51 @@ EventScript_FailSweetScent::
 Text_FailSweetScent:
 	.string "Looks like there's nothing here…$"
 
+EventScript_OpenSubMenu::
+    dynmultipush EventScript_AutoRun, 0
+	goto_if_set FLAG_SYS_DEXNAV_GET, EventScript_AddDexNavMenu
+	goto EventScript_FinishSubMenu
+    end
+
+EventScript_AddDexNavMenu::
+	dynmultipush EventScript_ClearDexNav, 1
+	goto EventScript_FinishSubMenu
+	end
+
+EventScript_FinishSubMenu::
+	dynmultistack 0, 0, 0xFF, TRUE, 3, TRUE, 0, 0,DYN_MULTICHOICE_CB_NONE
+	goto_if_eq VAR_RESULT, 0, EventScript_ToggleAutoRun
+    goto_if_eq VAR_RESULT, 1, EventScript_ClearNavTarget
+	goto_if_eq VAR_RESULT, 127, EventScript_Release
+
+EventScript_ToggleAutoRun:
+	special EnableAutoRun
+	waitstate
+	end
+
+EventScript_Release:
+	releaseall
+	end
+
+EventScript_ClearNavTarget:
+	setvar VAR_DEXNAV_SPECIES, 0
+	msgbox ClearedTarget MSGBOX_SIGN
+	end
+
+EventScript_AutoRun:
+	.string "Auto Run$"
+
+EventScript_ClearDexNav:
+	.string "Clear DexNav Target$"
+
 EventScript_DisableAutoRun::
     msgbox AutoRunDisabled MSGBOX_SIGN
     end
 AutoRunDisabled:
     .string "Auto Run {COLOR RED}Disabled{COLOR DARK_GRAY}.$"
+
+ClearedTarget:
+	.string "Cleared the Dex Nav target.$"
     
 EventScript_EnableAutoRun::
     msgbox AutoRunEnabled MSGBOX_SIGN

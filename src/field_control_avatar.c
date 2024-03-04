@@ -81,7 +81,6 @@ static EWRAM_DATA u8 sPreviousDirection = 0;
 #if OW_POISON_DAMAGE < GEN_5
 static bool8 UpdatePoisonStepCounter(void);
 #endif // OW_POISON_DAMAGE
-static bool8 EnableAutoRun(void);
 
 void FieldClearPlayerInput(struct FieldInput *input)
 {
@@ -170,6 +169,8 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
 #endif
 }
 
+extern const u8 EventScript_OpenSubMenu[];
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;
@@ -238,21 +239,34 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedSelectButton)
     {
-        if (gSaveBlock1Ptr->registeredItemListCount == 1)
+        if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE))
+        {
+
+            GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
+        }
+        else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
+        {
+            GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+        }
+        else if (gSaveBlock1Ptr->registeredItemListCount == 1)
         {
             UseRegisteredKeyItemOnField(1);
             return TRUE;
         }
         else if (gSaveBlock1Ptr->registeredItemListCount > 0)
         {
-
+            PlaySE(SE_WIN_OPEN);
             TxRegItemsMenu_OpenMenu();
             return TRUE;
         }
     }
 
-    if (input->pressedLButton && EnableAutoRun())
+    if (input->pressedLButton)
+    {
+        PlaySE(SE_WIN_OPEN);
+        ScriptContext_SetupScript(EventScript_OpenSubMenu);
         return TRUE;
+    }
 
     if (input->pressedRButton && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
     {
@@ -1145,23 +1159,22 @@ int SetCableClubWarp(void)
 
 extern const u8 EventScript_DisableAutoRun[];
 extern const u8 EventScript_EnableAutoRun[];
-static bool8 EnableAutoRun(void)
+
+void EnableAutoRun(void)
 {
-    if (!FlagGet(FLAG_SYS_B_DASH))
-        return FALSE; // auto run unusable until you get running shoes
-
-    if (gSaveBlock2Ptr->autoRun)
+    if (FlagGet(FLAG_SYS_B_DASH))
     {
-        PlaySE(SE_M_POISON_POWDER);
-        gSaveBlock2Ptr->autoRun = FALSE;
-        ScriptContext_SetupScript(EventScript_DisableAutoRun);
+        if (gSaveBlock2Ptr->autoRun)
+        {
+            PlaySE(SE_M_POISON_POWDER);
+            gSaveBlock2Ptr->autoRun = FALSE;
+            ScriptContext_SetupScript(EventScript_DisableAutoRun);
+        }
+        else
+        {
+            PlaySE(SE_FLEE);
+            gSaveBlock2Ptr->autoRun = TRUE;
+            ScriptContext_SetupScript(EventScript_EnableAutoRun);
+        }
     }
-    else
-    {
-        PlaySE(SE_FLEE);
-        gSaveBlock2Ptr->autoRun = TRUE;
-        ScriptContext_SetupScript(EventScript_EnableAutoRun);
-    }
-
-    return TRUE;
 }

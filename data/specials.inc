@@ -544,3 +544,4 @@ gSpecials::
 	def_special VsSeekerFreezeObjectsAfterChargeComplete
 	def_special BufferUnitSystemText
 	def_special StatEditor_Init
+	def_special EnableAutoRun

@@ -677,7 +677,7 @@ static void DoMoveRelearnerMain(void)
             FreeMoveRelearnerResources();
             if (FlagGet(FLAG_PARTY_MOVES))
             {
-                CB2_ReturnToPartyMenuFromSummaryScreen();
+                CB2_ReturnToPartyMenuFromMoveRelearner();
                 FlagClear(FLAG_PARTY_MOVES);
             }
             else

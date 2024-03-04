@@ -177,7 +177,7 @@ static const u32 sHiddenMonIconGfx[] = INCBIN_U32("graphics/dexnav/hidden.4bpp.l
 // strings
 static const u8 sText_DexNav_NoInfo[] = _("--------");
 static const u8 sText_DexNav_CaptureToSee[] = _("Capture first!");
-static const u8 sText_DexNav_PressRToRegister[] = _("R TO REGISTER!");
+static const u8 sText_DexNav_PressRToRegister[] = _("REGISTER / CLEAR");
 static const u8 sText_DexNav_SearchForRegisteredSpecies[] = _("Search {STR_VAR_1}");
 static const u8 sText_DexNav_NotFoundHere[] = _("This Pokémon cannot be found here!");
 static const u8 sText_ThreeQmarks[] = _("???");
@@ -2450,6 +2450,7 @@ static void Task_DexNavMain(u8 taskId)
         PlaySE(SE_RG_BAG_CURSOR);
         UpdateCursorPosition();
     }
+
     else if (JOY_NEW(R_BUTTON))
     {
         // check selection is valid. Play sound if invalid
@@ -2457,18 +2458,31 @@ static void Task_DexNavMain(u8 taskId)
 
         if (species != SPECIES_NONE)
         {
-            PrintSearchableSpecies(species);
-            // PlaySE(SE_DEX_SEARCH);
-            PlayCry_Script(species, 0);
+            if (VarGet(VAR_DEXNAV_SPECIES) != ((sDexNavUiDataPtr->environment << 14) | species))
+            {
 
-            // create value to store in a var
-            VarSet(VAR_DEXNAV_SPECIES, ((sDexNavUiDataPtr->environment << 14) | species));
+                PrintSearchableSpecies(species);
+                // PlaySE(SE_DEX_SEARCH);
+                PlayCry_Script(species, 0);
+
+                // create value to store in a var
+                VarSet(VAR_DEXNAV_SPECIES, ((sDexNavUiDataPtr->environment << 14) | species));
+            }
+            else
+            {
+                PlaySE(SE_POKENAV_OFF);
+                VarSet(VAR_DEXNAV_SPECIES, SPECIES_NONE);
+                PrintSearchableSpecies(SPECIES_NONE);
+            }
         }
         else
         {
-            PlaySE(SE_FAILURE);
+            PlaySE(SE_POKENAV_OFF);
+            VarSet(VAR_DEXNAV_SPECIES, SPECIES_NONE);
+            PrintSearchableSpecies(SPECIES_NONE);
         }
     }
+
     else if (JOY_NEW(A_BUTTON))
     {
         species = DexNavGetSpecies();
