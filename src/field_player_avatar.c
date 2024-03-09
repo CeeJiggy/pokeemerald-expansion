@@ -20,6 +20,7 @@
 #include "strings.h"
 #include "task.h"
 #include "tv.h"
+#include "item.h"
 #include "wild_encounter.h"
 #include "constants/abilities.h"
 #include "constants/event_objects.h"
@@ -1313,6 +1314,42 @@ bool8 PartyHasMonWithSurf(void)
         }
     }
     return FALSE;
+}
+
+bool8 PartyHasMonWithRockSmash(void)
+{
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
+            break;
+        if (MonKnowsMove(&gPlayerParty[i], MOVE_ROCK_SMASH))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 PlayerHasSurfboard(void)
+{
+    if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    {
+        if (CheckBagHasItem(ITEM_SURFBOARD, 1))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 PlayerHasPickaxe(void)
+{
+    if (CheckBagHasItem(ITEM_PICKAXE, 1))
+    {
+        return TRUE;
+    }
+
+    else
+    {
+        return FALSE;
+    }
 }
 
 bool8 IsPlayerSurfingNorth(void)

@@ -267,8 +267,8 @@
 #define VAR_DEXNAV_SPECIES 0x40F7      // Registered dexnav species
 #define VAR_DEXNAV_STEP_COUNTER 0x40F8 // steps for finding hidden pokemon
 #define VAR_REGION_CHOSEN 0x40F9       // Region chosen for starter
-#define VAR_UNUSED_0x40FA 0x40FA       // Unused Var
-#define VAR_UNUSED_0x40FB 0x40FB       // Unused Var
+#define VAR_SURF_TYPE 0x40FA           // Type of surf event to use
+#define VAR_FIELD_MOVE_TYPE 0x40FB     // Type of field move event to use
 #define VAR_UNUSED_0x40FC 0x40FC       // Unused Var
 #define VAR_UNUSED_0x40FD 0x40FD       // Unused Var
 #define VAR_UNUSED_0x40FE 0x40FE       // Unused Var

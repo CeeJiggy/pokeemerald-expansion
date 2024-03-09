@@ -9,6 +9,9 @@ pokeemerald-expansion
 	Repel Use New
 	New Pokemon
 
+Archie
+	Stat Editor
+
 Ghoulslash
 	Bag Sort
 	DexNav
@@ -28,13 +31,14 @@ Help from Community
 	PSS display in battle (Jaizu and Anon822)
 	Change Direction while moving (cbt)
 
+Nobody Society
+	HM Items
+
+Cookie Softcore
+	HM Item Icons
+
 Special Thanks
 	ghoulslash
 	Lunos
 	RavePossum
-	Alex (rainonline)	
-
-
-TO FIX
-New start menu flicker back to field
-Koffing in hidden for dex nav
+	Alex (rainonline)

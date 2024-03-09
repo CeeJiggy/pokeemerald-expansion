@@ -42,9 +42,9 @@
 #define TEMP_FLAGS_END FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_UNUSED_0x020 0x20 // Unused Flag
-#define FLAG_UNUSED_0x021 0x21 // Unused Flag
-#define FLAG_UNUSED_0x022 0x22 // Unused Flag
+#define FLAG_UNUSED_0x020 0x20 // Debug 1 In include/config/overworld.h
+#define FLAG_UNUSED_0x021 0x21 // Debug 2 In include/config/overworld.h
+#define FLAG_UNUSED_0x022 0x22 // Debug 3 In include/config/overworld.h
 #define FLAG_UNUSED_0x023 0x23 // Unused Flag
 #define FLAG_UNUSED_0x024 0x24 // Unused Flag
 #define FLAG_UNUSED_0x025 0x25 // Unused Flag
@@ -97,7 +97,7 @@
 #define FLAG_RESCUED_BIRCH 0x52
 #define FLAG_LEGENDARIES_IN_SOOTOPOLIS 0x53
 
-#define FLAG_UNUSED_0x054 0x54 // Unused Flag
+#define FLAG_WATERFALL 0x54    // Unused Flag
 #define FLAG_UNUSED_0x055 0x55 // Unused Flag
 
 #define FLAG_HIDE_CONTEST_POKE_BALL 0x56 // Always set after new game, object it hides is added directly

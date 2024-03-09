@@ -3994,3 +3994,32 @@ static const u8 sGlimmeringCharmDesc[] = _(
     "A charm that will\n"
     "raise the shards\n"
     "from Tera Raids.");
+
+static const u8 sSurfboardDesc[] = _(
+    "This flat board\n"
+    "is shaped for\n"
+    "riding waves.");
+
+static const u8 sAxeDesc[] = _(
+    "A small cutting\n"
+    "instrument best for\n"
+    "clearing bushes.");
+
+static const u8 sPickaxeDesc[] = _(
+    "A sturdy iron\n"
+    "pickaxe that can\n"
+    "smash rocks.");
+
+static const u8 sScubaGearDesc[] = _(
+    "SCUBA gear made\n"
+    "for diving.");
+
+static const u8 sLanternDesc[] = _(
+    "A bright lantern\n"
+    "that can light dark\n"
+    "caves.");
+
+static const u8 sPowerGloveDesc[] = _(
+    "A special glove\n"
+    "that makes moving\n"
+    "heavy rocks easy.");

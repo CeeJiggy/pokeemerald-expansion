@@ -4,3 +4,6 @@ gText_WantToUseSurf::
 
 gText_PlayerUsedSurf::
 	.string "{STR_VAR_1} used SURF!$"
+
+gText_PlayerUsedSurfBoard::
+	.string "{PLAYER} used the SURFBOARD!$"

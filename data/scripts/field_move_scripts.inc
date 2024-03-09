@@ -62,20 +62,28 @@ EventScript_RockSmash::
 	lockall
 	goto_if_unset FLAG_BADGE03_GET, EventScript_CantSmashRock
 	checkpartymove MOVE_ROCK_SMASH
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSmashRock
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckPickaxe
 	setfieldeffectargument 0, VAR_RESULT
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
-	buffermovename STR_VAR_2, MOVE_ROCK_SMASH
-	msgbox Text_WantToSmash, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_CancelSmash
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
-	closemessage
+	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
 	waitstate
 	goto EventScript_SmashRock
 	end
 
-@ Use rock smash from party menu
+EventScript_CheckPickaxe::
+	checkitem ITEM_PICKAXE, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UsePickaxe
+	goto EventScript_CantSmashRock
+	end
+
+EventScript_UsePickaxe::
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_ROCK_SMASH
+	waitstate
+	goto EventScript_SmashRock
+	end
+
+@ Use rock smash from party menu or bag
 EventScript_UseRockSmash::
 	lockall
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
@@ -92,6 +100,7 @@ EventScript_SmashRock::
 	special RockSmashWildEncounter
 	goto_if_eq VAR_RESULT, FALSE, EventScript_EndSmash
 	waitstate
+	setvar VAR_FIELD_MOVE_TYPE, 0
 	releaseall
 	end
 

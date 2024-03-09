@@ -9795,4 +9795,70 @@ const struct Item gItems[] =
                 .type = ITEM_USE_BAG_MENU,
                 .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
             },
+        // HM Items
+        [ITEM_SURFBOARD] =
+            {
+                .name = _("Surfboard"),
+                .price = 0,
+                .importance = 1,
+                .description = sSurfboardDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_Surfboard,
+            },
+
+        [ITEM_AXE] =
+            {
+                .name = _("Axe"),
+                .price = 0,
+                .importance = 1,
+                .description = sAxeDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_Axe,
+            },
+
+        [ITEM_PICKAXE] =
+            {
+                .name = _("Pickaxe"),
+                .price = 0,
+                .importance = 1,
+                .description = sPickaxeDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_Pickaxe,
+            },
+
+        [ITEM_SCUBA_GEAR] =
+            {
+                .name = _("SCUBA Gear"),
+                .price = 0,
+                .importance = 1,
+                .description = sScubaGearDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_ScubaGear,
+            },
+
+        [ITEM_LANTERN] =
+            {
+                .name = _("Lantern"),
+                .price = 0,
+                .importance = 1,
+                .description = sLanternDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_Lantern,
+            },
+
+        [ITEM_POWER_GLOVE] =
+            {
+                .name = _("Power Glove"),
+                .price = 0,
+                .importance = 1,
+                .description = sPowerGloveDesc,
+                .pocket = POCKET_KEY_ITEMS,
+                .type = ITEM_USE_FIELD,
+                .fieldUseFunc = ItemUseOutOfBattle_PowerGlove,
+            },
 };

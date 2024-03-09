@@ -1182,6 +1182,26 @@ const u32 gItemIconPalette_LuckIncense[] = INCBIN_U32("graphics/items/icon_palet
 const u32 gItemIcon_PureIncense[] = INCBIN_U32("graphics/items/icons/pure_incense.4bpp.lz");
 const u32 gItemIconPalette_PureIncense[] = INCBIN_U32("graphics/items/icon_palettes/pure_incense.gbapal.lz");
 
+// HM Items
+
+const u32 gItemIcon_Surfboard[] = INCBIN_U32("graphics/items/icons/surfboard.4bpp.lz");
+const u32 gItemIconPalette_Surfboard[] = INCBIN_U32("graphics/items/icon_palettes/surfboard.gbapal.lz");
+
+const u32 gItemIcon_Axe[] = INCBIN_U32("graphics/items/icons/axe.4bpp.lz");
+const u32 gItemIconPalette_Axe[] = INCBIN_U32("graphics/items/icon_palettes/axe.gbapal.lz");
+
+const u32 gItemIcon_Lantern[] = INCBIN_U32("graphics/items/icons/lantern.4bpp.lz");
+const u32 gItemIconPalette_Lantern[] = INCBIN_U32("graphics/items/icon_palettes/lantern.gbapal.lz");
+
+const u32 gItemIcon_Pickaxe[] = INCBIN_U32("graphics/items/icons/pickaxe.4bpp.lz");
+const u32 gItemIconPalette_Pickaxe[] = INCBIN_U32("graphics/items/icon_palettes/pickaxe.gbapal.lz");
+
+const u32 gItemIcon_PowerGlove[] = INCBIN_U32("graphics/items/icons/power_glove.4bpp.lz");
+const u32 gItemIconPalette_PowerGlove[] = INCBIN_U32("graphics/items/icon_palettes/power_glove.gbapal.lz");
+
+const u32 gItemIcon_ScubaGear[] = INCBIN_U32("graphics/items/icons/scuba_gear.4bpp.lz");
+const u32 gItemIconPalette_ScubaGear[] = INCBIN_U32("graphics/items/icon_palettes/scuba_gear.gbapal.lz");
+
 // Contest Scarves
 
 const u32 gItemIcon_Scarf[] = INCBIN_U32("graphics/items/icons/scarf.4bpp.lz");
@@ -1793,7 +1813,7 @@ const u32 gItemIconPalette_MegaRing[] = INCBIN_U32("graphics/items/icon_palettes
 const u32 gItemIcon_ZPowerRing[] = INCBIN_U32("graphics/items/icons/z_power_ring.4bpp.lz");
 const u32 gItemIconPalette_ZPowerRing[] = INCBIN_U32("graphics/items/icon_palettes/z_power_ring.gbapal.lz");
 
-const u32 gItemIcon_ZRing[] = INCBIN_U32("graphics/items/icons/z_ring.4bpp.lz"); // Remove
+const u32 gItemIcon_ZRing[] = INCBIN_U32("graphics/items/icons/z_ring.4bpp.lz");                  // Remove
 const u32 gItemIconPalette_ZRing[] = INCBIN_U32("graphics/items/icon_palettes/z_ring.gbapal.lz"); // Remove
 
 const u32 gItemIcon_DynamaxBand[] = INCBIN_U32("graphics/items/icons/dynamax_band.4bpp.lz");

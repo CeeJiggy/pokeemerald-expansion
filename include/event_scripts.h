@@ -377,6 +377,7 @@ extern const u8 EventScript_FailSweetScent[];
 extern const u8 EventScript_UseFlash[];
 extern const u8 EventScript_UseCut[];
 extern const u8 EventScript_UseRockSmash[];
+extern const u8 EventScript_RockSmash[];
 
 // player pc
 extern const u8 LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC[];
@@ -541,8 +542,10 @@ extern const u8 EventScript_TrainerHillTimer[];
 extern const u8 EventScript_UseSurf[];
 extern const u8 EventScript_UseWaterfall[];
 extern const u8 EventScript_CannotUseWaterfall[];
+extern const u8 EventScript_DiveSpot[];
 extern const u8 EventScript_UseDive[];
 extern const u8 EventScript_UseDiveUnderwater[];
+extern const u8 EventScript_DiveUnderwater[];
 extern const u8 EventScript_FallDownHole[];
 extern const u8 EventScript_FieldPoison[];
 extern const u8 EventScript_EggHatch[];

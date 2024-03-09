@@ -21,6 +21,7 @@
 #include "pokemon.h"
 #include "script.h"
 #include "sound.h"
+#include "event_data.h"
 #include "sprite.h"
 #include "task.h"
 #include "trainer_pokemon_sprites.h"
@@ -191,6 +192,7 @@ static void SpriteCB_FieldMoveMonWaitAfterCry(struct Sprite *);
 static void SpriteCB_FieldMoveMonSlideOffscreen(struct Sprite *);
 
 static void Task_SurfFieldEffect(u8);
+static void Task_SurfboardFieldEffect(u8);
 static void SurfFieldEffect_Init(struct Task *);
 static void SurfFieldEffect_FieldMovePose(struct Task *);
 static void SurfFieldEffect_ShowMon(struct Task *);
@@ -2954,8 +2956,16 @@ static void SpriteCB_FieldMoveMonSlideOffscreen(struct Sprite *sprite)
 
 u8 FldEff_UseSurf(void)
 {
-    u8 taskId = CreateTask(Task_SurfFieldEffect, 0xff);
-    gTasks[taskId].tMonId = gFieldEffectArguments[0];
+    u8 taskId;
+    if (VarGet(VAR_SURF_TYPE) == 1)
+    {
+        taskId = CreateTask(Task_SurfFieldEffect, 0xff);
+        gTasks[taskId].tMonId = gFieldEffectArguments[0];
+    }
+    else if (VarGet(VAR_SURF_TYPE) == 2)
+    {
+        taskId = CreateTask(Task_SurfboardFieldEffect, 0xff);
+    }
     Overworld_ClearSavedMusic();
     Overworld_ChangeMusicTo(MUS_SURF);
     return FALSE;
@@ -2969,9 +2979,20 @@ static void (*const sSurfFieldEffectFuncs[])(struct Task *) = {
     SurfFieldEffect_End,
 };
 
+static void (*const sSurfboardFieldEffectFuncs[])(struct Task *) = {
+    SurfFieldEffect_Init,
+    SurfFieldEffect_JumpOnSurfBlob,
+    SurfFieldEffect_End,
+};
+
 static void Task_SurfFieldEffect(u8 taskId)
 {
     sSurfFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
+}
+
+static void Task_SurfboardFieldEffect(u8 taskId)
+{
+    sSurfboardFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
 static void SurfFieldEffect_Init(struct Task *task)
@@ -3040,6 +3061,7 @@ static void SurfFieldEffect_End(struct Task *task)
         UnlockPlayerFieldControls();
         FieldEffectActiveListRemove(FLDEFF_USE_SURF);
         DestroyTask(FindTaskIdByFunc(Task_SurfFieldEffect));
+        DestroyTask(FindTaskIdByFunc(Task_SurfboardFieldEffect));
     }
 }
 

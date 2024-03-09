@@ -1336,6 +1336,24 @@ extern const u32 gItemIconPalette_BlueScarf[];
 extern const u32 gItemIconPalette_PinkScarf[];
 extern const u32 gItemIconPalette_GreenScarf[];
 extern const u32 gItemIconPalette_YellowScarf[];
+// HM Items
+extern const u32 gItemIcon_Surfboard[];
+extern const u32 gItemIconPalette_Surfboard[];
+
+extern const u32 gItemIcon_Axe[];
+extern const u32 gItemIconPalette_Axe[];
+
+extern const u32 gItemIcon_Lantern[];
+extern const u32 gItemIconPalette_Lantern[];
+
+extern const u32 gItemIcon_Pickaxe[];
+extern const u32 gItemIconPalette_Pickaxe[];
+
+extern const u32 gItemIcon_PowerGlove[];
+extern const u32 gItemIconPalette_PowerGlove[];
+
+extern const u32 gItemIcon_ScubaGear[];
+extern const u32 gItemIconPalette_ScubaGear[];
 // EV Gain Modifiers
 extern const u32 gItemIcon_MachoBrace[];
 extern const u32 gItemIconPalette_MachoBrace[];
@@ -1911,7 +1929,7 @@ extern const u32 gItemIconPalette_CornerstoneMask[];
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];
 
-//menu graphics
+// menu graphics
 extern const u16 gMenuInfoElements1_Pal[16];
 extern const u16 gMenuInfoElements2_Pal[16];
 extern const u16 gMenuInfoElements3_Pal[16];
@@ -1930,7 +1948,7 @@ extern const u32 gBagFemaleTiles[];
 extern const u32 gBagPalette[];
 extern const u32 gBerryCheckCircle_Gfx[];
 
-//intro graphics
+// intro graphics
 extern const u32 gIntroSparkle_Gfx[];
 extern const u32 gIntroFlygonSilhouette_Gfx[];
 extern const u32 gIntroLightning_Gfx[];
@@ -2110,7 +2128,7 @@ extern const u32 gBerryPalette_Rowap[];
 extern const u32 gBerryPalette_Kee[];
 extern const u32 gBerryPalette_Maranga[];
 
-//pokenav
+// pokenav
 extern const u16 gPokenavCondition_Pal[];
 extern const u32 gPokenavCondition_Gfx[];
 extern const u32 gPokenavCondition_Tilemap[];
@@ -2403,7 +2421,7 @@ extern const u32 gBattleAnimSpriteGfx_IceSpikes[];
 extern const u32 gBattleAnimSpriteGfx_HandsAndFeet[];
 extern const u32 gBattleAnimSpriteGfx_MistCloud[];
 extern const u32 gBattleAnimSpriteGfx_Clamp[];
-//extern const struct CompressedSpriteSheet gBattleAnimSpriteGfx_146[];
+// extern const struct CompressedSpriteSheet gBattleAnimSpriteGfx_146[];
 extern const u32 gBattleAnimSpriteGfx_Bubble[];
 extern const u32 gBattleAnimSpriteGfx_Orbs[];
 extern const u32 gBattleAnimSpriteGfx_WaterImpact[];
@@ -3524,4 +3542,4 @@ extern const u8 gMailTilemap_Retro[];
 extern const u8 gMonMarkingsMenu_Gfx[];
 extern const u16 gMonMarkingsMenu_Pal[];
 
-#endif //GUARD_GRAPHICS_H
+#endif // GUARD_GRAPHICS_H

@@ -3965,6 +3965,11 @@ static void CursorCb_FieldMove(u8 taskId)
                 gPartyMenu.exitCallback = CB2_OpenFlyMap;
                 Task_ClosePartyMenu(taskId);
                 break;
+            case FIELD_MOVE_ROCK_SMASH:
+                VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                gPartyMenu.exitCallback = CB2_ReturnToField;
+                Task_ClosePartyMenu(taskId);
+                break;
             default:
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
@@ -4063,6 +4068,7 @@ static void DisplayCantUseFlashMessage(void)
 
 static void FieldCallback_Surf(void)
 {
+    VarSet(VAR_SURF_TYPE, 1);
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     FieldEffectStart(FLDEFF_USE_SURF);
 }

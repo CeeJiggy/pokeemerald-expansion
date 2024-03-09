@@ -42,6 +42,12 @@ void ItemUseInBattle_PartyMenuChooseMove(u8 taskId);
 void Task_UseDigEscapeRopeOnField(u8 taskId);
 u8 CanUseDigOrEscapeRopeOnCurMap(void);
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
+void ItemUseOutOfBattle_Surfboard(u8);
+void ItemUseOutOfBattle_Axe(u8);
+void ItemUseOutOfBattle_Pickaxe(u8);
+void ItemUseOutOfBattle_ScubaGear(u8);
+void ItemUseOutOfBattle_Lantern(u8);
+void ItemUseOutOfBattle_PowerGlove(u8);
 void FieldUseFunc_VsSeeker(u8 taskId);
 void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId);
 
