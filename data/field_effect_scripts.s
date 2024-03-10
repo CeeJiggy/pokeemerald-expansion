@@ -345,7 +345,6 @@ gFieldEffectScript_MoveDeoxysRock::
 	field_eff_callnative FldEff_MoveDeoxysRock
 	field_eff_end
     
-@ NEW
 gFieldEffectScript_CaveDust::
     field_eff_loadfadedpal_callnative gSpritePalette_CaveDust FldEff_CaveDust
     field_eff_end

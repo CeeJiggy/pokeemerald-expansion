@@ -853,6 +853,23 @@ u32 FldEff_ShakingGrass2(void)
     return spriteId;
 }
 
+u32 FldEff_CaveDust(void)
+{
+    u8 spriteId;
+
+    SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
+    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_CAVE_DUST], gFieldEffectArguments[0], gFieldEffectArguments[1], 0xFF);
+    if (spriteId != MAX_SPRITES)
+    {
+        struct Sprite *sprite = &gSprites[spriteId];
+        sprite->coordOffsetEnabled = TRUE;
+        sprite->oam.priority = gFieldEffectArguments[3];
+        sprite->data[0] = FLDEFF_CAVE_DUST;
+    }
+
+    return spriteId;
+}
+
 u32 FldEff_UnusedSand(void)
 {
     u8 spriteId;
