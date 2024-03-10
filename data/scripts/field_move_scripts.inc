@@ -127,8 +127,8 @@ Text_WantToSmash:
 	.string "Would you like to use ROCK SMASH?$"
 
 Text_CantSmash:
-	.string "It's a rugged rock, but a POKéMON\n"
-	.string "may be able to smash it.$"
+	.string "It's a rugged rock, but a Pokémon or\n"
+	.string "pickaxe may be able to smash it.$"
 
 EventScript_StrengthBoulder::
 	lockall
