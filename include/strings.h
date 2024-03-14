@@ -329,6 +329,8 @@ extern const u8 gText_NoCaps[];
 extern const u8 gText_SoftCaps[];
 extern const u8 gText_NormalIntro[];
 extern const u8 gText_FastIntro[];
+extern const u8 gText_HMShow[];
+extern const u8 gText_HMSkip[];
 
 extern const u8 gText_MaleSymbol[];
 extern const u8 gText_FemaleSymbol[];

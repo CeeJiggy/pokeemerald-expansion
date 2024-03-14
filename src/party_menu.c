@@ -3966,7 +3966,14 @@ static void CursorCb_FieldMove(u8 taskId)
                 Task_ClosePartyMenu(taskId);
                 break;
             case FIELD_MOVE_ROCK_SMASH:
-                VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                if (VarGet(VAR_HM_OPTION) == 0)
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                }
+                else
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+                }
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
                 break;

@@ -64,6 +64,7 @@ EventScript_RockSmash::
 	checkpartymove MOVE_ROCK_SMASH
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckPickaxe
 	setfieldeffectargument 0, VAR_RESULT
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseRockSmashSkip
 	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
 	waitstate
@@ -72,11 +73,11 @@ EventScript_RockSmash::
 
 EventScript_CheckPickaxe::
 	checkitem ITEM_PICKAXE, 1
-	goto_if_eq VAR_RESULT, 1, EventScript_UsePickaxe
+	goto_if_eq VAR_RESULT, 1, EventScript_UseRockSmashSkip
 	goto EventScript_CantSmashRock
 	end
 
-EventScript_UsePickaxe::
+EventScript_UseRockSmashSkip::
 	setvar VAR_FIELD_MOVE_TYPE, 2
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
 	waitstate

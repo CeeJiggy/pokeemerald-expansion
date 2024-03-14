@@ -15,6 +15,8 @@
 #include "text_window.h"
 #include "international_string_util.h"
 #include "strings.h"
+#include "constants/vars.h"
+#include "event_data.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -60,6 +62,7 @@ static void DrawChoices_UnitSystem(int selection, int y);
 static void DrawChoices_Font(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_MatchCall(int selection, int y);
+static void DrawChoices_HMAnims(int selection, int y);
 static void DrawBgWindowFrames(void);
 
 enum
@@ -87,6 +90,7 @@ enum
 {
     MENUITEM_CUSTOM_LEVELCAPS,
     MENUITEM_CUSTOM_BATTLEINTRO,
+    MENUITEM_CUSTOM_HMANIMS,
     MENUITEM_CUSTOM_FONT,
     MENUITEM_CUSTOM_MATCHCALL,
     MENUITEM_CUSTOM_CANCEL,
@@ -209,6 +213,7 @@ struct // MENU_CUSTOM
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {DrawChoices_LevelCaps, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {DrawChoices_BattleIntro, ProcessInput_Options_Two},
+        [MENUITEM_CUSTOM_HMANIMS] = {DrawChoices_HMAnims, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_FONT] = {DrawChoices_Font, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_MATCHCALL] = {DrawChoices_MatchCall, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_CANCEL] = {NULL, NULL},
@@ -217,6 +222,7 @@ struct // MENU_CUSTOM
 // Menu left side option names text
 static const u8 sText_LevelCaps[] = _("LEVEL CAPS");
 static const u8 sText_BattleIntro[] = _("BATTLE INTRO");
+static const u8 sText_HMAnims[] = _("HM ANIMATIONS");
 static const u8 sText_UnitSystem[] = _("UNIT SYSTEM");
 static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
     {
@@ -234,6 +240,7 @@ static const u8 *const sOptionMenuItemsNamesCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_LevelCaps,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_BattleIntro,
+        [MENUITEM_CUSTOM_HMANIMS] = sText_HMAnims,
         [MENUITEM_CUSTOM_FONT] = gText_Font,
         [MENUITEM_CUSTOM_MATCHCALL] = gText_OptionMatchCalls,
         [MENUITEM_CUSTOM_CANCEL] = gText_OptionMenuSave,
@@ -286,6 +293,8 @@ static bool8 CheckConditions(int selection)
             return TRUE;
         case MENUITEM_CUSTOM_BATTLEINTRO:
             return TRUE;
+        case MENUITEM_CUSTOM_HMANIMS:
+            return TRUE;
         case MENUITEM_CUSTOM_FONT:
             return TRUE;
         case MENUITEM_CUSTOM_MATCHCALL:
@@ -332,6 +341,8 @@ static const u8 sText_Desc_NoCaps[] = _("Experience gain is unchanged.");
 static const u8 sText_Desc_SoftCaps[] = _("Experience gain will be softly capped\nbased on owned badges.");
 static const u8 sText_Desc_NormalIntro[] = _("Normal battle intros.");
 static const u8 sText_Desc_FastIntro[] = _("Fast battle intros.");
+static const u8 sText_Desc_HMNormal[] = _("Show overworld HM animations.");
+static const u8 sText_Desc_HMSkip[] = _("Skip overworld HM animations.");
 static const u8 sText_Desc_SurfOff[] = _("Disables the SURF theme when\nusing SURF.");
 static const u8 sText_Desc_SurfOn[] = _("Enables the SURF theme\nwhen using SURF.");
 static const u8 sText_Desc_BikeOff[] = _("Disables the BIKE theme when\nusing the BIKE.");
@@ -343,6 +354,7 @@ static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {sText_Desc_NoCaps, sText_Desc_SoftCaps},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {sText_Desc_NormalIntro, sText_Desc_FastIntro},
+        [MENUITEM_CUSTOM_HMANIMS] = {sText_Desc_HMNormal, sText_Desc_HMSkip},
         [MENUITEM_CUSTOM_FONT] = {sText_Desc_FontType, sText_Desc_FontType},
         [MENUITEM_CUSTOM_MATCHCALL] = {sText_Desc_OverworldCallsOn, sText_Desc_OverworldCallsOff},
         [MENUITEM_CUSTOM_CANCEL] = {sText_Desc_Save, sText_Empty},
@@ -367,6 +379,7 @@ static const u8 *const sOptionMenuItemDescriptionsDisabledCustom[MENUITEM_CUSTOM
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_Empty,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_Empty,
+        [MENUITEM_CUSTOM_HMANIMS] = sText_Empty,
         [MENUITEM_CUSTOM_FONT] = sText_Empty,
         [MENUITEM_CUSTOM_MATCHCALL] = sText_Empty,
         [MENUITEM_CUSTOM_CANCEL] = sText_Empty,
@@ -617,6 +630,7 @@ void CB2_InitOptionPlusMenu(void)
 
         sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS] = gSaveBlock2Ptr->optionsLevelCaps;
         sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO] = gSaveBlock2Ptr->optionsBattleIntro;
+        sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS] = VarGet(VAR_HM_OPTION);
         sOptions->sel_custom[MENUITEM_CUSTOM_FONT] = gSaveBlock2Ptr->optionsCurrentFont;
         sOptions->sel_custom[MENUITEM_CUSTOM_MATCHCALL] = gSaveBlock2Ptr->optionsDisableMatchCall;
 
@@ -814,6 +828,7 @@ static void Task_OptionMenuSave(u8 taskId)
 
     gSaveBlock2Ptr->optionsLevelCaps = sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS];
     gSaveBlock2Ptr->optionsBattleIntro = sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO];
+    VarSet(VAR_HM_OPTION, sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS]);
     gSaveBlock2Ptr->optionsCurrentFont = sOptions->sel_custom[MENUITEM_CUSTOM_FONT];
     gSaveBlock2Ptr->optionsDisableMatchCall = sOptions->sel_custom[MENUITEM_CUSTOM_MATCHCALL];
     PlaySE(SE_SAVE);
@@ -1080,6 +1095,16 @@ static void DrawChoices_BattleIntro(int selection, int y)
 
     DrawOptionMenuChoice(gText_NormalIntro, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_FastIntro, GetStringRightAlignXOffset(FONT_NORMAL, gText_FastIntro, 198), y, styles[1], active);
+}
+
+static void DrawChoices_HMAnims(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_CUSTOM_HMANIMS);
+    u8 styles[2] = {0};
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_HMShow, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_HMSkip, GetStringRightAlignXOffset(FONT_NORMAL, gText_HMSkip, 198), y, styles[1], active);
 }
 
 static void DrawChoices_Sound(int selection, int y)
