@@ -3945,9 +3945,11 @@ static void CursorCb_FieldMove(u8 taskId)
             {
             case FIELD_MOVE_MILK_DRINK:
             case FIELD_MOVE_SOFT_BOILED:
+                VarSet(VAR_FIELD_MOVE_TYPE, 1);
                 ChooseMonForSoftboiled(taskId);
                 break;
             case FIELD_MOVE_TELEPORT:
+                VarSet(VAR_FIELD_MOVE_TYPE, 1);
                 mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->lastHealLocation.mapGroup, gSaveBlock1Ptr->lastHealLocation.mapNum);
                 GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
                 StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpot);
@@ -3955,6 +3957,7 @@ static void CursorCb_FieldMove(u8 taskId)
                 sPartyMenuInternal->data[0] = fieldMove;
                 break;
             case FIELD_MOVE_DIG:
+                VarSet(VAR_FIELD_MOVE_TYPE, 1);
                 mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
                 GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
                 StringExpandPlaceholders(gStringVar4, gText_EscapeFromHere);
@@ -3977,7 +3980,20 @@ static void CursorCb_FieldMove(u8 taskId)
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
                 break;
+            case FIELD_MOVE_CUT:
+                if (VarGet(VAR_HM_OPTION) == 0)
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                }
+                else
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+                }
+                gPartyMenu.exitCallback = CB2_ReturnToField;
+                Task_ClosePartyMenu(taskId);
+                break;
             default:
+                VarSet(VAR_FIELD_MOVE_TYPE, 1);
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
                 break;

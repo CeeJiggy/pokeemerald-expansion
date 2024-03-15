@@ -1481,6 +1481,7 @@ void ItemUseOutOfBattle_Axe(u8 taskId)
 {
     if (SetUpFieldMove_Cut())
     {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_Axe;
         SetUpItemUseOnFieldCallback(taskId);
     }

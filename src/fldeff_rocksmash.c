@@ -79,10 +79,7 @@ static void Task_DoFieldMove_Init(u8 taskId)
     }
     else
     {
-        if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_BREAKABLE_ROCK) == TRUE)
-        {
-            gTasks[taskId].func = Task_DoFieldMove_RunFunc;
-        }
+        gTasks[taskId].func = Task_DoFieldMove_RunFunc;
     }
 }
 

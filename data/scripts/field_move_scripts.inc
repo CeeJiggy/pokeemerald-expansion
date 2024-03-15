@@ -3,20 +3,16 @@ EventScript_CutTree::
 	lockall
 	goto_if_unset FLAG_BADGE01_GET, EventScript_CheckTreeCantCut
 	checkpartymove MOVE_CUT
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckTreeCantCut
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckAxe
 	setfieldeffectargument 0, VAR_RESULT
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
-	buffermovename STR_VAR_2, MOVE_CUT
-	msgbox Text_WantToCut, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_CancelCut
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
-	closemessage
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseCutSkip
+	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_CUT_ON_TREE
 	waitstate
 	goto EventScript_CutTreeDown
 	end
 
-@ Use cut from party menu
+@ Use cut from party menu or bag
 EventScript_UseCut::
 	lockall
 	dofieldeffect FLDEFF_USE_CUT_ON_TREE
@@ -24,11 +20,17 @@ EventScript_UseCut::
 	goto EventScript_CutTreeDown
 	end
 
-EventScript_CutTreeDown::
-	applymovement VAR_LAST_TALKED, Movement_CutTreeDown
-	waitmovement 0
-	removeobject VAR_LAST_TALKED
-	releaseall
+EventScript_CheckAxe::
+	checkitem ITEM_AXE, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UseCutSkip
+	goto EventScript_CheckTreeCantCut
+	end
+
+EventScript_UseCutSkip::
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_CUT_ON_TREE
+	waitstate
+	goto EventScript_CutTreeDown
 	end
 
 Movement_CutTreeDown:
@@ -45,6 +47,13 @@ EventScript_CancelCut::
 	releaseall
 	end
 
+EventScript_CutTreeDown::
+	applymovement VAR_LAST_TALKED, Movement_CutTreeDown
+	waitmovement 0
+	removeobject VAR_LAST_TALKED
+	releaseall
+	end
+
 Text_WantToCut:
 	.string "This tree looks like it can be\n"
 	.string "CUT down!\p"
@@ -55,7 +64,7 @@ Text_MonUsedFieldMove:
 
 Text_CantCut:
 	.string "This tree looks like it can be\n"
-	.string "CUT down!$"
+	.string "cut down!$"
 
 @ Interact with smashable rock
 EventScript_RockSmash::
