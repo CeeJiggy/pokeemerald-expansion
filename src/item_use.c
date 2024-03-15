@@ -1519,11 +1519,13 @@ void ItemUseOutOfBattle_ScubaGear(u8 taskId)
 {
     if (TrySetDiveWarp() == 2)
     {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearAboveWater;
         SetUpItemUseOnFieldCallback(taskId);
     }
     else if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
     {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearUnderwater;
         SetUpItemUseOnFieldCallback(taskId);
     }
@@ -1549,6 +1551,7 @@ void ItemUseOutOfBattle_Lantern(u8 taskId)
 {
     if (SetUpFieldMove_Flash())
     {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_Lantern;
         SetUpItemUseOnFieldCallback(taskId);
     }
@@ -1571,6 +1574,7 @@ void ItemUseOutOfBattle_PowerGlove(u8 taskId)
 {
     if (SetUpFieldMove_Strength())
     {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_PowerGlove;
         SetUpItemUseOnFieldCallback(taskId);
     }
