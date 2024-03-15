@@ -1572,7 +1572,7 @@ static void ItemUseOnFieldCB_Lantern(u8 taskId)
 
 void ItemUseOutOfBattle_PowerGlove(u8 taskId)
 {
-    if (SetUpFieldMove_Strength())
+    if (SetUpFieldMove_StrengthItem())
     {
         VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_PowerGlove;
@@ -1585,7 +1585,7 @@ void ItemUseOutOfBattle_PowerGlove(u8 taskId)
 static void ItemUseOnFieldCB_PowerGlove(u8 taskId)
 {
     LockPlayerFieldControls();
-    ScriptContext_SetupScript(EventScript_UseStrength);
+    ScriptContext_SetupScript(EventScript_UseStrengthItem);
     DestroyTask(taskId);
 }
 

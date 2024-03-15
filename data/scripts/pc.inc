@@ -81,4 +81,3 @@ EventScript_AccessPokemonBoxLink::
 	waitstate
 	goto EventScript_TurnOffPCLink
 	end
-	

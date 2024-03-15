@@ -12,6 +12,7 @@
 
 // static functions
 static void FieldCallback_Strength(void);
+static void FieldCallback_StrengthItem(void);
 static void StartStrengthFieldEffect(void);
 
 // text
@@ -27,10 +28,28 @@ bool8 SetUpFieldMove_Strength(void)
     return FALSE;
 }
 
+bool8 SetUpFieldMove_StrengthItem(void)
+{
+    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_PUSHABLE_BOULDER) == TRUE)
+    {
+        gSpecialVar_Result = GetCursorSelectionMonId();
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_StrengthItem;
+        return TRUE;
+    }
+    return FALSE;
+}
+
 static void FieldCallback_Strength(void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext_SetupScript(EventScript_UseStrength);
+}
+
+static void FieldCallback_StrengthItem(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    ScriptContext_SetupScript(EventScript_UseStrengthItem);
 }
 
 bool8 FldEff_UseStrength(void)

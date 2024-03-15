@@ -33,10 +33,6 @@ EventScript_UseCutSkip::
 	goto EventScript_CutTreeDown
 	end
 
-Movement_CutTreeDown:
-	cut_tree
-	step_end
-
 EventScript_CheckTreeCantCut::
 	msgbox Text_CantCut, MSGBOX_DEFAULT
 	releaseall
@@ -53,6 +49,10 @@ EventScript_CutTreeDown::
 	removeobject VAR_LAST_TALKED
 	releaseall
 	end
+
+Movement_CutTreeDown:
+	cut_tree
+	step_end
 
 Text_WantToCut:
 	.string "This tree looks like it can be\n"
@@ -145,23 +145,65 @@ EventScript_StrengthBoulder::
 	goto_if_unset FLAG_BADGE04_GET, EventScript_CantStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_CheckActivatedBoulder
 	checkpartymove MOVE_STRENGTH
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantStrength
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckPowerGlove
 	setfieldeffectargument 0, VAR_RESULT
-	playse SE_M_MEGA_KICK
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseStrengthSkip
+	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_STRENGTH
 	waitstate
-	goto EventScript_ActivateStrength
+	goto EventScript_ActivateStrengthMon
+	end
+
+EventScript_CheckPowerGlove::
+	checkitem ITEM_POWER_GLOVE, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UseStrengthGlove
+	goto EventScript_CantStrength
+	end
+
+EventScript_UseStrengthSkip::
+	lockall
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_STRENGTH
+	waitstate
+	goto EventScript_ActivateStrengthMon
+	end
+
+EventScript_UseStrengthGlove::
+	lockall
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_STRENGTH
+	waitstate
+	goto EventScript_ActivateStrengthGlove
 	end
 
 EventScript_UseStrength::
 	lockall
 	dofieldeffect FLDEFF_USE_STRENGTH
 	waitstate
-	goto EventScript_ActivateStrength
+	goto EventScript_ActivateStrengthMon
 	end
 
-EventScript_ActivateStrength::
+EventScript_UseStrengthItem::
+	lockall
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_STRENGTH
+	waitstate
+	goto EventScript_ActivateStrengthGlove
+	end
+
+EventScript_ActivateStrengthMon::
 	setflag FLAG_SYS_USE_STRENGTH
+	playse SE_M_MEGA_KICK
+	msgbox Text_MonUsedStrength, MSGBOX_DEFAULT
+	waitse
+	releaseall
+	end
+
+EventScript_ActivateStrengthGlove::
+	setflag FLAG_SYS_USE_STRENGTH
+	playse SE_M_MEGA_KICK
+	msgbox Text_PowerGloveOn, MSGBOX_DEFAULT
+	waitse
 	releaseall
 	end
 
@@ -186,17 +228,19 @@ Text_WantToStrength:
 	.string "Would you like to use STRENGTH?$"
 
 Text_MonUsedStrength:
-	.string "{STR_VAR_1} used STRENGTH!\p"
-	.string "{STR_VAR_1}'s STRENGTH made it\n"
+	.string "{STR_VAR_1}'s strength made it\n"
 	.string "possible to move boulders around!$"
 
+Text_PowerGloveOn:
+	.string "{PLAYER} turned on the Power Glove!$"
+
 Text_CantStrength:
-	.string "It's a big boulder, but a POKéMON\n"
-	.string "may be able to push it aside.$"
+	.string "It's a big boulder, but a Pokémon\n"
+	.string "or tool may be able to push it aside.$"
 
 Text_StrengthActivated:
-	.string "STRENGTH made it possible to move\n"
-	.string "boulders around.$"
+	.string "It is already possible to move boulders\n"
+	.string "around.$"
 
 EventScript_UseWaterfall::
 	lockall
@@ -345,11 +389,13 @@ EventScript_DexNav:
 EventScript_DisableAutoRun::
     msgbox AutoRunDisabled MSGBOX_SIGN
     end
+
 AutoRunDisabled:
     .string "Auto Run {COLOR RED}Disabled{COLOR DARK_GRAY}.$"
 
 EventScript_EnableAutoRun::
     msgbox AutoRunEnabled MSGBOX_SIGN
     end
+
 AutoRunEnabled:
     .string "Auto Run {COLOR GREEN}Enabled{COLOR DARK_GRAY}.$"

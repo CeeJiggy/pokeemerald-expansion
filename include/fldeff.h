@@ -30,6 +30,7 @@ bool8 GetMapPairFadeFromType(u8 _fromType, u8 _toType);
 
 // strength
 bool8 SetUpFieldMove_Strength(void);
+bool8 SetUpFieldMove_StrengthItem(void);
 bool8 FldEff_UseStrength(void);
 
 // sweet scent
