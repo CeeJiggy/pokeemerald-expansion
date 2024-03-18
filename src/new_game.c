@@ -97,9 +97,8 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+    VarSet(VAR_UNIT_TYPE, 0);
     gSaveBlock2Ptr->optionsUnitSystem = 0;                            // tx_optionsPlus
-    gSaveBlock2Ptr->optionsHpBarSpeed = 0;                            // tx_optionsPlus
-    gSaveBlock2Ptr->optionsExpBarSpeed = 0;                           // tx_optionsPlus
     gSaveBlock2Ptr->optionsLevelCaps = OPTIONS_LEVEL_CAPS_NONE;       // tx_optionsPlus
     gSaveBlock2Ptr->optionsBattleIntro = OPTIONS_BATTLE_INTRO_NORMAL; // tx_optionsPlus
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;                      // tx_optionsPlus
@@ -166,6 +165,7 @@ void NewGameInitData(void)
     ResetPokedex();
     ClearFrontierRecord();
     ClearSav1();
+    ClearSav3();
     ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;

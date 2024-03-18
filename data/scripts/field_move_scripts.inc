@@ -360,7 +360,7 @@ EventScript_AddDexNavMenu::
 	end
 
 EventScript_FinishSubMenu::
-	dynmultistack 0, 0, 0xFF, TRUE, 3, TRUE, 0, 0,DYN_MULTICHOICE_CB_NONE
+	dynmultistack 0, 0, TRUE, 3, TRUE, 0,DYN_MULTICHOICE_CB_NONE
 	goto_if_eq VAR_RESULT, 0, EventScript_ToggleAutoRun
     goto_if_eq VAR_RESULT, 1, EventScript_OpenDexNav
 	goto_if_eq VAR_RESULT, 127, EventScript_Release

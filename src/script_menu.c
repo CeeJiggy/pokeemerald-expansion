@@ -52,7 +52,7 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId);
 static void Task_HandleMultichoiceInput(u8 taskId);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
-static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 height, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u8 choicesSpacing, u32 callbackSet);
+static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet);
 static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos);
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId);
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
@@ -93,29 +93,7 @@ static const struct ListMenuTemplate sScriptableListMenuTemplate =
         .fontId = FONT_NORMAL,
 };
 
-void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos, const struct MenuAction *actions, int count)
-{
-    int i;
-    u8 windowId;
-    int width = 0;
-    u8 newWidth;
-
-    for (i = 0; i < count; i++)
-    {
-        width = DisplayTextAndGetWidth(actions[i].text, width);
-    }
-
-    newWidth = ConvertPixelWidthToTileWidth(width);
-    left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
-    windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
-    SetStandardWindowBorderStyle(windowId, FALSE);
-    PrintMenuTable(windowId, count, actions);
-    InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
-    ScheduleBgCopyTilemapToVram(0);
-    InitMultichoiceCheckWrap(ignoreBPress, count, windowId, multichoiceId);
-}
-
-bool8 ScriptMenu_MultichoiceDynamic(u8 left, u8 top, u8 height, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u8 maxBeforeScroll, u32 initialRow, u8 choicesSpacing, u32 callbackSet)
+bool8 ScriptMenu_MultichoiceDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u8 maxBeforeScroll, u32 initialRow, u32 callbackSet)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
     {
@@ -125,7 +103,7 @@ bool8 ScriptMenu_MultichoiceDynamic(u8 left, u8 top, u8 height, u8 argc, struct 
     else
     {
         gSpecialVar_Result = 0xFF;
-        DrawMultichoiceMenuDynamic(left, top, height, argc, items, ignoreBPress, initialRow, maxBeforeScroll, choicesSpacing, callbackSet);
+        DrawMultichoiceMenuDynamic(left, top, argc, items, ignoreBPress, initialRow, maxBeforeScroll, callbackSet);
         return TRUE;
     }
 }
@@ -222,11 +200,6 @@ static void MultichoiceDynamicEventShowItem_OnDestroy(struct DynamicListMenuEven
     }
 }
 
-/*static void MultichoiceDynamicEventChooseRegion_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
-{
-    VarSet(VAR_REGION_CHOSEN, eventArgs->selectedItem);
-}*/
-
 #undef sAuxWindowId
 #undef sItemSpriteId
 #undef TAG_CB_ITEM_ICON
@@ -242,31 +215,9 @@ static void FreeListMenuItems(struct ListMenuItem *items, u32 count)
     Free(items);
 }
 
-// // Unused
-// static u16 GetLengthWithExpandedPlayerName(const u8 *str)
-// {
-//     u16 length = 0;
-
-//     while (*str != EOS)
-//     {
-//         if (*str == PLACEHOLDER_BEGIN)
-//         {
-//             str++;
-//             if (*str == PLACEHOLDER_ID_PLAYER)
-//             {
-//                 length += StringLength(gSaveBlock2Ptr->playerName);
-//                 str++;
-//             }
-//         }
-//         else
-//         {
-//             str++;
-//             length++;
-//         }
-//     }
-
-//     return length;
-// }
+#define sAuxWindowId sDynamicMenuEventScratchPad[0]
+#define sItemSpriteId sDynamicMenuEventScratchPad[1]
+#define TAG_CB_ITEM_ICON 3000
 
 void MultichoiceDynamic_InitStack(u32 capacity)
 {
@@ -354,10 +305,7 @@ void MultichoiceDynamic_DestroyStack(void)
 static void MultichoiceDynamic_MoveCursor(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
     u8 taskId;
-    if (!onInit)
-    {
-        PlaySE(SE_SELECT);
-    }
+    PlaySE(SE_SELECT);
     taskId = FindTaskIdByFunc(Task_HandleScrollingMultichoiceInput);
     if (taskId != TASK_NONE)
     {
@@ -370,14 +318,36 @@ static void MultichoiceDynamic_MoveCursor(s32 itemIndex, bool8 onInit, struct Li
     }
 }
 
-static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 height, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u8 choicesSpacing, u32 callbackSet)
+void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos, const struct MenuAction *actions, int count)
+{
+    int i;
+    u8 windowId;
+    int width = 0;
+    u8 newWidth;
+
+    for (i = 0; i < count; i++)
+    {
+        width = DisplayTextAndGetWidth(actions[i].text, width);
+    }
+
+    newWidth = ConvertPixelWidthToTileWidth(width);
+    left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
+    windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
+    SetStandardWindowBorderStyle(windowId, FALSE);
+    PrintMenuTable(windowId, count, actions);
+    InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
+    ScheduleBgCopyTilemapToVram(0);
+    InitMultichoiceCheckWrap(ignoreBPress, count, windowId, multichoiceId);
+}
+
+static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet)
 {
     u32 i;
     u8 windowId;
     s32 width = 0;
     u8 newWidth;
     u8 taskId;
-    u32 windowHeight = height;
+    u32 windowHeight;
     struct ListMenu *list;
 
     for (i = 0; i < argc; ++i)
@@ -385,8 +355,7 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 height, u8 argc, stru
         width = DisplayTextAndGetWidth(items[i].name, width);
     }
     LoadMessageBoxAndBorderGfx();
-    if (height == 0xFF)
-        windowHeight = (argc < maxBeforeScroll) ? argc * 2 : maxBeforeScroll * 2;
+    windowHeight = (argc < maxBeforeScroll) ? argc * 2 : maxBeforeScroll * 2;
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
     windowId = CreateWindowFromRect(left, top, newWidth, windowHeight);
@@ -409,7 +378,6 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 height, u8 argc, stru
     gMultiuseListMenuTemplate.totalItems = argc;
     gMultiuseListMenuTemplate.maxShowed = maxBeforeScroll;
     gMultiuseListMenuTemplate.moveCursorFunc = MultichoiceDynamic_MoveCursor;
-    gMultiuseListMenuTemplate.itemVerticalPadding = choicesSpacing;
 
     taskId = CreateTask(Task_HandleScrollingMultichoiceInput, 80);
     gTasks[taskId].data[0] = ListMenuInit(&gMultiuseListMenuTemplate, 0, 0);
@@ -434,7 +402,7 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 height, u8 argc, stru
         template.firstX = (newWidth / 2) * 8 + 12 + (left) * 8;
         template.firstY = top * 8 + 5;
         template.secondX = template.firstX;
-        template.secondY = windowHeight * 8 + 12;
+        template.secondY = top * 8 + windowHeight * 8 + 12;
         template.fullyUpThreshold = 0;
         template.fullyDownThreshold = argc - maxBeforeScroll;
         template.firstArrowType = SCROLL_ARROW_UP;
@@ -512,30 +480,17 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
 static void Task_HandleScrollingMultichoiceInput(u8 taskId)
 {
     bool32 done = FALSE;
-    struct ListMenu *list = (void *)gTasks[gTasks[taskId].data[0]].data;
-    s32 positionBeforeScroll = list->selectedRow + list->scrollOffset;
     s32 input = ListMenu_ProcessInput(gTasks[taskId].data[0]);
 
     switch (input)
     {
     case LIST_HEADER:
     case LIST_NOTHING_CHOSEN:
-        gKeyRepeatStartDelay = 30;
-        if (JOY_REPEAT(DPAD_DOWN))
-        {
-            if (positionBeforeScroll == list->template.totalItems - 1)
-                ListMenuChangeSelection(list, TRUE, list->template.totalItems - 1, FALSE);
-        }
-        else if (JOY_REPEAT(DPAD_UP))
-        {
-            if (positionBeforeScroll == 0)
-                ListMenuChangeSelection(list, TRUE, list->template.totalItems - 1, TRUE);
-        }
         break;
     case LIST_CANCEL:
-        if (gTasks[taskId].data[1])
+        if (!gTasks[taskId].data[1])
         {
-            gSpecialVar_Result = 0x7F;
+            gSpecialVar_Result = MULTI_B_PRESSED;
             done = TRUE;
         }
         break;
@@ -570,7 +525,6 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
         DestroyListMenuTask(gTasks[taskId].data[0], NULL, NULL);
         ClearStdWindowAndFrame(gTasks[taskId].data[2], TRUE);
         RemoveWindow(gTasks[taskId].data[2]);
-        gKeyRepeatStartDelay = 40; // Restores the variable to its default value, based on InitKeys()
         ScriptContext_Enable();
         DestroyTask(taskId);
     }

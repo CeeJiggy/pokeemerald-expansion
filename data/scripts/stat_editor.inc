@@ -9,7 +9,7 @@ EventScript_StatEditPrompt::
     dynmultipush EventScript_Edit, 0
 	dynmultipush EventScript_Info, 1
 	dynmultipush EventScript_Leave, 2
-    dynmultistack 20, 0, 0xFF, TRUE, 3, TRUE, 0, 0,DYN_MULTICHOICE_CB_NONE
+    dynmultistack 20, 0, TRUE, 3, TRUE, 0, DYN_MULTICHOICE_CB_NONE
     goto_if_eq VAR_RESULT, 1, EventScript_TellInfo
     goto_if_eq VAR_RESULT, 2, EventScript_ReleaseEditStats
     goto_if_eq VAR_RESULT, 127, EventScript_ReleaseEditStats

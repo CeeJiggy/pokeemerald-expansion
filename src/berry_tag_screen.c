@@ -457,30 +457,14 @@ static void PrintBerryFirmness(void)
 
 static void PrintBerryDescription1(void)
 {
-    //Metric
-    if (gSaveBlock2Ptr->optionsUnitSystem == 1 && sBerryTag->berryId == ItemIdToBerryType(ITEM_WATMEL_BERRY))
-    {
-        AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, sBerryDescriptionPart1_WatmelMetric, 0, 1, 0, NULL);
-    }
-    else
-    {
-        const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-        AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, berry->description1, 0, 1, 0, NULL);
-    }
+    const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
+    AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, berry->description1, 0, 1, 0, NULL);
 }
 
 static void PrintBerryDescription2(void)
 {
-    //Metric
-    if (gSaveBlock2Ptr->optionsUnitSystem == 1 && sBerryTag->berryId == ItemIdToBerryType(ITEM_WATMEL_BERRY))
-    {
-        AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, sBerryDescriptionPart2_WatmelMetric, 0, 0x11, 0, NULL);
-    }
-    else
-    {
-        const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-        AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, berry->description2, 0, 0x11, 0, NULL);
-    }
+    const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
+    AddTextPrinterParameterized(WIN_DESC, FONT_NORMAL, berry->description2, 0, 0x11, 0, NULL);
 }
 
 static void CreateBerrySprite(void)

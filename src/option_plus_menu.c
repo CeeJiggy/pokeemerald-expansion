@@ -13,6 +13,7 @@
 #include "window.h"
 #include "text.h"
 #include "text_window.h"
+#include "config/level_caps.h"
 #include "international_string_util.h"
 #include "strings.h"
 #include "constants/vars.h"
@@ -625,10 +626,11 @@ void CB2_InitOptionPlusMenu(void)
         sOptions->sel[MENUITEM_MAIN_BATTLESTYLE] = gSaveBlock2Ptr->optionsBattleStyle;
         sOptions->sel[MENUITEM_MAIN_SOUND] = gSaveBlock2Ptr->optionsSound;
         // sOptions->sel[MENUITEM_MAIN_BUTTONMODE] = gSaveBlock2Ptr->optionsButtonMode;
-        sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM] = gSaveBlock2Ptr->optionsUnitSystem;
+
+        sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM] = VarGet(VAR_UNIT_TYPE);
         sOptions->sel[MENUITEM_MAIN_FRAMETYPE] = gSaveBlock2Ptr->optionsWindowFrameType;
 
-        sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS] = gSaveBlock2Ptr->optionsLevelCaps;
+        sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS] = VarGet(VAR_LEVEL_CAP_TYPE);
         sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO] = gSaveBlock2Ptr->optionsBattleIntro;
         sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS] = VarGet(VAR_HM_OPTION);
         sOptions->sel_custom[MENUITEM_CUSTOM_FONT] = gSaveBlock2Ptr->optionsCurrentFont;
@@ -823,10 +825,11 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsBattleStyle = sOptions->sel[MENUITEM_MAIN_BATTLESTYLE];
     gSaveBlock2Ptr->optionsSound = sOptions->sel[MENUITEM_MAIN_SOUND];
     // gSaveBlock2Ptr->optionsButtonMode = sOptions->sel[MENUITEM_MAIN_BUTTONMODE];
-    gSaveBlock2Ptr->optionsUnitSystem = sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM];
+    //gSaveBlock2Ptr->optionsUnitSystem = sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM];
+    VarSet(VAR_UNIT_TYPE, sOptions->sel_custom[MENUITEM_MAIN_UNIT_SYSTEM]);
     gSaveBlock2Ptr->optionsWindowFrameType = sOptions->sel[MENUITEM_MAIN_FRAMETYPE];
-
-    gSaveBlock2Ptr->optionsLevelCaps = sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS];
+    VarSet(VAR_LEVEL_CAP_TYPE, sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS]);
+    // gSaveBlock2Ptr->optionsLevelCaps = sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS];
     gSaveBlock2Ptr->optionsBattleIntro = sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO];
     VarSet(VAR_HM_OPTION, sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS]);
     gSaveBlock2Ptr->optionsCurrentFont = sOptions->sel_custom[MENUITEM_CUSTOM_FONT];
