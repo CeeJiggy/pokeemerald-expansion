@@ -60,7 +60,7 @@ EventScript_ObtainedItemMessage:
 	message gText_ObtainedTheItem
 EventScript_ContinueObtainedItem:
 	delay 10
-    showitemdesc
+    showitemdesc VAR_0x8004
 	waitfanfare
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdesc
@@ -129,7 +129,7 @@ EventScript_PickUpItem::
 	call_if_eq VAR_0x8008, TRUE, EventScript_FoundTMHM
 	call_if_eq VAR_0x8008, FALSE, EventScript_FoundItem
 	delay 10
-    showitemdesc
+    showitemdesc VAR_0x8004
 	waitfanfare
 	waitmessage
 	bufferitemnameplural STR_VAR_2, VAR_0x8004, VAR_0x8005
@@ -137,7 +137,6 @@ EventScript_PickUpItem::
 	goto_if_eq VAR_RESULT, TRUE, EventScript_PutBattlePyramidItemInBag
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdesc
-	return
 
 EventScript_PutBattlePyramidItemInBag::
 	msgbox gText_PlayerPutItemInBag, MSGBOX_DEFAULT
@@ -206,7 +205,7 @@ EventScript_FoundHiddenItem::
 
 EventScript_PutHiddenItemInPocket::
 	delay 10
-	showitemdesc
+	showitemdesc VAR_0x8004
 	waitmessage
 	waitfanfare
 	bufferitemnameplural STR_VAR_2, VAR_0x8004, 1

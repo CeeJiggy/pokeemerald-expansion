@@ -1712,8 +1712,14 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
     uq4_12_t modifier;
     move = gBattleMons[battler].moves[gMoveSelectionCursor[battler]];
 
-    GET_MOVE_TYPE(move, moveType);
-    modifier = CalcTypeEffectivenessMultiplier(move, moveType, battler, targetId, GetBattlerAbility(targetId), TRUE);
+    if(move != MOVE_IVY_CUDGEL){
+        GET_MOVE_TYPE(move, moveType);
+        modifier = CalcTypeEffectivenessMultiplier(move, moveType, battler, targetId, GetBattlerAbility(targetId), TRUE);
+    }
+    else{
+        moveType = gBattleMons[battler].type2;
+        modifier = CalcTypeEffectivenessMultiplier(move, moveType, battler, targetId, GetBattlerAbility(targetId), TRUE);
+    }
 
     if (modifier == UQ_4_12(0.0))
     {
@@ -1749,13 +1755,32 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 static void MoveSelectionDisplayMoveType(u32 battler)
 {
     u8 *txtPtr;
-    u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
+    u8 typeColor;
     u8 type;
     u32 speciesId;
     struct Pokemon *mon;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
 
-    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type].name);
+    if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_IVY_CUDGEL)
+    {
+        mon = &GetSideParty(GetBattlerSide(battler))[gBattlerPartyIndexes[battler]];
+        speciesId = GetMonData(mon, MON_DATA_SPECIES);
+
+        if (speciesId == SPECIES_OGERPON_WELLSPRING_MASK || speciesId == SPECIES_OGERPON_WELLSPRING_MASK_TERA || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK_TERA){
+            type = gBattleMons[battler].type2;
+        }
+
+        else{
+            type = gMovesInfo[MOVE_IVY_CUDGEL].type;
+        }
+
+    }
+    else{
+        type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
+    }
+
+    typeColor = IsDoubleBattle() ?  type : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
+    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
 
     if (typeColor != COLOR_EFFECTIVE)
     {
@@ -1776,21 +1801,6 @@ static void MoveSelectionDisplayMoveType(u32 battler)
             break;
         }
     }
-
-    if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_IVY_CUDGEL)
-    {
-        mon = &GetSideParty(GetBattlerSide(battler))[gBattlerPartyIndexes[battler]];
-        speciesId = GetMonData(mon, MON_DATA_SPECIES);
-
-        if (speciesId == SPECIES_OGERPON_WELLSPRING_MASK || speciesId == SPECIES_OGERPON_WELLSPRING_MASK_TERA || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK_TERA)
-            type = gBattleMons[battler].type2;
-        else
-            type = gMovesInfo[MOVE_IVY_CUDGEL].type;
-    }
-    else
-        type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
-
-    StringCopy(txtPtr, gTypesInfo[type].name);
     BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
 
     MoveSelectionDisplaySplitIcon(battler);

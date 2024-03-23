@@ -826,7 +826,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsSound = sOptions->sel[MENUITEM_MAIN_SOUND];
     // gSaveBlock2Ptr->optionsButtonMode = sOptions->sel[MENUITEM_MAIN_BUTTONMODE];
     //gSaveBlock2Ptr->optionsUnitSystem = sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM];
-    VarSet(VAR_UNIT_TYPE, sOptions->sel_custom[MENUITEM_MAIN_UNIT_SYSTEM]);
+    VarSet(VAR_UNIT_TYPE, sOptions->sel[MENUITEM_MAIN_UNIT_SYSTEM]);
     gSaveBlock2Ptr->optionsWindowFrameType = sOptions->sel[MENUITEM_MAIN_FRAMETYPE];
     VarSet(VAR_LEVEL_CAP_TYPE, sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS]);
     // gSaveBlock2Ptr->optionsLevelCaps = sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS];

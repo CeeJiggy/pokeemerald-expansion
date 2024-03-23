@@ -29,6 +29,7 @@
 #include "constants/items.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "event_data.h"
 
 // There are 4 windows used in berry tag screen.
 enum
@@ -416,7 +417,7 @@ static void PrintBerrySize(void)
 
     if (berry->size != 0)
     {
-        if (gSaveBlock2Ptr->optionsUnitSystem == 0)
+        if (VarGet(VAR_UNIT_TYPE) == 0)
         {
             u32 inches, fraction;
 

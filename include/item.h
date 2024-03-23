@@ -101,7 +101,7 @@ enum
 #undef ENUM_TM
 #undef ENUM_HM
 
-void DrawHeaderBox(void);
+void DrawHeaderBox(u16 itemId);
 void HideHeaderBox(void);
 
 enum ItemObtainFlags

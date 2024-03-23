@@ -1078,10 +1078,10 @@ static u8 ReformatItemDescription(u16 item, u8 *dest)
 
 #define ITEM_ICON_X 26
 #define ITEM_ICON_Y 24
-void DrawHeaderBox(void)
+void DrawHeaderBox(u16 itemId)
 {
     struct WindowTemplate template;
-    u16 item = gSpecialVar_0x8006;
+    u16 item = itemId;
     u8 headerType = gSpecialVar_0x8009;
     u8 textY;
     u8 *dst;

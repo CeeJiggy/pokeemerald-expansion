@@ -2411,7 +2411,8 @@ bool8 ScrCmd_warpwhitefade(struct ScriptContext *ctx)
 
 bool8 ScrCmd_showitemdesc(struct ScriptContext *ctx)
 {
-    DrawHeaderBox();
+    u16 itemId = VarGet(ScriptReadHalfword(ctx));
+    DrawHeaderBox(itemId);
     return FALSE;
 }
 
