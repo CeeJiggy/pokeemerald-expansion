@@ -38,23 +38,36 @@ u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
     static const u32 sExpScalingDown[5] = { 4, 8, 16, 32, 64 };
 
     u32 levelDifference;
-    u32 currentLevelCap = GetCurrentLevelCap();
+    u32 levelCap = GetCurrentLevelCap();
 
-    if (VarGet(VAR_LEVEL_CAP_TYPE) == 0 || (VarGet(VAR_LEVEL_CAP_TYPE) == 1 && level < currentLevelCap))
+    if (VarGet(VAR_LEVEL_CAP_TYPE) == 0 )
     {
         return expValue;
     }
-    else if (VarGet(VAR_LEVEL_CAP_TYPE) == 1 && level >= currentLevelCap)
+    else if(VarGet(VAR_LEVEL_CAP_TYPE) == 1)
     {
-        levelDifference = level - currentLevelCap;
-        if (levelDifference > ARRAY_COUNT(sExpScalingDown))
+        if(level < levelCap)
         {
-            return expValue / sExpScalingDown[ARRAY_COUNT(sExpScalingDown) - 1];
+            return expValue;
+        }
+            
+        else if(level >= levelCap)
+        {
+            levelDifference = level - levelCap;
+
+            if (levelDifference > ARRAY_COUNT(sExpScalingDown))
+                {
+                    return expValue / sExpScalingDown[ARRAY_COUNT(sExpScalingDown) - 1];
+                }
+            else
+                {
+                    return expValue / sExpScalingDown[levelDifference];
+                }
         }
         else
-        {
-            return expValue / sExpScalingDown[levelDifference];
-        }
+            {
+                return 0;
+            }
     }
     else
     {
