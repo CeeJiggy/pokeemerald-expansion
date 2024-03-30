@@ -278,15 +278,63 @@ Text_MonUsedWaterfall:
 EventScript_UseDive::
 	lockall
 	checkpartymove MOVE_DIVE
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantDive
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckScuba
 	setfieldeffectargument 0, VAR_RESULT
-	setfieldeffectargument 1, 1
-	msgbox Text_WantToDive, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndDive
-	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseDiveSkip
+	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndDive
+	end
+
+EventScript_UseDiveItem::
+	lockall
+	setfieldeffectargument 0, VAR_RESULT
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_DIVE
+	goto EventScript_EndDive
+	end
+
+EventScript_UseDiveUnderItem::
+	lockall
+	setfieldeffectargument 0, VAR_RESULT
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_DIVE
+	goto EventScript_EndSurface
+	end
+
+EventScript_UseDiveUnderwater::
+	lockall
+	checkpartymove MOVE_DIVE
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckScubaUnder
+	setfieldeffectargument 0, VAR_RESULT
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseDiveUnderSkip
+	setvar VAR_FIELD_MOVE_TYPE, 1
+	dofieldeffect FLDEFF_USE_DIVE
+	goto EventScript_EndSurface
+	end
+
+EventScript_CheckScuba::
+	checkitem ITEM_SCUBA_GEAR, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UseDiveSkip
+	goto EventScript_CantDive
+	end
+
+EventScript_CheckScubaUnder::
+	checkitem ITEM_SCUBA_GEAR, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UseDiveUnderSkip
+	goto EventScript_CantSurface
+	end
+
+EventScript_UseDiveSkip::
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_DIVE
+	goto EventScript_EndDive
+	end
+
+EventScript_UseDiveUnderSkip::
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_DIVE
+	goto EventScript_EndSurface
 	end
 
 EventScript_CantDive::
@@ -296,20 +344,6 @@ EventScript_CantDive::
 
 EventScript_EndDive::
 	releaseall
-	end
-
-EventScript_UseDiveUnderwater::
-	lockall
-	checkpartymove MOVE_DIVE
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSurface
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
-	setfieldeffectargument 0, VAR_RESULT
-	setfieldeffectargument 1, 1
-	msgbox Text_WantToSurface, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndSurface
-	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
-	dofieldeffect FLDEFF_USE_DIVE
-	goto EventScript_EndSurface
 	end
 
 EventScript_CantSurface::

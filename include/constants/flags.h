@@ -654,7 +654,7 @@
 
 #define FLAG_SYS_EXP_SHARE_ON 0x264 // Unused Flag
 #define FLAG_PARTY_MOVES 0x265      // Unused Flag
-#define FLAG_UNUSED_0x266 0x266     // Unused Flag
+#define FLAG_GRAPE_GET 0x266        // Unused Flag
 #define FLAG_UNUSED_0x267 0x267     // Unused Flag
 #define FLAG_UNUSED_0x268 0x268     // Unused Flag
 #define FLAG_UNUSED_0x269 0x269     // Unused Flag

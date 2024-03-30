@@ -247,7 +247,18 @@ LittlerootTown_EventScript_SetRivalBirchPosForDexUpgradeFemale::
 	end
 
 LittlerootTown_EventScript_FatMan::
-	msgbox LittlerootTown_Text_CanUsePCToStoreItems, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox LittlerootTown_Text_CanUsePCToStoreItems, MSGBOX_DEFAULT
+	goto_if_set FLAG_GRAPE_GET, LittlerootTown_EventScript_Grape
+	giveitem ITEM_GREPA_BERRY
+	setflag FLAG_GRAPE_GET
+	closemessage
+	release
+	end
+
+LittlerootTown_EventScript_Grape::
+	release
 	end
 
 LittlerootTown_EventScript_Boy::
@@ -957,8 +968,8 @@ LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "Go on, go get them, honey!$"
 
 LittlerootTown_Text_CanUsePCToStoreItems:
-	.string "If you use a PC, you can store items\n"
-	.string "and POKéMON.\p"
+	.string "Hey, did you hear the news?\l"
+	.string "They did surgery on a grape!\l"
 	.string "The power of science is staggering!$"
 
 LittlerootTown_Text_BirchSpendsDaysInLab:

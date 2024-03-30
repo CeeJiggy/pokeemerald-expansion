@@ -60,7 +60,7 @@ EventScript_ObtainedItemMessage:
 	message gText_ObtainedTheItem
 EventScript_ContinueObtainedItem:
 	delay 10
-    showitemdesc VAR_0x8004
+    showitemdesc VAR_0x8006
 	waitfanfare
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdesc

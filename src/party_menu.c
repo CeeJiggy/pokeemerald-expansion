@@ -142,7 +142,6 @@ enum
 enum
 {
     FIELD_MOVE_CUT,        // FLAG_BADGE01_GET
-    FIELD_MOVE_FLASH,      // FLAG_BADGE02_GET
     FIELD_MOVE_ROCK_SMASH, // FLAG_BADGE03_GET
     FIELD_MOVE_STRENGTH,   // FLAG_BADGE04_GET
     FIELD_MOVE_SURF,       // FLAG_BADGE05_GET
@@ -399,7 +398,6 @@ static void Task_SpinTradeYesNo(u8);
 static void Task_HandleSpinTradeYesNoInput(u8);
 static void Task_CancelAfterAorBPress(u8);
 static void DisplayFieldMoveExitAreaMessage(u8);
-static void DisplayCantUseFlashMessage(void);
 static void DisplayCantUseSurfMessage(void);
 static void Task_FieldMoveExitAreaYesNo(u8);
 static void Task_HandleFieldMoveExitAreaYesNoInput(u8);
@@ -4045,6 +4043,18 @@ static void CursorCb_FieldMove(u8 taskId)
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
                 break;
+            case FIELD_MOVE_DIVE:
+                if (VarGet(VAR_HM_OPTION) == 0)
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                }
+                else
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+                }
+                gPartyMenu.exitCallback = CB2_ReturnToField;
+                Task_ClosePartyMenu(taskId);
+                break;
             default:
                 if (VarGet(VAR_HM_OPTION) == 0)
                 {
@@ -4066,9 +4076,6 @@ static void CursorCb_FieldMove(u8 taskId)
             {
             case FIELD_MOVE_SURF:
                 DisplayCantUseSurfMessage();
-                break;
-            case FIELD_MOVE_FLASH:
-                DisplayCantUseFlashMessage();
                 break;
             default:
                 DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
@@ -4141,13 +4148,6 @@ static void Task_CancelAfterAorBPress(u8 taskId)
         CursorCb_Cancel1(taskId);
 }
 
-static void DisplayCantUseFlashMessage(void)
-{
-    if (FlagGet(FLAG_SYS_USE_FLASH) == TRUE)
-        DisplayPartyMenuStdMessage(PARTY_MSG_ALREADY_IN_USE);
-    else
-        DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
-}
 
 static void FieldCallback_Surf(void)
 {

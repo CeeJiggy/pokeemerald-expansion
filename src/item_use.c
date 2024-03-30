@@ -1566,13 +1566,11 @@ void ItemUseOutOfBattle_ScubaGear(u8 taskId)
 {
     if (TrySetDiveWarp() == 2)
     {
-        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearAboveWater;
         SetUpItemUseOnFieldCallback(taskId);
     }
     else if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
     {
-        VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearUnderwater;
         SetUpItemUseOnFieldCallback(taskId);
     }
@@ -1583,14 +1581,16 @@ void ItemUseOutOfBattle_ScubaGear(u8 taskId)
 static void ItemUseOnFieldCB_ScubaGearAboveWater(u8 taskId)
 {
     LockPlayerFieldControls();
-    ScriptContext_SetupScript(EventScript_UseDive);
+    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+    ScriptContext_SetupScript(EventScript_UseDiveItem);
     DestroyTask(taskId);
 }
 
 static void ItemUseOnFieldCB_ScubaGearUnderwater(u8 taskId)
 {
     LockPlayerFieldControls();
-    ScriptContext_SetupScript(EventScript_UseDiveUnderwater);
+    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+    ScriptContext_SetupScript(EventScript_UseDiveUnderItem);
     DestroyTask(taskId);
 }
 

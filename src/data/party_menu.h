@@ -854,7 +854,6 @@ static const u8 sPartyMenuActionCounts[] =
 static const u16 sFieldMoves[FIELD_MOVES_COUNT + 1] =
     {
         [FIELD_MOVE_CUT] = MOVE_CUT,
-        [FIELD_MOVE_FLASH] = MOVE_FLASH,
         [FIELD_MOVE_ROCK_SMASH] = MOVE_ROCK_SMASH,
         [FIELD_MOVE_STRENGTH] = MOVE_STRENGTH,
         [FIELD_MOVE_SURF] = MOVE_SURF,
@@ -878,7 +877,6 @@ struct
 } static const sFieldMoveCursorCallbacks[FIELD_MOVES_COUNT] =
     {
         [FIELD_MOVE_CUT] = {SetUpFieldMove_Cut, PARTY_MSG_NOTHING_TO_CUT},
-        [FIELD_MOVE_FLASH] = {SetUpFieldMove_Flash, PARTY_MSG_CANT_USE_HERE},
         [FIELD_MOVE_ROCK_SMASH] = {SetUpFieldMove_RockSmash, PARTY_MSG_CANT_USE_HERE},
         [FIELD_MOVE_STRENGTH] = {SetUpFieldMove_Strength, PARTY_MSG_CANT_USE_HERE},
         [FIELD_MOVE_SURF] = {SetUpFieldMove_Surf, PARTY_MSG_CANT_SURF_HERE},
