@@ -4055,6 +4055,18 @@ static void CursorCb_FieldMove(u8 taskId)
                 gPartyMenu.exitCallback = CB2_ReturnToField;
                 Task_ClosePartyMenu(taskId);
                 break;
+            case FIELD_MOVE_WATERFALL:
+                if (VarGet(VAR_HM_OPTION) == 0)
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 1);
+                }
+                else
+                {
+                    VarSet(VAR_FIELD_MOVE_TYPE, 2);
+                }
+                gPartyMenu.exitCallback = CB2_ReturnToField;
+                Task_ClosePartyMenu(taskId);
+                break;
             default:
                 if (VarGet(VAR_HM_OPTION) == 0)
                 {
@@ -4147,7 +4159,6 @@ static void Task_CancelAfterAorBPress(u8 taskId)
     if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)))
         CursorCb_Cancel1(taskId);
 }
-
 
 static void FieldCallback_Surf(void)
 {

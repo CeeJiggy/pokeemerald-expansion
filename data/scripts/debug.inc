@@ -23,6 +23,7 @@ Debug_CheatStart::
 	givemon SPECIES_MUDKIP, 20, ITEM_NONE
 	setflag FLAG_SYS_POKEDEX_GET
 	setflag FLAG_SYS_DEXNAV_GET
+	setflag FLAG_SYS_DEXNAV_GET
 	special SetUnlockedPokedexFlags
 	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
 	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 2
@@ -41,6 +42,7 @@ Debug_CheatStart::
 	additem ITEM_PICKAXE
 	additem ITEM_AXE
 	additem ITEM_POWER_GLOVE
+	additem ITEM_SCUBA_GEAR
 	additem ITEM_POKEMON_BOX_LINK
 	setvar VAR_BRINEY_HOUSE_STATE, 1
 	setvar VAR_ROUTE116_STATE, 2

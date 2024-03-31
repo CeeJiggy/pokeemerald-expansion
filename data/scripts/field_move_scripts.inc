@@ -245,14 +245,25 @@ Text_StrengthActivated:
 EventScript_UseWaterfall::
 	lockall
 	checkpartymove MOVE_WATERFALL
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantWaterfall
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckSurfBoardWaterfall
 	setfieldeffectargument 0, VAR_RESULT
-	msgbox Text_WantToWaterfall, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndWaterfall
-	msgbox Text_MonUsedWaterfall, MSGBOX_DEFAULT
+	goto_if_eq VAR_HM_OPTION, 1, EventScript_UseWaterfallSkip
+	setvar VAR_FIELD_MOVE_TYPE, 1
 	dofieldeffect FLDEFF_USE_WATERFALL
 	goto EventScript_EndWaterfall
+	end
+
+EventScript_UseWaterfallSkip::
+	setvar VAR_FIELD_MOVE_TYPE, 2
+	dofieldeffect FLDEFF_USE_WATERFALL
+	goto EventScript_EndWaterfall
+	end
+
+EventScript_CheckSurfBoardWaterfall::
+	checkitem ITEM_SURFBOARD, 1
+	goto_if_eq VAR_RESULT, 1, EventScript_UseWaterfallSkip
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantWaterfall
+	end
 
 EventScript_CannotUseWaterfall::
 	lockall
@@ -390,6 +401,12 @@ EventScript_OpenSubMenu::
 
 EventScript_AddDexNavMenu::
 	dynmultipush EventScript_DexNav, 1
+	goto_if_set FLAG_BADGE06_GET, EventScript_AddFlyMenu
+	goto EventScript_FinishSubMenu
+	end
+
+EventScript_AddFlyMenu::
+	dynmultipush EventScript_FlyMenu, 2
 	goto EventScript_FinishSubMenu
 	end
 
@@ -397,8 +414,16 @@ EventScript_FinishSubMenu::
 	dynmultistack 0, 0, FALSE, 3, TRUE, 0,DYN_MULTICHOICE_CB_NONE
 	goto_if_eq VAR_RESULT, 0, EventScript_ToggleAutoRun
     goto_if_eq VAR_RESULT, 1, EventScript_OpenDexNav
+    goto_if_eq VAR_RESULT, 2, EventScript_CheckFly
 	goto_if_eq VAR_RESULT, 127, EventScript_Release
 
+
+EventScript_CheckFly::
+	special CheckCanFly
+	goto_if_eq VAR_RESULT, TRUE, EventScript_OpenFlyMenu
+	goto EventScript_CantFly
+	end
+	
 EventScript_ToggleAutoRun:
 	special EnableAutoRun
 	waitstate
@@ -414,11 +439,21 @@ EventScript_OpenDexNav:
 	waitstate
 	end
 
+EventScript_OpenFlyMenu:
+	fadescreen FADE_TO_BLACK
+	setvar VAR_0x800A, USED_FLY_WHISTLE
+	special FieldLoadFlyMap
+	waitstate
+	end
+
 EventScript_AutoRun:
 	.string "Auto Run$"
 
 EventScript_DexNav:
 	.string "DexNav$"
+
+EventScript_FlyMenu:
+	.string "Altaria Whistle$"
 
 EventScript_DisableAutoRun::
     msgbox AutoRunDisabled MSGBOX_SIGN
@@ -431,5 +466,12 @@ EventScript_EnableAutoRun::
     msgbox AutoRunEnabled MSGBOX_SIGN
     end
 
+EventScript_CantFly::
+    msgbox CantFlyMsg MSGBOX_SIGN
+    end
+
 AutoRunEnabled:
     .string "Auto Run {COLOR GREEN}Enabled{COLOR DARK_GRAY}.$"
+
+CantFlyMsg:
+    .string "Looks like you can't use that here...$"

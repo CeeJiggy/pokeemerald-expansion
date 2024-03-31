@@ -3632,8 +3632,8 @@ static s8 CompareItemsByNumber(struct ItemSlot *itemSlot1, struct ItemSlot *item
     else if (item2 == ITEM_NONE)
         return -1;
 
-    name1 = ItemId_GetName(item1);
-    name2 = ItemId_GetName(item2);
+    name1 = ItemId_GetSortName(item1);
+    name2 = ItemId_GetSortName(item2);
 
     for (i = 0;; ++i)
     {

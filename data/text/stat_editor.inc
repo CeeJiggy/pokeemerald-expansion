@@ -3,6 +3,13 @@ gText_EditStatsGreeting::
 	.string "Services Counter!\p"
 	.string "How can I help you today?$"
 
+gText_CantEdit::
+	.string "Hello, and welcome to...\p"
+	.string "Oh, I'm sorry. I don't think there is\n"
+	.string "very much I can do for you right now.\l"
+	.string "Come back when you are a bit stronger.\p"
+	.string "Thank you for understanding.$"
+
 gText_EditorInfo::
 	.string "Our services can be used to change the\n"
 	.string "EVs and IVs of your Pokémon, with some\l"

@@ -384,7 +384,7 @@ DewfordTown_Gym_Text_BrawlyIntro:
 	.string "DEWFORD's GYM LEADER!\p"
 	.string "I've been churned in the rough waves\n"
 	.string "of these parts, and I've grown tough\l"
-	.string "in the pitch-black cave!\p"
+	.string "in the rugged cave!\p"
 	.string "So you wanted to challenge me?\n"
 	.string "Let me see what you're made of!$"
 
@@ -403,9 +403,13 @@ DewfordTown_Gym_Text_KnuckleBadgeInfoTakeThis:
 	.string "The KNUCKLE BADGE makes all POKéMON\n"
 	.string "up to Level 30, even those you get in\l"
 	.string "trades, obey without question.\p"
-	.string "And, you'll be able to use the HM move\n"
-	.string "FLASH outside of battle.\p"
-	.string "If you'd like, use this TECHNICAL\n"
+	.string "I'll also put in a good word for you\n"
+	.string "with the training services folks in\l"
+	.string "the Pokémon centers.\p"
+	.string "You and your partners are more than\n"
+	.string "ready to take advantage of the cool\l"
+	.string "things they can help out with.\p"
+	.string "Oh, right, here! Take this TECHNICAL\n"
 	.string "MACHINE, too.$"
 
 DewfordTown_Gym_Text_ExplainBulkUp:

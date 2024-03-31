@@ -34,6 +34,8 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/map_types.h"
+#include "constants/field_specials.h"
+#include "wild_encounter.h"
 
 #define subsprite_table(ptr)                                                           \
     {                                                                                  \
@@ -109,6 +111,7 @@ static bool8 EscalatorWarpIn_WaitForMovement(struct Task *);
 static bool8 EscalatorWarpIn_End(struct Task *);
 
 static void Task_UseWaterfall(u8);
+static void Task_UseWaterfallSkip(u8);
 static bool8 WaterfallFieldEffect_Init(struct Task *, struct ObjectEvent *);
 static bool8 WaterfallFieldEffect_ShowMon(struct Task *, struct ObjectEvent *);
 static bool8 WaterfallFieldEffect_WaitForShowMon(struct Task *, struct ObjectEvent *);
@@ -204,6 +207,7 @@ static void SurfFieldEffect_End(struct Task *);
 static void SpriteCB_NPCFlyOut(struct Sprite *);
 
 static void Task_FlyOut(u8);
+static void Task_FlyOutWhistle(u8);
 static void FlyOutFieldEffect_FieldMovePose(struct Task *);
 static void FlyOutFieldEffect_ShowMon(struct Task *);
 static void FlyOutFieldEffect_BirdLeaveBall(struct Task *);
@@ -215,6 +219,7 @@ static void FlyOutFieldEffect_WaitFlyOff(struct Task *);
 static void FlyOutFieldEffect_End(struct Task *);
 
 static u8 CreateFlyBirdSprite(void);
+static u8 CreateFlyBirdSpriteNoBall(void);
 static u8 GetFlyBirdAnimCompleted(u8);
 static void StartFlyBirdSwoopDown(u8);
 static void SetFlyBirdPlayerSpriteId(u8, u8);
@@ -222,6 +227,7 @@ static void SpriteCB_FlyBirdLeaveBall(struct Sprite *);
 static void SpriteCB_FlyBirdSwoopDown(struct Sprite *);
 
 static void Task_FlyIn(u8);
+static void Task_FlyInWhistle(u8);
 static void FlyInFieldEffect_BirdSwoopDown(struct Task *);
 static void FlyInFieldEffect_FlyInWithBird(struct Task *);
 static void FlyInFieldEffect_JumpOffBird(struct Task *);
@@ -616,6 +622,13 @@ static bool8 (*const sWaterfallFieldEffectFuncs[])(struct Task *, struct ObjectE
         WaterfallFieldEffect_Init,
         WaterfallFieldEffect_ShowMon,
         WaterfallFieldEffect_WaitForShowMon,
+        WaterfallFieldEffect_RideUp,
+        WaterfallFieldEffect_ContinueRideOrEnd,
+};
+
+static bool8 (*const sWaterfallSkipFieldEffectFuncs[])(struct Task *, struct ObjectEvent *) =
+    {
+        WaterfallFieldEffect_Init,
         WaterfallFieldEffect_RideUp,
         WaterfallFieldEffect_ContinueRideOrEnd,
 };
@@ -1332,8 +1345,15 @@ static void Task_UseFly(u8 taskId)
     {
         if (!IsWeatherNotFadingIn())
             return;
+        if (VarGet(VAR_0x800A) == USED_FLY_WHISTLE)
+        {
+            gFieldEffectArguments[0] = GetCursorSelectionMonId();
+        }
+        else
+        {
+            gFieldEffectArguments[0] = GetCursorSelectionMonId();
+        }
 
-        gFieldEffectArguments[0] = GetCursorSelectionMonId();
         if ((int)gFieldEffectArguments[0] > PARTY_SIZE - 1)
             gFieldEffectArguments[0] = 0;
 
@@ -1804,15 +1824,29 @@ static bool8 EscalatorWarpIn_End(struct Task *task)
 bool8 FldEff_UseWaterfall(void)
 {
     u8 taskId;
-    taskId = CreateTask(Task_UseWaterfall, 0xff);
-    gTasks[taskId].tMonId = gFieldEffectArguments[0];
-    Task_UseWaterfall(taskId);
+    if (VarGet(VAR_FIELD_MOVE_TYPE) == 1)
+    {
+        taskId = CreateTask(Task_UseWaterfall, 0xff);
+        gTasks[taskId].tMonId = gFieldEffectArguments[0];
+        Task_UseWaterfall(taskId);
+    }
+    else if (VarGet(VAR_FIELD_MOVE_TYPE) == 2)
+    {
+        taskId = CreateTask(Task_UseWaterfallSkip, 0xff);
+        gTasks[taskId].tMonId = gFieldEffectArguments[0];
+        Task_UseWaterfallSkip(taskId);
+    }
     return FALSE;
 }
 
 static void Task_UseWaterfall(u8 taskId)
 {
     while (sWaterfallFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId], &gObjectEvents[gPlayerAvatar.objectEventId]))
+        ;
+}
+static void Task_UseWaterfallSkip(u8 taskId)
+{
+    while (sWaterfallSkipFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId], &gObjectEvents[gPlayerAvatar.objectEventId]))
         ;
 }
 
@@ -1849,7 +1883,7 @@ static bool8 WaterfallFieldEffect_WaitForShowMon(struct Task *task, struct Objec
 
 static bool8 WaterfallFieldEffect_RideUp(struct Task *task, struct ObjectEvent *objectEvent)
 {
-    ObjectEventSetHeldMovement(objectEvent, GetWalkSlowMovementAction(DIR_NORTH));
+    ObjectEventSetHeldMovement(objectEvent, GetWalkFastMovementAction(DIR_NORTH));
     task->tState++;
     return FALSE;
 }
@@ -1862,13 +1896,22 @@ static bool8 WaterfallFieldEffect_ContinueRideOrEnd(struct Task *task, struct Ob
     if (MetatileBehavior_IsWaterfall(objectEvent->currentMetatileBehavior))
     {
         // Still ascending waterfall, back to WaterfallFieldEffect_RideUp
-        task->tState = 3;
+        if (VarGet(VAR_FIELD_MOVE_TYPE) == 1)
+        {
+            task->tState = 3;
+        }
+        else if (VarGet(VAR_FIELD_MOVE_TYPE) == 2)
+        {
+            task->tState = 1;
+        }
+
         return TRUE;
     }
 
     UnlockPlayerFieldControls();
     gPlayerAvatar.preventStep = FALSE;
     DestroyTask(FindTaskIdByFunc(Task_UseWaterfall));
+    DestroyTask(FindTaskIdByFunc(Task_UseWaterfallSkip));
     FieldEffectActiveListRemove(FLDEFF_USE_WATERFALL);
     return FALSE;
 }
@@ -1898,12 +1941,14 @@ bool8 FldEff_UseDive(void)
 
 void Task_UseDive(u8 taskId)
 {
-    while (sDiveFieldEffectFuncs[gTasks[taskId].data[0]](&gTasks[taskId]));
+    while (sDiveFieldEffectFuncs[gTasks[taskId].data[0]](&gTasks[taskId]))
+        ;
 }
 
 void Task_UseDiveSkip(u8 taskId)
 {
-    while (sDiveSkipFieldEffectFuncs[gTasks[taskId].data[0]](&gTasks[taskId]));
+    while (sDiveSkipFieldEffectFuncs[gTasks[taskId].data[0]](&gTasks[taskId]))
+        ;
 }
 
 static bool8 DiveFieldEffect_Init(struct Task *task)
@@ -3175,7 +3220,16 @@ static void SpriteCB_NPCFlyOut(struct Sprite *sprite)
 
 u8 FldEff_UseFly(void)
 {
-    u8 taskId = CreateTask(Task_FlyOut, 254);
+    u8 taskId;
+
+    if (VarGet(VAR_0x800A) == USED_FLY_WHISTLE)
+    {
+        taskId = CreateTask(Task_FlyOutWhistle, 254);
+    }
+    else
+    {
+        taskId = CreateTask(Task_FlyOut, 254);
+    }
     gTasks[taskId].tMonId = gFieldEffectArguments[0];
     return 0;
 }
@@ -3192,9 +3246,23 @@ static void (*const sFlyOutFieldEffectFuncs[])(struct Task *) = {
     FlyOutFieldEffect_End,
 };
 
+static void (*const sFlyOutWhistleFieldEffectFuncs[])(struct Task *) = {
+    FlyOutFieldEffect_BirdLeaveBall,
+    FlyOutFieldEffect_BirdSwoopDown,
+    FlyOutFieldEffect_JumpOnBird,
+    FlyOutFieldEffect_FlyOffWithBird,
+    FlyOutFieldEffect_WaitFlyOff,
+    FlyOutFieldEffect_End,
+};
+
 static void Task_FlyOut(u8 taskId)
 {
     sFlyOutFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
+}
+
+static void Task_FlyOutWhistle(u8 taskId)
+{
+    sFlyOutWhistleFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
 static void FlyOutFieldEffect_FieldMovePose(struct Task *task)
@@ -3207,7 +3275,14 @@ static void FlyOutFieldEffect_FieldMovePose(struct Task *task)
         SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
         SetPlayerAvatarFieldMove();
         ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
-        task->tState++;
+        if (VarGet(VAR_HM_OPTION) == 0)
+        {
+            task->tState++;
+        }
+        else
+        {
+            task->tState += 2;
+        }
     }
 }
 
@@ -3224,16 +3299,27 @@ static void FlyOutFieldEffect_ShowMon(struct Task *task)
 
 static void FlyOutFieldEffect_BirdLeaveBall(struct Task *task)
 {
-    if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON))
+    struct ObjectEvent *objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
     {
-        struct ObjectEvent *objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-        if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
+        if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON))
         {
-            SetSurfBlob_BobState(objectEvent->fieldEffectSpriteId, BOB_JUST_MON);
-            SetSurfBlob_DontSyncAnim(objectEvent->fieldEffectSpriteId, FALSE);
+            if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
+            {
+                SetSurfBlob_BobState(objectEvent->fieldEffectSpriteId, BOB_JUST_MON);
+                SetSurfBlob_DontSyncAnim(objectEvent->fieldEffectSpriteId, FALSE);
+            }
+            if (VarGet(VAR_0x800A) == USED_FLY_WHISTLE)
+            {
+                PlayCry_Normal(SPECIES_ALTARIA, 0);
+                task->tBirdSpriteId = CreateFlyBirdSpriteNoBall(); // Does "leave ball" animation by default
+            }
+            else
+            {
+                task->tBirdSpriteId = CreateFlyBirdSprite(); // Does "leave ball" animation by default
+            }
+            task->tState++;
         }
-        task->tBirdSpriteId = CreateFlyBirdSprite(); // Does "leave ball" animation by default
-        task->tState++;
     }
 }
 
@@ -3318,6 +3404,17 @@ static u8 CreateFlyBirdSprite(void)
     sprite->oam.paletteNum = 0;
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_FlyBirdLeaveBall;
+    return spriteId;
+}
+
+static u8 CreateFlyBirdSpriteNoBall(void)
+{
+    u8 spriteId;
+    struct Sprite *sprite;
+    spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
+    sprite = &gSprites[spriteId];
+    sprite->oam.paletteNum = 0;
+    sprite->oam.priority = 1;
     return spriteId;
 }
 
@@ -3463,10 +3560,16 @@ static void StartFlyBirdReturnToBall(u8 spriteId)
 
 u8 FldEff_FlyIn(void)
 {
-    CreateTask(Task_FlyIn, 254);
+    if (VarGet(VAR_0x800A) == USED_FLY_WHISTLE)
+    {
+        CreateTask(Task_FlyInWhistle, 254);
+    }
+    else
+    {
+        CreateTask(Task_FlyIn, 254);
+    }
     return 0;
 }
-
 static void (*const sFlyInFieldEffectFuncs[])(struct Task *) = {
     FlyInFieldEffect_BirdSwoopDown,
     FlyInFieldEffect_FlyInWithBird,
@@ -3477,9 +3580,21 @@ static void (*const sFlyInFieldEffectFuncs[])(struct Task *) = {
     FlyInFieldEffect_End,
 };
 
+static void (*const sFlyInWhistleFieldEffectFuncs[])(struct Task *) = {
+    FlyInFieldEffect_BirdSwoopDown,
+    FlyInFieldEffect_FlyInWithBird,
+    FlyInFieldEffect_JumpOffBird,
+    FlyInFieldEffect_FieldMovePose,
+};
+
 static void Task_FlyIn(u8 taskId)
 {
     sFlyInFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
+}
+
+static void Task_FlyInWhistle(u8 taskId)
+{
+    sFlyInWhistleFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
 static void FlyInFieldEffect_BirdSwoopDown(struct Task *task)
@@ -3502,7 +3617,7 @@ static void FlyInFieldEffect_BirdSwoopDown(struct Task *task)
         ObjectEventTurn(objectEvent, DIR_WEST);
         StartSpriteAnim(&gSprites[objectEvent->spriteId], ANIM_GET_ON_OFF_POKEMON_WEST);
         objectEvent->invisible = FALSE;
-        task->tBirdSpriteId = CreateFlyBirdSprite();
+        task->tBirdSpriteId = CreateFlyBirdSpriteNoBall();
         StartFlyBirdSwoopDown(task->tBirdSpriteId);
         SetFlyBirdPlayerSpriteId(task->tBirdSpriteId, objectEvent->spriteId);
     }
@@ -3556,9 +3671,35 @@ static void FlyInFieldEffect_JumpOffBird(struct Task *task)
 
 static void FlyInFieldEffect_FieldMovePose(struct Task *task)
 {
+    u8 state;
     struct ObjectEvent *objectEvent;
     struct Sprite *sprite;
-    if (GetFlyBirdAnimCompleted(task->tBirdSpriteId))
+    if (VarGet(VAR_0x800A) == USED_FLY_WHISTLE)
+    {
+        objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+        sprite = &gSprites[objectEvent->spriteId];
+        objectEvent->inanimate = FALSE;
+        MoveObjectEventToMapCoords(objectEvent, objectEvent->currentCoords.x, objectEvent->currentCoords.y);
+        sprite->x2 = 0;
+        sprite->y2 = 0;
+        sprite->coordOffsetEnabled = TRUE;
+        state = PLAYER_AVATAR_STATE_NORMAL;
+        if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
+        {
+            state = PLAYER_AVATAR_STATE_SURFING;
+            SetSurfBlob_BobState(objectEvent->fieldEffectSpriteId, BOB_PLAYER_AND_MON);
+        }
+        ObjectEventSetGraphicsId(objectEvent, GetPlayerAvatarGraphicsIdByStateId(state));
+        ObjectEventTurn(objectEvent, DIR_SOUTH);
+        gPlayerAvatar.flags = task->tAvatarFlags;
+        gPlayerAvatar.preventStep = FALSE;
+        DestroySprite(&gSprites[task->tBirdSpriteId]);
+        FieldEffectActiveListRemove(FLDEFF_FLY_IN);
+        DestroyTask(FindTaskIdByFunc(Task_FlyInWhistle));
+        VarSet(VAR_0x800A, 0);
+    }
+
+    else if (GetFlyBirdAnimCompleted(task->tBirdSpriteId))
     {
         objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
         sprite = &gSprites[objectEvent->spriteId];
@@ -3595,6 +3736,7 @@ static void FlyInFieldEffect_WaitBirdReturn(struct Task *task)
 static void FlyInFieldEffect_End(struct Task *task)
 {
     u8 state;
+
     struct ObjectEvent *objectEvent;
     if ((--task->data[1]) == 0)
     {
@@ -3610,6 +3752,7 @@ static void FlyInFieldEffect_End(struct Task *task)
         gPlayerAvatar.flags = task->tAvatarFlags;
         gPlayerAvatar.preventStep = FALSE;
         FieldEffectActiveListRemove(FLDEFF_FLY_IN);
+        VarSet(VAR_0x800A, 0);
         DestroyTask(FindTaskIdByFunc(Task_FlyIn));
     }
 }

@@ -545,6 +545,8 @@ gSpecials::
 	def_special StatEditor_Init
 	def_special EnableAutoRun
 	def_special OpenDexNavSub
+	def_special FieldLoadFlyMap
+	def_special CheckCanFly
 	def_special PlayerHasMulch
 	def_special Bag_ChooseMulch
 	def_special ObjectEventInteractionApplyMulch

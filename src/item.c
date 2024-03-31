@@ -869,6 +869,14 @@ const u8 *ItemId_GetName(u16 itemId)
         return gItemsInfo[SanitizeItemId(itemId)].name;
 }
 
+const u8 *ItemId_GetSortName(u16 itemId)
+{
+    if (DECAP_ENABLED && DECAP_MIRRORING && !DECAP_ITEM_NAMES)
+        return ROM_MIRROR_PTR(gItemsInfo[SanitizeItemId(itemId)].sortName);
+    else
+        return gItemsInfo[SanitizeItemId(itemId)].sortName;
+}
+
 u32 ItemId_GetPrice(u16 itemId)
 {
     return gItemsInfo[SanitizeItemId(itemId)].price;
