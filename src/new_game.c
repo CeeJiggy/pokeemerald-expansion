@@ -98,8 +98,10 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
     VarSet(VAR_UNIT_TYPE, 0);
+    VarSet(VAR_FAST_HEAL, 0);
+    VarSet(VAR_LEVEL_CAP_TYPE, 0);
+    VarSet(VAR_REGION_CHOSEN, 0);
     gSaveBlock2Ptr->optionsUnitSystem = 0;                            // tx_optionsPlus
-    gSaveBlock2Ptr->optionsLevelCaps = OPTIONS_LEVEL_CAPS_NONE;       // tx_optionsPlus
     gSaveBlock2Ptr->optionsBattleIntro = OPTIONS_BATTLE_INTRO_NORMAL; // tx_optionsPlus
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;                      // tx_optionsPlus
     gSaveBlock2Ptr->optionsCurrentFont = 0;                           // tx_optionsPlus

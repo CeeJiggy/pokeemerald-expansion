@@ -37,11 +37,11 @@
 #define AREA_SCREEN_WIDTH 32
 #define AREA_SCREEN_HEIGHT 20
 
-#define GLOW_FULL      0xFFFF
-#define GLOW_EDGE_R    (1 << 0)
-#define GLOW_EDGE_L    (1 << 1)
-#define GLOW_EDGE_B    (1 << 2)
-#define GLOW_EDGE_T    (1 << 3)
+#define GLOW_FULL 0xFFFF
+#define GLOW_EDGE_R (1 << 0)
+#define GLOW_EDGE_L (1 << 1)
+#define GLOW_EDGE_B (1 << 2)
+#define GLOW_EDGE_T (1 << 3)
 #define GLOW_CORNER_TL (1 << 4)
 #define GLOW_CORNER_BL (1 << 5)
 #define GLOW_CORNER_TR (1 << 6)
@@ -53,7 +53,7 @@
 #define TAG_AREA_UNKNOWN 3
 
 #define MAX_AREA_HIGHLIGHTS 64 // Maximum number of rectangular route highlights
-#define MAX_AREA_MARKERS 32 // Maximum number of circular spot highlights
+#define MAX_AREA_MARKERS 32    // Maximum number of circular spot highlights
 
 struct OverworldArea
 {
@@ -65,9 +65,9 @@ struct OverworldArea
 struct
 {
     /*0x000*/ void (*callback)(void); // unused
-    /*0x004*/ MainCallback prev; // unused
-    /*0x008*/ MainCallback next; // unused
-    /*0x00C*/ u16 state; // unused
+    /*0x004*/ MainCallback prev;      // unused
+    /*0x008*/ MainCallback next;      // unused
+    /*0x00C*/ u16 state;              // unused
     /*0x00E*/ u16 species;
     /*0x010*/ struct OverworldArea overworldAreasWithMons[MAX_AREA_HIGHLIGHTS];
     /*0x110*/ u16 numOverworldAreas;
@@ -88,7 +88,7 @@ struct
     /*0x6E8*/ u8 *screenSwitchState;
     /*0x6EC*/ struct RegionMap regionMap;
     /*0xF70*/ u8 charBuffer[64];
-    /*0xFB0*/ struct Sprite * areaUnknownSprites[3];
+    /*0xFB0*/ struct Sprite *areaUnknownSprites[3];
     /*0xFBC*/ u8 areaUnknownGraphicsBuffer[0x600];
 } static EWRAM_DATA *sPokedexAreaScreen = NULL;
 
@@ -113,97 +113,87 @@ static const u32 sAreaGlow_Pal[] = INCBIN_U32("graphics/pokedex/area_glow.gbapal
 static const u32 sAreaGlow_Gfx[] = INCBIN_U32("graphics/pokedex/area_glow.4bpp.lz");
 static const u32 sPokedexPlusHGSS_ScreenSelectBarSubmenu_Tilemap[] = INCBIN_U32("graphics/pokedex/hgss/SelectBar.bin.lz");
 
-static const u16 sSpeciesHiddenFromAreaScreen[] = { SPECIES_WYNAUT };
+static const u16 sSpeciesHiddenFromAreaScreen[] = {SPECIES_WYNAUT};
 
 static const u16 sMovingRegionMapSections[3] =
-{
-    MAPSEC_MARINE_CAVE,
-    MAPSEC_UNDERWATER_MARINE_CAVE,
-    MAPSEC_TERRA_CAVE
-};
+    {
+        MAPSEC_MARINE_CAVE,
+        MAPSEC_UNDERWATER_MARINE_CAVE,
+        MAPSEC_TERRA_CAVE};
 
 static const u16 sFeebasData[][3] =
-{
-    {SPECIES_FEEBAS, MAP_GROUP(ROUTE119), MAP_NUM(ROUTE119)},
-    {NUM_SPECIES}
-};
+    {
+        {SPECIES_FEEBAS, MAP_GROUP(ROUTE119), MAP_NUM(ROUTE119)},
+        {NUM_SPECIES}};
 
 static const u16 sLandmarkData[][2] =
-{
-    {MAPSEC_SKY_PILLAR,       FLAG_LANDMARK_SKY_PILLAR},
-    {MAPSEC_SEAFLOOR_CAVERN,  FLAG_LANDMARK_SEAFLOOR_CAVERN},
-    {MAPSEC_ALTERING_CAVE,    FLAG_LANDMARK_ALTERING_CAVE},
-    {MAPSEC_MIRAGE_TOWER,     FLAG_LANDMARK_MIRAGE_TOWER},
-    {MAPSEC_DESERT_UNDERPASS, FLAG_LANDMARK_DESERT_UNDERPASS},
-    {MAPSEC_ARTISAN_CAVE,     FLAG_LANDMARK_ARTISAN_CAVE},
-    {MAPSEC_NONE}
-};
+    {
+        {MAPSEC_SKY_PILLAR, FLAG_LANDMARK_SKY_PILLAR},
+        {MAPSEC_SEAFLOOR_CAVERN, FLAG_LANDMARK_SEAFLOOR_CAVERN},
+        {MAPSEC_ALTERING_CAVE, FLAG_LANDMARK_ALTERING_CAVE},
+        {MAPSEC_MIRAGE_TOWER, FLAG_LANDMARK_MIRAGE_TOWER},
+        {MAPSEC_DESERT_UNDERPASS, FLAG_LANDMARK_DESERT_UNDERPASS},
+        {MAPSEC_ARTISAN_CAVE, FLAG_LANDMARK_ARTISAN_CAVE},
+        {MAPSEC_NONE}};
 
 #include "data/pokedex_area_glow.h"
 
 static const struct PokedexAreaMapTemplate sPokedexAreaMapTemplate =
-{
-    .bg = 3,
-    .offset = 0,
-    .mode = 0,
-    .unk = 2,
+    {
+        .bg = 3,
+        .offset = 0,
+        .mode = 0,
+        .unk = 2,
 };
 
 static const u8 sAreaMarkerTiles[];
 static const struct SpriteSheet sAreaMarkerSpriteSheet =
-{
-    .data = sAreaMarkerTiles, .size = 0x80, .tag = TAG_AREA_MARKER
-};
+    {
+        .data = sAreaMarkerTiles, .size = 0x80, .tag = TAG_AREA_MARKER};
 
 static const u16 sAreaMarkerPalette[];
 static const struct SpritePalette sAreaMarkerSpritePalette =
-{
-    .data = sAreaMarkerPalette, .tag = TAG_AREA_MARKER
-};
+    {
+        .data = sAreaMarkerPalette, .tag = TAG_AREA_MARKER};
 
 static const struct OamData sAreaMarkerOamData =
-{
-    .shape = SPRITE_SHAPE(16x16),
-    .size = SPRITE_SIZE(16x16),
-    .priority = 1
-};
+    {
+        .shape = SPRITE_SHAPE(16x16),
+        .size = SPRITE_SIZE(16x16),
+        .priority = 1};
 
 static const struct SpriteTemplate sAreaMarkerSpriteTemplate =
-{
-    .tileTag = TAG_AREA_MARKER,
-    .paletteTag = TAG_AREA_MARKER,
-    .oam = &sAreaMarkerOamData,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = TAG_AREA_MARKER,
+        .paletteTag = TAG_AREA_MARKER,
+        .oam = &sAreaMarkerOamData,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static const u16 sAreaMarkerPalette[] = INCBIN_U16("graphics/pokedex/area_marker.gbapal");
 static const u8 sAreaMarkerTiles[] = INCBIN_U8("graphics/pokedex/area_marker.4bpp");
 
 static const struct SpritePalette sAreaUnknownSpritePalette =
-{
-    .data = gPokedexAreaScreenAreaUnknown_Pal, .tag = TAG_AREA_UNKNOWN
-};
+    {
+        .data = gPokedexAreaScreenAreaUnknown_Pal, .tag = TAG_AREA_UNKNOWN};
 
 static const struct OamData sAreaUnknownOamData =
-{
-    .shape = SPRITE_SHAPE(32x32),
-    .size = SPRITE_SIZE(32x32),
-    .priority = 1
-};
+    {
+        .shape = SPRITE_SHAPE(32x32),
+        .size = SPRITE_SIZE(32x32),
+        .priority = 1};
 
 static const struct SpriteTemplate sAreaUnknownSpriteTemplate =
-{
-    .tileTag = TAG_AREA_UNKNOWN,
-    .paletteTag = TAG_AREA_UNKNOWN,
-    .oam = &sAreaUnknownOamData,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    {
+        .tileTag = TAG_AREA_UNKNOWN,
+        .paletteTag = TAG_AREA_UNKNOWN,
+        .oam = &sAreaUnknownOamData,
+        .anims = gDummySpriteAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy};
 
 static void ResetDrawAreaGlowState(void)
 {
@@ -684,11 +674,6 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
         }
         else if (JOY_NEW(DPAD_RIGHT) || (JOY_NEW(R_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
         {
-            if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(sPokedexAreaScreen->species), FLAG_GET_CAUGHT))
-            {
-                PlaySE(SE_FAILURE);
-                return;
-            }
             gTasks[taskId].data[1] = 2;
             PlaySE(SE_DEX_PAGE);
         }

@@ -687,8 +687,15 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId)
 
 void ItemUseOutOfBattle_PokemonBoxLink(u8 taskId)
 {
-    sItemUseOnFieldCB = Task_AccessPokemonBoxLink;
-    SetUpItemUseOnFieldCallback(taskId);
+    if (CanUseBoxLink() == TRUE)
+    {
+        sItemUseOnFieldCB = Task_AccessPokemonBoxLink;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+    else
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
 }
 
 static void Task_AccessPokemonBoxLink(u8 taskId)
@@ -1060,6 +1067,14 @@ static void ItemUseOnFieldCB_EscapeRope(u8 taskId)
 bool8 CanUseDigOrEscapeRopeOnCurMap(void)
 {
     if (gMapHeader.allowEscaping)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 CanUseBoxLink(void)
+{
+    if (gMapHeader.allowRunning == TRUE)
         return TRUE;
     else
         return FALSE;
