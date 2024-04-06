@@ -271,8 +271,8 @@
 #define VAR_FIELD_MOVE_TYPE 0x40FB     // Type of field move event to use
 #define VAR_HM_OPTION 0x40FC           // Unused Var
 #define VAR_LEVEL_CAP_TYPE 0x40FD      // Level Cap Type
-#define VAR_UNIT_TYPE 0x40FE       // Measurement Unit Type
-#define VAR_UNUSED_0x40FF 0x40FF       // Unused Var
+#define VAR_UNIT_TYPE 0x40FE           // Measurement Unit Type
+#define VAR_FAST_HEAL 0x40FF           // Unused Var
 
 #define VARS_END 0x40FF
 #define VARS_COUNT (VARS_END - VARS_START + 1)

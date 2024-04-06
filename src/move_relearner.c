@@ -143,6 +143,7 @@
 #define MENU_STATE_PRINT_TEXT_THEN_FANFARE 31
 #define MENU_STATE_WAIT_FOR_FANFARE 32
 #define MENU_STATE_WAIT_FOR_A_BUTTON 33
+#define MENU_STATE_REFRESH_LIST 34
 
 // The different versions of hearts are selected using animation
 // commands.
@@ -504,144 +505,59 @@ static void DoMoveRelearnerMain(void)
         HandleInput(TRUE);
         break;
     case MENU_STATE_PRINT_TEACH_MOVE_PROMPT:
-        if (!MoveRelearnerRunTextPrinters())
-        {
-            MoveRelearnerCreateYesNoMenu();
-            sMoveRelearnerStruct->state++;
-        }
+        sMoveRelearnerStruct->state++;
         break;
     case MENU_STATE_TEACH_MOVE_CONFIRM:
     {
-        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
-
-        if (selection == 0)
+        if (GiveMoveToMon(&gPlayerParty[sMoveRelearnerStruct->partyMon], GetCurrentSelectedMove()) != MON_HAS_MAX_MOVES)
         {
-            if (GiveMoveToMon(&gPlayerParty[sMoveRelearnerStruct->partyMon], GetCurrentSelectedMove()) != MON_HAS_MAX_MOVES)
-            {
-                PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnLearnedMove);
-                gSpecialVar_0x8004 = TRUE;
-                sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEXT_THEN_FANFARE;
-            }
-            else
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
-            }
+            PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnLearnedMove);
+            sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEXT_THEN_FANFARE;
         }
-        else if (selection == MENU_B_PRESSED || selection == 1)
+        else
         {
-            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-            }
-            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-            }
-        }
-    }
-    break;
-    case MENU_STATE_PRINT_GIVE_UP_PROMPT:
-        if (!MoveRelearnerRunTextPrinters())
-        {
-            MoveRelearnerCreateYesNoMenu();
-            sMoveRelearnerStruct->state++;
-        }
-        break;
-    case MENU_STATE_GIVE_UP_CONFIRM:
-    {
-        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
-
-        if (selection == 0)
-        {
-            gSpecialVar_0x8004 = FALSE;
-            sMoveRelearnerStruct->state = MENU_STATE_FADE_AND_RETURN;
-        }
-        else if (selection == MENU_B_PRESSED || selection == 1)
-        {
-            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-            }
-            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-            }
-        }
-    }
-    break;
-    case MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT:
-        PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnTryingToLearnMove);
-        sMoveRelearnerStruct->state++;
-        break;
-    case MENU_STATE_WAIT_FOR_TRYING_TO_LEARN:
-        if (!MoveRelearnerRunTextPrinters())
-        {
-            MoveRelearnerCreateYesNoMenu();
-            sMoveRelearnerStruct->state = MENU_STATE_CONFIRM_DELETE_OLD_MOVE;
-        }
-        break;
-    case MENU_STATE_CONFIRM_DELETE_OLD_MOVE:
-    {
-        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
-
-        if (selection == 0)
-        {
-            PrintMessageWithPlaceholders(gText_MoveRelearnerWhichMoveToForget);
-            sMoveRelearnerStruct->state = MENU_STATE_PRINT_WHICH_MOVE_PROMPT;
-        }
-        else if (selection == MENU_B_PRESSED || selection == 1)
-        {
-            sMoveRelearnerStruct->state = MENU_STATE_PRINT_STOP_TEACHING;
-        }
-    }
-    break;
-    case MENU_STATE_PRINT_STOP_TEACHING:
-        StringCopy(gStringVar2, GetMoveName(GetCurrentSelectedMove()));
-        PrintMessageWithPlaceholders(gText_MoveRelearnerStopTryingToTeachMove);
-        sMoveRelearnerStruct->state++;
-        break;
-    case MENU_STATE_WAIT_FOR_STOP_TEACHING:
-        if (!MoveRelearnerRunTextPrinters())
-        {
-            MoveRelearnerCreateYesNoMenu();
-            sMoveRelearnerStruct->state++;
-        }
-        break;
-    case MENU_STATE_CONFIRM_STOP_TEACHING:
-    {
-        s8 selection = Menu_ProcessInputNoWrapClearOnChoose();
-
-        if (selection == 0)
-        {
-            sMoveRelearnerStruct->state = MENU_STATE_CHOOSE_SETUP_STATE;
-        }
-        else if (selection == MENU_B_PRESSED || selection == 1)
-        {
-            // What's the point? It gets set to MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT, anyway.
-            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-            }
-            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-            }
             sMoveRelearnerStruct->state = MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT;
         }
     }
     break;
+    case MENU_STATE_PRINT_GIVE_UP_PROMPT:
+        sMoveRelearnerStruct->state++;
+        break;
+    case MENU_STATE_GIVE_UP_CONFIRM:
+    {
+        sMoveRelearnerStruct->state = MENU_STATE_FADE_AND_RETURN;
+    }
+    break;
+    case MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT:
+        sMoveRelearnerStruct->state++;
+        break;
+    case MENU_STATE_WAIT_FOR_TRYING_TO_LEARN:
+        sMoveRelearnerStruct->state = MENU_STATE_CONFIRM_DELETE_OLD_MOVE;
+        break;
+    case MENU_STATE_CONFIRM_DELETE_OLD_MOVE:
+    {
+        sMoveRelearnerStruct->state = MENU_STATE_PRINT_WHICH_MOVE_PROMPT;
+    }
+    break;
+    case MENU_STATE_PRINT_STOP_TEACHING:
+        sMoveRelearnerStruct->state++;
+        break;
+    case MENU_STATE_WAIT_FOR_STOP_TEACHING:
+        sMoveRelearnerStruct->state++;
+        break;
+    case MENU_STATE_CONFIRM_STOP_TEACHING:
+    {
+        sMoveRelearnerStruct->state = MENU_STATE_CHOOSE_SETUP_STATE;
+    }
+    break;
     case MENU_STATE_CHOOSE_SETUP_STATE:
-        if (!MoveRelearnerRunTextPrinters())
+        if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
         {
-            FillWindowPixelBuffer(RELEARNERWIN_MSG, 0x11);
-            if (sMoveRelearnerMenuSate.showContestInfo == FALSE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
-            }
-            else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
-            {
-                sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
-            }
+            sMoveRelearnerStruct->state = MENU_STATE_SETUP_BATTLE_MODE;
+        }
+        else if (sMoveRelearnerMenuSate.showContestInfo == TRUE)
+        {
+            sMoveRelearnerStruct->state = MENU_STATE_SETUP_CONTEST_MODE;
         }
         break;
     case MENU_STATE_PRINT_WHICH_MOVE_PROMPT:
@@ -719,9 +635,7 @@ static void DoMoveRelearnerMain(void)
                 if (GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_PP1 + GetMoveSlotToReplace(), NULL) > oldPP)
                     SetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_PP1 + GetMoveSlotToReplace(), &oldPP);
                 StringCopy(gStringVar2, GetMoveName(GetCurrentSelectedMove()));
-                PrintMessageWithPlaceholders(gText_MoveRelearnerAndPoof);
                 sMoveRelearnerStruct->state = MENU_STATE_DOUBLE_FANFARE_FORGOT_MOVE;
-                gSpecialVar_0x8004 = TRUE;
             }
         }
         break;
@@ -730,7 +644,6 @@ static void DoMoveRelearnerMain(void)
         {
             PrintMessageWithPlaceholders(gText_MoveRelearnerPkmnForgotMoveAndLearnedNew);
             sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEXT_THEN_FANFARE;
-            PlayFanfare(MUS_LEVEL_UP);
         }
         break;
     case MENU_STATE_PRINT_TEXT_THEN_FANFARE:
@@ -750,7 +663,15 @@ static void DoMoveRelearnerMain(void)
         if (JOY_NEW(A_BUTTON))
         {
             PlaySE(SE_SELECT);
-            sMoveRelearnerStruct->state = MENU_STATE_FADE_AND_RETURN;
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            sMoveRelearnerStruct->state++;
+        }
+        break;
+    case MENU_STATE_REFRESH_LIST:
+        if (!gPaletteFade.active)
+        {
+            SetMainCallback2(CB2_InitLearnMove);
+            FreeMoveRelearnerResources();
         }
         break;
     }
@@ -823,9 +744,6 @@ static void HandleInput(bool8 showContest)
         PlaySE(SE_SELECT);
         RemoveScrollArrows();
         sMoveRelearnerStruct->state = MENU_STATE_PRINT_TEACH_MOVE_PROMPT;
-        StringCopy(gStringVar2, GetMoveName(itemId));
-        StringExpandPlaceholders(gStringVar4, gText_MoveRelearnerTeachMoveConfirm);
-        MoveRelearnerPrintMessage(gStringVar4);
         break;
     }
 }

@@ -605,9 +605,10 @@ static const u8 sText_MenuEV[] = _("EV");
 static const u8 sText_MenuIV[] = _("IV");
 static const u8 sText_MonLevel[] = _("Lv.{CLEAR 1}{STR_VAR_1}");
 
-static const u8 sText_MenuLRButtonTextMain[] = _("Cycle Party");
-static const u8 sText_MenuAButtonTextMain[] = _("Edit Stats");
+static const u8 sText_MenuLRButtonTextMain[] = _("Party");
+static const u8 sText_MenuAButtonTextMain[] = _("Edit");
 static const u8 sText_MenuBButtonTextMain[] = _("Back");
+static const u8 sText_MenuQuitTextMain[] = _("Exit");
 static const u8 sText_MenuDPadButtonTextMain[] = _("Change Stat");
 static const u8 sText_evArrow[] = _("{LEFT_ARROW}");
 static const u8 sText_test[] = _("510");
@@ -622,8 +623,11 @@ static void PrintTitleToWindowMainState()
     BlitBitmapToWindow(WINDOW_1, sR_ButtonGfx, 75, (BUTTON_Y), 24, 8);
     AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 102, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuLRButtonTextMain);
 
-    BlitBitmapToWindow(WINDOW_1, sA_ButtonGfx, 160, (BUTTON_Y), 8, 8);
-    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 172, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuAButtonTextMain);
+    BlitBitmapToWindow(WINDOW_1, sA_ButtonGfx, 145, (BUTTON_Y), 8, 8);
+    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 157, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuAButtonTextMain);
+
+    BlitBitmapToWindow(WINDOW_1, sB_ButtonGfx, 195, (BUTTON_Y), 8, 8);
+    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 207, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuQuitTextMain);
 
     PutWindowTilemap(WINDOW_1);
     CopyWindowToVram(WINDOW_1, 3);
@@ -652,8 +656,9 @@ static void PrintTitleToWindowEditState()
 
     AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 125, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuDPadButtonTextMain);
 
-    BlitBitmapToWindow(WINDOW_1, sB_ButtonGfx, 190, (BUTTON_Y), 8, 8);
-    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 200, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuBButtonTextMain);
+    BlitBitmapToWindow(WINDOW_1, sA_ButtonGfx, 185, (BUTTON_Y), 8, 8);
+    BlitBitmapToWindow(WINDOW_1, sB_ButtonGfx, 195, (BUTTON_Y), 8, 8);
+    AddTextPrinterParameterized4(WINDOW_1, FONT_NARROW, 207, 0, 0, 0, sMenuWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_MenuBButtonTextMain);
 
     PutWindowTilemap(WINDOW_1);
     CopyWindowToVram(WINDOW_1, 3);
@@ -1152,7 +1157,7 @@ static void HandleEditingStatInput(u32 input)
 
 static void Task_MenuEditingStat(u8 taskId) // This function should be refactored to not be a hot mess
 {
-    if (JOY_NEW(B_BUTTON))
+    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
     {
         gTasks[taskId].func = Task_StatEditorMain;
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 0);

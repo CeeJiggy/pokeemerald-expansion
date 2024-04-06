@@ -405,7 +405,7 @@ DewfordTown_Gym_Text_KnuckleBadgeInfoTakeThis:
 	.string "trades, obey without question.\p"
 	.string "I'll also put in a good word for you\n"
 	.string "with the training services folks in\l"
-	.string "the Pokémon centers.\p"
+	.string "the Pokémon Centers.\p"
 	.string "You and your partners are more than\n"
 	.string "ready to take advantage of the cool\l"
 	.string "things they can help out with.\p"

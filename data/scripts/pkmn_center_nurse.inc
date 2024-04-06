@@ -4,6 +4,7 @@ Common_EventScript_PkmnCenterNurse::
 	setvar VAR_0x8004, 0
 	specialvar VAR_RESULT, CountPlayerTrainerStars
 	goto_if_eq VAR_RESULT, 4, EventScript_PkmnCenterNurse_GoldCard
+	goto_if_eq VAR_FAST_HEAL, 1, EventScript_PkmnCenterNurse_HealPkmnSkip
 	msgbox gText_WouldYouLikeToRestYourPkmn, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, EventScript_PkmnCenterNurse_HealPkmn
 	goto_if_eq VAR_RESULT, NO, EventScript_PkmnCenterNurse_Goodbye
@@ -22,6 +23,14 @@ EventScript_PkmnCenterNurse_HealPkmn::
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
 	goto_if_unset FLAG_POKERUS_EXPLAINED, EventScript_PkmnCenterNurse_CheckPokerus
 	goto EventScript_PkmnCenterNurse_CheckTrainerHillAndUnionRoom
+	end
+
+EventScript_PkmnCenterNurse_HealPkmnSkip::
+	incrementgamestat GAME_STAT_USED_POKECENTER
+	waitmessage
+	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
+	goto_if_unset FLAG_POKERUS_EXPLAINED, EventScript_PkmnCenterNurse_CheckPokerus
+	goto EventScript_PkmnCenterNurse_CheckTrainerHillAndUnionRoomSkip
 	end
 
 EventScript_PkmnCenterNurse_IllTakeYourPkmn::
@@ -43,12 +52,24 @@ EventScript_PkmnCenterNurse_TakeAndHealPkmn::
 	return
 
 EventScript_PkmnCenterNurse_CheckTrainerHillAndUnionRoom::
+	goto_if_eq VAR_FAST_HEAL, 1, EventScript_PkmnCenterNurse_CheckTrainerHillAndUnionRoomSkip
 	specialvar VAR_RESULT, PlayerNotAtTrainerHillEntrance
 	goto_if_eq VAR_RESULT, 0, EventScript_PkmnCenterNurse_ReturnPkmn
 	specialvar VAR_RESULT, BufferUnionRoomPlayerName
 	copyvar VAR_0x8008, VAR_RESULT
 	goto_if_eq VAR_0x8008, 0, EventScript_PkmnCenterNurse_ReturnPkmn
 	goto_if_eq VAR_0x8008, 1, EventScript_PkmnCenterNurse_PlayerWaitingInUnionRoom
+	goto EventScript_PkmnCenterNurse_PlayerTurn
+	end
+
+EventScript_PkmnCenterNurse_CheckTrainerHillAndUnionRoomSkip::
+	specialvar VAR_RESULT, PlayerNotAtTrainerHillEntrance
+	goto_if_eq VAR_RESULT, 0, EventScript_PkmnCenterNurse_ReturnPkmnSkip
+	specialvar VAR_RESULT, BufferUnionRoomPlayerName
+	copyvar VAR_0x8008, VAR_RESULT
+	goto_if_eq VAR_0x8008, 0, EventScript_PkmnCenterNurse_ReturnPkmnSkip
+	goto_if_eq VAR_0x8008, 1, EventScript_PkmnCenterNurse_PlayerWaitingInUnionRoom
+	goto EventScript_PkmnCenterNurse_PlayerTurn
 	end
 
 @ VAR_0x8004 is 1 when player has Gold Card
@@ -59,6 +80,14 @@ EventScript_PkmnCenterNurse_ReturnPkmn::
 	applymovement VAR_0x800B, Movement_PkmnCenterNurse_Bow
 	waitmovement 0
 	message gText_WeHopeToSeeYouAgain
+	waitmessage
+	goto EventScript_PkmnCenterNurse_PlayerTurn
+	end
+
+EventScript_PkmnCenterNurse_ReturnPkmnSkip::
+	applymovement VAR_0x800B, Movement_PkmnCenterNurse_Bow
+	waitmovement 0
+	goto EventScript_PkmnCenterNurse_PlayerTurn
 	return
 
 EventScript_PkmnCenterNurse_ReturnPkmn2::
@@ -67,7 +96,9 @@ EventScript_PkmnCenterNurse_ReturnPkmn2::
 	applymovement VAR_0x800B, Movement_PkmnCenterNurse_Bow
 	waitmovement 0
 	message gText_WeHopeToSeeYouAgain2
-	return
+	waitmessage
+	goto EventScript_PkmnCenterNurse_PlayerTurn
+	end
 
 EventScript_PkmnCenterNurse_PlayerWaitingInUnionRoom::
 	goto_if_set FLAG_NURSE_UNION_ROOM_REMINDER, EventScript_PkmnCenterNurse_ReturnPkmn
@@ -120,3 +151,10 @@ Movement_PkmnCenterNurse_Bow:
 	nurse_joy_bow
 	delay_4
 	step_end
+
+EventScript_PkmnCenterNurse_PlayerTurn::
+  waitmessage
+  applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_FaceDown
+  waitmovement 0
+  release
+  end

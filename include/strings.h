@@ -331,6 +331,8 @@ extern const u8 gText_NormalIntro[];
 extern const u8 gText_FastIntro[];
 extern const u8 gText_HMShow[];
 extern const u8 gText_HMSkip[];
+extern const u8 gText_HealNormal[];
+extern const u8 gText_HealFast[];
 
 extern const u8 gText_MaleSymbol[];
 extern const u8 gText_FemaleSymbol[];
