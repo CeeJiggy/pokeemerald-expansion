@@ -16,7 +16,7 @@ BerryTree_EventScript_Sparkling::
 	lockall
 	message BerryTree_Text_ExclamationPoint
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	releaseall
 	end
 
@@ -29,7 +29,7 @@ BerryTree_EventScript_CheckSoil::
 	goto_if_eq VAR_RESULT, TRUE, BerryTree_EventScript_WantToMulch
 	message BerryTree_Text_ItsSoftLoamySoil
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -88,7 +88,7 @@ BerryTree_EventScript_CheckBerryStage1::
 	special ObjectEventInteractionGetBerryCountString
 	message BerryTree_Text_BerryGrowthStage1
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 BerryTree_EventScript_CheckBerryStage2::
@@ -96,7 +96,7 @@ BerryTree_EventScript_CheckBerryStage2::
 	special ObjectEventInteractionGetBerryName
 	message BerryTree_Text_BerryGrowthStage2
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 BerryTree_EventScript_CheckBerryStage3::
@@ -104,7 +104,7 @@ BerryTree_EventScript_CheckBerryStage3::
 	special ObjectEventInteractionGetBerryName
 	message BerryTree_Text_BerryGrowthStage3
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 BerryTree_EventScript_CheckBerryStageTrunk::
@@ -112,7 +112,7 @@ BerryTree_EventScript_CheckBerryStageTrunk::
 	special ObjectEventInteractionGetBerryName
 	message BerryTree_Text_BerryGrowthStageTrunk
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 BerryTree_EventScript_CheckBerryStageBudding::
@@ -120,7 +120,7 @@ BerryTree_EventScript_CheckBerryStageBudding::
 	special ObjectEventInteractionGetBerryName
 	message BerryTree_Text_BerryGrowthStageBudding
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 BerryTree_EventScript_CheckBerryStage4::
@@ -129,7 +129,7 @@ BerryTree_EventScript_CheckBerryStage4::
 	special ObjectEventInteractionGetBerryName
 	message BerryTree_Text_BerryGrowthStage4
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	goto BerryTree_EventScript_WantToWater
 
 @ VAR_0x8005 here is the number of times watered
@@ -180,24 +180,24 @@ BerryTree_EventScript_PickBerry::
 	playfanfare MUS_OBTAIN_BERRY
 	waitmessage
 	waitfanfare
-	waitbuttonpress
+	waitbuttonpresstext
 	message BerryTree_Text_PutAwayBerry
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
 BerryTree_EventScript_BerryPocketFull::
 	message BerryTree_Text_BerryPocketFull
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
 BerryTree_EventScript_CancelPickingBerry::
 	message BerryTree_Text_BerryLeftUnpicked
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -240,7 +240,7 @@ BerryTree_EventScript_WaterBerry::
 	waitstate
 	message BerryTree_Text_PlantIsDelighted
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	releaseall
 	end
 
@@ -251,7 +251,7 @@ BerryTree_EventScript_PlantBerry::
 	special ObjectEventInteractionGetBerryCountString
 	message BerryTree_Text_PlantedOneBerry
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	return
 
 BerryTree_Text_ItsSoftLoamySoil:
@@ -353,14 +353,14 @@ BerryTree_EventScript_CheckBerryFullyGrown_Mutation:
 BerryTree_EventScript_CancelPickingBerry_Mutation::
 	message BerryTree_Text_BerryLeftUnpicked_Mutation
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
 BerryTree_EventScript_BerryPocketFull_Mutation::
 	message BerryTree_Text_BerryPocketFull_Mutation
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -371,10 +371,10 @@ BerryTree_EventScript_PickBerry_Mutation::
 	playfanfare MUS_OBTAIN_BERRY
 	waitmessage
 	waitfanfare
-	waitbuttonpress
+	waitbuttonpresstext
 	message BerryTree_Text_PutAwayBerry_Mutation
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -409,7 +409,7 @@ BerryTree_EventScript_UseMulch::
 	special ObjectEventInteractionApplyMulch
 	message BerryTree_Text_ScatteredMulch
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	return
 
 BerryTree_Text_WantToMulch:
@@ -436,7 +436,7 @@ BerryTree_EventScript_PullOutWeed::
 	special ObjectEventInteractionPullBerryWeed
 	message BerryTree_Text_PulledOutTheWeed
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	return
 
 BerryTree_Text_WeedIsGrowing:
@@ -456,7 +456,7 @@ BerryTree_EventScript_CheckForPests::
 BerryTree_EventScript_EncounterPests::
 	message BerryTree_Text_APokemonAppeared
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	dowildbattle
 	return
 

@@ -36,7 +36,7 @@ EventScript_TryDoDoubleTrainerBattle::
 EventScript_NotEnoughMonsForDoubleBattle::
 	special ShowTrainerCantBattleSpeech
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -58,7 +58,7 @@ EventScript_TryDoRematchBattle::
 	special SetTrainerFacingDirection
 	special ShowTrainerIntroSpeech
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	special BattleSetup_StartRematchBattle
 	waitstate
 	releaseall
@@ -76,7 +76,7 @@ EventScript_TryDoDoubleRematchBattle::
 	special SetTrainerFacingDirection
 	special ShowTrainerIntroSpeech
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	special BattleSetup_StartRematchBattle
 	waitstate
 	releaseall
@@ -88,7 +88,7 @@ EventScript_NoDoubleRematchTrainerBattle::
 EventScript_NotEnoughMonsForDoubleRematchBattle::
 	special ShowTrainerCantBattleSpeech
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	end
 
@@ -104,7 +104,7 @@ Movement_RevealTrainer:
 EventScript_ShowTrainerIntroMsg::
 	special ShowTrainerIntroSpeech
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	special TryPrepareSecondApproachingTrainer
 	goto_if_eq VAR_RESULT, TRUE, EventScript_TrainerApproach
 	goto EventScript_DoTrainerBattle
@@ -126,6 +126,6 @@ EventScript_EndTrainerBattle::
 Std_MsgboxAutoclose::
 	message NULL
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	return

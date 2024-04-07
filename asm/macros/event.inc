@@ -2036,7 +2036,7 @@
 	@ Prints a braille message, waits for an A or B press, then closes the message.
 	.macro braillemsgbox text:req
 	braillemessage \text
-	waitbuttonpress
+	waitbuttonpresstext
 	closebraillemessage
 	.endm
 
