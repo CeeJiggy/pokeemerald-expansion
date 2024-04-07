@@ -1,5 +1,18 @@
 Things Added:
 
+Me
+	Aide can give seen data for Dex Nav
+	Hold B to speed through text
+	Altaria Whistle
+	SubMenu
+	Removed Flash from Overworld
+	Brawly gives access to stat editor
+	New Areas
+	L/R in bag to jump by 5
+	More advanced bag sort
+	Fast Pokemon Center Heal
+	Fast HMs
+
 pokeemerald-expansion
 	Physical Special Split
 	Fairy
@@ -29,6 +42,7 @@ Help from Community
 	Running shoes right away
 	Box from menu (Diego Mertens)
 	PSS display in battle (Jaizu and Anon822)
+	STAB and Effectiveness in battle
 	Change Direction while moving (cbt)
 
 Nobody Society

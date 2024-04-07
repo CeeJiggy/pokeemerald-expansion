@@ -2240,8 +2240,7 @@ s32 CalcCritChanceStageArgs(u32 battlerAtk, u32 battlerDef, u32 move, bool32 rec
 {
     s32 critChance = 0;
 
-    if (gSideStatuses[battlerDef] & SIDE_STATUS_LUCKY_CHANT
-        || abilityDef == ABILITY_BATTLE_ARMOR || abilityDef == ABILITY_SHELL_ARMOR)
+    if (gSideStatuses[battlerDef] & SIDE_STATUS_LUCKY_CHANT || abilityDef == ABILITY_BATTLE_ARMOR || abilityDef == ABILITY_SHELL_ARMOR)
     {
         critChance = -1;
     }
@@ -2973,7 +2972,7 @@ static void Cmd_waitmessage(void)
         else
         {
             u16 toWait = cmd->time;
-            if (++gPauseCounterBattle >= toWait)
+            if (++gPauseCounterBattle >= B_WAIT_TIME_SHORT)
             {
                 gPauseCounterBattle = 0;
                 gBattlescriptCurrInstr = cmd->nextInstr;
@@ -5234,7 +5233,7 @@ static void Cmd_pause(void)
     if (gBattleControllerExecFlags == 0)
     {
         u16 value = cmd->frames;
-        if (++gPauseCounterBattle >= value)
+        if (++gPauseCounterBattle >= B_WAIT_TIME_SHORT)
         {
             gPauseCounterBattle = 0;
             gBattlescriptCurrInstr = cmd->nextInstr;

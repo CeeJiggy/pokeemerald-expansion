@@ -126,6 +126,5 @@ EventScript_EndTrainerBattle::
 Std_MsgboxAutoclose::
 	message NULL
 	waitmessage
-	waitbuttonpresstext
 	release
 	return

@@ -30,6 +30,8 @@ FortreeCity_Gym_EventScript_WinonaDefeated::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox FortreeCity_Gym_Text_ExplainFeatherBadgeTakeThis, MSGBOX_DEFAULT
+	call ReceiveAltariaWhistle
+	msgbox FortreeCity_Gym_Text_ExplainWhistleTakeTM, MSGBOX_DEFAULT
 	setflag FLAG_DEFEATED_FORTREE_GYM
 	setflag FLAG_BADGE06_GET
 	setvar VAR_0x8008, 6
@@ -47,6 +49,13 @@ FortreeCity_Gym_EventScript_WinonaDefeated::
 	setflag FLAG_SCOTT_CALL_FORTREE_GYM
 	release
 	end
+
+ReceiveAltariaWhistle::
+	playfanfare MUS_OBTAIN_ITEM
+	message Text_ReceivedWhistle
+	waitfanfare
+	return
+
 
 FortreeCity_Gym_EventScript_GiveAerialAce2::
 	giveitem ITEM_TM_AERIAL_ACE
@@ -258,7 +267,15 @@ FortreeCity_Gym_Text_ExplainFeatherBadgeTakeThis:
 	.string "trades, will obey your every command.\p"
 	.string "You will also be able to use\n"
 	.string "the HM move FLY outside of battle.\p"
-	.string "And this…\n"
+	.string "Also, please take this.$"
+
+FortreeCity_Gym_Text_ExplainWhistleTakeTM:
+	.string "That is an Altaria Whistle.\p"
+	.string "You can use it to call a wild Altaria and\n"
+	.string "it will help you fly around the region.\p"
+	.string "Don't worry. Wild Altaria are actually\n"
+	.string "really friendly!\p"
+	.string "And this too…\n"
 	.string "This is a gift from me.$"
 
 FortreeCity_Gym_Text_ExplainAerialAce:
@@ -316,3 +333,7 @@ FortreeCity_Gym_Text_WinonaRematchNeedTwoMons:
 	.string "POKéMON with you?\p"
 	.string "Please return with two POKéMON\n"
 	.string "at the very least.$"
+	
+Text_ReceivedWhistle:
+	.string "{PLAYER} received the Altaria Whsitle!\n"
+	.string "Access it from the {L_BUTTON} Submenu.$"

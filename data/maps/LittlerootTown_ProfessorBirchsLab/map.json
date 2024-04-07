@@ -12,14 +12,14 @@
   "allow_running": true,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": null,
+  "connections": 0,
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_SCIENTIST_1",
-      "x": 9,
+      "x": 10,
       "y": 8,
       "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
@@ -109,7 +109,62 @@
       "dest_warp_id": "2"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav1"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav2"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav3"
+    },
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav4"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav5"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_DEX_FILL_ASK",
+      "var_value": "0",
+      "script": "AideGiveAndExplainDexNav6"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",

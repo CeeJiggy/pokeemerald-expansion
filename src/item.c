@@ -1122,6 +1122,43 @@ void DrawHeaderBox(u16 itemId)
     AddTextPrinterParameterized(sHeaderBoxWindowId, 0, dst, ITEM_ICON_X + 2, textY, 0, NULL);
 }
 
+void DrawHeaderBerryBox(u16 itemId)
+{
+    struct WindowTemplate template;
+    u16 item = itemId;
+    u8 headerType = gSpecialVar_0x8009;
+    u8 textY;
+    u8 *dst;
+    bool8 handleFlash = FALSE;
+
+    if (GetFlashLevel() > 0 || InBattlePyramid_())
+        handleFlash = TRUE;
+
+    dst = gStringVar3;
+
+    if (GetSetItemObtained(item, FLAG_GET_OBTAINED))
+    {
+        ShowItemIconSprite(item, FALSE, handleFlash);
+        return; // no box if item obtained previously
+    }
+
+    SetWindowTemplateFields(&template, 0, 1, 1, 28, 3, 15, 8);
+    sHeaderBoxWindowId = AddWindow(&template);
+    FillWindowPixelBuffer(sHeaderBoxWindowId, PIXEL_FILL(0));
+    PutWindowTilemap(sHeaderBoxWindowId);
+    CopyWindowToVram(sHeaderBoxWindowId, 3);
+    SetStandardWindowBorderStyle(sHeaderBoxWindowId, FALSE);
+    DrawStdFrameWithCustomTileAndPalette(sHeaderBoxWindowId, FALSE, 0x214, 14);
+
+    if (ReformatItemDescription(item, dst) == 1)
+        textY = 4;
+    else
+        textY = 0;
+
+    ShowItemIconSprite(item, TRUE, handleFlash);
+    AddTextPrinterParameterized(sHeaderBoxWindowId, 0, dst, ITEM_ICON_X + 2, textY, 0, NULL);
+}
+
 void HideHeaderBox(void)
 {
     DestroyItemIconSprite();
@@ -1130,6 +1167,20 @@ void HideHeaderBox(void)
     {
         // header box only exists if haven't seen item before
         GetSetItemObtained(gSpecialVar_0x8006, FLAG_SET_OBTAINED);
+        ClearStdWindowAndFrameToTransparent(sHeaderBoxWindowId, FALSE);
+        CopyWindowToVram(sHeaderBoxWindowId, 3);
+        RemoveWindow(sHeaderBoxWindowId);
+    }
+}
+
+void HideHeaderBerryBox(void)
+{
+    DestroyItemIconSprite();
+
+    if (!GetSetItemObtained(gSpecialVar_0x8007, FLAG_GET_OBTAINED))
+    {
+        // header box only exists if haven't seen item before
+        GetSetItemObtained(gSpecialVar_0x8007, FLAG_SET_OBTAINED);
         ClearStdWindowAndFrameToTransparent(sHeaderBoxWindowId, FALSE);
         CopyWindowToVram(sHeaderBoxWindowId, 3);
         RemoveWindow(sHeaderBoxWindowId);

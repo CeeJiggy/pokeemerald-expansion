@@ -955,7 +955,10 @@ LittlerootTown_Text_ExplainRunningShoes:
 	.string "Key Items pocket. It starts out on by\l"
 	.string "default.”\p"
 	.string "“You can even register it for quick and\n"
-	.string "easy access!”$"
+	.string "easy access!”\p"
+	.string "Speaking of which, did you know you can\n"
+	.string "register multiple key items and access\l"
+	.string "them in a list? Oh, but I'm rambling...$"
 
 LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "… … … … … … … …\n"

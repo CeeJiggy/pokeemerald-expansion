@@ -165,6 +165,187 @@ LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForPokedex:
 	walk_up
 	step_end
 
+AideGiveAndExplainDexNav1::
+	lockall
+	setvar VAR_0x8008, 0
+	goto AideApproachDexNavHandler
+
+AideGiveAndExplainDexNav2::
+	lockall
+	setvar VAR_0x8008, 1
+	goto AideApproachDexNavHandler
+AideGiveAndExplainDexNav3::
+	lockall
+	setvar VAR_0x8008, 2
+	goto AideApproachDexNavHandler
+AideGiveAndExplainDexNav4::
+	lockall
+	setvar VAR_0x8008, 3
+	goto AideApproachDexNavHandler
+AideGiveAndExplainDexNav5::
+	lockall
+	setvar VAR_0x8008, 4
+	goto AideApproachDexNavHandler
+AideGiveAndExplainDexNav6::
+	lockall
+	setvar VAR_0x8008, 5
+	goto AideApproachDexNavHandler
+
+AideApproachDexNavHandler::
+	playse SE_PIN
+	applymovement LOCALID_AIDE, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_AIDE, Common_Movement_Delay48
+	waitmovement 0
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideOhWait, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_FaceRight
+	waitmovement 0
+	call_if_eq VAR_0x8008, 0, AideApproach1
+	call_if_eq VAR_0x8008, 1, AideApproach2
+	call_if_eq VAR_0x8008, 2, AideApproach3
+	call_if_eq VAR_0x8008, 3, AideApproach4
+	call_if_eq VAR_0x8008, 4, AideApproach5
+	call_if_eq VAR_0x8008, 5, AideApproach6
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideGiveDexNav, MSGBOX_DEFAULT
+	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceiveDexNav
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideExplainDexNavFirstTime, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideFillSeenFirstTime
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideNevermind, MSGBOX_DEFAULT
+	closemessage
+	call_if_eq VAR_0x8008, 0, AideLeave1
+	call_if_eq VAR_0x8008, 1, AideLeave2
+	call_if_eq VAR_0x8008, 2, AideLeave3
+	call_if_eq VAR_0x8008, 3, AideLeave4
+	call_if_eq VAR_0x8008, 4, AideLeave5
+	call_if_eq VAR_0x8008, 5, AideLeave6
+	setvar VAR_DEX_FILL_ASK, 1
+	setvar VAR_0x8008, 0
+	releaseall
+	end
+
+
+AideApproach1::
+	applymovement LOCALID_AIDE, Aide_Movement_Approach1
+	waitmovement 0
+	return
+
+Aide_Movement_Approach1:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	step_end
+	
+AideApproach2::
+	applymovement LOCALID_AIDE, Aide_Movement_Approach2
+	waitmovement 0
+	return
+
+Aide_Movement_Approach2:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+AideApproach3::
+	applymovement LOCALID_AIDE, Aide_Movement_Approach3
+	waitmovement 0
+	return
+
+Aide_Movement_Approach3:
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+AideApproach4::
+	applymovement LOCALID_AIDE, Aide_Movement_Approach4
+	waitmovement 0
+	return
+
+Aide_Movement_Approach4:
+	walk_left
+	walk_left
+	step_end
+
+AideApproach5::
+	applymovement LOCALID_AIDE, Aide_Movement_Approach5
+	waitmovement 0
+	return
+
+Aide_Movement_Approach5:
+	walk_left
+	step_end
+
+AideApproach6::
+	return
+
+AideLeave1::
+	applymovement LOCALID_AIDE, Aide_Movement_Leave1
+	waitmovement 0
+	return
+
+Aide_Movement_Leave1:
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_in_place_faster_left
+	step_end
+	
+AideLeave2::
+	applymovement LOCALID_AIDE, Aide_Movement_Leave2
+	waitmovement 0
+	return
+
+Aide_Movement_Leave2:
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+AideLeave3::
+	applymovement LOCALID_AIDE, Aide_Movement_Leave3
+	waitmovement 0
+	return
+
+Aide_Movement_Leave3:
+	walk_right
+	walk_right
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+AideLeave4::
+	applymovement LOCALID_AIDE, Aide_Movement_Leave4
+	waitmovement 0
+	return
+
+Aide_Movement_Leave4:
+	walk_right
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+AideLeave5::
+	applymovement LOCALID_AIDE, Aide_Movement_Leave5
+	waitmovement 0
+	return
+
+Aide_Movement_Leave5:
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+AideLeave6::
+	return
+
 LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex::
 	lockall
 	delay 30
@@ -289,26 +470,84 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AideAlreadyMet::
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_AideReceivedStarter::
-	goto_if_unset FLAG_SEEN_DATA, LittlerootTown_ProfessorBirchsLab_EventScript_AideAskFillSeen
+	goto_if_set FLAG_SYS_DEXNAV_GET, LittlerootTown_ProfessorBirchsLab_EventScript_AideAskQuestions
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BirchEnjoysRivalsHelpToo, MSGBOX_DEFAULT
 	release
 	end
 
-LittlerootTown_ProfessorBirchsLab_EventScript_AideAskFillSeen::
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideWantSeen, MSGBOX_YESNO
+LittlerootTown_ProfessorBirchsLab_EventScript_AideAskQuestions::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideQuestions, MSGBOX_DEFAULT
+	dynmultipush EventScript_AboutOption, 0
+	goto_if_unset FLAG_SEEN_DATA, EventScript_AddSeenOption
+LittlerootTown_ProfessorBirchsLab_EventScript_AideAskQuestions1::
+	dynmultipush EventScript_CancelOption, 2
+	dynmultistack 0, 0, FALSE, 3, TRUE, 0,DYN_MULTICHOICE_CB_NONE
+	goto_if_eq VAR_RESULT, 0, Aide_Explain
+    goto_if_eq VAR_RESULT, 1, Aide_AskFill
+    goto_if_eq VAR_RESULT, 2, Aide_Release
+	goto_if_eq VAR_RESULT, 127, Aide_Release
+
+Aide_Explain::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideExplainDexNav, MSGBOX_DEFAULT
+	release
+	end
+
+Aide_AskFill::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideAskFill, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideFillSeen
+	goto Aide_Release
+	end
+
+Aide_Release::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideNevermind, MSGBOX_DEFAULT
 	release
 	end
+
+EventScript_AddSeenOption::
+	dynmultipush EventScript_SeenOption, 1
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_AideAskQuestions1
 	
+
+EventScript_SeenOption:
+	.string "Fill Pokedex Data$"
+
+EventScript_AboutOption:
+	.string "About DexNav$"
+
+EventScript_CancelOption:
+	.string "Cancel$"
+
 LittlerootTown_ProfessorBirchsLab_EventScript_AideFillSeen::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideFillSeen, MSGBOX_DEFAULT
 	special SetPokdexSeen
 	setflag FLAG_SEEN_DATA
 	playse SE_DEX_SEARCH
 	waitse
+	playse SE_SUCCESS
+	waitse
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideDoneFillSeen, MSGBOX_DEFAULT
 	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideFillSeenFirstTime::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideFillSeen, MSGBOX_DEFAULT
+	special SetPokdexSeen
+	setflag FLAG_SEEN_DATA
+	playse SE_DEX_SEARCH
+	waitse
+	playse SE_SUCCESS
+	waitse
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AideDoneFillSeen, MSGBOX_DEFAULT
+	closemessage
+	call_if_eq VAR_0x8008, 0, AideLeave1
+	call_if_eq VAR_0x8008, 1, AideLeave2
+	call_if_eq VAR_0x8008, 2, AideLeave3
+	call_if_eq VAR_0x8008, 3, AideLeave4
+	call_if_eq VAR_0x8008, 4, AideLeave5
+	call_if_eq VAR_0x8008, 5, AideLeave6
+	setvar VAR_DEX_FILL_ASK, 1
+	setvar VAR_0x8008, 0
+	releaseall
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_Cyndaquil::
@@ -531,14 +770,7 @@ EventScript_RegisterProfBirch::
 LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex, MSGBOX_DEFAULT
 	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_FillDex
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_DontFillDex, MSGBOX_DEFAULT
-	goto LittlerootTown_ProfessorBirchsLab_EventScript_FinishGivePokedex
-	end
-	
-
-LittlerootTown_ProfessorBirchsLab_EventScript_FinishGivePokedex::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_RIVAL, LittlerootTown_ProfessorBirchsLab_Movement_RivalApproachPlayer
 	waitmovement 0
@@ -552,17 +784,8 @@ LittlerootTown_ProfessorBirchsLab_EventScript_FinishGivePokedex::
 	setvar VAR_OLDALE_TOWN_STATE, 1
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 4
 	setvar VAR_LITTLEROOT_TOWN_STATE, 3
+	setvar VAR_DEX_FILL_ASK, 0
 	releaseall
-	end
-
-LittlerootTown_ProfessorBirchsLab_EventScript_FillDex::
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_FillDex, MSGBOX_DEFAULT
-	special SetPokdexSeen
-	setflag FLAG_SEEN_DATA
-	playse SE_DEX_SEARCH
-	waitse
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_FilledDex, MSGBOX_DEFAULT
-	goto LittlerootTown_ProfessorBirchsLab_EventScript_FinishGivePokedex
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls::
@@ -590,9 +813,15 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex::
 	special EnableNationalPokedex
 	special SetUnlockedPokedexFlags
 	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
+	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 1
+	return
+
+LittlerootTown_ProfessorBirchsLab_EventScript_ReceiveDexNav::
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_ProfessorBirchsLab_Text_ReceivedDexNav
+	waitfanfare
 	setflag FLAG_SYS_DEXNAV_GET
 	setflag FLAG_SYS_DETECTOR_MODE
-	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 1
 	return
 
 LittlerootTown_ProfessorBirchsLab_EventScript_PokemonAwait::
@@ -727,21 +956,64 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchEnjoysRivalsHelpToo:
 	.string "The PROF enjoys {RIVAL}'s help, too.\n"
 	.string "There's a lot of love there.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_AideWantSeen:
+LittlerootTown_ProfessorBirchsLab_Text_AideOhWait:
+	.string "Oh, {PLAYER}, wait!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_AideGiveDexNav:
+	.string "Here, let me also give you the DexNav.\n"
+	.string "It's a powerful tool that can help you\l"
+	.string "seek out Pokémon more directly.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_AideExplainDexNavFirstTime:
+	.string "You can open the DexNav from the\n"
+	.string "Submenu by pressing {L_BUTTON}.\l"
+	.string "Use {A_BUTTON} to search for a Pokémon, or press\l"
+	.string "{R_BUTTON} to register a Pokémon for easy\l"
+	.string "searching with {R_BUTTON}.\p"
+	.string "You'll want to use {A_BUTTON} to sneak up on the\n"
+	.string "Pokémon you are searching for or else\l"
+	.string "they will run away.\p"
+	.string "Also, the DexNav uses the seen Pokémon\n"
+	.string "data from your Pokédex to scan for\l"
+	.string "Pokémon.\p"
+	.string "If you'd like, I can share my data with\n"
+	.string "you to make finding specific Pokémon\l"
+	.string "easier. How does that sound?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_AideExplainDexNav:
+	.string "You can open the DexNav from the\n"
+	.string "Submenu by pressing {L_BUTTON}.\l"
+	.string "Use {A_BUTTON} to search for a Pokémon, or press\l"
+	.string "{R_BUTTON} to register a Pokémon for easy\l"
+	.string "searching with {R_BUTTON}.\p"
+	.string "You'll want to use {A_BUTTON} to sneak up on the\n"
+	.string "Pokémon you are searching for or else\l"
+	.string "they will run away.$"
+	
+LittlerootTown_ProfessorBirchsLab_Text_AideAskFill:
+	.string "The DexNav uses the seen Pokémon\n"
+	.string "data from your Pokédex to scan for\l"
+	.string "Pokémon.\p"
+	.string "Would you like me to share my data with\n"
+	.string "you to make finding specific Pokémon\l"
+	.string "easier?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_AideQuestions:
 	.string "Oh, hey there {PLAYER}.\p"
-	.string "Did you want me to fill up the seen data\n"
-	.string "in your Pokédex?$"
+	.string "Do you have any questions about the\n"
+	.string "DexNav?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_AideNevermind:
 	.string "No problem. Please let me know if you\n"
-	.string "change your mind.$"
+	.string "need anything.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_AideFillSeen:
 	.string "Understood. Please give me your\n"
 	.string "Pokédex for a second.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_AideDoneFillSeen:
-	.string "All finished! Enjoy using the DexNav!$"
+	.string "All finished! If you have any questions\n"
+	.string "about the DexNav, please let me know.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon:
 	.string "PROF. BIRCH: So, {PLAYER}{KUN}.\p"
@@ -804,6 +1076,10 @@ LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex:
 LittlerootTown_ProfessorBirchsLab_Text_ReceivedPokedex:
 	.string "{PLAYER} received the POKéDEX!$"
 
+LittlerootTown_ProfessorBirchsLab_Text_ReceivedDexNav:
+	.string "{PLAYER} received the DexNav!\n"
+	.string "Access it from the {L_BUTTON} Submenu.$"
+
 LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "PROF. BIRCH: The POKéDEX is a high-tech\n"
 	.string "tool that automatically makes a record\l"
@@ -813,24 +1089,7 @@ LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "Whenever my kid catches a rare POKéMON\n"
 	.string "and records its data in the POKéDEX,\l"
 	.string "why, {RIVAL} looks for me while I'm out\l"
-	.string "doing fieldwork, and shows me.\p"
-	.string "I've also included the DexNav. It's a\n"
-	.string "powerful tool that can help you seek\l"
-	.string "out Pokémon more directly.\p"
-	.string "You can open the DexNav from the\n"
-	.string "Submenu by pressing {L_BUTTON}.\l"
-	.string "Use {A_BUTTON} to search for a Pokémon, or press\l"
-	.string "{R_BUTTON} to register a Pokémon for easy\l"
-	.string "searching with {R_BUTTON}.\p"
-	.string "You'll want to use {A_BUTTON} to sneak up on the\n"
-	.string "Pokémon you are searching for or else\l"
-	.string "they will run away.\p"
-	.string "Also, the DexNav uses the seen Pokémon\n"
-	.string "data from your Pokédex to scan for\l"
-	.string "Pokémon.\p"
-	.string "If you'd like, I can share my data with\n"
-	.string "you to make finding specific Pokémon\l"
-	.string "easier. How does that sound?$"
+	.string "doing fieldwork, and shows me.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_CountlessPokemonAwait:
 	.string "PROF. BIRCH: Countless POKéMON\n"
@@ -843,17 +1102,6 @@ LittlerootTown_ProfessorBirchsLab_Text_MayGotPokedexTooTakeThese:
 	.string "You got a POKéDEX, too!\p"
 	.string "That's great! Just like me!\n"
 	.string "I've got something for you, too!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_FillDex:
-	.string "Sounds good! Let me see your Pokédex\n"
-	.string "for a second.$"
-
-LittlerootTown_ProfessorBirchsLab_Text_FilledDex:
-	.string "All finished!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_DontFillDex:
-	.string "Sounds good! If you ever change\n"
-	.string "your mind, just let my aide know.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_CatchCutePokemonWithPokeBalls:
 	.string "MAY: It's fun if you can get a lot of\n"

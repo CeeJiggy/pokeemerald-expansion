@@ -394,13 +394,13 @@ Text_FailSweetScent:
 	.string "Looks like there's nothing here…$"
 
 EventScript_OpenSubMenu::
-    dynmultipush EventScript_AutoRun, 0
+    dynmultipush EventScript_AutoRun, 1
 	goto_if_set FLAG_SYS_DEXNAV_GET, EventScript_AddDexNavMenu
 	goto EventScript_FinishSubMenu
     end
 
 EventScript_AddDexNavMenu::
-	dynmultipush EventScript_DexNav, 1
+	dynmultipush EventScript_DexNav, 0
 	goto_if_set FLAG_BADGE06_GET, EventScript_AddFlyMenu
 	goto EventScript_FinishSubMenu
 	end
@@ -411,9 +411,9 @@ EventScript_AddFlyMenu::
 	end
 
 EventScript_FinishSubMenu::
-	dynmultistack 0, 0, FALSE, 3, TRUE, 0,DYN_MULTICHOICE_CB_NONE
-	goto_if_eq VAR_RESULT, 0, EventScript_ToggleAutoRun
-    goto_if_eq VAR_RESULT, 1, EventScript_OpenDexNav
+	dynmultistack 0, 0, FALSE, 3, TRUE, 1,DYN_MULTICHOICE_CB_NONE
+	goto_if_eq VAR_RESULT, 0, EventScript_OpenDexNav
+	goto_if_eq VAR_RESULT, 1, EventScript_ToggleAutoRun
     goto_if_eq VAR_RESULT, 2, EventScript_CheckFly
 	goto_if_eq VAR_RESULT, 127, EventScript_Release
 

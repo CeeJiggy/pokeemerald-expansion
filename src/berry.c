@@ -15,7 +15,6 @@
 #include "constants/event_object_movement.h"
 #include "constants/items.h"
 
-static u16 BerryTypeToItemId(u16 berry);
 static u8 BerryTreeGetNumStagesWatered(struct BerryTree *tree);
 static u8 GetNumStagesWateredByBerryTreeId(u8 id);
 static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water);
@@ -2091,7 +2090,7 @@ u8 ItemIdToBerryType(u16 item)
         return ITEM_TO_BERRY(item);
 }
 
-static u16 BerryTypeToItemId(u16 berry)
+u16 BerryTypeToItemId(u16 berry)
 {
     u16 item = berry - 1;
 
@@ -2299,6 +2298,7 @@ void ObjectEventInteractionPickBerryTree(void)
     u8 id = GetObjectEventBerryTreeId(gSelectedObjectEvent);
     u8 berry = GetBerryTypeByBerryTreeId(id);
     u8 mutation = GetTreeMutationValue(id);
+    gSpecialVar_0x8007 = BerryTypeToItemId(berry);
 
     if (!OW_BERRY_MUTATIONS || mutation == 0)
     {

@@ -2440,3 +2440,16 @@ bool8 ScrCmd_hideitemdesc(struct ScriptContext *ctx)
     HideHeaderBox();
     return FALSE;
 }
+
+bool8 ScrCmd_showberrydesc(struct ScriptContext *ctx)
+{
+    u16 itemId = VarGet(ScriptReadHalfword(ctx));
+    DrawHeaderBerryBox(itemId);
+    return FALSE;
+}
+
+bool8 ScrCmd_hideberrydesc(struct ScriptContext *ctx)
+{
+    HideHeaderBerryBox();
+    return FALSE;
+}
