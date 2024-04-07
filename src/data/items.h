@@ -12784,7 +12784,7 @@ const struct Item gItemsInfo[] =
                 .description = COMPOUND_STRING(
                     "A small cutting\n"
                     "instrument best for\n"
-                    "clearing bushes."),
+                    "clearing shrubs."),
                 .pocket = POCKET_KEY_ITEMS,
                 .type = ITEM_USE_FIELD,
                 .fieldUseFunc = ItemUseOutOfBattle_Axe,

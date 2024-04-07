@@ -1541,7 +1541,7 @@ static void ItemUseOnFieldCB_Surfboard(u8 taskId)
 
 void ItemUseOutOfBattle_Axe(u8 taskId)
 {
-    if (SetUpFieldMove_Cut())
+    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUTTABLE_TREE) == TRUE)
     {
         VarSet(VAR_FIELD_MOVE_TYPE, 2);
         sItemUseOnFieldCB = ItemUseOnFieldCB_Axe;

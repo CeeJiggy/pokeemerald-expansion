@@ -1089,7 +1089,6 @@ void DrawHeaderBox(u16 itemId)
 {
     struct WindowTemplate template;
     u16 item = itemId;
-    u8 headerType = gSpecialVar_0x8009;
     u8 textY;
     u8 *dst;
     bool8 handleFlash = FALSE;
@@ -1126,7 +1125,6 @@ void DrawHeaderBerryBox(u16 itemId)
 {
     struct WindowTemplate template;
     u16 item = itemId;
-    u8 headerType = gSpecialVar_0x8009;
     u8 textY;
     u8 *dst;
     bool8 handleFlash = FALSE;
@@ -1163,7 +1161,7 @@ void HideHeaderBox(void)
 {
     DestroyItemIconSprite();
 
-    if (!GetSetItemObtained(gSpecialVar_0x8004, FLAG_GET_OBTAINED))
+    if (!GetSetItemObtained(gSpecialVar_0x8006, FLAG_GET_OBTAINED))
     {
         // header box only exists if haven't seen item before
         GetSetItemObtained(gSpecialVar_0x8006, FLAG_SET_OBTAINED);

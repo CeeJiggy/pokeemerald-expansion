@@ -3,6 +3,7 @@
 
 Std_ObtainItem::
 	copyvar VAR_0x8006, ITEMID
+	copyvar VAR_0x8004, ITEMID
 	additem ITEMID, AMOUNT
 	copyvar VAR_0x8007, VAR_RESULT
 	call EventScript_ObtainItemMessage
@@ -60,7 +61,7 @@ EventScript_ObtainedItemMessage:
 	message gText_ObtainedTheItem
 EventScript_ContinueObtainedItem:
 	delay 10
-    showitemdesc VAR_0x8006
+    showitemdesc VAR_0x8004
 	waitfanfare
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdesc
@@ -123,7 +124,7 @@ Std_FindItem::
 EventScript_PickUpItem::
 	removeobject VAR_LAST_TALKED
 	additem VAR_0x8004, VAR_0x8005
-	copyvar VAR_0x8006 VAR_0x8004
+	copyvar VAR_0x8006, VAR_0x8004
 	specialvar VAR_RESULT, BufferTMHMMoveName
 	copyvar VAR_0x8008, VAR_RESULT
 	call_if_eq VAR_0x8008, TRUE, EventScript_FoundTMHM
