@@ -418,19 +418,9 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
         ListMenuChangeSelection(list, TRUE, 1, FALSE);
         return LIST_NOTHING_CHOSEN;
     }
-    else if (JOY_REPEAT(L_BUTTON))
-    {
-        ListMenuChangeSelection(list, TRUE, 5, FALSE);
-        return LIST_NOTHING_CHOSEN;
-    }
     else if (JOY_REPEAT(DPAD_DOWN))
     {
         ListMenuChangeSelection(list, TRUE, 1, TRUE);
-        return LIST_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(R_BUTTON))
-    {
-        ListMenuChangeSelection(list, TRUE, 5, TRUE);
         return LIST_NOTHING_CHOSEN;
     }
     else // try to move by one window scroll
@@ -457,12 +447,12 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
 
         if (leftButton)
         {
-            ListMenuChangeSelection(list, TRUE, list->template.maxShowed, FALSE);
+            ListMenuChangeSelection(list, TRUE, 5, FALSE);
             return LIST_NOTHING_CHOSEN;
         }
         else if (rightButton)
         {
-            ListMenuChangeSelection(list, TRUE, list->template.maxShowed, TRUE);
+            ListMenuChangeSelection(list, TRUE, 5, TRUE);
             return LIST_NOTHING_CHOSEN;
         }
         else

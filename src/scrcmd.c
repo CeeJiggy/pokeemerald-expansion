@@ -1332,9 +1332,28 @@ static bool8 WaitForAorBPress(void)
     return FALSE;
 }
 
+static bool8 WaitForAorBText(void)
+{
+    if (JOY_NEW(A_BUTTON))
+        return TRUE;
+    if (JOY_NEW(B_BUTTON))
+        return TRUE;
+    if (JOY_HELD(A_BUTTON))
+        return TRUE;
+    if (JOY_HELD(B_BUTTON))
+        return TRUE;
+    return FALSE;
+}
+
 bool8 ScrCmd_waitbuttonpress(struct ScriptContext *ctx)
 {
     SetupNativeScript(ctx, WaitForAorBPress);
+    return TRUE;
+}
+
+bool8 ScrCmd_waitbuttonpresstext(struct ScriptContext *ctx)
+{
+    SetupNativeScript(ctx, WaitForAorBText);
     return TRUE;
 }
 

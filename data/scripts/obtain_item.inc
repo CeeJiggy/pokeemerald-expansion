@@ -137,6 +137,7 @@ EventScript_PickUpItem::
 	goto_if_eq VAR_RESULT, TRUE, EventScript_PutBattlePyramidItemInBag
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdesc
+	return
 
 EventScript_PutBattlePyramidItemInBag::
 	msgbox gText_PlayerPutItemInBag, MSGBOX_DEFAULT
@@ -151,6 +152,7 @@ EventScript_FoundTMHM::
 	message gText_PlayerFoundTMHMs
 	goto EventScript_BufferTMHMsPocket
 	return
+
 EventScript_FoundTMHMMessage::
 	message gText_PlayerFoundOneTMHM
 	return

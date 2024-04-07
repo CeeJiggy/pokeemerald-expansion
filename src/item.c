@@ -1097,10 +1097,7 @@ void DrawHeaderBox(u16 itemId)
     if (GetFlashLevel() > 0 || InBattlePyramid_())
         handleFlash = TRUE;
 
-    if (headerType == 1)
-        dst = gStringVar3;
-    else
-        dst = gStringVar1;
+    dst = gStringVar1;
 
     if (GetSetItemObtained(item, FLAG_GET_OBTAINED))
     {

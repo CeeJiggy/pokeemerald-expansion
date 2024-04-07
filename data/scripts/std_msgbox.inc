@@ -3,7 +3,7 @@ Std_MsgboxNPC:
 	faceplayer
 	message NULL
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	release
 	return
 
@@ -11,14 +11,14 @@ Std_MsgboxSign:
 	lockall
 	message NULL
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	releaseall
 	return
 
 Std_MsgboxDefault:
 	message NULL
 	waitmessage
-	waitbuttonpress
+	waitbuttonpresstext
 	return
 
 Std_MsgboxYesNo:

@@ -2862,11 +2862,10 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
         sPokedexView->justScrolled = TRUE;
         PlaySE(SE_DEX_SCROLL);
     }
-    else if (JOY_NEW(DPAD_LEFT) && (selectedMon > 0))
+    else if (JOY_HELD(DPAD_LEFT) && (selectedMon > 0))
     {
         startingPos = selectedMon;
-
-        for (i = 0; i < 7; i++)
+        for (i = 0; i < 9; i++)
             selectedMon = GetNextPosition(1, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         sPokedexView->pokeBallRotation += 16 * (selectedMon - startingPos);
         ClearMonSprites();
@@ -2874,10 +2873,10 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
         sPokedexView->justScrolled = TRUE;
         PlaySE(SE_DEX_PAGE);
     }
-    else if (JOY_NEW(DPAD_RIGHT) && (selectedMon < sPokedexView->pokemonListCount - 1))
+    else if (JOY_HELD(DPAD_RIGHT) && (selectedMon < sPokedexView->pokemonListCount - 1))
     {
         startingPos = selectedMon;
-        for (i = 0; i < 7; i++)
+        for (i = 0; i < 9; i++)
             selectedMon = GetNextPosition(0, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         sPokedexView->pokeBallRotation += 16 * (selectedMon - startingPos);
         ClearMonSprites();

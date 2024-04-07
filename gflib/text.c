@@ -912,7 +912,7 @@ bool32 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        if (JOY_NEW(A_BUTTON | B_BUTTON) || JOY_HELD(B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -930,7 +930,7 @@ bool32 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        if (JOY_NEW(A_BUTTON | B_BUTTON) || JOY_HELD(B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
