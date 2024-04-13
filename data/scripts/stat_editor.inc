@@ -1,7 +1,8 @@
 EventScript_StatEdit::
     lock
 	faceplayer
-    goto_if_unset FLAG_BADGE02_GET, EventScript_CantEdit 
+    goto_if_unset FLAG_BADGE02_GET, EventScript_CantEdit
+    goto_if_unset FLAG_STAT_TUTORIAL, EventScript_StatTutorial
     msgbox gText_EditStatsGreeting, MSGBOX_DEFAULT
     goto EventScript_StatEditPrompt
     end
@@ -19,6 +20,13 @@ EventScript_StatEditPrompt::
     waitstate
 	goto EventScript_ReleaseEditStats
     end
+
+EventScript_StatTutorial::
+    msgbox gText_StatTutorial, MSGBOX_DEFAULT
+    msgbox gText_EditorInfo, MSGBOX_DEFAULT
+    setflag FLAG_STAT_TUTORIAL
+    goto EventScript_StatEditPrompt
+	end
 
 EventScript_TellInfo::
     msgbox gText_EditorInfo, MSGBOX_DEFAULT
