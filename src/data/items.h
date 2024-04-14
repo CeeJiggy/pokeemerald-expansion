@@ -12806,11 +12806,11 @@ const struct Item gItemsInfo[] =
 
         [ITEM_SCUBA_GEAR] =
             {
-                .name = _("SCUBA Gear"),
+                .name = _("Scuba Gear"),
                 .price = 0,
                 .importance = 1,
                 .description = COMPOUND_STRING(
-                    "SCUBA gear made\n"
+                    "Scuba gear made\n"
                     "for diving."),
                 .pocket = POCKET_KEY_ITEMS,
                 .type = ITEM_USE_FIELD,

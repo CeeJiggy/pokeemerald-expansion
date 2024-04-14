@@ -1316,6 +1316,20 @@ bool8 PartyHasMonWithSurf(void)
     return FALSE;
 }
 
+bool8 PartyHasMonWithWaterfall(void)
+{
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
+            break;
+        if (MonKnowsMove(&gPlayerParty[i], MOVE_WATERFALL))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
 bool8 PartyHasMonWithFlash(void)
 {
     u8 i;

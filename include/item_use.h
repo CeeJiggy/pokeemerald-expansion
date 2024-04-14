@@ -54,6 +54,7 @@ void ItemUseOutOfBattle_PowerGlove(u8);
 void FieldUseFunc_VsSeeker(u8 taskId);
 void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId);
 void DisplayDadsAdviceCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField);
+void DisplayCantUseItemYet(u8 taskId, bool8 isUsingRegisteredKeyItemOnField);
 
 enum
 {

@@ -176,6 +176,11 @@ void DisplayDadsAdviceCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKey
     DisplayCannotUseItemMessage(taskId, isUsingRegisteredKeyItemOnField, gText_DadsAdvice);
 }
 
+void DisplayCantUseItemYet(u8 taskId, bool8 isUsingRegisteredKeyItemOnField)
+{
+    DisplayCannotUseItemMessage(taskId, isUsingRegisteredKeyItemOnField, gText_CantUseItemYet);
+}
+
 static void DisplayCannotDismountBikeMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField)
 {
     DisplayCannotUseItemMessage(taskId, isUsingRegisteredKeyItemOnField, gText_CantDismountBike);
@@ -1543,9 +1548,16 @@ void ItemUseOutOfBattle_Axe(u8 taskId)
 {
     if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUTTABLE_TREE) == TRUE)
     {
-        VarSet(VAR_FIELD_MOVE_TYPE, 2);
-        sItemUseOnFieldCB = ItemUseOnFieldCB_Axe;
-        SetUpItemUseOnFieldCallback(taskId);
+        if (FlagGet(FLAG_BADGE01_GET))
+        {
+            VarSet(VAR_FIELD_MOVE_TYPE, 2);
+            sItemUseOnFieldCB = ItemUseOnFieldCB_Axe;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+        else
+        {
+            DisplayCantUseItemYet(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        }
     }
     else
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
@@ -1562,9 +1574,16 @@ void ItemUseOutOfBattle_Pickaxe(u8 taskId)
 {
     if (SetUpFieldMove_RockSmash())
     {
-        VarSet(VAR_FIELD_MOVE_TYPE, 2);
-        sItemUseOnFieldCB = ItemUseOnFieldCB_Pickaxe;
-        SetUpItemUseOnFieldCallback(taskId);
+        if (FlagGet(FLAG_BADGE03_GET))
+        {
+            VarSet(VAR_FIELD_MOVE_TYPE, 2);
+            sItemUseOnFieldCB = ItemUseOnFieldCB_Pickaxe;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+        else
+        {
+            DisplayCantUseItemYet(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        }
     }
     else
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
@@ -1579,18 +1598,34 @@ static void ItemUseOnFieldCB_Pickaxe(u8 taskId)
 
 void ItemUseOutOfBattle_ScubaGear(u8 taskId)
 {
-    if (TrySetDiveWarp() == 2)
+    if (FlagGet(FLAG_BADGE03_GET))
     {
-        sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearAboveWater;
-        SetUpItemUseOnFieldCallback(taskId);
-    }
-    else if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
-    {
-        sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearUnderwater;
-        SetUpItemUseOnFieldCallback(taskId);
+        if (TrySetDiveWarp() == 2)
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearAboveWater;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+        else if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_ScubaGearUnderwater;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+        else
+            DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
     else
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    {
+        if (TrySetDiveWarp() == 2)
+        {
+            DisplayCantUseItemYet(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        }
+        else if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
+        {
+            DisplayCantUseItemYet(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        }
+        else
+            DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
 }
 
 static void ItemUseOnFieldCB_ScubaGearAboveWater(u8 taskId)
@@ -1636,9 +1671,17 @@ void ItemUseOutOfBattle_PowerGlove(u8 taskId)
 {
     if (SetUpFieldMove_StrengthItem())
     {
-        VarSet(VAR_FIELD_MOVE_TYPE, 2);
-        sItemUseOnFieldCB = ItemUseOnFieldCB_PowerGlove;
-        SetUpItemUseOnFieldCallback(taskId);
+        if (FlagGet(FLAG_BADGE04_GET))
+        {
+            VarSet(VAR_FIELD_MOVE_TYPE, 2);
+            sItemUseOnFieldCB = ItemUseOnFieldCB_PowerGlove;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+
+        else
+        {
+            DisplayCantUseItemYet(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        }
     }
     else
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);

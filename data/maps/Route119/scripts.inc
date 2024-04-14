@@ -505,6 +505,9 @@ Route119_Text_MayExplainFly:
 	.string "But, to use FLY, you have to get\n"
 	.string "the GYM BADGE from FORTREE CITY.\l"
 	.string "That's important, so don't forget.\p"
+	.string "I  heard the gym leader, Winona, has\n"
+	.string "been training the wild Altaria to help\l"
+	.string "fly trainers around too!\p"
 	.string "You should FLY home and visit\n"
 	.string "LITTLEROOT for a change.\p"
 	.string "I bet your mom's worried about you,\n"
@@ -535,6 +538,9 @@ Route119_Text_BrendanExplainFly:
 	.string "you've already visited.\p"
 	.string "But you need the FORTREE GYM BADGE \n"
 	.string "to do that.\p"
+	.string "I  heard the gym leader, Winona, has\n"
+	.string "been training the wild Altaria to help\l"
+	.string "fly trainers around too.\p"
 	.string "Anyway, I have to move along.$"
 
 Route119_Text_ScottWayToGoBeSeeingYou:

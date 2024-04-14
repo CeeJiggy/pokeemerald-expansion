@@ -24,6 +24,8 @@ PetalburgCity_WallysHouse_EventScript_GiveHMSurf::
 	giveitem ITEM_HM_SURF
 	setflag FLAG_RECEIVED_HM_SURF
 	msgbox PetalburgCity_WallysHouse_Text_SurfGoAllSortsOfPlaces, MSGBOX_DEFAULT
+	giveitem ITEM_SURFBOARD
+	msgbox PetalburgCity_WallysHouse_Text_Surfboard, MSGBOX_DEFAULT
 	setvar VAR_PETALBURG_CITY_STATE, 5
 	releaseall
 	end
@@ -105,7 +107,17 @@ PetalburgCity_WallysHouse_Text_PleaseExcuseUs:
 
 PetalburgCity_WallysHouse_Text_SurfGoAllSortsOfPlaces:
 	.string "If your POKéMON can SURF, you'll be\n"
-	.string "able to go to all sorts of places.$"
+	.string "able to go to all sorts of places.\p"
+	.string "Take this too, just in case.$"
+
+PetalburgCity_WallysHouse_Text_Surfboard:
+	.string "It's a Surfboard! Can you believe it!\p"
+	.string "I may not look it, but I used to be\n"
+	.string "pretty slick out on the waves with one\l"
+	.string "of those.\p"
+	.string "If your POKéMON partners aren't eager\n"
+	.string "to carry you around on the water, just\l"
+	.string "use that instead.\p"
 
 PetalburgCity_WallysHouse_Text_WallyIsComingHomeSoon:
 	.string "WALLY's coming home soon.\n"

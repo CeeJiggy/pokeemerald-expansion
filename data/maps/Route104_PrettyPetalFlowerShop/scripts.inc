@@ -28,30 +28,6 @@ Route104_PrettyPetalFlowerShop_EventScript_ShopOwner::
 	release
 	end
 
-Route104_PrettyPetalFlowerShop_EventScript_AxeMan::
-	lock
-	faceplayer
-	msgbox AxeManText1, MSGBOX_DEFAULT
-	goto_if_set FLAG_GOT_AXE, Route104_PrettyPetalFlowerShop_GiveAxeDone
-	goto_if_set FLAG_BADGE01_GET, Route104_PrettyPetalFlowerShop_GiveAxe
-	msgbox AxeManTextNotYet MSGBOX_DEFAULT
-	release
-	end
-
-Route104_PrettyPetalFlowerShop_GiveAxe::
-	msgbox AxeManText2, MSGBOX_DEFAULT
-	giveitem ITEM_AXE
-	setflag FLAG_GOT_AXE
-	msgbox AxeManText3, MSGBOX_DEFAULT
-	release
-	end
-
-Route104_PrettyPetalFlowerShop_GiveAxeDone::
-	msgbox AxeManText4, MSGBOX_DEFAULT
-	release
-	end
-
-
 Route104_PrettyPetalFlowerShop_EventScript_AlreadyMet::
 	msgbox Route104_PrettyPetalFlowerShop_Text_LearnAboutBerries, MSGBOX_YESNO
 	call_if_eq VAR_RESULT, YES, Route104_PrettyPetalFlowerShop_EventScript_ExplainBerries
@@ -123,33 +99,3 @@ Route104_PrettyPetalFlowerShop_EventScript_AlreadyReceivedBerry::
 	msgbox Route104_PrettyPetalFlowerShop_Text_MachineMixesBerries, MSGBOX_DEFAULT
 	release
 	end
-
-AxeManText1:
-	.string "Hey kid!$"
-
-AxeManText2:
-	.string "......\p"
-	.string "So, ya beat Roxanne?\p"
-	.string "In that case, ya could probably help\n"
-	.string "me out.\p"
-	.string "Please, take this Axe off my hands. I'm\n"
-	.string "tired of the choppin' lifestyle.$"
-
-AxeManText3:
-	.string "Me and that Axe have chopped many\n"
-	.string "things in our day. That is, even without\l"
-	.string "the help of my Pokémon!\p"
-	.string "Take good care of it, kid.\p"
-	.string "Now, hopefully these ladies can teach\n"
-	.string "me a thing or three about berries.$"
-
-AxeManText4:
-	.string "How is my old Axe treatin' ya?\n"
-	.string "Like I said, take good care of it.\p"
-	.string "I'll be here, learnin' to grow all kindsa\n"
-	.string "things so ya can chop 'em down!$"
-
-AxeManTextNotYet:
-	.string "......\p"
-	.string "Eh, nevermind. I don't think ya can\n"
-	.string "handle this.$"

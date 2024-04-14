@@ -94,6 +94,7 @@ SootopolisCity_Gym_1F_EventScript_JuanDefeated::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox SootopolisCity_Gym_1F_Text_ExplainRainBadgeTakeThis, MSGBOX_DEFAULT
+	setflag FLAG_WATERFALL
 	setflag FLAG_DEFEATED_SOOTOPOLIS_GYM
 	setflag FLAG_BADGE08_GET
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_RESIDENTS
@@ -243,6 +244,8 @@ SootopolisCity_Gym_1F_Text_ExplainRainBadgeTakeThis:
 	.string "The RAIN BADGE also allows the use\n"
 	.string "of the HM move WATERFALL to scale\l"
 	.string "walls of cascading water.\p"
+	.string "I bet you could do it even with your.\n"
+	.string "surfboard alone if you wanted to.\p"
 	.string "And, so that you never forget the\n"
 	.string "battle we shared, take this…$"
 

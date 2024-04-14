@@ -44,6 +44,8 @@ MossdeepCity_StevensHouse_EventScript_StevenGivesDive::
 	setflag FLAG_RECEIVED_HM_DIVE
 	setflag FLAG_OMIT_DIVE_FROM_STEVEN_LETTER
 	msgbox MossdeepCity_StevensHouse_Text_ExplainDive, MSGBOX_DEFAULT
+	giveitem ITEM_SCUBA_GEAR
+	msgbox MossdeepCity_StevensHouse_Text_ExplainScuba, MSGBOX_DEFAULT
 	closemessage
 	delay 20
 	applymovement LOCALID_STEVEN, MossdeepCity_StevensHouse_Movement_StevenReturn
@@ -168,7 +170,14 @@ MossdeepCity_StevensHouse_Text_ExplainDive:
 	.string "When you want to come back up, use\n"
 	.string "DIVE again.\p"
 	.string "In some places, it won't be possible\n"
-	.string "for you to surface, though.$"
+	.string "for you to surface, though.\p"
+	.string "And here, take this too.$"
+
+MossdeepCity_StevensHouse_Text_ExplainScuba:
+	.string "STEVEN: Just in case none of your\n"
+	.string "partners are well suited for diving, you\l"
+	.string "can use this Scuba Gear to dive all on\l"
+	.string "your own too.$"
 
 MossdeepCity_StevensHouse_Text_UnderwateCavernBetweenMossdeepSootopolis:
 	.string "STEVEN: Apparently, there's an\n"

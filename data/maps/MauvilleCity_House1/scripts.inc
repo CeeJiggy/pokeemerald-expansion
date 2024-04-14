@@ -10,6 +10,8 @@ MauvilleCity_House1_EventScript_RockSmashDude::
 	setflag FLAG_RECEIVED_HM_ROCK_SMASH
 	setflag FLAG_HIDE_ROUTE_111_ROCK_SMASH_TIP_GUY
 	msgbox MauvilleCity_House1_Text_ExplainRockSmash, MSGBOX_DEFAULT
+	giveitem ITEM_PICKAXE
+	msgbox MauvilleCity_House1_Text_ExplainPickaxe, MSGBOX_DEFAULT
 	release
 	end
 
@@ -36,6 +38,16 @@ MauvilleCity_House1_Text_ExplainRockSmash:
 	.string "that block your path…\p"
 	.string "Well, use that HM move and smash\n"
 	.string "them right out of your way!\p"
+	.string "Oh, and take this too!$"
+
+MauvilleCity_House1_Text_ExplainPickaxe:
+	.string "This Pickaxe will come in handy!\p"
+	.string "You can use it crush those boulders all\n"
+	.string "on your own, even without the help of\l"
+	.string "your Pokémon.\p"
+	.string "No smashing rocks unless you beat\n"
+	.string "Watson and get the Dynamo Badge,\l"
+	.string "though. Them's the rules!\p"
 	.string "Yes, sir! Smash rocks aside, I say!\n"
 	.string "Woohoo!$"
 

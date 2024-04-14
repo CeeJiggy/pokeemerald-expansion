@@ -8,7 +8,9 @@ RustboroCity_CuttersHouse_EventScript_Cutter::
 	msgbox RustboroCity_CuttersHouse_Text_YouCanPutThisHMToGoodUse, MSGBOX_DEFAULT
 	giveitem ITEM_HM_CUT
 	setflag FLAG_RECEIVED_HM_CUT
-	msgbox RustboroCity_CuttersHouse_Text_ExplainCut, MSGBOX_DEFAULT
+	msgbox RustboroCity_CuttersHouse_Text_ExplainCutFirst, MSGBOX_DEFAULT
+	giveitem ITEM_AXE
+	msgbox RustboroCity_CuttersHouse_Text_ExplainAxe, MSGBOX_DEFAULT
 	release
 	end
 
@@ -33,6 +35,23 @@ RustboroCity_CuttersHouse_Text_YouCanPutThisHMToGoodUse:
 	.string "No need to be modest or shy.\n"
 	.string "Go on, take it!$"
 
+RustboroCity_CuttersHouse_Text_ExplainCutFirst:
+	.string "That HIDDEN MACHINE, or HM for\n"
+	.string "short, is CUT.\p"
+	.string "An HM move is one that can be used\n"
+	.string "by POKéMON outside of battle.\p"
+	.string "Oh, and take this too.$"
+
+RustboroCity_CuttersHouse_Text_ExplainAxe:
+	.string "You can also use that Axe to cut down\n"
+	.string "those trees all on your own, even\l"
+	.string "without the help of your Pokémon.\p"
+	.string "Put it to good use!\p"
+	.string "By the way, no cutting down anything\n"
+	.string "until you beat Roxanne and get the\l"
+	.string "Stone Badge.\p"
+	.string "I won't allow it!$"
+
 RustboroCity_CuttersHouse_Text_ExplainCut:
 	.string "That HIDDEN MACHINE, or HM for\n"
 	.string "short, is CUT.\p"
@@ -42,7 +61,15 @@ RustboroCity_CuttersHouse_Text_ExplainCut:
 	.string "chop down thin trees if the TRAINER\l"
 	.string "has earned the STONE BADGE.\p"
 	.string "And, unlike a TM, an HM can be used\n"
-	.string "more than once.$"
+	.string "more than once.\p"
+	.string "You can also use that Axe I gave you to\n"
+	.string "cut down those trees all on your own,\l"
+	.string "even without the help of your Pokémon.\p"
+	.string "Put it to good use!\p"
+	.string "By the way, no cutting down anything\n"
+	.string "unless you beat Roxanne and get the\l"
+	.string "Stone Badge.\p"
+	.string "I won't allow it!$"
 
 RustboroCity_CuttersHouse_Text_DadHelpedClearLandOfTrees:
 	.string "When they were expanding the city of\n"
