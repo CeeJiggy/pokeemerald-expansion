@@ -781,7 +781,7 @@ static const u8 sText_AttackerExpelledThePoison[] = _("{B_ATK_NAME_WITH_PREFIX} 
 static const u8 sText_AttackerShookItselfAwake[] = _("{B_ATK_NAME_WITH_PREFIX} shook itself awake!");
 static const u8 sText_AttackerBrokeThroughParalysis[] = _("{B_ATK_NAME_WITH_PREFIX} gathered all its energy\nto overcome its paralysis!");
 static const u8 sText_AttackerHealedItsBurn[] = _("{B_ATK_NAME_WITH_PREFIX} healed its burn with\nits sheer determination!");
-static const u8 sText_AttackerHealedItsFrostbite[] = _("{B_ATK_NAME_WITH_PREFIX} healed its frostbite with\nits sheer determination!");
+static const u8 sText_AttackerHealedItsFrostbite[] = _("{B_ATK_NAME_WITH_PREFIX} healed its frostbite with\nits sheer determination!"); // not used, "melted the ice" is used instead in PLA
 static const u8 sText_AttackerMeltedTheIce[] = _("{B_ATK_NAME_WITH_PREFIX} melted the ice with\nits fiery determination!");
 static const u8 sText_TargetToughedItOut[] = _("{B_DEF_NAME_WITH_PREFIX} toughed it out\nto show you its best side!");
 static const u8 sText_AttackerLostElectricType[] = _("{B_ATK_NAME_WITH_PREFIX} used up all\nof its electricity!");
@@ -2718,7 +2718,8 @@ const u8 gText_BattleSwitchWhich4[] = _("{ESCAPE 4}");
 const u8 gText_BattleSwitchWhich5[] = _("-");
 const u8 gText_MoveInterfacePlus[] = _("{CLEAR_TO 44} {UP_ARROW}");
 const u8 gText_MoveInterfaceMinus[] = _("{CLEAR_TO 44} {DOWN_ARROW}");
-const u8 gText_MoveInterfaceX[] = _("{CLEAR_TO 44} X");;
+const u8 gText_MoveInterfaceX[] = _("{CLEAR_TO 44} X");
+;
 const u8 gText_MoveInterfaceSTAB[] = _("+");
 
 // Unused
@@ -3157,15 +3158,15 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
             .shadowColor = 15,
         },
         [B_WIN_STAB_SYMBOL] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 2,
-        .y = 1,
-        .speed = 0,
-        .fgColor = 12,
-        .bgColor = 14,
-        .shadowColor = 11,
-    }};
+            .fillValue = PIXEL_FILL(0xE),
+            .fontId = FONT_NARROW,
+            .x = 2,
+            .y = 1,
+            .speed = 0,
+            .fgColor = 12,
+            .bgColor = 14,
+            .shadowColor = 11,
+        }};
 
 static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     {
@@ -3399,52 +3400,51 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
             .shadowColor = 3,
         },
         [B_WIN_TYPE_SUPER_EFF] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 6,
-        .bgColor = 14,
-        .shadowColor = 5,
-    },
-    [B_WIN_TYPE_NOT_VERY_EFF] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 14,
-        .shadowColor = 3,
-    },
-    [B_WIN_TYPE_NO_EFF] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 7,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    [B_WIN_STAB_SYMBOL] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 2,
-        .y = 1,
-        .speed = 0,
-        .fgColor = 12,
-        .bgColor = 14,
-        .shadowColor = 11,
-    }
-};
+            .fillValue = PIXEL_FILL(0xE),
+            .fontId = 7,
+            .x = 0,
+            .y = 1,
+            .letterSpacing = 0,
+            .lineSpacing = 0,
+            .speed = 0,
+            .fgColor = 6,
+            .bgColor = 14,
+            .shadowColor = 5,
+        },
+        [B_WIN_TYPE_NOT_VERY_EFF] = {
+            .fillValue = PIXEL_FILL(0xE),
+            .fontId = 7,
+            .x = 0,
+            .y = 1,
+            .letterSpacing = 0,
+            .lineSpacing = 0,
+            .speed = 0,
+            .fgColor = 1,
+            .bgColor = 14,
+            .shadowColor = 3,
+        },
+        [B_WIN_TYPE_NO_EFF] = {
+            .fillValue = PIXEL_FILL(0xE),
+            .fontId = 7,
+            .x = 0,
+            .y = 1,
+            .letterSpacing = 0,
+            .lineSpacing = 0,
+            .speed = 0,
+            .fgColor = 7,
+            .bgColor = 14,
+            .shadowColor = 15,
+        },
+        [B_WIN_STAB_SYMBOL] = {
+            .fillValue = PIXEL_FILL(0xE),
+            .fontId = FONT_NARROW,
+            .x = 2,
+            .y = 1,
+            .speed = 0,
+            .fgColor = 12,
+            .bgColor = 14,
+            .shadowColor = 11,
+        }};
 
 static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
     {
@@ -4891,7 +4891,7 @@ u32 ShouldDoTrainerSlide(u32 battler, u32 which)
                 }
                 break;
             case TRAINER_SLIDE_LAST_LOW_HP:
-                if (sTrainerSlides[i].msgLastLowHp != NULL && GetEnemyMonCount(firstId, lastId, TRUE) == 1 && BattlerHPPercentage(battler, GREATER_THAN_OR_EQUAL, 4) && !gBattleStruct->trainerSlideLowHpMsgDone)
+                if (sTrainerSlides[i].msgLastLowHp != NULL && GetEnemyMonCount(firstId, lastId, TRUE) == 1 && BattlerHPPercentage(battler, LESS_THAN_OR_EQUAL, 4) && !gBattleStruct->trainerSlideLowHpMsgDone)
                 {
                     gBattleStruct->trainerSlideLowHpMsgDone = TRUE;
                     gBattleStruct->trainerSlideMsg = sTrainerSlides[i].msgLastLowHp;
