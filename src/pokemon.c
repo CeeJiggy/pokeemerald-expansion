@@ -1699,7 +1699,7 @@ void GiveBoxMonInitialMoveset_Fast(struct BoxPokemon *boxMon) // Credit: Asparag
                 alreadyKnown = TRUE;
                 break;
             }
-    
+
         if (!alreadyKnown)
         {
             if (addedMoves < MAX_MON_MOVES)

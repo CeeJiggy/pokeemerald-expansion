@@ -470,6 +470,7 @@ static void HandleInputChooseTarget(u32 battler)
         PlaySE(SE_SELECT);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_HideAsMoveTarget;
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        MoveSelectionDisplayMoveType(battler);
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
         EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
@@ -660,6 +661,7 @@ static void HandleInputShowTargets(u32 battler)
     {
         PlaySE(SE_SELECT);
         HideShownTargets(battler);
+        MoveSelectionDisplayMoveTypeDoubles(GetBattlerPosition(gMultiUsePlayerCursor), battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
@@ -1717,15 +1719,18 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
     moveType = GetTypeBeforeUsingMove(move, battlerAtk);
 
     modifier = CalcTypeEffectivenessMultiplier(move, moveType, battler, targetId, GetBattlerAbility(targetId), TRUE);
-    
-    if (modifier == UQ_4_12(0.0)) {
-			return COLOR_IMMUNE; // 26 - no effect
+
+    if (modifier == UQ_4_12(0.0))
+    {
+        return COLOR_IMMUNE; // 26 - no effect
     }
-    else if (modifier <= UQ_4_12(0.5)) {
-            return COLOR_NOT_VERY_EFFECTIVE; // 25 - not very effective
+    else if (modifier <= UQ_4_12(0.5))
+    {
+        return COLOR_NOT_VERY_EFFECTIVE; // 25 - not very effective
     }
-    else if (modifier >= UQ_4_12(2.0)) {
-            return COLOR_SUPER_EFFECTIVE; // 24 - super effective
+    else if (modifier >= UQ_4_12(2.0))
+    {
+        return COLOR_SUPER_EFFECTIVE; // 24 - super effective
     }
     else
         return COLOR_EFFECTIVE; // 10 - normal effectiveness
@@ -1733,9 +1738,9 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
 
 static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 {
-	u8 *txtPtr;
+    u8 *txtPtr;
     u8 typeColor = TypeEffectiveness(targetId, battler);
-	struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[battler][4]);
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u8 moveType = GetTypeBeforeUsingMove(move, battlerAtk);
@@ -1743,35 +1748,37 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
     u8 battlerType1 = gBattleMons[battler].type1;
     u8 battlerType2 = gBattleMons[battler].type2;
 
-	txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[moveType].name);
+    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[moveType].name);
 
     // not sure why this was here tbh, leaving it in just in case
-	// txtPtr[0] = EXT_CTRL_CODE_BEGIN;
-	// txtPtr++;
-	// txtPtr[0] = 6;
-	// txtPtr++;
-	// txtPtr[0] = 1;
-	// txtPtr++;
+    // txtPtr[0] = EXT_CTRL_CODE_BEGIN;
+    // txtPtr++;
+    // txtPtr[0] = 6;
+    // txtPtr++;
+    // txtPtr[0] = 1;
+    // txtPtr++;
 
-    if (typeColor != COLOR_EFFECTIVE) {
+    if (typeColor != COLOR_EFFECTIVE)
+    {
         *(txtPtr)++ = EXT_CTRL_CODE_BEGIN;
         *(txtPtr)++ = EXT_CTRL_CODE_FONT;
         *(txtPtr)++ = FONT_NORMAL;
 
-        switch (typeColor) {
-            case COLOR_IMMUNE:
-                StringCopy(txtPtr, gText_MoveInterfaceX);
-                break;
-            case COLOR_NOT_VERY_EFFECTIVE:
-                StringCopy(txtPtr, gText_MoveInterfaceMinus);
-                break;
-            case COLOR_SUPER_EFFECTIVE:
-                StringCopy(txtPtr, gText_MoveInterfacePlus);
-                break;
+        switch (typeColor)
+        {
+        case COLOR_IMMUNE:
+            StringCopy(txtPtr, gText_MoveInterfaceX);
+            break;
+        case COLOR_NOT_VERY_EFFECTIVE:
+            StringCopy(txtPtr, gText_MoveInterfaceMinus);
+            break;
+        case COLOR_SUPER_EFFECTIVE:
+            StringCopy(txtPtr, gText_MoveInterfacePlus);
+            break;
         }
     }
 
-	BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
+    BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
     MoveSelectionDisplaySplitIcon(battler);
     if (movePower > 0 && (moveType == battlerType1 || moveType == battlerType2))
     {
@@ -1815,7 +1822,7 @@ static void MoveSelectionDisplayMoveType(u32 battler)
 
     BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
     MoveSelectionDisplaySplitIcon(battler);
-    
+
     if (movePower > 0 && (moveType == battlerType1 || moveType == battlerType2))
     {
         StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
