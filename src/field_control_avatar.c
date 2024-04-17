@@ -39,6 +39,7 @@
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
 #include "region_map.h"
+#include "event_data.h"
 
 static EWRAM_DATA u8 sWildEncounterImmunitySteps = 0;
 static EWRAM_DATA u16 sPrevMetatileBehavior = 0;
@@ -209,6 +210,13 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     }
 
     GetInFrontOfPlayerPosition(&position);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y + 1);
+    if (MetatileBehavior_IsWaterfall(metatileBehavior) == TRUE && IsPlayerSurfingNorth() == TRUE && FlagGet(FLAG_BADGE08_GET) && FlagGet(FLAG_WATERFALL))
+    {
+        VarSet(VAR_FIELD_MOVE_TYPE, 2);
+        ScriptContext_SetupScript(EventScript_UseWaterfallSkip);
+        return TRUE;
+    }
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
