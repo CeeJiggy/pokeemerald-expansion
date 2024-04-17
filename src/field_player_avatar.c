@@ -1358,10 +1358,9 @@ bool8 PartyHasMonWithRockSmash(void)
 
 bool8 PlayerHasSurfboard(void)
 {
-    if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    if (CheckBagHasItem(ITEM_SURFBOARD, 1))
     {
-        if (CheckBagHasItem(ITEM_SURFBOARD, 1))
-            return TRUE;
+        return TRUE;
     }
     return FALSE;
 }
