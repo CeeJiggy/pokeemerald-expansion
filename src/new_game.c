@@ -100,7 +100,6 @@ static void SetDefaultOptions(void)
     VarSet(VAR_UNIT_TYPE, 0);
     VarSet(VAR_FAST_HEAL, 0);
     VarSet(VAR_LEVEL_CAP_TYPE, 0);
-    VarSet(VAR_REGION_CHOSEN, 0);
     gSaveBlock2Ptr->optionsUnitSystem = 0;                            // tx_optionsPlus
     gSaveBlock2Ptr->optionsBattleIntro = OPTIONS_BATTLE_INTRO_NORMAL; // tx_optionsPlus
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;                      // tx_optionsPlus
@@ -169,6 +168,8 @@ void NewGameInitData(void)
     ClearSav1();
     ClearSav3();
     ClearAllMail();
+    VarSet(VAR_REGION_CHOSEN, 0);
+    VarSet(VAR_OPPOSITE_SHINY, 0);
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
     InitPlayerTrainerId();

@@ -56,6 +56,7 @@ static void DrawChoices_TextSpeed(int selection, int y);
 static void DrawChoices_BattleScene(int selection, int y);
 static void DrawChoices_BattleStyle(int selection, int y);
 static void DrawChoices_LevelCaps(int selection, int y);
+static void DrawChoices_ShinyOdds(int selection, int y);
 static void DrawChoices_BattleIntro(int selection, int y);
 static void DrawChoices_Sound(int selection, int y);
 // static void DrawChoices_ButtonMode(int selection, int y);
@@ -91,6 +92,7 @@ enum
 enum
 {
     MENUITEM_CUSTOM_LEVELCAPS,
+    MENUITEM_CUSTOM_SHINYODDS,
     MENUITEM_CUSTOM_BATTLEINTRO,
     MENUITEM_CUSTOM_HMANIMS,
     MENUITEM_CUSTOM_FASTHEAL,
@@ -215,6 +217,7 @@ struct // MENU_CUSTOM
 } static const sItemFunctionsCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {DrawChoices_LevelCaps, ProcessInput_Options_Two},
+        [MENUITEM_CUSTOM_SHINYODDS] = {DrawChoices_ShinyOdds, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {DrawChoices_BattleIntro, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_HMANIMS] = {DrawChoices_HMAnims, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_FASTHEAL] = {DrawChoices_FastHeal, ProcessInput_Options_Two},
@@ -226,6 +229,7 @@ struct // MENU_CUSTOM
 // Menu left side option names text
 static const u8 sText_LevelCaps[] = _("LEVEL CAPS");
 static const u8 sText_BattleIntro[] = _("BATTLE INTRO");
+static const u8 sText_ShinyOdds[] = _("SHINY ODDS");
 static const u8 sText_HMAnims[] = _("HM ANIMATIONS");
 static const u8 sText_FastHeal[] = _("PokéCenter");
 static const u8 sText_UnitSystem[] = _("UNIT SYSTEM");
@@ -244,6 +248,7 @@ static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
 static const u8 *const sOptionMenuItemsNamesCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_LevelCaps,
+        [MENUITEM_CUSTOM_SHINYODDS] = sText_ShinyOdds,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_BattleIntro,
         [MENUITEM_CUSTOM_HMANIMS] = sText_HMAnims,
         [MENUITEM_CUSTOM_FASTHEAL] = sText_FastHeal,
@@ -297,6 +302,8 @@ static bool8 CheckConditions(int selection)
         {
         case MENUITEM_CUSTOM_LEVELCAPS:
             return TRUE;
+        case MENUITEM_CUSTOM_SHINYODDS:
+            return TRUE;
         case MENUITEM_CUSTOM_BATTLEINTRO:
             return TRUE;
         case MENUITEM_CUSTOM_HMANIMS:
@@ -347,6 +354,8 @@ static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][3] =
 // Custom
 static const u8 sText_Desc_NoCaps[] = _("Experience gain is unchanged.");
 static const u8 sText_Desc_SoftCaps[] = _("Experience gain will be softly capped\nbased on owned badges.");
+static const u8 sText_Desc_8192[] = _("1/8192 base chance to find a shiny\nPOKéMON.");
+static const u8 sText_Desc_Reverse[] = _("8191/8192 base chance to find a shiny\nPOKéMON. Not effected by Shiny Charm.");
 static const u8 sText_Desc_NormalIntro[] = _("Normal battle intros.");
 static const u8 sText_Desc_FastIntro[] = _("Fast battle intros.");
 static const u8 sText_Desc_HMNormal[] = _("Show overworld HM animations.");
@@ -360,9 +369,10 @@ static const u8 sText_Desc_BikeOn[] = _("Enables the BIKE theme when\nusing the 
 static const u8 sText_Desc_FontType[] = _("Choose the font design.");
 static const u8 sText_Desc_OverworldCallsOn[] = _("TRAINERs will be able to call you,\noffering rematches and info.");
 static const u8 sText_Desc_OverworldCallsOff[] = _("You will not receive calls.\nSpecial events will still occur.");
-static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][2] =
+static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][6] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {sText_Desc_NoCaps, sText_Desc_SoftCaps},
+        [MENUITEM_CUSTOM_SHINYODDS] = {sText_Desc_8192, sText_Desc_Reverse},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {sText_Desc_NormalIntro, sText_Desc_FastIntro},
         [MENUITEM_CUSTOM_HMANIMS] = {sText_Desc_HMNormal, sText_Desc_HMSkip},
         [MENUITEM_CUSTOM_FASTHEAL] = {sText_Desc_HealNormal, sText_Desc_HealFast},
@@ -375,7 +385,7 @@ static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][
 static const u8 sText_Desc_Disabled_Textspeed[] = _("Only active if xyz.");
 static const u8 *const sOptionMenuItemDescriptionsDisabledMain[MENUITEM_MAIN_COUNT] =
     {
-        [MENUITEM_MAIN_TEXTSPEED] = sText_Desc_Disabled_Textspeed,
+        [MENUITEM_MAIN_TEXTSPEED] = sText_Empty,
         [MENUITEM_MAIN_BATTLESCENE] = sText_Empty,
         [MENUITEM_MAIN_BATTLESTYLE] = sText_Empty,
         [MENUITEM_MAIN_SOUND] = sText_Empty,
@@ -389,6 +399,7 @@ static const u8 *const sOptionMenuItemDescriptionsDisabledMain[MENUITEM_MAIN_COU
 static const u8 *const sOptionMenuItemDescriptionsDisabledCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_Empty,
+        [MENUITEM_CUSTOM_SHINYODDS] = sText_Empty,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_Empty,
         [MENUITEM_CUSTOM_HMANIMS] = sText_Empty,
         [MENUITEM_CUSTOM_FASTHEAL] = sText_Empty,
@@ -406,8 +417,8 @@ static const u8 *const OptionTextDescription(void)
     {
     default:
     case MENU_MAIN:
-        if (!CheckConditions(menuItem))
-            return sOptionMenuItemDescriptionsDisabledMain[menuItem - 2];
+        // if (!CheckConditions(menuItem))
+        //     return sOptionMenuItemDescriptionsDisabledMain[menuItem - 2];
         selection = sOptions->sel[menuItem];
         if (menuItem == MENUITEM_MAIN_TEXTSPEED || menuItem == MENUITEM_MAIN_FRAMETYPE)
             selection = 0;
@@ -461,8 +472,8 @@ static void VBlankCB(void)
 }
 
 static const u8 sText_TopBar_Main[] = _("GENERAL");
-static const u8 sText_TopBar_Main_Right[] = _("{R_BUTTON}CUSTOM");
-static const u8 sText_TopBar_Custom[] = _("CUSTOM");
+static const u8 sText_TopBar_Main_Right[] = _("{R_BUTTON}SPECIAL");
+static const u8 sText_TopBar_Custom[] = _("SPECIAL");
 static const u8 sText_TopBar_Custom_Left[] = _("{L_BUTTON}GENERAL");
 static void DrawTopBarText(void)
 {
@@ -642,6 +653,7 @@ void CB2_InitOptionPlusMenu(void)
         sOptions->sel[MENUITEM_MAIN_FRAMETYPE] = gSaveBlock2Ptr->optionsWindowFrameType;
 
         sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS] = VarGet(VAR_LEVEL_CAP_TYPE);
+        sOptions->sel_custom[MENUITEM_CUSTOM_SHINYODDS] = VarGet(VAR_OPPOSITE_SHINY);
         sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO] = gSaveBlock2Ptr->optionsBattleIntro;
         sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS] = VarGet(VAR_HM_OPTION);
         sOptions->sel_custom[MENUITEM_CUSTOM_FASTHEAL] = VarGet(VAR_FAST_HEAL);
@@ -843,6 +855,7 @@ static void Task_OptionMenuSave(u8 taskId)
     VarSet(VAR_LEVEL_CAP_TYPE, sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS]);
     // gSaveBlock2Ptr->optionsLevelCaps = sOptions->sel_custom[MENUITEM_CUSTOM_LEVELCAPS];
     gSaveBlock2Ptr->optionsBattleIntro = sOptions->sel_custom[MENUITEM_CUSTOM_BATTLEINTRO];
+    VarSet(VAR_OPPOSITE_SHINY, sOptions->sel_custom[MENUITEM_CUSTOM_SHINYODDS]);
     VarSet(VAR_FAST_HEAL, sOptions->sel_custom[MENUITEM_CUSTOM_FASTHEAL]);
     VarSet(VAR_HM_OPTION, sOptions->sel_custom[MENUITEM_CUSTOM_HMANIMS]);
     gSaveBlock2Ptr->optionsCurrentFont = sOptions->sel_custom[MENUITEM_CUSTOM_FONT];
@@ -1081,6 +1094,16 @@ static void DrawChoices_BattleScene(int selection, int y)
 
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1], active);
+}
+
+static void DrawChoices_ShinyOdds(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_CUSTOM_SHINYODDS);
+    u8 styles[2] = {0};
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_8192, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_Reverse, GetStringRightAlignXOffset(FONT_NORMAL, gText_Reverse, 198), y, styles[1], active);
 }
 
 static void DrawChoices_BattleStyle(int selection, int y)

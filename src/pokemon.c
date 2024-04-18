@@ -58,6 +58,7 @@
 #include "constants/union_room.h"
 #include "constants/weather.h"
 #include "wild_encounter.h"
+#include "event_data.h"
 
 #define FRIENDSHIP_EVO_THRESHOLD ((P_FRIENDSHIP_EVO_THRESHOLD >= GEN_9) ? 160 : 220)
 
@@ -833,7 +834,14 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     else if (otIdType == OT_ID_PRESET)
     {
         value = fixedOtId;
-        isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+        if (VarGet(VAR_OPPOSITE_SHINY) == 1)
+        {
+            isShiny = GET_SHINY_VALUE(value, personality) < 65528;
+        }
+        else
+        {
+            isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+        }
     }
     else // Player is the OT
     {
@@ -848,8 +856,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 
         for (i = 0; i < shinyRolls; i++)
         {
-            if (Random() < SHINY_ODDS)
-                FlagSet(FLAG_SHINY_CREATION); // use a flag bc of CreateDexNavWildMon
+            if (VarGet(VAR_OPPOSITE_SHINY) == 0)
+            {
+                if (Random() < SHINY_ODDS)
+                    FlagSet(FLAG_SHINY_CREATION); // use a flag bc of CreateDexNavWildMon
+            }
         }
 
         if (FlagGet(FLAG_SHINY_CREATION))
@@ -880,13 +891,27 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 totalRerolls += I_SHINY_CHARM_ADDITIONAL_ROLLS;
             if (LURE_STEP_COUNT != 0)
                 totalRerolls += 1;
-            while (GET_SHINY_VALUE(value, personality) >= SHINY_ODDS && totalRerolls > 0)
-            {
-                personality = Random32();
-                totalRerolls--;
-            }
 
-            isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+            if (VarGet(VAR_OPPOSITE_SHINY) == 1)
+            {
+                while (GET_SHINY_VALUE(value, personality) >= 65528 && totalRerolls > 0)
+                {
+                    personality = Random32();
+                    totalRerolls--;
+                }
+
+                isShiny = GET_SHINY_VALUE(value, personality) < 65528;
+            }
+            else
+            {
+                while (GET_SHINY_VALUE(value, personality) >= SHINY_ODDS && totalRerolls > 0)
+                {
+                    personality = Random32();
+                    totalRerolls--;
+                }
+
+                isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+            }
         }
     }
 
