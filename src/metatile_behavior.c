@@ -1257,10 +1257,9 @@ bool8 MetatileBehavior_IsSeaweed(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsRunningDisallowed(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_NO_RUNNING
-     || metatileBehavior == MB_LONG_GRASS
-     || metatileBehavior == MB_HOT_SPRINGS
-     || MetatileBehavior_IsPacifidlogLog(metatileBehavior) != FALSE)
+    if (metatileBehavior == MB_NO_RUNNING || metatileBehavior == MB_HOT_SPRINGS //|| metatileBehavior == MB_LONG_GRASS
+                                                                                //  || MetatileBehavior_IsPacifidlogLog(metatileBehavior) != FALSE)
+    )
         return TRUE;
     else
         return FALSE;
