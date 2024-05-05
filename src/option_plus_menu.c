@@ -92,12 +92,12 @@ enum
 enum
 {
     MENUITEM_CUSTOM_LEVELCAPS,
-    MENUITEM_CUSTOM_SHINYODDS,
     MENUITEM_CUSTOM_BATTLEINTRO,
     MENUITEM_CUSTOM_HMANIMS,
     MENUITEM_CUSTOM_FASTHEAL,
     MENUITEM_CUSTOM_FONT,
     MENUITEM_CUSTOM_MATCHCALL,
+    MENUITEM_CUSTOM_SHINYODDS,
     MENUITEM_CUSTOM_CANCEL,
     MENUITEM_CUSTOM_COUNT,
 };
@@ -217,12 +217,12 @@ struct // MENU_CUSTOM
 } static const sItemFunctionsCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {DrawChoices_LevelCaps, ProcessInput_Options_Two},
-        [MENUITEM_CUSTOM_SHINYODDS] = {DrawChoices_ShinyOdds, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {DrawChoices_BattleIntro, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_HMANIMS] = {DrawChoices_HMAnims, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_FASTHEAL] = {DrawChoices_FastHeal, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_FONT] = {DrawChoices_Font, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_MATCHCALL] = {DrawChoices_MatchCall, ProcessInput_Options_Two},
+        [MENUITEM_CUSTOM_SHINYODDS] = {DrawChoices_ShinyOdds, ProcessInput_Options_Two},
         [MENUITEM_CUSTOM_CANCEL] = {NULL, NULL},
 };
 
@@ -248,26 +248,14 @@ static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
 static const u8 *const sOptionMenuItemsNamesCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_LevelCaps,
-        [MENUITEM_CUSTOM_SHINYODDS] = sText_ShinyOdds,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_BattleIntro,
         [MENUITEM_CUSTOM_HMANIMS] = sText_HMAnims,
         [MENUITEM_CUSTOM_FASTHEAL] = sText_FastHeal,
         [MENUITEM_CUSTOM_FONT] = gText_Font,
         [MENUITEM_CUSTOM_MATCHCALL] = gText_OptionMatchCalls,
+        [MENUITEM_CUSTOM_SHINYODDS] = sText_ShinyOdds,
         [MENUITEM_CUSTOM_CANCEL] = gText_OptionMenuSave,
 };
-
-static const u8 *const OptionTextRight(u8 menuItem)
-{
-    switch (sOptions->submenu)
-    {
-    default:
-    case MENU_MAIN:
-        return sOptionMenuItemsNamesMain[menuItem];
-    case MENU_CUSTOM:
-        return sOptionMenuItemsNamesCustom[menuItem];
-    }
-}
 
 // Menu left side text conditions
 static bool8 CheckConditions(int selection)
@@ -303,7 +291,14 @@ static bool8 CheckConditions(int selection)
         case MENUITEM_CUSTOM_LEVELCAPS:
             return TRUE;
         case MENUITEM_CUSTOM_SHINYODDS:
-            return TRUE;
+            if (FlagGet(FLAG_UNLOCK_SHINY))
+            {
+                return TRUE;
+            }
+            else
+            {
+                return FALSE;
+            }
         case MENUITEM_CUSTOM_BATTLEINTRO:
             return TRUE;
         case MENUITEM_CUSTOM_HMANIMS:
@@ -321,6 +316,25 @@ static bool8 CheckConditions(int selection)
         }
     }
     return FALSE;
+}
+
+static const u8 *const OptionTextRight(u8 menuItem)
+{
+    switch (sOptions->submenu)
+    {
+    default:
+    case MENU_MAIN:
+        return sOptionMenuItemsNamesMain[menuItem];
+    case MENU_CUSTOM:
+        if (!CheckConditions(menuItem))
+        {
+            return gText_ThreeQuestionMarks;
+        }
+        else
+        {
+            return sOptionMenuItemsNamesCustom[menuItem];
+        }
+    }
 }
 
 // Descriptions
@@ -372,39 +386,38 @@ static const u8 sText_Desc_OverworldCallsOff[] = _("You will not receive calls.\
 static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][6] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = {sText_Desc_NoCaps, sText_Desc_SoftCaps},
-        [MENUITEM_CUSTOM_SHINYODDS] = {sText_Desc_8192, sText_Desc_Reverse},
         [MENUITEM_CUSTOM_BATTLEINTRO] = {sText_Desc_NormalIntro, sText_Desc_FastIntro},
         [MENUITEM_CUSTOM_HMANIMS] = {sText_Desc_HMNormal, sText_Desc_HMSkip},
         [MENUITEM_CUSTOM_FASTHEAL] = {sText_Desc_HealNormal, sText_Desc_HealFast},
         [MENUITEM_CUSTOM_FONT] = {sText_Desc_FontType, sText_Desc_FontType},
         [MENUITEM_CUSTOM_MATCHCALL] = {sText_Desc_OverworldCallsOn, sText_Desc_OverworldCallsOff},
+        [MENUITEM_CUSTOM_SHINYODDS] = {sText_Desc_8192, sText_Desc_Reverse},
         [MENUITEM_CUSTOM_CANCEL] = {sText_Desc_Save, sText_Empty},
 };
 
 // Disabled Descriptions
-static const u8 sText_Desc_Disabled_Textspeed[] = _("Only active if xyz.");
 static const u8 *const sOptionMenuItemDescriptionsDisabledMain[MENUITEM_MAIN_COUNT] =
     {
         [MENUITEM_MAIN_TEXTSPEED] = sText_Empty,
         [MENUITEM_MAIN_BATTLESCENE] = sText_Empty,
         [MENUITEM_MAIN_BATTLESTYLE] = sText_Empty,
         [MENUITEM_MAIN_SOUND] = sText_Empty,
-        // [MENUITEM_MAIN_BUTTONMODE] = sText_Empty,
         [MENUITEM_MAIN_UNIT_SYSTEM] = sText_Empty,
         [MENUITEM_MAIN_FRAMETYPE] = sText_Empty,
         [MENUITEM_MAIN_CANCEL] = sText_Empty,
 };
 
 // Disabled Custom
+static const u8 sText_Desc_Disabled_ShinyOdds[] = _("Maybe someone could teach you to\nsee the world in a different way...");
 static const u8 *const sOptionMenuItemDescriptionsDisabledCustom[MENUITEM_CUSTOM_COUNT] =
     {
         [MENUITEM_CUSTOM_LEVELCAPS] = sText_Empty,
-        [MENUITEM_CUSTOM_SHINYODDS] = sText_Empty,
         [MENUITEM_CUSTOM_BATTLEINTRO] = sText_Empty,
         [MENUITEM_CUSTOM_HMANIMS] = sText_Empty,
         [MENUITEM_CUSTOM_FASTHEAL] = sText_Empty,
         [MENUITEM_CUSTOM_FONT] = sText_Empty,
         [MENUITEM_CUSTOM_MATCHCALL] = sText_Empty,
+        [MENUITEM_CUSTOM_SHINYODDS] = sText_Desc_Disabled_ShinyOdds,
         [MENUITEM_CUSTOM_CANCEL] = sText_Empty,
 };
 
@@ -417,15 +430,15 @@ static const u8 *const OptionTextDescription(void)
     {
     default:
     case MENU_MAIN:
-        // if (!CheckConditions(menuItem))
-        //     return sOptionMenuItemDescriptionsDisabledMain[menuItem - 2];
+        if (!CheckConditions(menuItem))
+            return sOptionMenuItemDescriptionsDisabledMain[menuItem];
         selection = sOptions->sel[menuItem];
         if (menuItem == MENUITEM_MAIN_TEXTSPEED || menuItem == MENUITEM_MAIN_FRAMETYPE)
             selection = 0;
         return sOptionMenuItemDescriptionsMain[menuItem][selection];
     case MENU_CUSTOM:
         if (!CheckConditions(menuItem))
-            return sOptionMenuItemDescriptionsDisabledCustom[menuItem - 2];
+            return sOptionMenuItemDescriptionsDisabledCustom[menuItem];
         selection = sOptions->sel_custom[menuItem];
         return sOptionMenuItemDescriptionsCustom[menuItem][selection];
     }
@@ -1100,10 +1113,18 @@ static void DrawChoices_ShinyOdds(int selection, int y)
 {
     bool8 active = CheckConditions(MENUITEM_CUSTOM_SHINYODDS);
     u8 styles[2] = {0};
-    styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_8192, 104, y, styles[0], active);
-    DrawOptionMenuChoice(gText_Reverse, GetStringRightAlignXOffset(FONT_NORMAL, gText_Reverse, 198), y, styles[1], active);
+    if (active)
+    {
+        styles[selection] = 1;
+        DrawOptionMenuChoice(gText_8192, 104, y, styles[0], active);
+        DrawOptionMenuChoice(gText_Reverse, GetStringRightAlignXOffset(FONT_NORMAL, gText_Reverse, 198), y, styles[1], active);
+    }
+    else
+    {
+        DrawOptionMenuChoice(gText_ThreeQuestionMarks, 104, y, styles[0], active);
+        DrawOptionMenuChoice(gText_ThreeQuestionMarks, GetStringRightAlignXOffset(FONT_NORMAL, gText_ThreeQuestionMarks, 198), y, styles[1], active);
+    }
 }
 
 static void DrawChoices_BattleStyle(int selection, int y)

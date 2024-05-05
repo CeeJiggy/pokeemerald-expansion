@@ -10,6 +10,19 @@ Route106_EventScript_Douglas::
 	msgbox Route106_Text_DouglasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route106_EventScript_PresidentCall::
+	goto_if_set FLAG_PRES_CALL_BOX, Route106_EventScript_PresidentDoCall
+	releaseall
+	end
+
+Route106_EventScript_PresidentDoCall::
+	lockall
+	pokenavcall Route106_Text_PresidentCall
+	waitmessage
+	clearflag FLAG_PRES_CALL_BOX
+	releaseall
+	end
+
 Route106_EventScript_Kyla::
 	trainerbattle_single TRAINER_KYLA, Route106_Text_KylaIntro, Route106_Text_KylaDefeated
 	msgbox Route106_Text_KylaPostBattle, MSGBOX_AUTOCLOSE
@@ -46,3 +59,18 @@ Route106_Text_TrainerTips:
 	.string "Advice on catching POKéMON with a ROD:\n"
 	.string "Press the A Button if you get a bite.$"
 
+Route106_Text_PresidentCall:
+	.string "… … … … … …\n"
+	.string "… … … … … Beep!\p"
+	.string "MR. STONE: Hello {PLAYER}!\p"
+	.string "Steven gave me a call to let me know\n"
+	.string "he received my letter.\p"
+	.string "I must thank you for helping me with\n"
+	.string "this errand, so please visit me in my\l"
+	.string "office the next time you are in\l"
+	.string "Rustboro City.\p"
+	.string "I have a very special item I would\n"
+	.string "like to give you.\p"
+	.string "See you soon!\p"
+	.string "… … … … … …\n"
+	.string "… … … … … Click!$"

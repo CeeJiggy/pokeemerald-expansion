@@ -12,6 +12,7 @@ Me
 	More advanced bag sort
 	Fast Pokemon Center Heal
 	Fast HMs
+	Reverse Shiny Odds
 
 pokeemerald-expansion
 	Physical Special Split
@@ -56,3 +57,7 @@ Special Thanks
 	Lunos
 	RavePossum
 	Alex (rainonline)
+
+TODO
+	Make Axe and Pickaxe able to make Secret Bases
+	Move inverse shiny to NPC

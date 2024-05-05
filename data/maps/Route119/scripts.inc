@@ -474,7 +474,7 @@ Route119_EventScript_ScottWonAtFortreeGymCall::
 	lockall
 	pokenavcall Route119_Text_ScottYouWonAtFortreeGym
 	waitmessage
-	clearflag FLAG_SCOTT_CALL_FORTREE_GYM
+	clearflag FLAG_PRES_CALL_BOX
 	addvar VAR_SCOTT_STATE, 1
 	releaseall
 	end
