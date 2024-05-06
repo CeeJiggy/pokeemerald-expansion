@@ -146,27 +146,27 @@
 #define B_DISGUISE_HP_LOSS GEN_LATEST         // In Gen8+, when a Disguised Mimikyu's Disguise is busted, upon changing to its Busted Form it loses HP equal to 1/8 of its maximum HP.
 
 // Item settings
-#define B_HP_BERRIES GEN_LATEST           // In Gen4+, berries which restore HP activate immediately after HP drops to half. In Gen3, the effect occurs at the end of the turn.
-#define B_BERRIES_INSTANT GEN_LATEST      // In Gen4+, most berries activate on battle start/switch-in if applicable. In Gen3, they only activate either at the move end or turn end.
-#define B_CONFUSE_BERRIES_HEAL GEN_LATEST // Before Gen7, Figy and similar berries restore 1/8th of HP and trigger at half HP. In Gen7 they restore half HP, triggering at 25% HP. In Gen8 they heal 1/3rd of HP.
-#define B_X_ITEMS_BUFF GEN_LATEST         // In Gen7+, the X Items raise a stat by 2 stages instead of 1.
-#define B_MENTAL_HERB GEN_LATEST          // In Gen5+, the Mental Herb cures Taunt, Encore, Torment, Heal Block, and Disable in addition to Infatuation from before.
-#define B_TRAINERS_KNOCK_OFF_ITEMS TRUE   // If TRUE, trainers can steal/swap your items (non-berries are restored after battle). In vanilla games trainers cannot steal items.
-#define B_RESTORE_HELD_BATTLE_ITEMS TRUE  // In Gen9 all non berry items are restored after battle.
-#define B_SOUL_DEW_BOOST GEN_LATEST       // In Gens3-6, Soul Dew boosts Latis' Sp. Atk and Sp. Def. In Gen7+ it boosts the power of their Psychic and Dragon type moves instead.
-#define B_NET_BALL_MODIFIER GEN_LATEST    // In Gen7+, Net Ball's catch multiplier is x5 instead of x3.
-#define B_DIVE_BALL_MODIFIER GEN_LATEST   // In Gen4+, Dive Ball's effectiveness increases by when Surfing or Fishing.
-#define B_NEST_BALL_MODIFIER GEN_LATEST   // Nest Ball's formula varies depending on the Gen. See Cmd_handleballthrow.
-#define B_REPEAT_BALL_MODIFIER GEN_LATEST // In Gen7+, Repeat Ball's catch multiplier is x3.5 instead of x3.
-#define B_TIMER_BALL_MODIFIER GEN_LATEST  // In Gen5+, Timer Ball's effectiveness increases by x0.3 per turn instead of x0.1
-#define B_DUSK_BALL_MODIFIER GEN_LATEST   // In Gen7+, Dusk Ball's catch multiplier is x3 instead of x3.5.
-#define B_QUICK_BALL_MODIFIER GEN_LATEST  // In Gen5+, Quick Ball's catch multiplier is x5 instead of x4.
-#define B_LURE_BALL_MODIFIER GEN_LATEST   // In Gen8+, Lure Ball's catch multiplier is x4. In Gen7, it's x5. In Gen6 and earlier, it's x3.
-#define B_HEAVY_BALL_MODIFIER GEN_LATEST  // In Gen7+, Heavy Ball's ranges change. See Cmd_handleballthrow.
-#define B_DREAM_BALL_MODIFIER GEN_LATEST  // In Gen8+, Dream Ball's catch multiplier is x4 when the target is asleep or has the ability Comatose.
-#define B_SPORT_BALL_MODIFIER GEN_LATEST  // In Gen8+, Sport Ball's catch multiplier was reduced from x1.5 to x1.
-#define B_SAFARI_BALL_MODIFIER GEN_LATEST // In Gen8+, Safari Ball's catch multiplier was reduced from x1.5 to x1.
-#define B_SERENE_GRACE_BOOST GEN_LATEST   // In Gen5+, Serene Grace boosts the added flinch chance of King's Rock and Razor Fang.
+#define B_HP_BERRIES GEN_LATEST                // In Gen4+, berries which restore HP activate immediately after HP drops to half. In Gen3, the effect occurs at the end of the turn.
+#define B_BERRIES_INSTANT GEN_LATEST           // In Gen4+, most berries activate on battle start/switch-in if applicable. In Gen3, they only activate either at the move end or turn end.
+#define B_CONFUSE_BERRIES_HEAL GEN_LATEST      // Before Gen7, Figy and similar berries restore 1/8th of HP and trigger at half HP. In Gen7 they restore half HP, triggering at 25% HP. In Gen8 they heal 1/3rd of HP.
+#define B_X_ITEMS_BUFF GEN_LATEST              // In Gen7+, the X Items raise a stat by 2 stages instead of 1.
+#define B_MENTAL_HERB GEN_LATEST               // In Gen5+, the Mental Herb cures Taunt, Encore, Torment, Heal Block, and Disable in addition to Infatuation from before.
+#define B_TRAINERS_KNOCK_OFF_ITEMS TRUE        // If TRUE, trainers can steal/swap your items (non-berries are restored after battle). In vanilla games trainers cannot steal items.
+#define B_RESTORE_HELD_BATTLE_ITEMS GEN_LATEST // In Gen9, all non-berry items are restored after battle.
+#define B_SOUL_DEW_BOOST GEN_LATEST            // In Gens3-6, Soul Dew boosts Latis' Sp. Atk and Sp. Def. In Gen7+ it boosts the power of their Psychic and Dragon type moves instead.
+#define B_NET_BALL_MODIFIER GEN_LATEST         // In Gen7+, Net Ball's catch multiplier is x5 instead of x3.
+#define B_DIVE_BALL_MODIFIER GEN_LATEST        // In Gen4+, Dive Ball's effectiveness increases by when Surfing or Fishing.
+#define B_NEST_BALL_MODIFIER GEN_LATEST        // Nest Ball's formula varies depending on the Gen. See Cmd_handleballthrow.
+#define B_REPEAT_BALL_MODIFIER GEN_LATEST      // In Gen7+, Repeat Ball's catch multiplier is x3.5 instead of x3.
+#define B_TIMER_BALL_MODIFIER GEN_LATEST       // In Gen5+, Timer Ball's effectiveness increases by x0.3 per turn instead of x0.1
+#define B_DUSK_BALL_MODIFIER GEN_LATEST        // In Gen7+, Dusk Ball's catch multiplier is x3 instead of x3.5.
+#define B_QUICK_BALL_MODIFIER GEN_LATEST       // In Gen5+, Quick Ball's catch multiplier is x5 instead of x4.
+#define B_LURE_BALL_MODIFIER GEN_LATEST        // In Gen8+, Lure Ball's catch multiplier is x4. In Gen7, it's x5. In Gen6 and earlier, it's x3.
+#define B_HEAVY_BALL_MODIFIER GEN_LATEST       // In Gen7+, Heavy Ball's ranges change. See Cmd_handleballthrow.
+#define B_DREAM_BALL_MODIFIER GEN_LATEST       // In Gen8+, Dream Ball's catch multiplier is x4 when the target is asleep or has the ability Comatose.
+#define B_SPORT_BALL_MODIFIER GEN_LATEST       // In Gen8+, Sport Ball's catch multiplier was reduced from x1.5 to x1.
+#define B_SAFARI_BALL_MODIFIER GEN_LATEST      // In Gen8+, Safari Ball's catch multiplier was reduced from x1.5 to x1.
+#define B_SERENE_GRACE_BOOST GEN_LATEST        // In Gen5+, Serene Grace boosts the added flinch chance of King's Rock and Razor Fang.
 
 // Flag settings
 // To use the following features in scripting, replace the 0s with the flag ID you're assigning it to.
