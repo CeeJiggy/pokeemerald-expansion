@@ -252,9 +252,9 @@ RustboroCity_DevonCorp_3F_Text_ThankYouForDeliveringLetter:
 RustboroCity_DevonCorp_3F_Text_ExplainBoxLink:
 	.string "MR. STONE: That is a {PKMN} Box Link.\p"
 	.string "You can use it to access the POKéMON\n"
-	.string "storage system almost anywhere!\p"
+	.string "Storage System almost anywhere!\p"
 	.string "We have an agreement with the POKéMON\n"
-	.string "league to prevent use of it inside of\l"
+	.string "League to prevent use of it inside of\l"
 	.string "their facility, as to prevent cheating.$"
 
 RustboroCity_DevonCorp_3F_Text_NotFamiliarWithTrends:
