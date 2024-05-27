@@ -51,10 +51,6 @@
 #include "constants/songs.h"
 #include "ui_stat_editor.h"
 
-#if (DECAP_ENABLED) && (DECAP_MIRRORING) && !(DECAP_START_MENU)
-#define AddTextPrinterParameterized (AddTextPrinterFixedCaseParameterized)
-#endif
-
 // Menu actions
 enum
 {
