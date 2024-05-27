@@ -592,7 +592,7 @@ static const u8 sGenderColors[2][3] =
         {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED}};
 
 static const u8 sText_MenuTitle[] = _("Stat Editor");
-static const u8 sText_MenuHP[] = _C("HP");
+static const u8 sText_MenuHP[] = ("HP");
 static const u8 sText_MenuAttack[] = _("Attack");
 static const u8 sText_MenuSpAttack[] = _("Sp. Atk");
 static const u8 sText_MenuDefense[] = _("Defense");
@@ -601,8 +601,8 @@ static const u8 sText_MenuSpeed[] = _("Speed");
 static const u8 sText_MenuTotal[] = _("Total");
 static const u8 sText_MenuStat[] = _("Stat");
 static const u8 sText_MenuActual[] = _("Actual");
-static const u8 sText_MenuEV[] = _C("EV");
-static const u8 sText_MenuIV[] = _C("IV");
+static const u8 sText_MenuEV[] = ("EV");
+static const u8 sText_MenuIV[] = ("IV");
 static const u8 sText_MonLevel[] = _("Lv.{CLEAR 1}{STR_VAR_1}");
 
 static const u8 sText_MenuLRButtonTextMain[] = _("Party");

@@ -1,5 +1,10 @@
 Route106_MapScripts::
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, Route106_OnFrame
 	.byte 0
+
+Route106_OnFrame::
+	map_script_2 FLAG_PRES_CALL_BOX, 1, Route106_EventScript_PresidentDoCall
+	.2byte 0
 
 Route106_EventScript_TrainerTipsSign::
 	msgbox Route106_Text_TrainerTips, MSGBOX_SIGN
