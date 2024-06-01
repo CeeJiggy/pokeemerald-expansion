@@ -79,6 +79,22 @@ static void Task_DoFieldMove_Init(u8 taskId)
     }
     else
     {
+        u8 objEventId;
+
+        LockPlayerFieldControls();
+        gPlayerAvatar.preventStep = TRUE;
+        objEventId = gPlayerAvatar.objectEventId;
+        gFieldEffectArguments[1] = GetPlayerFacingDirection();
+        if (gFieldEffectArguments[1] == DIR_SOUTH)
+            gFieldEffectArguments[2] = 0;
+        if (gFieldEffectArguments[1] == DIR_NORTH)
+            gFieldEffectArguments[2] = 1;
+        if (gFieldEffectArguments[1] == DIR_WEST)
+            gFieldEffectArguments[2] = 2;
+        if (gFieldEffectArguments[1] == DIR_EAST)
+            gFieldEffectArguments[2] = 3;
+        ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByCurrentState());
+        StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], gFieldEffectArguments[2]);
         gTasks[taskId].func = Task_DoFieldMove_RunFunc;
     }
 }

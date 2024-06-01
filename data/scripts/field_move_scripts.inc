@@ -62,6 +62,12 @@ Text_WantToCut:
 Text_MonUsedFieldMove:
 	.string "{STR_VAR_1} used {STR_VAR_2}!$"
 
+Text_PlayerUsedPickaxe:
+	.string "{PLAYER} used the Pickaxe!$"
+
+Text_PlayerUsedAxe:
+	.string "{PLAYER} used the Axe!$"
+
 Text_CantCut:
 	.string "This tree looks like it can be\n"
 	.string "cut down!$"

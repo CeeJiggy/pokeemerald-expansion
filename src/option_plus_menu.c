@@ -227,12 +227,12 @@ struct // MENU_CUSTOM
 };
 
 // Menu left side option names text
-static const u8 sText_LevelCaps[] = _("LEVEL CAPS");
-static const u8 sText_BattleIntro[] = _("BATTLE INTRO");
-static const u8 sText_ShinyOdds[] = _("SHINY ODDS");
-static const u8 sText_HMAnims[] = _("HM ANIMATIONS");
+static const u8 sText_LevelCaps[] = _("Level Caps");
+static const u8 sText_BattleIntro[] = _("Battle Intro");
+static const u8 sText_ShinyOdds[] = _("Shiny Odds");
+static const u8 sText_HMAnims[] = _("HM Animations");
 static const u8 sText_FastHeal[] = _("PokéCenter");
-static const u8 sText_UnitSystem[] = _("UNIT SYSTEM");
+static const u8 sText_UnitSystem[] = _("Unit System");
 static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
     {
         [MENUITEM_MAIN_TEXTSPEED] = gText_TextSpeed,
@@ -343,15 +343,15 @@ static const u8 sText_Desc_Save[] = _("Save your settings.");
 static const u8 sText_Desc_TextSpeed[] = _("Choose one of the four text-display\nspeeds.");
 static const u8 sText_Desc_BattleScene_On[] = _("Show the POKéMON battle animations.");
 static const u8 sText_Desc_BattleScene_Off[] = _("Skip the POKéMON battle animations.");
-static const u8 sText_Desc_BattleStyle_Shift[] = _("Get the option to switch your\nPOKéMON after the enemies faints.");
-static const u8 sText_Desc_BattleStyle_Set[] = _("No free switch after fainting the\nenemies POKéMON.");
+static const u8 sText_Desc_BattleStyle_Shift[] = _("Get the option to switch your\nPokémon after the enemies faints.");
+static const u8 sText_Desc_BattleStyle_Set[] = _("No free switch after fainting the\nenemies Pokémon.");
 static const u8 sText_Desc_SoundMono[] = _("Sound is the same in all speakers.\nRecommended for original hardware.");
 static const u8 sText_Desc_SoundStereo[] = _("Play the left and right audio channel\nseperatly. Great with headphones.");
 // static const u8 sText_Desc_ButtonMode[] = _("All buttons work as normal.");
 // static const u8 sText_Desc_ButtonMode_LR[] = _("On some screens the L and R buttons\nact as left and right.");
 // static const u8 sText_Desc_ButtonMode_LA[] = _("The L button acts as another A\nbutton for one-handed play.");
-static const u8 sText_Desc_UnitSystemImperial[] = _("Display BERRY and POKéMON weight\nand size in pounds and inches.");
-static const u8 sText_Desc_UnitSystemMetric[] = _("Display BERRY and POKéMON weight\nand size in kilograms and meters.");
+static const u8 sText_Desc_UnitSystemImperial[] = _("Display berry and Pokémon weight\nand size in pounds and inches.");
+static const u8 sText_Desc_UnitSystemMetric[] = _("Display berry and Pokémon weight\nand size in kilograms and meters.");
 static const u8 sText_Desc_FrameType[] = _("Choose the frame surrounding the\nwindows.");
 static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][3] =
     {
@@ -368,20 +368,20 @@ static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][3] =
 // Custom
 static const u8 sText_Desc_NoCaps[] = _("Experience gain is unchanged.");
 static const u8 sText_Desc_SoftCaps[] = _("Experience gain will be softly capped\nbased on owned badges.");
-static const u8 sText_Desc_8192[] = _("1/8192 base chance to find a shiny\nPOKéMON.");
-static const u8 sText_Desc_Reverse[] = _("8191/8192 base chance to find a shiny\nPOKéMON. Not effected by Shiny Charm.");
+static const u8 sText_Desc_8192[] = _("1/8192 base chance to find a shiny\nPokémon.");
+static const u8 sText_Desc_Reverse[] = _("8191/8192 base chance to find a shiny\nPokémon. Not effected by Shiny Charm.");
 static const u8 sText_Desc_NormalIntro[] = _("Normal battle intros.");
 static const u8 sText_Desc_FastIntro[] = _("Fast battle intros.");
 static const u8 sText_Desc_HMNormal[] = _("Show overworld HM animations.");
 static const u8 sText_Desc_HMSkip[] = _("Skip overworld HM animations.");
-static const u8 sText_Desc_HealNormal[] = _("Show normal POKéMON Center healing\ninteraction.");
-static const u8 sText_Desc_HealFast[] = _("Skip POKéMON Center healing text.");
-static const u8 sText_Desc_SurfOff[] = _("Disables the SURF theme when\nusing SURF.");
-static const u8 sText_Desc_SurfOn[] = _("Enables the SURF theme\nwhen using SURF.");
-static const u8 sText_Desc_BikeOff[] = _("Disables the BIKE theme when\nusing the BIKE.");
-static const u8 sText_Desc_BikeOn[] = _("Enables the BIKE theme when\nusing the BIKE.");
+static const u8 sText_Desc_HealNormal[] = _("Show normal Pokémon Center healing\ninteraction.");
+static const u8 sText_Desc_HealFast[] = _("Skip Pokémon Center healing text.");
+static const u8 sText_Desc_SurfOff[] = _("Disables the Surf theme when\nusing Surf.");
+static const u8 sText_Desc_SurfOn[] = _("Enables the Surf theme\nwhen using Surf.");
+static const u8 sText_Desc_BikeOff[] = _("Disables the Bike theme when\nusing the Bike.");
+static const u8 sText_Desc_BikeOn[] = _("Enables the Bike theme when\nusing the Bike.");
 static const u8 sText_Desc_FontType[] = _("Choose the font design.");
-static const u8 sText_Desc_OverworldCallsOn[] = _("TRAINERs will be able to call you,\noffering rematches and info.");
+static const u8 sText_Desc_OverworldCallsOn[] = _("Trainers will be able to call you,\noffering rematches and info.");
 static const u8 sText_Desc_OverworldCallsOff[] = _("You will not receive calls.\nSpecial events will still occur.");
 static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][6] =
     {
@@ -1090,8 +1090,8 @@ static void ReDrawAll(void)
 }
 
 // Process Input functions ****SPECIFIC****
-static const u8 sText_Faster[] = _("FASTER");
-static const u8 sText_Instant[] = _("INSTANT");
+static const u8 sText_Faster[] = _("Faster");
+static const u8 sText_Instant[] = _("Instant");
 static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, sText_Faster};
 static void DrawChoices_TextSpeed(int selection, int y)
 {
