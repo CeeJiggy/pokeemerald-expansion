@@ -59,5 +59,4 @@ Special Thanks
 	Alex (rainonline)
 
 TODO
-	Make Axe and Pickaxe able to make Secret Bases
 	Move inverse shiny to NPC
