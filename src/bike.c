@@ -47,6 +47,7 @@ static u8 Bike_DPadToDirection(u16);
 static u8 GetBikeCollision(u8);
 static u8 GetBikeCollisionAt(struct ObjectEvent *, s16, s16, u8, u8);
 static bool8 IsRunningDisallowedByMetatile(u8);
+static bool8 IsBikingDisallowedByMetatile(u8);
 static void Bike_TryAdvanceCyclingRoadCollisions();
 static u8 CanBikeFaceDirOnMetatile(u8, u8);
 static bool8 WillPlayerCollideWithCollision(u8, u8);
@@ -882,6 +883,9 @@ static u8 GetBikeCollisionAt(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 d
     if (collision == COLLISION_NONE && IsRunningDisallowedByMetatile(metatileBehavior))
         collision = COLLISION_IMPASSABLE;
 
+    if (collision == COLLISION_NONE && IsBikingDisallowedByMetatile(metatileBehavior))
+        collision = COLLISION_IMPASSABLE;
+
     if (collision)
         Bike_TryAdvanceCyclingRoadCollisions();
 
@@ -900,7 +904,14 @@ static bool8 IsRunningDisallowedByMetatile(u8 tile)
 {
     if (MetatileBehavior_IsRunningDisallowed(tile))
         return TRUE;
+    return FALSE;
+}
+
+static bool8 IsBikingDisallowedByMetatile(u8 tile)
+{
     if (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetElevation() & 1) == 0)
+        return TRUE;
+    if (MetatileBehavior_IsFortreeBridgeStart(tile) && (PlayerGetElevation() & 1) == 0)
         return TRUE;
     return FALSE;
 }
@@ -955,7 +966,12 @@ bool8 IsBikingDisallowedByPlayer(void)
         PlayerGetDestCoords(&x, &y);
         tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
         if (!IsRunningDisallowedByMetatile(tileBehavior))
-            return FALSE;
+        {
+            if (!IsBikingDisallowedByMetatile(tileBehavior))
+            {
+                return FALSE;
+            }
+        }
     }
     return TRUE;
 }

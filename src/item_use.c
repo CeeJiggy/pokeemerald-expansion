@@ -257,7 +257,7 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
         DisplayCannotDismountBikeMessage(taskId, tUsingRegisteredKeyItem);
     else
     {
-        if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == 0)
+        if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == FALSE)
         {
             sItemUseOnFieldCB = ItemUseOnFieldCB_Bike;
             SetUpItemUseOnFieldCallback(taskId);

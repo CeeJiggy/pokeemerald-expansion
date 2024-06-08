@@ -558,7 +558,7 @@ static void FortreeBridgePerStepCallback(u8 taskId)
         if (!isFortreeBridgePrev)
             break;
 
-        tBounceTime = 16;
+        tBounceTime = 8;
         tState = 2;
         // fallthrough
     case 2:

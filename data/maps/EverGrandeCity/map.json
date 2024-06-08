@@ -101,7 +101,7 @@
     {
       "type": "sign",
       "x": 21,
-      "y": 101,
+      "y": 103,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "EverGrandeCity_EventScript_CitySign"
