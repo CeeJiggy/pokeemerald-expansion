@@ -911,6 +911,8 @@ static bool8 IsBikingDisallowedByMetatile(u8 tile)
 {
     if (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetElevation() & 1) == 0)
         return TRUE;
+    if (MetatileBehavior_IsPacifidlogLog(tile))
+        return TRUE;
     if (MetatileBehavior_IsFortreeBridgeStart(tile) && (PlayerGetElevation() & 1) == 0)
         return TRUE;
     return FALSE;
