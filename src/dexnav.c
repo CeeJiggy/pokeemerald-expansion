@@ -2013,12 +2013,7 @@ static void DrawSpeciesIcons(void)
         species = sDexNavUiDataPtr->hiddenSpecies[i];
         x = ROW_HIDDEN_ICON_X + 24 * i;
         y = ROW_HIDDEN_ICON_Y;
-        if (FlagGet(FLAG_SYS_DETECTOR_MODE))
-            TryDrawIconInSlot(species, x, y);
-        else if (species == SPECIES_NONE || species > NUM_SPECIES)
-            CreateNoDataIcon(x, y);
-        else
-            CreateMonIcon(SPECIES_NONE, SpriteCB_MonIcon, x, y, 0, 0xFFFFFFFF); // question mark if detector mode inactive
+        TryDrawIconInSlot(species, x, y);
     }
 }
 
@@ -2038,10 +2033,7 @@ static u16 DexNavGetSpecies(void)
         species = sDexNavUiDataPtr->landSpecies[sDexNavUiDataPtr->cursorCol + COL_LAND_COUNT];
         break;
     case ROW_HIDDEN:
-        if (!FlagGet(FLAG_SYS_DETECTOR_MODE))
-            species = SPECIES_NONE;
-        else
-            species = sDexNavUiDataPtr->hiddenSpecies[sDexNavUiDataPtr->cursorCol];
+        species = sDexNavUiDataPtr->hiddenSpecies[sDexNavUiDataPtr->cursorCol];
         break;
     default:
         return SPECIES_NONE;
@@ -2553,7 +2545,7 @@ bool8 TryFindHiddenPokemon(void)
             // there are surely better ways to do this, but this allows greatest flexibility
             if (Random() % 100 < HIDDEN_MON_PROBABILTY)
             {
-                index = ChooseHiddenMonIndex();
+                index = ChooseHiddenMonIndex(hiddenMonsInfo);
                 if (index == 0xFF)
                     return FALSE; // no hidden info
                 species = hiddenMonsInfo->wildPokemon[index].species;
@@ -2571,7 +2563,7 @@ bool8 TryFindHiddenPokemon(void)
             {
                 if (Random() % 100 < HIDDEN_MON_PROBABILTY)
                 {
-                    index = ChooseHiddenMonIndex();
+                    index = ChooseHiddenMonIndex(hiddenMonsInfo);
                     if (index == 0xFF)
                         return FALSE; // no hidden info
                     species = hiddenMonsInfo->wildPokemon[index].species;

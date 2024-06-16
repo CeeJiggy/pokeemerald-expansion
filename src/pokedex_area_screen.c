@@ -382,6 +382,8 @@ static bool8 MapHasSpecies(const struct WildPokemonHeader *info, u16 species)
         return TRUE;
     if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT))
         return TRUE;
+    if (MonListHasSpecies(info->hiddenMonsInfo, species, HIDDEN_WILD_COUNT))
+        return TRUE;
 // When searching the fishing encounters, this incorrectly uses the size of the land encounters.
 // As a result it's reading out of bounds of the fishing encounters tables.
 #ifdef BUGFIX

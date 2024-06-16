@@ -821,7 +821,6 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ReceiveDexNav::
 	message LittlerootTown_ProfessorBirchsLab_Text_ReceivedDexNav
 	waitfanfare
 	setflag FLAG_SYS_DEXNAV_GET
-	setflag FLAG_SYS_DETECTOR_MODE
 	return
 
 LittlerootTown_ProfessorBirchsLab_EventScript_PokemonAwait::

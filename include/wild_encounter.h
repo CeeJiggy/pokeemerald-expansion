@@ -46,7 +46,7 @@ void CreateWildMon(u16 species, u8 level);
 u16 GetCurrentMapWildMonHeaderId(void);
 u8 ChooseWildMonIndex_Land(void);
 u8 ChooseWildMonIndex_WaterRock(void);
-u8 ChooseHiddenMonIndex(void);
+u8 ChooseHiddenMonIndex(const struct WildPokemonInfo *wildMonInfo);
 bool32 MapHasNoEncounterData(void);
 
 #endif // GUARD_WILD_ENCOUNTER_H

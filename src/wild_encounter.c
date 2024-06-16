@@ -27,7 +27,7 @@
 extern const u8 EventScript_SprayWoreOff[];
 
 #define MAX_ENCOUNTER_RATE 2880
-
+#define RARE_ENCOUNTER_ODDS 5
 #define NUM_FEEBAS_SPOTS 6
 
 // Number of accessible fishing spots in each section of Route 119
@@ -40,6 +40,7 @@ extern const u8 EventScript_SprayWoreOff[];
 enum
 {
     WILD_AREA_LAND,
+    WILD_AREA_RARE,
     WILD_AREA_WATER,
     WILD_AREA_ROCKS,
     WILD_AREA_FISHING,
@@ -479,8 +480,14 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
             break;
         if (OW_STORM_DRAIN == GEN_8 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_WATER, ABILITY_STORM_DRAIN, &wildMonIndex, LAND_WILD_COUNT))
             break;
-
         wildMonIndex = ChooseWildMonIndex_Land();
+        break;
+    case WILD_AREA_RARE:
+        wildMonIndex = ChooseHiddenMonIndex(wildMonInfo);
+        if (wildMonIndex == 255)
+        {
+            return FALSE;
+        }
         break;
     case WILD_AREA_WATER:
         if (OW_MAGNET_PULL < GEN_9 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_STEEL, ABILITY_MAGNET_PULL, &wildMonIndex, WATER_WILD_COUNT))
@@ -683,8 +690,39 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                     return TRUE;
                 }
 
+                u8 useHidden = Random() % 100;
+                if (useHidden < RARE_ENCOUNTER_ODDS && TryGenerateWildMon(gWildMonHeaders[headerId].hiddenMonsInfo, WILD_AREA_RARE, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+                {
+                    if (TryGenerateWildMon(gWildMonHeaders[headerId].hiddenMonsInfo, WILD_AREA_RARE, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+                    {
+                        if (TryDoDoubleWildBattle())
+                        {
+                            struct Pokemon mon1 = gEnemyParty[0];
+                            u8 useHidden2 = Random() % 100;
+                            if (useHidden2 < RARE_ENCOUNTER_ODDS)
+                            {
+                                TryGenerateWildMon(gWildMonHeaders[headerId].hiddenMonsInfo, WILD_AREA_RARE, WILD_CHECK_KEEN_EYE);
+                                gEnemyParty[1] = mon1;
+                                BattleSetup_StartDoubleWildBattle();
+                            }
+                            else
+                            {
+                                struct Pokemon mon1 = gEnemyParty[0];
+                                TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_KEEN_EYE);
+                                gEnemyParty[1] = mon1;
+                                BattleSetup_StartDoubleWildBattle();
+                            }
+                        }
+                        else
+                        {
+                            BattleSetup_StartWildBattle();
+                        }
+                        return TRUE;
+                    }
+                }
+
                 // try a regular wild land encounter
-                if (TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+                else if (TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
                     if (TryDoDoubleWildBattle())
                     {
@@ -1112,17 +1150,21 @@ bool8 StandardWildEncounter_Debug(void)
     DoStandardWildBattle_Debug();
     return TRUE;
 }
-u8 ChooseHiddenMonIndex(void)
+u8 ChooseHiddenMonIndex(const struct WildPokemonInfo *wildMonInfo)
 {
 #ifdef ENCOUNTER_CHANCE_HIDDEN_MONS_TOTAL
-    u8 rand = Random() % ENCOUNTER_CHANCE_HIDDEN_MONS_TOTAL;
+    if (wildMonInfo != NULL)
+    {
+        u8 rand = Random() % ENCOUNTER_CHANCE_HIDDEN_MONS_TOTAL;
+        if (rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0)
+            return 0;
+        else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_1)
+            return 1;
+        else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_1 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_2)
+            return 2;
+    }
+    return 0xFF;
 
-    if (rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0)
-        return 0;
-    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_1)
-        return 1;
-    else
-        return 2;
 #else
     return 0xFF;
 #endif
