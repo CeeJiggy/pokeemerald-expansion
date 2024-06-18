@@ -630,6 +630,7 @@ extern const u8 VSSeeker_Text_TrainersNotReady[];
 extern const u8 EventScript_VsSeekerChargingDone[];
 // Dexnav
 extern const u8 EventScript_StartDexNavBattle[];
+extern const u8 EventScript_StartShakingGrassBattle[];
 extern const u8 EventScript_NotFoundNearby[];
 extern const u8 EventScript_PokemonGotAway[];
 extern const u8 EventScript_LostSignal[];

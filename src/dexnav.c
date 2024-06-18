@@ -791,6 +791,42 @@ static void LoadSearchIconData(void)
 #define tSpecies data[2]
 #define tEnvironment data[3]
 #define tRevealed data[4]
+static void Task_SetUpRareEncounter(u8 taskId)
+{
+    u8 searchLevel = 1;
+    u16 species = sDexNavSearchDataPtr->species;
+    // init sprites
+    // sDexNavSearchDataPtr->iconSpriteId = MAX_SPRITES;
+    // sDexNavSearchDataPtr->itemSpriteId = MAX_SPRITES;
+    // sDexNavSearchDataPtr->eyeSpriteId = MAX_SPRITES;
+    // sDexNavSearchDataPtr->starSpriteIds[0] = MAX_SPRITES;
+    // sDexNavSearchDataPtr->starSpriteIds[1] = MAX_SPRITES;
+    // sDexNavSearchDataPtr->starSpriteIds[2] = MAX_SPRITES;
+    // sDexNavSearchDataPtr->ownedIconSpriteId = MAX_SPRITES;
+    // sDexNavSearchDataPtr->exclamationSpriteId = MAX_SPRITES;
+    sDexNavSearchDataPtr->searchLevel = 1;
+
+    DexNavGenerateMoveset(species, searchLevel, sDexNavSearchDataPtr->monLevel, &sDexNavSearchDataPtr->moves[0]);
+    sDexNavSearchDataPtr->heldItem = DexNavGenerateHeldItem(species, searchLevel);
+    sDexNavSearchDataPtr->abilityNum = DexNavGetAbilityNum(species, searchLevel);
+    sDexNavSearchDataPtr->potential = 1;
+    DexNavProximityUpdate();
+
+    // LoadSearchIconData();
+    // if (sDexNavSearchDataPtr->hiddenSearch)
+    // {
+    //     DexNavDrawHiddenIcons();
+    // }
+    // else
+    // {
+    //     DexNavDrawIcons();
+    //     DexNavUpdateSearchWindow(sDexNavSearchDataPtr->proximity, searchLevel);
+    // }
+
+    gTasks[taskId].tProximity = gSprites[gPlayerAvatar.spriteId].x;
+    gTasks[taskId].tFrameCount = 0;
+    gTasks[taskId].func = Task_ShakingGrass;
+}
 static void Task_SetUpDexNavSearch(u8 taskId)
 {
     u16 species = sDexNavSearchDataPtr->species;
@@ -968,6 +1004,13 @@ void EndDexNavSearch(u8 taskId)
     Free(sDexNavSearchDataPtr);
 }
 
+void EndShakingGrass(u8 taskId)
+{
+    DestroyTask(taskId);
+    FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+    Free(sDexNavSearchDataPtr);
+}
+
 static void EndDexNavSearchSetupScript(const u8 *script, u8 taskId)
 {
     gSaveBlock1Ptr->dexNavChain = 0; // reset chain
@@ -1028,6 +1071,68 @@ static void Task_RevealHiddenMon(u8 taskId)
     task->tFrameCount = 0; // restart search clock
 }
 
+void Task_ShakingGrass(u8 taskId)
+{
+    u32 species = sDexNavSearchDataPtr->species;
+    struct Task *task = &gTasks[taskId];
+
+    if (sDexNavSearchDataPtr->proximity > MAX_PROXIMITY)
+    { // out of range
+        EndShakingGrass(taskId);
+        return;
+    }
+
+    if (ArePlayerFieldControlsLocked() == TRUE)
+    { // check if script just executed
+        // gSaveBlock1Ptr->dexNavChain = 0;  //issue with reusable repels
+        EndShakingGrass(taskId);
+        return;
+    }
+
+    if (gTasks[taskId].tFrameCount % 60 == 1)
+    {
+        PlaySE(SE_M_POISON_POWDER);
+    }
+
+    if (gTasks[taskId].tFrameCount > DEXNAV_TIMEOUT * 60)
+    { // player took too long
+        EndShakingGrass(taskId);
+        return;
+    }
+
+    if (sDexNavSearchDataPtr->proximity < 1)
+    {
+        CreateDexNavWildMon(species, sDexNavSearchDataPtr->potential, sDexNavSearchDataPtr->monLevel,
+                            sDexNavSearchDataPtr->abilityNum, sDexNavSearchDataPtr->heldItem, sDexNavSearchDataPtr->moves);
+        gDexnavBattle = TRUE;
+        ScriptContext_SetupScript(EventScript_StartShakingGrassBattle);
+        Free(sDexNavSearchDataPtr);
+        DestroyTask(taskId);
+        return;
+    }
+
+    // Caves and water the pokemon moves around
+    if ((sDexNavSearchDataPtr->environment == ENCOUNTER_TYPE_WATER || GetCurrentMapType() == MAP_TYPE_UNDERGROUND) && sDexNavSearchDataPtr->proximity < GetMovementProximityBySearchLevel() && sDexNavSearchDataPtr->movementCount < 2 && task->tRevealed)
+    {
+        FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+        while (1)
+        {
+            if (TryStartHiddenMonFieldEffect(sDexNavSearchDataPtr->environment, 10, 10, TRUE))
+                break;
+        }
+
+        sDexNavSearchDataPtr->movementCount++;
+    }
+
+    DexNavProximityUpdate();
+    if (task->tProximity != sDexNavSearchDataPtr->proximity)
+    {
+        // player has moved
+        task->tProximity = sDexNavSearchDataPtr->proximity;
+    }
+
+    task->tFrameCount++;
+}
 void Task_DexNavSearch(u8 taskId)
 {
     u32 species = sDexNavSearchDataPtr->species;
@@ -2517,7 +2622,7 @@ bool8 TryFindHiddenPokemon(void)
     u16 *stepPtr = GetVarPointer(VAR_DEXNAV_STEP_COUNTER);
     u32 attempts = 0;
 
-    if (!FlagGet(FLAG_SYS_DETECTOR_MODE) || FlagGet(FLAG_SYS_DEXNAV_SEARCH) || GetFlashLevel() > 0)
+    if (FlagGet(FLAG_SYS_DEXNAV_SEARCH))
     {
         (*stepPtr) = 0;
         return FALSE;
@@ -2616,19 +2721,19 @@ bool8 TryFindHiddenPokemon(void)
         }
 
         // exclamation mark over player
-        gFieldEffectArguments[0] = gSaveBlock1Ptr->pos.x;
-        gFieldEffectArguments[1] = gSaveBlock1Ptr->pos.y;
-        gFieldEffectArguments[2] = gSprites[gPlayerAvatar.spriteId].subpriority - 1;
-        gFieldEffectArguments[3] = 2;
-        ObjectEventGetLocalIdAndMap(&gObjectEvents[gPlayerAvatar.objectEventId], &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
-        FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
+        // gFieldEffectArguments[0] = gSaveBlock1Ptr->pos.x;
+        // gFieldEffectArguments[1] = gSaveBlock1Ptr->pos.y;
+        // gFieldEffectArguments[2] = gSprites[gPlayerAvatar.spriteId].subpriority - 1;
+        // gFieldEffectArguments[3] = 2;
+        // ObjectEventGetLocalIdAndMap(&gObjectEvents[gPlayerAvatar.objectEventId], &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+        // FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
 
-        PlayCry_Script(species, 0);
-        taskId = CreateTask(Task_SetUpDexNavSearch, 0);
+        // PlayCry_Script(species, 0);
+        taskId = CreateTask(Task_SetUpRareEncounter, 0);
         gTasks[taskId].tSpecies = sDexNavSearchDataPtr->species;
         gTasks[taskId].tEnvironment = sDexNavSearchDataPtr->environment;
         gTasks[taskId].tRevealed = FALSE;
-        HideMapNamePopUpWindow();
+        // HideMapNamePopUpWindow();
         ChangeBgY_ScreenOff(0, 0, 0);
         return FALSE; // we dont actually want to enable the script context or the game will freeze
     }
@@ -2731,7 +2836,13 @@ void ResetDexNavSearch(void)
     gSaveBlock1Ptr->dexNavChain = 0;    // reset dex nav chaining on new map
     VarSet(VAR_DEXNAV_STEP_COUNTER, 0); // reset hidden pokemon step counter
     if (FlagGet(FLAG_SYS_DEXNAV_SEARCH))
+    {
         EndDexNavSearch(FindTaskIdByFunc(Task_DexNavSearch)); // moving to new map ends dexnav search
+    }
+    if (FindTaskIdByFunc(Task_ShakingGrass) != TASK_NONE)
+    {
+        EndShakingGrass(FindTaskIdByFunc(Task_ShakingGrass)); // moving to new map clears shaking grass
+    }
 }
 
 void IncrementDexNavChain(void)

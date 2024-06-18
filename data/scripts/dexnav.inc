@@ -8,6 +8,11 @@ EventScript_StartDexNavBattle::
 	release
 	end
 
+EventScript_StartShakingGrassBattle::
+	lock
+	dowildbattle    
+	release
+	end
 
 EventScript_NotFoundNearby::
     msgbox sText_NotFoundNearby, MSGBOX_SIGN
