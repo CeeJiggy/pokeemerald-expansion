@@ -987,6 +987,10 @@ bool8 TryStartDexnavSearch(void)
         return FALSE;
 
     HideMapNamePopUpWindow();
+    if (FindTaskIdByFunc(Task_ShakingGrass) != TASK_NONE)
+    {
+        EndShakingGrass(FindTaskIdByFunc(Task_ShakingGrass));
+    }
     ChangeBgY_ScreenOff(0, 0, 0);
     taskId = CreateTask(Task_InitDexNavSearch, 0);
     gTasks[taskId].tSpecies = val & MASK_SPECIES;
@@ -1073,8 +1077,11 @@ static void Task_RevealHiddenMon(u8 taskId)
 
 void Task_ShakingGrass(u8 taskId)
 {
+    u16 *stepPtr = GetVarPointer(VAR_DEXNAV_STEP_COUNTER);
     u32 species = sDexNavSearchDataPtr->species;
     struct Task *task = &gTasks[taskId];
+
+    (*stepPtr) = 0;
 
     if (sDexNavSearchDataPtr->proximity > MAX_PROXIMITY)
     { // out of range
@@ -1091,7 +1098,21 @@ void Task_ShakingGrass(u8 taskId)
 
     if (gTasks[taskId].tFrameCount % 60 == 1)
     {
-        PlaySE(SE_M_POISON_POWDER);
+        if (sDexNavSearchDataPtr->environment == ENCOUNTER_TYPE_WATER)
+        {
+            PlaySE(SE_M_BUBBLE3);
+        }
+        if (sDexNavSearchDataPtr->environment == ENCOUNTER_TYPE_LAND)
+        {
+            if (GetCurrentMapType() == MAP_TYPE_UNDERGROUND)
+            {
+                PlaySE(SE_M_SAND_ATTACK);
+            }
+            else
+            {
+                PlaySE(SE_M_POISON_POWDER);
+            }
+        }
     }
 
     if (gTasks[taskId].tFrameCount > DEXNAV_TIMEOUT * 60)
@@ -2734,7 +2755,7 @@ bool8 TryFindHiddenPokemon(void)
         gTasks[taskId].tEnvironment = sDexNavSearchDataPtr->environment;
         gTasks[taskId].tRevealed = FALSE;
         // HideMapNamePopUpWindow();
-        ChangeBgY_ScreenOff(0, 0, 0);
+        // ChangeBgY_ScreenOff(0, 0, 0);
         return FALSE; // we dont actually want to enable the script context or the game will freeze
     }
 
