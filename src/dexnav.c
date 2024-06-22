@@ -675,8 +675,8 @@ static bool8 DexNavPickTile(u8 environment, u8 areaX, u8 areaY, bool8 smallScan)
                 if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehaviour))
                 {
                     u8 scale = 320 - (smallScan * 200) - (GetPlayerDistance(topX, topY) / 2);
-                    if (IsElevationMismatchAt(gObjectEvents[gPlayerAvatar.spriteId].currentElevation, topX, topY))
-                        break;
+                    // if (IsElevationMismatchAt(gObjectEvents[gPlayerAvatar.spriteId].currentElevation, topX, topY))
+                    //     break;
 
                     weight = (Random() % scale <= 1) && !MapGridGetCollisionAt(topX, topY);
                 }
@@ -1089,7 +1089,7 @@ void Task_ShakingGrass(u8 taskId)
         return;
     }
 
-    if (ArePlayerFieldControlsLocked() == TRUE)
+    if (ArePlayerFieldControlsLocked() == TRUE && sDexNavSearchDataPtr->environment != ENCOUNTER_TYPE_WATER)
     { // check if script just executed
         // gSaveBlock1Ptr->dexNavChain = 0;  //issue with reusable repels
         EndShakingGrass(taskId);
@@ -1362,8 +1362,8 @@ static u8 DexNavTryGenerateMonLevel(u16 species, u8 environment)
     if (levelBase == MON_LEVEL_NONEXISTENT)
         return MON_LEVEL_NONEXISTENT; // species not found in the area
 
-    if (Random() % 100 < 4)
-        levelBonus += 10; // 4% chance of having a +10 level
+    // if (Random() % 100 < 4)
+    //     levelBonus += 10; // 4% chance of having a +10 level
 
     if (levelBase + levelBonus > MAX_LEVEL)
         return MAX_LEVEL;
@@ -2689,27 +2689,27 @@ bool8 TryFindHiddenPokemon(void)
             }
             break;
         case 1: // water
-            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+                // if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+                // {
+            if (Random() % 100 < HIDDEN_MON_PROBABILTY)
             {
-                if (Random() % 100 < HIDDEN_MON_PROBABILTY)
-                {
-                    index = ChooseHiddenMonIndex(hiddenMonsInfo);
-                    if (index == 0xFF)
-                        return FALSE; // no hidden info
-                    species = hiddenMonsInfo->wildPokemon[index].species;
-                    isHiddenMon = TRUE;
-                    environment = ENCOUNTER_TYPE_HIDDEN;
-                }
-                else
-                {
-                    species = gWildMonHeaders[headerId].waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
-                    environment = ENCOUNTER_TYPE_WATER;
-                }
+                index = ChooseHiddenMonIndex(hiddenMonsInfo);
+                if (index == 0xFF)
+                    return FALSE; // no hidden info
+                species = hiddenMonsInfo->wildPokemon[index].species;
+                isHiddenMon = TRUE;
+                environment = ENCOUNTER_TYPE_HIDDEN;
             }
             else
             {
-                return FALSE; // not surfing -> cant find hidden water mons
+                species = gWildMonHeaders[headerId].waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
+                environment = ENCOUNTER_TYPE_WATER;
             }
+            // }
+            // else
+            // {
+            //     return FALSE; // not surfing -> cant find hidden water mons
+            // }
             break;
         default:
             return FALSE;

@@ -243,7 +243,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
     }
 
-    if (input->tookStep && TryFindHiddenPokemon())
+    if (input->tookStep && TryFindHiddenPokemon() && FlagGet(FLAG_SYS_DETECTOR_MODE))
         return TRUE;
 
     if (input->pressedSelectButton)
