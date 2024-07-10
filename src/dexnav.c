@@ -1432,7 +1432,7 @@ static void DexNavGenerateMoveset(u16 species, u8 searchLevel, u8 encounterLevel
     // set first move slot to a random egg move if search level is good enough
     if (genMove)
     {
-        u8 numEggMoves = GetEggMovesSpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), eggMoveBuffer);
+        u8 numEggMoves = GetEggMovesBySpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), eggMoveBuffer);
         if (numEggMoves != 0)
             moveDst[0] = eggMoveBuffer[Random() % numEggMoves];
     }
