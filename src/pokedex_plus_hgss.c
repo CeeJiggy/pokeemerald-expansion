@@ -4969,7 +4969,7 @@ static bool8 CalculateMoves(void)
         species = GetFormSpeciesId(species, 0);
 
     // Calculate amount of Egg and LevelUp moves
-    numEggMoves = GetEggMovesSpecies(species, statsMovesEgg);
+    numEggMoves = GetEggMovesBySpecies(species, statsMovesEgg);
     numLevelUpMoves = GetLevelUpMovesBySpecies(species, statsMovesLevelUp);
 
     // Egg moves
@@ -5925,7 +5925,7 @@ static void Task_LoadEvolutionScreen(u8 taskId)
         u32 alreadyPrintedIcons[MAX_EVOLUTION_ICONS] = {0};
         u32 depth = sPokedexView->numPreEvolutions;
         u32 iconDepth = depth;
-        //Print evo info and icons
+        // Print evo info and icons
         gTasks[taskId].data[3] = 0;
         PrintEvolutionTargetSpeciesAndMethod(taskId, NationalPokedexNumToSpeciesHGSS(sPokedexListItem->dexNum), 0, &depth, alreadyPrintedIcons, &iconDepth);
         LoadSpritePalette(&gSpritePalette_Arrow);
@@ -6084,20 +6084,20 @@ static void HandleTargetSpeciesPrintText(u32 targetSpecies, u32 base_x, u32 base
     if (seen || !HGSS_HIDE_UNSEEN_EVOLUTION_NAMES)
         StringCopy(gStringVar3, GetSpeciesName(targetSpecies)); // evolution mon name
     else
-        StringCopy(gStringVar3, gText_ThreeQuestionMarks); //show questionmarks instead of name
-    StringExpandPlaceholders(gStringVar3, sText_EVO_Name); //evolution mon name
-    PrintInfoScreenTextSmall(gStringVar3, base_x, base_y + base_y_offset*base_i); //evolution mon name
+        StringCopy(gStringVar3, gText_ThreeQuestionMarks);                          // show questionmarks instead of name
+    StringExpandPlaceholders(gStringVar3, sText_EVO_Name);                          // evolution mon name
+    PrintInfoScreenTextSmall(gStringVar3, base_x, base_y + base_y_offset * base_i); // evolution mon name
 }
 
 static void HandleTargetSpeciesPrintIcon(u8 taskId, u16 targetSpecies, u8 base_i, u8 iterations)
 {
     u32 personality = GetPokedexMonPersonality(targetSpecies);
-    LoadMonIconPalettePersonality(targetSpecies, personality); //Loads pallete for current mon
-    if (iterations > 6) // Print icons closer to each other if there are many evolutions
-        gTasks[taskId].data[4+base_i] = CreateMonIcon(targetSpecies, SpriteCB_MonIcon, 45 + 26*base_i, 31, 4, personality);
+    LoadMonIconPalettePersonality(targetSpecies, personality); // Loads pallete for current mon
+    if (iterations > 6)                                        // Print icons closer to each other if there are many evolutions
+        gTasks[taskId].data[4 + base_i] = CreateMonIcon(targetSpecies, SpriteCB_MonIcon, 45 + 26 * base_i, 31, 4, personality);
     else
-        gTasks[taskId].data[4+base_i] = CreateMonIcon(targetSpecies, SpriteCB_MonIcon, 50 + 32*base_i, 31, 4, personality);
-    gSprites[gTasks[taskId].data[4+base_i]].oam.priority = 0;
+        gTasks[taskId].data[4 + base_i] = CreateMonIcon(targetSpecies, SpriteCB_MonIcon, 50 + 32 * base_i, 31, 4, personality);
+    gSprites[gTasks[taskId].data[4 + base_i]].oam.priority = 0;
 }
 
 static void CreateCaughtBallEvolutionScreen(u16 targetSpecies, u8 x, u8 y, u16 unused)
@@ -6274,18 +6274,18 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, u16 species, u8 dept
 
     StringCopy(gStringVar1, GetSpeciesName(species));
 
-    //If there are no evolutions print text and return
+    // If there are no evolutions print text and return
     if (evolutions == NULL)
     {
         if (depth == 0)
         {
             StringExpandPlaceholders(gStringVar4, sText_EVO_NONE);
-            PrintInfoScreenTextSmall(gStringVar4, base_x-7-7, base_y + base_y_offset*(*depth_i));
+            PrintInfoScreenTextSmall(gStringVar4, base_x - 7 - 7, base_y + base_y_offset * (*depth_i));
         }
         return;
     }
 
-    //Calculate number of possible direct evolutions (e.g. Eevee has 5 but torchic has 1)
+    // Calculate number of possible direct evolutions (e.g. Eevee has 5 but torchic has 1)
     for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
     {
         if (evolutions[i].method != 0)
@@ -6302,8 +6302,8 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, u16 species, u8 dept
 
         targetSpecies = evolutions[i].targetSpecies;
         sPokedexView->sEvoScreenData.targetSpecies[*depth_i] = targetSpecies;
-        CreateCaughtBallEvolutionScreen(targetSpecies, base_x + depth_x*depth-9, base_y + base_y_offset*(*depth_i), 0);
-        HandleTargetSpeciesPrintText(targetSpecies, base_x + depth_x*depth, base_y, base_y_offset, *depth_i); //evolution mon name
+        CreateCaughtBallEvolutionScreen(targetSpecies, base_x + depth_x * depth - 9, base_y + base_y_offset * (*depth_i), 0);
+        HandleTargetSpeciesPrintText(targetSpecies, base_x + depth_x * depth, base_y, base_y_offset, *depth_i); // evolution mon name
 
         for (j = 0; j < MAX_EVOLUTION_ICONS; j++)
         {
@@ -6507,12 +6507,12 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, u16 species, u8 dept
         default:
             StringExpandPlaceholders(gStringVar4, sText_EVO_UNKNOWN);
             break;
-        }//Switch end
-        PrintInfoScreenTextSmall(gStringVar4, base_x + depth_x*depth+base_x_offset, base_y + base_y_offset*(*depth_i)); //Print actual instructions
+        } // Switch end
+        PrintInfoScreenTextSmall(gStringVar4, base_x + depth_x * depth + base_x_offset, base_y + base_y_offset * (*depth_i)); // Print actual instructions
 
         (*depth_i)++;
-        PrintEvolutionTargetSpeciesAndMethod(taskId, targetSpecies, depth+1, depth_i, alreadyPrintedIcons, icon_depth_i);
-    }//For loop end
+        PrintEvolutionTargetSpeciesAndMethod(taskId, targetSpecies, depth + 1, depth_i, alreadyPrintedIcons, icon_depth_i);
+    } // For loop end
 }
 
 static void Task_SwitchScreensFromEvolutionScreen(u8 taskId)
@@ -6922,35 +6922,35 @@ static void Task_LoadCryScreen(u8 taskId)
         break;
     case 6:
     {
-            struct CryScreenWindow waveformWindow;
+        struct CryScreenWindow waveformWindow;
 
-            waveformWindow.unk0 = 0x4020;
-            waveformWindow.unk2 = 31;
-            waveformWindow.paletteNo = 8;
-            waveformWindow.yPos = 30;
-            waveformWindow.xPos = 12;
-            if (LoadCryWaveformWindow(&waveformWindow, 2))
-            {
-                gMain.state++;
-                gDexCryScreenState = 0;
-            }
+        waveformWindow.unk0 = 0x4020;
+        waveformWindow.unk2 = 31;
+        waveformWindow.paletteNo = 8;
+        waveformWindow.yPos = 30;
+        waveformWindow.xPos = 12;
+        if (LoadCryWaveformWindow(&waveformWindow, 2))
+        {
+            gMain.state++;
+            gDexCryScreenState = 0;
+        }
         break;
     }
     case 7:
     {
-            struct CryScreenWindow cryMeter;
+        struct CryScreenWindow cryMeter;
 
-            cryMeter.paletteNo = 9;
-            cryMeter.xPos = 18;
-            cryMeter.yPos = 3;
-            if (LoadCryMeter(&cryMeter, 3))
-                gMain.state++;
-            CopyWindowToVram(WIN_VU_METER, COPYWIN_GFX);
-            CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(2);
-            CopyBgTilemapBufferToVram(3);
+        cryMeter.paletteNo = 9;
+        cryMeter.xPos = 18;
+        cryMeter.yPos = 3;
+        if (LoadCryMeter(&cryMeter, 3))
+            gMain.state++;
+        CopyWindowToVram(WIN_VU_METER, COPYWIN_GFX);
+        CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(2);
+        CopyBgTilemapBufferToVram(3);
         break;
     }
     case 8:

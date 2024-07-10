@@ -578,7 +578,7 @@ const struct Item gItemsInfo[] =
         [ITEM_HYPER_POTION] =
             {
                 .name = _("Hyper Potion"),
-                .price = (I_PRICE >= GEN_2 || I_PRICE <= GEN_6) ? 1200 : 1500,
+                .price = (I_PRICE >= GEN_2 && I_PRICE <= GEN_6) ? 1200 : 1500,
                 .holdEffectParam = 120,
                 .description = COMPOUND_STRING(
                     "Restores the HP of\n"
@@ -1778,22 +1778,22 @@ const struct Item gItemsInfo[] =
                 .flingPower = 30,
             },
 
-    [ITEM_EXP_CANDY_XL] =
-    {
-        .name = _("Exp.Candy XL"),
-        .pluralName = _("Exp.Candies XL"),
-        .price = 10000,
-        .holdEffectParam = EXP_30000,
-        .description = COMPOUND_STRING(
-            "Gives a very large\n"
-            "amount of Exp. to\n"
-            "a single Pokémon."),
-        .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_PARTY_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-        .effect = gItemEffect_RareCandy,
-        .flingPower = 30,
-    },
+        [ITEM_EXP_CANDY_XL] =
+            {
+                .name = _("Exp.Candy XL"),
+                .pluralName = _("Exp.Candies XL"),
+                .price = 10000,
+                .holdEffectParam = EXP_30000,
+                .description = COMPOUND_STRING(
+                    "Gives a very large\n"
+                    "amount of Exp. to\n"
+                    "a single Pokémon."),
+                .pocket = POCKET_ITEMS,
+                .type = ITEM_USE_PARTY_MENU,
+                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+                .effect = gItemEffect_RareCandy,
+                .flingPower = 30,
+            },
 
         [ITEM_DYNAMAX_CANDY] =
             {
@@ -3677,20 +3677,20 @@ const struct Item gItemsInfo[] =
                 .flingPower = 80,
             },
 
-    [ITEM_DUBIOUS_DISC] =
-    {
-        .name = _("Dubious Disc"),
-        .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
-        .description = COMPOUND_STRING(
-            "A clear device\n"
-            "overflowing with\n"
-            "dubious data."),
-        .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-        .effect = gItemEffect_EvoItem,
-        .flingPower = 50,
-    },
+        [ITEM_DUBIOUS_DISC] =
+            {
+                .name = _("Dubious Disc"),
+                .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
+                .description = COMPOUND_STRING(
+                    "A clear device\n"
+                    "overflowing with\n"
+                    "dubious data."),
+                .pocket = POCKET_ITEMS,
+                .type = EVO_HELD_ITEM_TYPE,
+                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+                .effect = gItemEffect_EvoItem,
+                .flingPower = 50,
+            },
 
         [ITEM_REAPER_CLOTH] =
             {
