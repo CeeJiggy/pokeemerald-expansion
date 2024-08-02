@@ -1721,21 +1721,18 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
 
 static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 {
-    u8 *txtPtr, *end;
+    u8 *txtPtr;
     u8 type;
-    u32 speciesId;
     u8 typeColor = TypeEffectiveness(targetId, battler);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
-    u8 moveType = GetTypeBeforeUsingMove(move, battlerAtk);
     u8 movePower = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].power;
     u8 battlerType1 = gBattleMons[battler].type1;
     u8 battlerType2 = gBattleMons[battler].type2;
-
-    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[moveType].name);
-
     type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
+
+    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
     // not sure why this was here tbh, leaving it in just in case
     // txtPtr[0] = EXT_CTRL_CODE_BEGIN;
     // txtPtr++;
@@ -1766,7 +1763,8 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 
     BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
     MoveSelectionDisplaySplitIcon(battler);
-    if (movePower > 0 && (moveType == battlerType1 || moveType == battlerType2))
+
+    if (movePower > 0 && (type == battlerType1 || type == battlerType2))
     {
         StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
         BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_STAB_SYMBOL);
@@ -1775,16 +1773,45 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 
 static void MoveSelectionDisplayMoveType(u32 battler)
 {
-    u8 *txtPtr;
+    u8 *txtPtr, *end;
+    u8 type;
+    u32 speciesId;
     u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
-    u8 moveType = GetTypeBeforeUsingMove(move, battlerAtk);
     u8 movePower = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].power;
     u8 battlerType1 = gBattleMons[battler].type1;
     u8 battlerType2 = gBattleMons[battler].type2;
-    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[moveType].name);
+    type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
+
+    if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_BLAST)
+    {
+        if (IsGimmickSelected(battler, GIMMICK_TERA) || GetActiveGimmick(battler) == GIMMICK_TERA)
+            type = GetBattlerTeraType(battler);
+    }
+    else if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_IVY_CUDGEL)
+    {
+        speciesId = gBattleMons[battler].species;
+
+        if (speciesId == SPECIES_OGERPON_WELLSPRING_MASK || speciesId == SPECIES_OGERPON_WELLSPRING_MASK_TERA || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK_TERA)
+            type = gBattleMons[battler].type2;
+    }
+    // Max Guard is a Normal-type move
+    else if (gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].category == DAMAGE_CATEGORY_STATUS && (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX)))
+    {
+        type = TYPE_NORMAL;
+    }
+    else if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_STARSTORM)
+    {
+        if (gBattleMons[battler].species == SPECIES_TERAPAGOS_STELLAR || (IsGimmickSelected(battler, GIMMICK_TERA) && gBattleMons[battler].species == SPECIES_TERAPAGOS_TERASTAL))
+            type = TYPE_STELLAR;
+    }
+
+    // end = txtPtr;
+    // PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
+
+    txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
 
     if (typeColor != COLOR_EFFECTIVE)
     {
@@ -1809,37 +1836,59 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
     MoveSelectionDisplaySplitIcon(battler);
 
-    if (movePower > 0 && (moveType == battlerType1 || moveType == battlerType2))
+    if (movePower > 0 && (type == battlerType1 || type == battlerType2))
     {
         StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
         BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_STAB_SYMBOL);
     }
-    if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_BLAST)
-    {
-        if (IsGimmickSelected(battler, GIMMICK_TERA) || GetActiveGimmick(battler) == GIMMICK_TERA)
-            type = GetBattlerTeraType(battler);
-    }
-    else if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_IVY_CUDGEL)
-    {
-        speciesId = gBattleMons[battler].species;
+}
 
-        if (speciesId == SPECIES_OGERPON_WELLSPRING_MASK || speciesId == SPECIES_OGERPON_WELLSPRING_MASK_TERA || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK || speciesId == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK || speciesId == SPECIES_OGERPON_CORNERSTONE_MASK_TERA)
-            type = gBattleMons[battler].type2;
-    }
-    // Max Guard is a Normal-type move
-    else if (gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].category == DAMAGE_CATEGORY_STATUS && (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX)))
-    {
-        type = TYPE_NORMAL;
-    }
-    else if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_STARSTORM)
-    {
-        if (gBattleMons[battler].species == SPECIES_TERAPAGOS_STELLAR || (IsGimmickSelected(battler, GIMMICK_TERA) && gBattleMons[battler].species == SPECIES_TERAPAGOS_TERASTAL))
-            type = TYPE_STELLAR;
-    }
+static void MoveSelectionDisplayMoveDescription(u32 battler)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
+    u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
+    u16 pwr = gMovesInfo[move].power;
+    u16 acc = gMovesInfo[move].accuracy;
+    u8 cat = gMovesInfo[move].category;
 
-    end = StringCopy(txtPtr, gTypesInfo[type].name);
-    PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
-    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    u8 pwr_num[3], acc_num[3];
+    u8 cat_desc[7] = _("CAT: ");
+    u8 pwr_desc[7] = _("PWR: ");
+    u8 acc_desc[7] = _("ACC: ");
+    u8 cat_start[] = _("{CLEAR_TO 0x03}");
+    u8 pwr_start[] = _("{CLEAR_TO 0x38}");
+    u8 acc_start[] = _("{CLEAR_TO 0x6D}");
+    LoadMessageBoxAndBorderGfx();
+    DrawStdWindowFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
+    if (pwr < 2)
+        StringCopy(pwr_num, gText_BattleSwitchWhich5);
+    else
+        ConvertIntToDecimalStringN(pwr_num, pwr, STR_CONV_MODE_LEFT_ALIGN, 3);
+    if (acc < 2)
+        StringCopy(acc_num, gText_BattleSwitchWhich5);
+    else
+        ConvertIntToDecimalStringN(acc_num, acc, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringCopy(gDisplayedStringBattle, cat_start);
+    StringAppend(gDisplayedStringBattle, cat_desc);
+    StringAppend(gDisplayedStringBattle, pwr_start);
+    StringAppend(gDisplayedStringBattle, pwr_desc);
+    StringAppend(gDisplayedStringBattle, pwr_num);
+    StringAppend(gDisplayedStringBattle, acc_start);
+    StringAppend(gDisplayedStringBattle, acc_desc);
+    StringAppend(gDisplayedStringBattle, acc_num);
+    StringAppend(gDisplayedStringBattle, gText_NewLine);
+    if (gMovesInfo[move].effect == EFFECT_PLACEHOLDER)
+        StringAppend(gDisplayedStringBattle, gNotDoneYetDescription);
+    else
+        StringAppend(gDisplayedStringBattle, gMovesInfo[move].description);
+    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_DESCRIPTION);
+
+    if (gCategoryIconSpriteId == 0xFF)
+        gCategoryIconSpriteId = CreateSprite(&gSpriteTemplate_CategoryIcons, 38, 64, 1);
+
+    StartSpriteAnim(&gSprites[gCategoryIconSpriteId], cat);
+
+    CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_FULL);
 }
 
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)

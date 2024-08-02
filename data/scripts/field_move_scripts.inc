@@ -50,11 +50,6 @@ EventScript_CutTreeDown::
 	releaseall
 	end
 
-@ Use cut from party menu
-EventScript_UseCut::
-	lockall
-	goto EventScript_CutTreeCommon
-
 Movement_CutTreeDown:
 	cut_tree
 	step_end

@@ -3193,7 +3193,8 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
             .fgColor = 12,
             .bgColor = 14,
             .shadowColor = 11,
-        }[B_WIN_MOVE_DESCRIPTION] = {
+        },
+        [B_WIN_MOVE_DESCRIPTION] = {
             .fillValue = PIXEL_FILL(0xE),
             .fontId = FONT_NARROW,
             .x = 0,
@@ -3483,7 +3484,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
             .fgColor = 12,
             .bgColor = 14,
             .shadowColor = 11,
-        }[B_WIN_MOVE_DESCRIPTION] = {
+
+        },
+        [B_WIN_MOVE_DESCRIPTION] = {
             .fillValue = PIXEL_FILL(0xE),
             .fontId = FONT_NARROW,
             .x = 0,

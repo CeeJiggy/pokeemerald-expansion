@@ -159,3 +159,7 @@ EventScript_PkmnCenterNurse_PlayerTurn::
   waitmovement 0
   release
   end
+
+Movement_PkmnCenterNurse_Turn:
+ walk_in_place_faster_left
+ step_end
