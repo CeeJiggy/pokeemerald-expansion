@@ -1,4 +1,8 @@
-#include "constants/moves.h"
+#if I_EXPANDED_ITEM_NAMES == TRUE
+#define HANDLE_EXPANDED_ITEM_NAME(_name, ...) _(DEFAULT(_name, __VA_ARGS__))
+#else
+#define HANDLE_EXPANDED_ITEM_NAME(_name, ...) _(_name)
+#endif
 
 #if I_USE_EVO_HELD_ITEMS_FROM_BAG == TRUE
 #define EVO_HELD_ITEM_TYPE ITEM_USE_PARTY_MENU

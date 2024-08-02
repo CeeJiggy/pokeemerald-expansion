@@ -149,38 +149,38 @@
 #define STATUS2_FOCUS_ENERGY (1 << 31)
 #define STATUS2_FOCUS_ENERGY_ANY (STATUS2_DRAGON_CHEER | STATUS2_FOCUS_ENERGY)
 
-#define STATUS3_LEECHSEED_BATTLER       (1 << 0 | 1 << 1) // The battler to receive HP from Leech Seed
-#define STATUS3_LEECHSEED               (1 << 2)
-#define STATUS3_ALWAYS_HITS             (1 << 3 | 1 << 4)
-#define STATUS3_ALWAYS_HITS_TURN(num)   (((num) << 3) & STATUS3_ALWAYS_HITS) // "Always Hits" is set as a 2 turn timer, i.e. next turn is the last turn when it's active
-#define STATUS3_PERISH_SONG             (1 << 5)
-#define STATUS3_ON_AIR                  (1 << 6)
-#define STATUS3_UNDERGROUND             (1 << 7)
-#define STATUS3_MINIMIZED               (1 << 8)
-#define STATUS3_CHARGED_UP              (1 << 9)
-#define STATUS3_ROOTED                  (1 << 10)
-#define STATUS3_YAWN                    (1 << 11 | 1 << 12) // Number of turns to sleep
-#define STATUS3_YAWN_TURN(num)          (((num) << 11) & STATUS3_YAWN)
-#define STATUS3_IMPRISONED_OTHERS       (1 << 13)
-#define STATUS3_GRUDGE                  (1 << 14)
-#define STATUS3___UNUSED                (1 << 15)
-#define STATUS3_GASTRO_ACID             (1 << 16)
-#define STATUS3_EMBARGO                 (1 << 17)
-#define STATUS3_UNDERWATER              (1 << 18)
-#define STATUS3_INTIMIDATE_POKES        (1 << 19)
-#define STATUS3_TRACE                   (1 << 20)
-#define STATUS3_SMACKED_DOWN            (1 << 21)
-#define STATUS3_ME_FIRST                (1 << 22)
-#define STATUS3_TELEKINESIS             (1 << 23)
-#define STATUS3_PHANTOM_FORCE           (1 << 24)
-#define STATUS3_MIRACLE_EYED            (1 << 25)
-#define STATUS3_MAGNET_RISE             (1 << 26)
-#define STATUS3_HEAL_BLOCK              (1 << 27)
-#define STATUS3_AQUA_RING               (1 << 28)
-#define STATUS3_LASER_FOCUS             (1 << 29)
-#define STATUS3_POWER_TRICK             (1 << 30)
-#define STATUS3_SKY_DROPPED             (1 << 31) // Target of Sky Drop
-#define STATUS3_SEMI_INVULNERABLE       (STATUS3_UNDERGROUND | STATUS3_ON_AIR | STATUS3_UNDERWATER | STATUS3_PHANTOM_FORCE)
+#define STATUS3_LEECHSEED_BATTLER (1 << 0 | 1 << 1) // The battler to receive HP from Leech Seed
+#define STATUS3_LEECHSEED (1 << 2)
+#define STATUS3_ALWAYS_HITS (1 << 3 | 1 << 4)
+#define STATUS3_ALWAYS_HITS_TURN(num) (((num) << 3) & STATUS3_ALWAYS_HITS) // "Always Hits" is set as a 2 turn timer, i.e. next turn is the last turn when it's active
+#define STATUS3_PERISH_SONG (1 << 5)
+#define STATUS3_ON_AIR (1 << 6)
+#define STATUS3_UNDERGROUND (1 << 7)
+#define STATUS3_MINIMIZED (1 << 8)
+#define STATUS3_CHARGED_UP (1 << 9)
+#define STATUS3_ROOTED (1 << 10)
+#define STATUS3_YAWN (1 << 11 | 1 << 12) // Number of turns to sleep
+#define STATUS3_YAWN_TURN(num) (((num) << 11) & STATUS3_YAWN)
+#define STATUS3_IMPRISONED_OTHERS (1 << 13)
+#define STATUS3_GRUDGE (1 << 14)
+#define STATUS3___UNUSED (1 << 15)
+#define STATUS3_GASTRO_ACID (1 << 16)
+#define STATUS3_EMBARGO (1 << 17)
+#define STATUS3_UNDERWATER (1 << 18)
+#define STATUS3_INTIMIDATE_POKES (1 << 19)
+#define STATUS3_TRACE (1 << 20)
+#define STATUS3_SMACKED_DOWN (1 << 21)
+#define STATUS3_ME_FIRST (1 << 22)
+#define STATUS3_TELEKINESIS (1 << 23)
+#define STATUS3_PHANTOM_FORCE (1 << 24)
+#define STATUS3_MIRACLE_EYED (1 << 25)
+#define STATUS3_MAGNET_RISE (1 << 26)
+#define STATUS3_HEAL_BLOCK (1 << 27)
+#define STATUS3_AQUA_RING (1 << 28)
+#define STATUS3_LASER_FOCUS (1 << 29)
+#define STATUS3_POWER_TRICK (1 << 30)
+#define STATUS3_SKY_DROPPED (1 << 31) // Target of Sky Drop
+#define STATUS3_SEMI_INVULNERABLE (STATUS3_UNDERGROUND | STATUS3_ON_AIR | STATUS3_UNDERWATER | STATUS3_PHANTOM_FORCE)
 
 #define STATUS4_ELECTRIFIED (1 << 0)
 #define STATUS4_MUD_SPORT (1 << 1)          // Only used if B_SPORT_TURNS < GEN_6
@@ -295,11 +295,14 @@
 #define B_WEATHER_HAIL_PERMANENT (1 << 10)
 #define B_WEATHER_HAIL (B_WEATHER_HAIL_TEMPORARY | B_WEATHER_HAIL_PERMANENT)
 #define B_WEATHER_STRONG_WINDS (1 << 11)
-#define B_WEATHER_ANY (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_SUN | B_WEATHER_HAIL | B_WEATHER_STRONG_WINDS | B_WEATHER_SNOW)
+#define B_WEATHER_ANY (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_SUN | B_WEATHER_HAIL | B_WEATHER_STRONG_WINDS | B_WEATHER_SNOW | B_WEATHER_FOG)
 #define B_WEATHER_PRIMAL_ANY (B_WEATHER_RAIN_PRIMAL | B_WEATHER_SUN_PRIMAL | B_WEATHER_STRONG_WINDS)
 #define B_WEATHER_SNOW_TEMPORARY (1 << 12)
 #define B_WEATHER_SNOW_PERMANENT (1 << 13)
 #define B_WEATHER_SNOW (B_WEATHER_SNOW_TEMPORARY | B_WEATHER_SNOW_PERMANENT)
+#define B_WEATHER_FOG_TEMPORARY (1 << 14)
+#define B_WEATHER_FOG_PERMANENT (1 << 15)
+#define B_WEATHER_FOG (B_WEATHER_FOG_TEMPORARY | B_WEATHER_FOG_PERMANENT)
 
 // Battle Weather as enum
 #define ENUM_WEATHER_NONE 0
@@ -311,6 +314,7 @@
 #define ENUM_WEATHER_RAIN_PRIMAL 6
 #define ENUM_WEATHER_STRONG_WINDS 7
 #define ENUM_WEATHER_SNOW 8
+#define ENUM_WEATHER_FOG 9
 
 // Move Effects
 #define MOVE_EFFECT_SLEEP 1
@@ -372,28 +376,28 @@
 #define MOVE_EFFECT_KNOCK_OFF 55
 #define MOVE_EFFECT_DEF_SPDEF_DOWN 56
 #define MOVE_EFFECT_CLEAR_SMOG 57
-#define MOVE_EFFECT_SP_ATK_TWO_DOWN 58
-#define MOVE_EFFECT_SMACK_DOWN 59
-#define MOVE_EFFECT_FLAME_BURST 60
-#define MOVE_EFFECT_FEINT 61
-#define MOVE_EFFECT_SPECTRAL_THIEF 62
-#define MOVE_EFFECT_V_CREATE 63
-#define MOVE_EFFECT_HAPPY_HOUR 64
-#define MOVE_EFFECT_CORE_ENFORCER 65
-#define MOVE_EFFECT_THROAT_CHOP 66
-#define MOVE_EFFECT_INCINERATE 67
-#define MOVE_EFFECT_BUG_BITE 68
-#define MOVE_EFFECT_RECOIL_HP_25 69
-#define MOVE_EFFECT_TRAP_BOTH 70
-#define MOVE_EFFECT_ROUND 71
-#define MOVE_EFFECT_STOCKPILE_WORE_OFF 72
-#define MOVE_EFFECT_DIRE_CLAW 73
-#define MOVE_EFFECT_STEALTH_ROCK 74
-#define MOVE_EFFECT_SPIKES 75
-#define MOVE_EFFECT_SYRUP_BOMB 76
-#define MOVE_EFFECT_FLORAL_HEALING 77
-#define MOVE_EFFECT_SECRET_POWER 78
-#define MOVE_EFFECT_PSYCHIC_NOISE 79
+#define MOVE_EFFECT_SMACK_DOWN 58
+#define MOVE_EFFECT_FLAME_BURST 59
+#define MOVE_EFFECT_FEINT 60
+#define MOVE_EFFECT_SPECTRAL_THIEF 61
+#define MOVE_EFFECT_V_CREATE 62
+#define MOVE_EFFECT_HAPPY_HOUR 63
+#define MOVE_EFFECT_CORE_ENFORCER 64
+#define MOVE_EFFECT_THROAT_CHOP 65
+#define MOVE_EFFECT_INCINERATE 66
+#define MOVE_EFFECT_BUG_BITE 67
+#define MOVE_EFFECT_RECOIL_HP_25 68
+#define MOVE_EFFECT_TRAP_BOTH 69
+#define MOVE_EFFECT_ROUND 70
+#define MOVE_EFFECT_STOCKPILE_WORE_OFF 71
+#define MOVE_EFFECT_DIRE_CLAW 72
+#define MOVE_EFFECT_STEALTH_ROCK 73
+#define MOVE_EFFECT_SPIKES 74
+#define MOVE_EFFECT_SYRUP_BOMB 75
+#define MOVE_EFFECT_FLORAL_HEALING 76
+#define MOVE_EFFECT_SECRET_POWER 77
+#define MOVE_EFFECT_PSYCHIC_NOISE 78
+#define MOVE_EFFECT_TERA_BLAST 79
 
 #define NUM_MOVE_EFFECTS 80
 
@@ -469,10 +473,7 @@
 #define B_WIN_VS_OUTCOME_DRAW 21
 #define B_WIN_VS_OUTCOME_LEFT 22
 #define B_WIN_VS_OUTCOME_RIGHT 23
-#define B_WIN_TYPE_SUPER_EFF 24
-#define B_WIN_TYPE_NOT_VERY_EFF 25
-#define B_WIN_TYPE_NO_EFF 26
-#define B_WIN_STAB_SYMBOL 27
+#define B_WIN_MOVE_DESCRIPTION 24
 
 // The following are duplicate id values for windows that Battle Arena uses differently.
 #define ARENA_WIN_PLAYER_NAME 15

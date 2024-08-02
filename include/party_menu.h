@@ -48,6 +48,7 @@ u8 GetAilmentFromStatus(u32 status);
 u8 GetMonAilment(struct Pokemon *mon);
 void DisplayPartyMenuStdMessage(u32 stringId);
 bool8 FieldCallback_PrepareFadeInFromMenu(void);
+bool8 FieldCallback_PrepareFadeInForTeleport(void);
 void CB2_ReturnToPartyMenuFromFlyMap(void);
 void CB2_ReturnToPartyMenuFromSummaryScreen(void);
 void CB2_ReturnToPartyMenuFromMoveRelearner(void);

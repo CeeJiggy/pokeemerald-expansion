@@ -1348,7 +1348,7 @@ static void NamingScreen_NoIcon(void)
 
 static void NamingScreen_CreatePlayerIcon(void)
 {
-    u8 rivalGfxId;
+    u16 rivalGfxId;
     u8 spriteId;
 
     rivalGfxId = GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, sNamingScreen->monSpecies);
@@ -1389,6 +1389,7 @@ static void NamingScreen_CreateWaldaDadIcon(void)
 //--------------------------------------------------
 
 static bool8 KeyboardKeyHandler_Character(u8);
+static void SwapKeyboardToLowerAfterFirstCapitalLetter(void);
 static bool8 KeyboardKeyHandler_Page(u8);
 static bool8 KeyboardKeyHandler_Backspace(u8);
 static bool8 KeyboardKeyHandler_OK(u8);
@@ -1433,8 +1434,9 @@ static bool8 KeyboardKeyHandler_Character(u8 input)
     {
         bool8 textFull = AddTextCharacter();
 
-        if (sNamingScreen->currentPage == KBPAGE_LETTERS_UPPER && GetTextEntryPosition() == 1)
-            MainState_StartPageSwap();
+        SwapKeyboardToLowerAfterFirstCapitalLetter();
+
+        SwapKeyboardToLowerAfterFirstCapitalLetter();
 
         SquishCursor();
         if (textFull)
@@ -1444,6 +1446,20 @@ static bool8 KeyboardKeyHandler_Character(u8 input)
         }
     }
     return FALSE;
+}
+
+static void SwapKeyboardToLowerAfterFirstCapitalLetter(void)
+{
+    if (AUTO_LOWERCASE_KEYBOARD < GEN_6)
+        return;
+
+    if (sNamingScreen->currentPage != KBPAGE_LETTERS_UPPER)
+        return;
+
+    if (GetTextEntryPosition() != 1)
+        return;
+
+    MainState_StartPageSwap();
 }
 
 static bool8 KeyboardKeyHandler_Page(u8 input)
@@ -1662,10 +1678,11 @@ static void DrawNormalTextEntryBox(void)
 
 static void DrawMonTextEntryBox(void)
 {
-    u8 buffer[32];
+    u8 buffer[64];
 
-    StringCopy(buffer, GetSpeciesName(sNamingScreen->monSpecies));
-    StringAppendN(buffer, sNamingScreen->template->title, 15);
+    u8 *end = StringCopy(buffer, GetSpeciesName(sNamingScreen->monSpecies));
+    WrapFontIdToFit(buffer, end, FONT_NORMAL, 128 - 64);
+    StringAppendN(end, sNamingScreen->template->title, 15);
     FillWindowPixelBuffer(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], PIXEL_FILL(1));
     AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], FONT_NORMAL, buffer, 8, 1, 0, 0);
     PutWindowTilemap(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX]);
@@ -2451,16 +2468,13 @@ static const struct SpriteSheet sSpriteSheets[] =
         {}};
 
 static const struct SpritePalette sSpritePalettes[] =
-{
-    {gNamingScreenMenu_Pal[0], PALTAG_MENU},
-    {gNamingScreenMenu_Pal[1], PALTAG_PAGE_SWAP_UPPER},
-    {gNamingScreenMenu_Pal[2], PALTAG_PAGE_SWAP_LOWER},
-    {gNamingScreenMenu_Pal[3], PALTAG_PAGE_SWAP_OTHERS},
-    {gNamingScreenMenu_Pal[4], PALTAG_PAGE_SWAP},
-    {gNamingScreenMenu_Pal[5], PALTAG_CURSOR},
-    {gNamingScreenMenu_Pal[4], PALTAG_BACK_BUTTON},
-    {gNamingScreenMenu_Pal[4], PALTAG_OK_BUTTON},
-    {}
-};
-
-
+    {
+        {gNamingScreenMenu_Pal[0], PALTAG_MENU},
+        {gNamingScreenMenu_Pal[1], PALTAG_PAGE_SWAP_UPPER},
+        {gNamingScreenMenu_Pal[2], PALTAG_PAGE_SWAP_LOWER},
+        {gNamingScreenMenu_Pal[3], PALTAG_PAGE_SWAP_OTHERS},
+        {gNamingScreenMenu_Pal[4], PALTAG_PAGE_SWAP},
+        {gNamingScreenMenu_Pal[5], PALTAG_CURSOR},
+        {gNamingScreenMenu_Pal[4], PALTAG_BACK_BUTTON},
+        {gNamingScreenMenu_Pal[4], PALTAG_OK_BUTTON},
+        {}};
