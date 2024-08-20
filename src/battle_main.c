@@ -5682,12 +5682,12 @@ u8 GetTypeBeforeUsingMove(u16 move, u8 battlerAtk)
     }
     else if (gMovesInfo[move].effect == EFFECT_REVELATION_DANCE)
     {
-        if (gBattleMons[battlerAtk].type1 != TYPE_MYSTERY)
-            return gBattleMons[battlerAtk].type1;
-        else if (gBattleMons[battlerAtk].type2 != TYPE_MYSTERY)
-            return gBattleMons[battlerAtk].type2;
-        else if (gBattleMons[battlerAtk].type3 != TYPE_MYSTERY)
-            return gBattleMons[battlerAtk].type3;
+        if (gBattleMons[battlerAtk].types[0] != TYPE_MYSTERY)
+            return gBattleMons[battlerAtk].types[0];
+        else if (gBattleMons[battlerAtk].types[1] != TYPE_MYSTERY)
+            return gBattleMons[battlerAtk].types[1];
+        else if (gBattleMons[battlerAtk].types[2] != TYPE_MYSTERY)
+            return gBattleMons[battlerAtk].types[2];
     }
     else if (gMovesInfo[move].effect == EFFECT_NATURAL_GIFT)
     {
@@ -5736,11 +5736,11 @@ u8 GetTypeBeforeUsingMove(u16 move, u8 battlerAtk)
 
     else if (gMovesInfo[move].effect == EFFECT_RAGING_BULL && (gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_COMBAT_BREED || gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_BLAZE_BREED || gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_AQUA_BREED))
     {
-        return gBattleMons[battlerAtk].type2;
+        return gBattleMons[battlerAtk].types[1];
     }
     else if (gMovesInfo[move].effect == EFFECT_IVY_CUDGEL && (gBattleMons[battlerAtk].species == SPECIES_OGERPON_WELLSPRING_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_WELLSPRING_MASK_TERA || gBattleMons[battlerAtk].species == SPECIES_OGERPON_HEARTHFLAME_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || gBattleMons[battlerAtk].species == SPECIES_OGERPON_CORNERSTONE_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_CORNERSTONE_MASK_TERA))
     {
-        return gBattleMons[battlerAtk].type2;
+        return gBattleMons[battlerAtk].types[1];
     }
 
     return gMovesInfo[move].type;
@@ -5803,11 +5803,11 @@ u8 GetMonMoveType(u16 move, struct Pokemon *mon, u32 battler)
     }
     else if (gMovesInfo[move].effect == EFFECT_RAGING_BULL && (gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_COMBAT_BREED || gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_BLAZE_BREED || gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_AQUA_BREED))
     {
-        return gBattleMons[battlerAtk].type2;
+        return gBattleMons[battlerAtk].types[1];
     }
     else if (gMovesInfo[move].effect == EFFECT_IVY_CUDGEL && (gBattleMons[battlerAtk].species == SPECIES_OGERPON_WELLSPRING_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_WELLSPRING_MASK_TERA || gBattleMons[battlerAtk].species == SPECIES_OGERPON_HEARTHFLAME_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_HEARTHFLAME_MASK_TERA || gBattleMons[battlerAtk].species == SPECIES_OGERPON_CORNERSTONE_MASK || gBattleMons[battlerAtk].species == SPECIES_OGERPON_CORNERSTONE_MASK_TERA))
     {
-        return gBattleMons[battlerAtk].type2;
+        return gBattleMons[battlerAtk].types[1];
     }
     return gMovesInfo[move].type;
 }

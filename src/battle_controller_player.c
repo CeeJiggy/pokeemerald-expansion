@@ -1728,8 +1728,8 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u8 movePower = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].power;
-    u8 battlerType1 = gBattleMons[battler].type1;
-    u8 battlerType2 = gBattleMons[battler].type2;
+    u8 battlerType1 = gBattleMons[battler].types[0];
+    u8 battlerType2 = gBattleMons[battler].types[1];
     type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
 
     txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
@@ -1781,8 +1781,8 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u8 movePower = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].power;
-    u8 battlerType1 = gBattleMons[battler].type1;
-    u8 battlerType2 = gBattleMons[battler].type2;
+    u8 battlerType1 = gBattleMons[battler].types[0];
+    u8 battlerType2 = gBattleMons[battler].types[1];
     type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
 
     if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_BLAST)

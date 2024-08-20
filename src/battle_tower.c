@@ -85,7 +85,7 @@ static u8 SetTentPtrsGetLevel(void);
 #include "data/battle_frontier/battle_frontier_trainers.h"
 #include "data/battle_frontier/battle_frontier_mons.h"
 
-const u16 gTowerMaleFacilityClasses[30] =
+const u8 gTowerMaleFacilityClasses[30] =
     {
         FACILITY_CLASS_RUIN_MANIAC,
         FACILITY_CLASS_TUBER_M,
@@ -118,7 +118,7 @@ const u16 gTowerMaleFacilityClasses[30] =
         FACILITY_CLASS_BUG_CATCHER,
         FACILITY_CLASS_HIKER};
 
-const u16 gTowerFemaleFacilityClasses[20] =
+const u8 gTowerFemaleFacilityClasses[20] =
     {
         FACILITY_CLASS_AROMA_LADY,
         FACILITY_CLASS_TUBER_F,
