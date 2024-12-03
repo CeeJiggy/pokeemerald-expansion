@@ -946,7 +946,7 @@ bool32 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 
 void SetResultWithButtonPress(bool32 *result)
 {
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    if (JOY_NEW(A_BUTTON | B_BUTTON) || JOY_HELD(B_BUTTON))
     {
         *result = TRUE;
         PlaySE(SE_SELECT);
