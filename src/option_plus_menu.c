@@ -13,7 +13,7 @@
 #include "window.h"
 #include "text.h"
 #include "text_window.h"
-#include "config/level_caps.h"
+#include "config/caps.h"
 #include "international_string_util.h"
 #include "strings.h"
 #include "constants/vars.h"

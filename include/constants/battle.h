@@ -84,7 +84,7 @@
 #define WILD_DOUBLE_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))))
 #define RECORDED_WILD_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FRONTIER)))
 #define BATTLE_TWO_VS_ONE_OPPONENT ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gTrainerBattleOpponent_B == 0xFFFF))
-#define BATTLE_TYPE_HAS_AI (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_INGAME_PARTNER)
+#define BATTLE_TYPE_HAS_AI          (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_INGAME_PARTNER)
 
 // Battle Outcome defines
 #define B_OUTCOME_WON 1
@@ -104,83 +104,86 @@
 // If a new STATUS1 is added here, it should also be added to
 // sCompressedStatuses in src/pokemon.c or else it will be lost outside
 // of battle.
-#define STATUS1_NONE 0
-#define STATUS1_SLEEP (1 << 0 | 1 << 1 | 1 << 2) // First 3 bits (Number of turns to sleep)
-#define STATUS1_SLEEP_TURN(num) ((num) << 0)     // Just for readability (or if rearranging statuses)
-#define STATUS1_POISON (1 << 3)
-#define STATUS1_BURN (1 << 4)
-#define STATUS1_FREEZE (1 << 5)
-#define STATUS1_PARALYSIS (1 << 6)
-#define STATUS1_TOXIC_POISON (1 << 7)
-#define STATUS1_TOXIC_COUNTER (1 << 8 | 1 << 9 | 1 << 10 | 1 << 11)
-#define STATUS1_TOXIC_TURN(num) ((num) << 8)
-#define STATUS1_FROSTBITE (1 << 12)
-#define STATUS1_PSN_ANY (STATUS1_POISON | STATUS1_TOXIC_POISON)
-#define STATUS1_ANY (STATUS1_SLEEP | STATUS1_POISON | STATUS1_BURN | STATUS1_FREEZE | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON | STATUS1_FROSTBITE)
+#define STATUS1_NONE             0
+#define STATUS1_SLEEP            (1 << 0 | 1 << 1 | 1 << 2) // First 3 bits (Number of turns to sleep)
+#define STATUS1_SLEEP_TURN(num)  ((num) << 0) // Just for readability (or if rearranging statuses)
+#define STATUS1_POISON           (1 << 3)
+#define STATUS1_BURN             (1 << 4)
+#define STATUS1_FREEZE           (1 << 5)
+#define STATUS1_PARALYSIS        (1 << 6)
+#define STATUS1_TOXIC_POISON     (1 << 7)
+#define STATUS1_TOXIC_COUNTER    (1 << 8 | 1 << 9 | 1 << 10 | 1 << 11)
+#define STATUS1_TOXIC_TURN(num)  ((num) << 8)
+#define STATUS1_FROSTBITE        (1 << 12)
+#define STATUS1_PSN_ANY          (STATUS1_POISON | STATUS1_TOXIC_POISON)
+#define STATUS1_ANY              (STATUS1_SLEEP | STATUS1_POISON | STATUS1_BURN | STATUS1_FREEZE | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON | STATUS1_FROSTBITE)
+
+#define STATUS1_REFRESH          (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON | STATUS1_FROSTBITE)
 
 // Volatile status ailments
 // These are removed after exiting the battle or switching out
-#define STATUS2_CONFUSION (1 << 0 | 1 << 1 | 1 << 2)
-#define STATUS2_CONFUSION_TURN(num) ((num) << 0)
-#define STATUS2_FLINCHED (1 << 3)
-#define STATUS2_UPROAR (1 << 4 | 1 << 5 | 1 << 6)
-#define STATUS2_UPROAR_TURN(num) ((num) << 4)
-#define STATUS2_TORMENT (1 << 7)
-#define STATUS2_BIDE (1 << 8 | 1 << 9)
-#define STATUS2_BIDE_TURN(num) (((num) << 8) & STATUS2_BIDE)
-#define STATUS2_LOCK_CONFUSE (1 << 10 | 1 << 11) // e.g. Thrash
-#define STATUS2_LOCK_CONFUSE_TURN(num) ((num) << 10)
-#define STATUS2_MULTIPLETURNS (1 << 12)
-#define STATUS2_WRAPPED (1 << 13)
-#define STATUS2_POWDER (1 << 14)
-#define STATUS2_INFATUATION (1 << 16 | 1 << 17 | 1 << 18 | 1 << 19) // 4 bits, one for every battler
-#define STATUS2_INFATUATED_WITH(battler) (gBitTable[battler] << 16)
-#define STATUS2_DEFENSE_CURL (1 << 20)
-#define STATUS2_TRANSFORMED (1 << 21)
-#define STATUS2_RECHARGE (1 << 22)
-#define STATUS2_RAGE (1 << 23)
-#define STATUS2_SUBSTITUTE (1 << 24)
-#define STATUS2_DESTINY_BOND (1 << 25)
-#define STATUS2_ESCAPE_PREVENTION (1 << 26)
-#define STATUS2_NIGHTMARE (1 << 27)
-#define STATUS2_CURSED (1 << 28)
-#define STATUS2_FORESIGHT (1 << 29)
-#define STATUS2_DRAGON_CHEER (1 << 30)
-#define STATUS2_FOCUS_ENERGY (1 << 31)
-#define STATUS2_FOCUS_ENERGY_ANY (STATUS2_DRAGON_CHEER | STATUS2_FOCUS_ENERGY)
+#define STATUS2_CONFUSION             (1 << 0 | 1 << 1 | 1 << 2)
+#define STATUS2_CONFUSION_TURN(num)   ((num) << 0)
+#define STATUS2_FLINCHED              (1 << 3)
+#define STATUS2_UPROAR                (1 << 4 | 1 << 5 | 1 << 6)
+#define STATUS2_UPROAR_TURN(num)      ((num) << 4)
+#define STATUS2_TORMENT               (1 << 7)
+#define STATUS2_BIDE                  (1 << 8 | 1 << 9)
+#define STATUS2_BIDE_TURN(num)        (((num) << 8) & STATUS2_BIDE)
+#define STATUS2_LOCK_CONFUSE          (1 << 10 | 1 << 11) // e.g. Thrash
+#define STATUS2_LOCK_CONFUSE_TURN(num)((num) << 10)
+#define STATUS2_MULTIPLETURNS         (1 << 12)
+#define STATUS2_WRAPPED               (1 << 13)
+#define STATUS2_POWDER                (1 << 14)
+#define STATUS2_INFATUATION           (1 << 16 | 1 << 17 | 1 << 18 | 1 << 19)  // 4 bits, one for every battler
+#define STATUS2_INFATUATED_WITH(battler) (1u << (battler + 16))
+#define STATUS2_DEFENSE_CURL          (1 << 20)
+#define STATUS2_TRANSFORMED           (1 << 21)
+#define STATUS2_RECHARGE              (1 << 22)
+#define STATUS2_RAGE                  (1 << 23)
+#define STATUS2_SUBSTITUTE            (1 << 24)
+#define STATUS2_DESTINY_BOND          (1 << 25)
+#define STATUS2_ESCAPE_PREVENTION     (1 << 26)
+#define STATUS2_NIGHTMARE             (1 << 27)
+#define STATUS2_CURSED                (1 << 28)
+#define STATUS2_FORESIGHT             (1 << 29)
+#define STATUS2_DRAGON_CHEER          (1 << 30)
+#define STATUS2_FOCUS_ENERGY          (1 << 31)
+#define STATUS2_FOCUS_ENERGY_ANY      (STATUS2_DRAGON_CHEER | STATUS2_FOCUS_ENERGY)
 
-#define STATUS3_LEECHSEED_BATTLER (1 << 0 | 1 << 1) // The battler to receive HP from Leech Seed
-#define STATUS3_LEECHSEED (1 << 2)
-#define STATUS3_ALWAYS_HITS (1 << 3 | 1 << 4)
-#define STATUS3_ALWAYS_HITS_TURN(num) (((num) << 3) & STATUS3_ALWAYS_HITS) // "Always Hits" is set as a 2 turn timer, i.e. next turn is the last turn when it's active
-#define STATUS3_PERISH_SONG (1 << 5)
-#define STATUS3_ON_AIR (1 << 6)
-#define STATUS3_UNDERGROUND (1 << 7)
-#define STATUS3_MINIMIZED (1 << 8)
-#define STATUS3_CHARGED_UP (1 << 9)
-#define STATUS3_ROOTED (1 << 10)
-#define STATUS3_YAWN (1 << 11 | 1 << 12) // Number of turns to sleep
-#define STATUS3_YAWN_TURN(num) (((num) << 11) & STATUS3_YAWN)
-#define STATUS3_IMPRISONED_OTHERS (1 << 13)
-#define STATUS3_GRUDGE (1 << 14)
-#define STATUS3___UNUSED (1 << 15)
-#define STATUS3_GASTRO_ACID (1 << 16)
-#define STATUS3_EMBARGO (1 << 17)
-#define STATUS3_UNDERWATER (1 << 18)
-#define STATUS3_INTIMIDATE_POKES (1 << 19)
-#define STATUS3_TRACE (1 << 20)
-#define STATUS3_SMACKED_DOWN (1 << 21)
-#define STATUS3_ME_FIRST (1 << 22)
-#define STATUS3_TELEKINESIS (1 << 23)
-#define STATUS3_PHANTOM_FORCE (1 << 24)
-#define STATUS3_MIRACLE_EYED (1 << 25)
-#define STATUS3_MAGNET_RISE (1 << 26)
-#define STATUS3_HEAL_BLOCK (1 << 27)
-#define STATUS3_AQUA_RING (1 << 28)
-#define STATUS3_LASER_FOCUS (1 << 29)
-#define STATUS3_POWER_TRICK (1 << 30)
-#define STATUS3_SKY_DROPPED (1 << 31) // Target of Sky Drop
-#define STATUS3_SEMI_INVULNERABLE (STATUS3_UNDERGROUND | STATUS3_ON_AIR | STATUS3_UNDERWATER | STATUS3_PHANTOM_FORCE)
+#define STATUS3_LEECHSEED_BATTLER       (1 << 0 | 1 << 1) // The battler to receive HP from Leech Seed
+#define STATUS3_LEECHSEED               (1 << 2)
+#define STATUS3_ALWAYS_HITS             (1 << 3 | 1 << 4)
+#define STATUS3_ALWAYS_HITS_TURN(num)   (((num) << 3) & STATUS3_ALWAYS_HITS) // "Always Hits" is set as a 2 turn timer, i.e. next turn is the last turn when it's active
+#define STATUS3_PERISH_SONG             (1 << 5)
+#define STATUS3_ON_AIR                  (1 << 6)
+#define STATUS3_UNDERGROUND             (1 << 7)
+#define STATUS3_MINIMIZED               (1 << 8)
+#define STATUS3_CHARGED_UP              (1 << 9)
+#define STATUS3_ROOTED                  (1 << 10)
+#define STATUS3_YAWN                    (1 << 11 | 1 << 12) // Number of turns to sleep
+#define STATUS3_YAWN_TURN(num)          (((num) << 11) & STATUS3_YAWN)
+#define STATUS3_IMPRISONED_OTHERS       (1 << 13)
+#define STATUS3_GRUDGE                  (1 << 14)
+#define STATUS3_COMMANDER               (1 << 15)
+#define STATUS3_GASTRO_ACID             (1 << 16)
+#define STATUS3_EMBARGO                 (1 << 17)
+#define STATUS3_UNDERWATER              (1 << 18)
+#define STATUS3_INTIMIDATE_POKES        (1 << 19)
+#define STATUS3_TRACE                   (1 << 20)
+#define STATUS3_SMACKED_DOWN            (1 << 21)
+#define STATUS3_ME_FIRST                (1 << 22)
+#define STATUS3_TELEKINESIS             (1 << 23)
+#define STATUS3_PHANTOM_FORCE           (1 << 24)
+#define STATUS3_MIRACLE_EYED            (1 << 25)
+#define STATUS3_MAGNET_RISE             (1 << 26)
+#define STATUS3_HEAL_BLOCK              (1 << 27)
+#define STATUS3_AQUA_RING               (1 << 28)
+#define STATUS3_LASER_FOCUS             (1 << 29)
+#define STATUS3_POWER_TRICK             (1 << 30)
+#define STATUS3_SKY_DROPPED             (1 << 31) // Target of Sky Drop
+#define STATUS3_SEMI_INVULNERABLE_NO_COMMANDER  (STATUS3_UNDERGROUND | STATUS3_ON_AIR | STATUS3_UNDERWATER | STATUS3_PHANTOM_FORCE) // Exception for Transform / Imposter
+#define STATUS3_SEMI_INVULNERABLE       (STATUS3_SEMI_INVULNERABLE_NO_COMMANDER | STATUS3_COMMANDER)
 
 #define STATUS4_ELECTRIFIED (1 << 0)
 #define STATUS4_MUD_SPORT (1 << 1)          // Only used if B_SPORT_TURNS < GEN_6
@@ -205,18 +208,18 @@
 #define HITMARKER_IGNORE_DISGUISE (1 << 16)
 #define HITMARKER_DISABLE_ANIMATION (1 << 17) // disable animations during battle scripts, e.g. for Bug Bite
 // 3 free spots because of change in handling of UNDERGROUND/UNDERWATER/ON AIR
-#define HITMARKER_UNABLE_TO_USE_MOVE (1 << 19)
-#define HITMARKER_PASSIVE_DAMAGE (1 << 20)
-#define HITMARKER_DISOBEDIENT_MOVE (1 << 21)
-#define HITMARKER_PLAYER_FAINTED (1 << 22)
-#define HITMARKER_ALLOW_NO_PP (1 << 23)
-#define HITMARKER_GRUDGE (1 << 24)
-#define HITMARKER_OBEYS (1 << 25)
-#define HITMARKER_NEVER_SET (1 << 26) // Cleared as part of a large group. Never set or checked
-#define HITMARKER_CHARGING (1 << 27)
-#define HITMARKER_FAINTED(battler) (gBitTable[battler] << 28)
-#define HITMARKER_FAINTED2(battler) ((1 << 28) << battler)
-#define HITMARKER_STRING_PRINTED (1 << 29)
+#define HITMARKER_UNABLE_TO_USE_MOVE    (1 << 19)
+#define HITMARKER_PASSIVE_DAMAGE        (1 << 20)
+#define HITMARKER_DISOBEDIENT_MOVE      (1 << 21)
+#define HITMARKER_PLAYER_FAINTED        (1 << 22)
+#define HITMARKER_ALLOW_NO_PP           (1 << 23)
+#define HITMARKER_GRUDGE                (1 << 24)
+#define HITMARKER_OBEYS                 (1 << 25)
+#define HITMARKER_NEVER_SET             (1 << 26) // Cleared as part of a large group. Never set or checked
+#define HITMARKER_CHARGING              (1 << 27)
+#define HITMARKER_FAINTED(battler)      (1u << (battler + 28))
+#define HITMARKER_FAINTED2(battler)     HITMARKER_FAINTED(battler)
+#define HITMARKER_STRING_PRINTED        (1 << 29)
 
 // Per-side statuses that affect an entire party
 #define SIDE_STATUS_REFLECT (1 << 0)
@@ -326,80 +329,81 @@
 #define MOVE_EFFECT_FROSTBITE 7
 #define PRIMARY_STATUS_MOVE_EFFECT MOVE_EFFECT_FROSTBITE // All above move effects apply primary status
 #define MOVE_EFFECT_FREEZE_OR_FROSTBITE (B_USE_FROSTBITE == TRUE ? MOVE_EFFECT_FROSTBITE : MOVE_EFFECT_FREEZE)
-#define MOVE_EFFECT_CONFUSION 8
-#define MOVE_EFFECT_FLINCH 9
-#define MOVE_EFFECT_TRI_ATTACK 10
-#define MOVE_EFFECT_UPROAR 11
-#define MOVE_EFFECT_PAYDAY 12
-#define MOVE_EFFECT_CHARGING 13
-#define MOVE_EFFECT_WRAP 14
-#define MOVE_EFFECT_ATK_PLUS_1 15
-#define MOVE_EFFECT_DEF_PLUS_1 16
-#define MOVE_EFFECT_SPD_PLUS_1 17
-#define MOVE_EFFECT_SP_ATK_PLUS_1 18
-#define MOVE_EFFECT_SP_DEF_PLUS_1 19
-#define MOVE_EFFECT_ACC_PLUS_1 20
-#define MOVE_EFFECT_EVS_PLUS_1 21
-#define MOVE_EFFECT_ATK_MINUS_1 22
-#define MOVE_EFFECT_DEF_MINUS_1 23
-#define MOVE_EFFECT_SPD_MINUS_1 24
-#define MOVE_EFFECT_SP_ATK_MINUS_1 25
-#define MOVE_EFFECT_SP_DEF_MINUS_1 26
-#define MOVE_EFFECT_ACC_MINUS_1 27
-#define MOVE_EFFECT_EVS_MINUS_1 28
-#define MOVE_EFFECT_REMOVE_ARG_TYPE 29
-#define MOVE_EFFECT_RECHARGE 30
-#define MOVE_EFFECT_RAGE 31
-#define MOVE_EFFECT_STEAL_ITEM 32
-#define MOVE_EFFECT_PREVENT_ESCAPE 33
-#define MOVE_EFFECT_NIGHTMARE 34
-#define MOVE_EFFECT_ALL_STATS_UP 35
-#define MOVE_EFFECT_RAPID_SPIN 36
-#define MOVE_EFFECT_REMOVE_STATUS 37
-#define MOVE_EFFECT_ATK_DEF_DOWN 38
-#define MOVE_EFFECT_ATK_PLUS_2 39
-#define MOVE_EFFECT_DEF_PLUS_2 40
-#define MOVE_EFFECT_SPD_PLUS_2 41
-#define MOVE_EFFECT_SP_ATK_PLUS_2 42
-#define MOVE_EFFECT_SP_DEF_PLUS_2 43
-#define MOVE_EFFECT_ACC_PLUS_2 44
-#define MOVE_EFFECT_EVS_PLUS_2 45
-#define MOVE_EFFECT_ATK_MINUS_2 46
-#define MOVE_EFFECT_DEF_MINUS_2 47
-#define MOVE_EFFECT_SPD_MINUS_2 48
-#define MOVE_EFFECT_SP_ATK_MINUS_2 49
-#define MOVE_EFFECT_SP_DEF_MINUS_2 50
-#define MOVE_EFFECT_ACC_MINUS_2 51
-#define MOVE_EFFECT_EVS_MINUS_2 52
-#define MOVE_EFFECT_SCALE_SHOT 53
-#define MOVE_EFFECT_THRASH 54
-#define MOVE_EFFECT_KNOCK_OFF 55
-#define MOVE_EFFECT_DEF_SPDEF_DOWN 56
-#define MOVE_EFFECT_CLEAR_SMOG 57
-#define MOVE_EFFECT_SMACK_DOWN 58
-#define MOVE_EFFECT_FLAME_BURST 59
-#define MOVE_EFFECT_FEINT 60
-#define MOVE_EFFECT_SPECTRAL_THIEF 61
-#define MOVE_EFFECT_V_CREATE 62
-#define MOVE_EFFECT_HAPPY_HOUR 63
-#define MOVE_EFFECT_CORE_ENFORCER 64
-#define MOVE_EFFECT_THROAT_CHOP 65
-#define MOVE_EFFECT_INCINERATE 66
-#define MOVE_EFFECT_BUG_BITE 67
-#define MOVE_EFFECT_RECOIL_HP_25 68
-#define MOVE_EFFECT_TRAP_BOTH 69
-#define MOVE_EFFECT_ROUND 70
-#define MOVE_EFFECT_STOCKPILE_WORE_OFF 71
-#define MOVE_EFFECT_DIRE_CLAW 72
-#define MOVE_EFFECT_STEALTH_ROCK 73
-#define MOVE_EFFECT_SPIKES 74
-#define MOVE_EFFECT_SYRUP_BOMB 75
-#define MOVE_EFFECT_FLORAL_HEALING 76
-#define MOVE_EFFECT_SECRET_POWER 77
-#define MOVE_EFFECT_PSYCHIC_NOISE 78
-#define MOVE_EFFECT_TERA_BLAST 79
+#define MOVE_EFFECT_CONFUSION           8
+#define MOVE_EFFECT_FLINCH              9
+#define MOVE_EFFECT_TRI_ATTACK          10
+#define MOVE_EFFECT_UPROAR              11
+#define MOVE_EFFECT_PAYDAY              12
+#define MOVE_EFFECT_CHARGING            13
+#define MOVE_EFFECT_WRAP                14
+#define MOVE_EFFECT_ATK_PLUS_1          15
+#define MOVE_EFFECT_DEF_PLUS_1          16
+#define MOVE_EFFECT_SPD_PLUS_1          17
+#define MOVE_EFFECT_SP_ATK_PLUS_1       18
+#define MOVE_EFFECT_SP_DEF_PLUS_1       19
+#define MOVE_EFFECT_ACC_PLUS_1          20
+#define MOVE_EFFECT_EVS_PLUS_1          21
+#define MOVE_EFFECT_ATK_MINUS_1         22
+#define MOVE_EFFECT_DEF_MINUS_1         23
+#define MOVE_EFFECT_SPD_MINUS_1         24
+#define MOVE_EFFECT_SP_ATK_MINUS_1      25
+#define MOVE_EFFECT_SP_DEF_MINUS_1      26
+#define MOVE_EFFECT_ACC_MINUS_1         27
+#define MOVE_EFFECT_EVS_MINUS_1         28
+#define MOVE_EFFECT_REMOVE_ARG_TYPE     29
+#define MOVE_EFFECT_RECHARGE            30
+#define MOVE_EFFECT_RAGE                31
+#define MOVE_EFFECT_STEAL_ITEM          32
+#define MOVE_EFFECT_PREVENT_ESCAPE      33
+#define MOVE_EFFECT_NIGHTMARE           34
+#define MOVE_EFFECT_ALL_STATS_UP        35
+#define MOVE_EFFECT_RAPID_SPIN          36
+#define MOVE_EFFECT_REMOVE_STATUS       37
+#define MOVE_EFFECT_ATK_DEF_DOWN        38
+#define MOVE_EFFECT_ATK_PLUS_2          39
+#define MOVE_EFFECT_DEF_PLUS_2          40
+#define MOVE_EFFECT_SPD_PLUS_2          41
+#define MOVE_EFFECT_SP_ATK_PLUS_2       42
+#define MOVE_EFFECT_SP_DEF_PLUS_2       43
+#define MOVE_EFFECT_ACC_PLUS_2          44
+#define MOVE_EFFECT_EVS_PLUS_2          45
+#define MOVE_EFFECT_ATK_MINUS_2         46
+#define MOVE_EFFECT_DEF_MINUS_2         47
+#define MOVE_EFFECT_SPD_MINUS_2         48
+#define MOVE_EFFECT_SP_ATK_MINUS_2      49
+#define MOVE_EFFECT_SP_DEF_MINUS_2      50
+#define MOVE_EFFECT_ACC_MINUS_2         51
+#define MOVE_EFFECT_EVS_MINUS_2         52
+#define MOVE_EFFECT_SCALE_SHOT          53
+#define MOVE_EFFECT_THRASH              54
+#define MOVE_EFFECT_KNOCK_OFF           55
+#define MOVE_EFFECT_DEF_SPDEF_DOWN      56
+#define MOVE_EFFECT_CLEAR_SMOG          57
+#define MOVE_EFFECT_SMACK_DOWN          58
+#define MOVE_EFFECT_FLAME_BURST         59
+#define MOVE_EFFECT_FEINT               60
+#define MOVE_EFFECT_SPECTRAL_THIEF      61
+#define MOVE_EFFECT_V_CREATE            62
+#define MOVE_EFFECT_HAPPY_HOUR          63
+#define MOVE_EFFECT_CORE_ENFORCER       64
+#define MOVE_EFFECT_THROAT_CHOP         65
+#define MOVE_EFFECT_INCINERATE          66
+#define MOVE_EFFECT_BUG_BITE            67
+#define MOVE_EFFECT_RECOIL_HP_25        68
+#define MOVE_EFFECT_TRAP_BOTH           69
+#define MOVE_EFFECT_ROUND               70
+#define MOVE_EFFECT_STOCKPILE_WORE_OFF  71
+#define MOVE_EFFECT_DIRE_CLAW           72
+#define MOVE_EFFECT_STEALTH_ROCK        73
+#define MOVE_EFFECT_SPIKES              74
+#define MOVE_EFFECT_SYRUP_BOMB          75
+#define MOVE_EFFECT_FLORAL_HEALING      76
+#define MOVE_EFFECT_SECRET_POWER        77
+#define MOVE_EFFECT_PSYCHIC_NOISE       78
+#define MOVE_EFFECT_TERA_BLAST          79
+#define MOVE_EFFECT_ORDER_UP            80
 
-#define NUM_MOVE_EFFECTS 80
+#define NUM_MOVE_EFFECTS                81
 
 #define MOVE_EFFECT_AFFECTS_USER 0x2000
 #define MOVE_EFFECT_CERTAIN 0x4000
@@ -495,16 +499,16 @@
 // Indicator for the party summary bar to display an empty slot.
 #define HP_EMPTY_SLOT 0xFFFF
 
-#define MOVE_TARGET_SELECTED 0
-#define MOVE_TARGET_DEPENDS (1 << 0)
-#define MOVE_TARGET_USER_OR_SELECTED (1 << 1)
-#define MOVE_TARGET_RANDOM (1 << 2)
-#define MOVE_TARGET_BOTH (1 << 3)
-#define MOVE_TARGET_USER (1 << 4)
-#define MOVE_TARGET_FOES_AND_ALLY (1 << 5)
-#define MOVE_TARGET_OPPONENTS_FIELD (1 << 6)
-#define MOVE_TARGET_ALLY (1 << 7)
-#define MOVE_TARGET_ALL_BATTLERS ((1 << 8) | MOVE_TARGET_USER)
+#define MOVE_TARGET_SELECTED            0
+#define MOVE_TARGET_DEPENDS             (1 << 0)
+#define MOVE_TARGET_USER_OR_SELECTED    (1 << 1)
+#define MOVE_TARGET_RANDOM              (1 << 2)
+#define MOVE_TARGET_BOTH                (1 << 3)
+#define MOVE_TARGET_USER                (1 << 4)
+#define MOVE_TARGET_FOES_AND_ALLY       (1 << 5)
+#define MOVE_TARGET_OPPONENTS_FIELD     (1 << 6)
+#define MOVE_TARGET_ALLY                (1 << 7)
+#define MOVE_TARGET_ALL_BATTLERS        ((1 << 8) | MOVE_TARGET_USER) // No functionality for status moves
 
 // For the second argument of GetMoveTarget, when no target override is needed
 #define NO_TARGET_OVERRIDE 0

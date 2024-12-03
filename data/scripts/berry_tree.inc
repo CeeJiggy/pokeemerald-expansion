@@ -178,12 +178,14 @@ BerryTree_EventScript_PickBerry::
 	playfanfare MUS_OBTAIN_BERRY
 	message BerryTree_Text_PickedTheBerry
 	delay 10
-	showberrydesc VAR_0x8007
+	showberrydescription
+	playfanfare MUS_OBTAIN_BERRY
+	waitmessage
 	waitfanfare
 	message BerryTree_Text_PutAwayBerry
-	hideberrydesc
 	waitmessage
-	waitbuttonpresstext
+	waitbuttonpress
+	hideitemdescription
 	release
 	end
 

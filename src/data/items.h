@@ -1,9 +1,3 @@
-#if I_EXPANDED_ITEM_NAMES == TRUE
-#define HANDLE_EXPANDED_ITEM_NAME(_name, ...) _(DEFAULT(_name, __VA_ARGS__))
-#else
-#define HANDLE_EXPANDED_ITEM_NAME(_name, ...) _(_name)
-#endif
-
 #if I_USE_EVO_HELD_ITEMS_FROM_BAG == TRUE
 #define EVO_HELD_ITEM_TYPE ITEM_USE_PARTY_MENU
 #define EVO_HELD_ITEM_FIELD_FUNC ItemUseOutOfBattle_EvolutionStone
@@ -158,442 +152,458 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_QuestionMark,
             },
 
-        // Poké Balls
+// Poké Balls
 
-        [ITEM_POKE_BALL] =
-            {
-                .name = _("Poké Ball"),
-                .price = 200,
-                .description = COMPOUND_STRING(
-                    "A tool used for\n"
-                    "catching wild\n"
-                    "Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_POKE_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_PokeBall,
-                .iconPalette = gItemIconPalette_PokeBall,
-            },
+    [ITEM_STRANGE_BALL] =
+    {
+        .name = _("Strange Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "An unusual Ball\n"
+            "warped through\n"
+            "space and time."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_STRANGE,
+        .iconPic = gItemIcon_StrangeBall,
+        .iconPalette = gItemIconPalette_StrangeBall,
+    },
 
-        [ITEM_GREAT_BALL] =
-            {
-                .name = _("Great Ball"),
-                .price = 600,
-                .description = COMPOUND_STRING(
-                    "A good Ball with a\n"
-                    "higher catch rate\n"
-                    "than a Poké Ball."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_GREAT_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_GreatBall,
-                .iconPalette = gItemIconPalette_GreatBall,
-            },
+    [ITEM_POKE_BALL] =
+    {
+        .name = _("Poké Ball"),
+        .price = 200,
+        .description = COMPOUND_STRING(
+            "A tool used for\n"
+            "catching wild\n"
+            "Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_POKE,
+        .iconPic = gItemIcon_PokeBall,
+        .iconPalette = gItemIconPalette_PokeBall,
+    },
 
-        [ITEM_ULTRA_BALL] =
-            {
-                .name = _("Ultra Ball"),
-                .price = (I_PRICE >= GEN_7) ? 800 : 1200,
-                .description = COMPOUND_STRING(
-                    "A better Ball with\n"
-                    "a higher catch rate\n"
-                    "than a Great Ball."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_ULTRA_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_UltraBall,
-                .iconPalette = gItemIconPalette_UltraBall,
-            },
+    [ITEM_GREAT_BALL] =
+    {
+        .name = _("Great Ball"),
+        .price = 600,
+        .description = COMPOUND_STRING(
+            "A good Ball with a\n"
+            "higher catch rate\n"
+            "than a Poké Ball."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_GREAT,
+        .iconPic = gItemIcon_GreatBall,
+        .iconPalette = gItemIconPalette_GreatBall,
+    },
 
-        [ITEM_MASTER_BALL] =
-            {
-                .name = _("Master Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "The best Ball that\n"
-                    "catches a Pokémon\n"
-                    "without fail."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_MASTER_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_MasterBall,
-                .iconPalette = gItemIconPalette_MasterBall,
-            },
+    [ITEM_ULTRA_BALL] =
+    {
+        .name = _("Ultra Ball"),
+        .price = (I_PRICE >= GEN_7) ? 800 : 1200,
+        .description = COMPOUND_STRING(
+            "A better Ball with\n"
+            "a higher catch rate\n"
+            "than a Great Ball."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_ULTRA,
+        .iconPic = gItemIcon_UltraBall,
+        .iconPalette = gItemIconPalette_UltraBall,
+    },
 
-        [ITEM_PREMIER_BALL] =
-            {
-                .name = _("Premier Ball"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 200,
-                .description = COMPOUND_STRING(
-                    "A rare Ball made\n"
-                    "in commemoration\n"
-                    "of some event."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_PREMIER_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_PremierBall,
-                .iconPalette = gItemIconPalette_LuxuryBall,
-            },
+    [ITEM_MASTER_BALL] =
+    {
+        .name = _("Master Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "The best Ball that\n"
+            "catches a Pokémon\n"
+            "without fail."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_MASTER,
+        .iconPic = gItemIcon_MasterBall,
+        .iconPalette = gItemIconPalette_MasterBall,
+    },
 
-        [ITEM_HEAL_BALL] =
-            {
-                .name = _("Heal Ball"),
-                .price = 300,
-                .description = COMPOUND_STRING(
-                    "A remedial Ball\n"
-                    "that restores\n"
-                    "caught Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_HEAL_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_HealBall,
-                .iconPalette = gItemIconPalette_HealBall,
-            },
+    [ITEM_PREMIER_BALL] =
+    {
+        .name = _("Premier Ball"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 200,
+        .description = COMPOUND_STRING(
+            "A rare Ball made\n"
+            "in commemoration\n"
+            "of some event."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_PREMIER,
+        .iconPic = gItemIcon_PremierBall,
+        .iconPalette = gItemIconPalette_LuxuryBall,
+    },
 
-        [ITEM_NET_BALL] =
-            {
-                .name = _("Net Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "well on Water- and\n"
-                    "Bug-type Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_NET_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_NetBall,
-                .iconPalette = gItemIconPalette_NetBall,
-            },
+    [ITEM_HEAL_BALL] =
+    {
+        .name = _("Heal Ball"),
+        .price = 300,
+        .description = COMPOUND_STRING(
+            "A remedial Ball\n"
+            "that restores\n"
+            "caught Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_HEAL,
+        .iconPic = gItemIcon_HealBall,
+        .iconPalette = gItemIconPalette_HealBall,
+    },
 
-        [ITEM_NEST_BALL] =
-            {
-                .name = _("Nest Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "better on weaker\n"
-                    "Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_NEST_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_NestBall,
-                .iconPalette = gItemIconPalette_NestBall,
-            },
+    [ITEM_NET_BALL] =
+    {
+        .name = _("Net Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "well on Water- and\n"
+            "Bug-type Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_NET,
+        .iconPic = gItemIcon_NetBall,
+        .iconPalette = gItemIconPalette_NetBall,
+    },
 
-        [ITEM_DIVE_BALL] =
-            {
-                .name = _("Dive Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "better on Pokémon\n"
-                    "on the ocean floor."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_DIVE_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_DiveBall,
-                .iconPalette = gItemIconPalette_DiveBall,
-            },
+    [ITEM_NEST_BALL] =
+    {
+        .name = _("Nest Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "better on weaker\n"
+            "Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_NEST,
+        .iconPic = gItemIcon_NestBall,
+        .iconPalette = gItemIconPalette_NestBall,
+    },
 
-        [ITEM_DUSK_BALL] =
-            {
-                .name = _("Dusk Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "Works well if\n"
-                    "used in a\n"
-                    "dark place."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_DUSK_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_DuskBall,
-                .iconPalette = gItemIconPalette_DuskBall,
-            },
+    [ITEM_DIVE_BALL] =
+    {
+        .name = _("Dive Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "better on Pokémon\n"
+            "on the ocean floor."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_DIVE,
+        .iconPic = gItemIcon_DiveBall,
+        .iconPalette = gItemIconPalette_DiveBall,
+    },
 
-        [ITEM_TIMER_BALL] =
-            {
-                .name = _("Timer Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "A Ball that gains\n"
-                    "power in battles\n"
-                    "taking many turns."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_TIMER_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_TimerBall,
-                .iconPalette = gItemIconPalette_RepeatBall,
-            },
+    [ITEM_DUSK_BALL] =
+    {
+        .name = _("Dusk Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "Works well if\n"
+            "used in a\n"
+            "dark place."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_DUSK,
+        .iconPic = gItemIcon_DuskBall,
+        .iconPalette = gItemIconPalette_DuskBall,
+    },
 
-        [ITEM_QUICK_BALL] =
-            {
-                .name = _("Quick Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "Works well if\n"
-                    "used on the\n"
-                    "first turn."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_QUICK_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_QuickBall,
-                .iconPalette = gItemIconPalette_QuickBall,
-            },
+    [ITEM_TIMER_BALL] =
+    {
+        .name = _("Timer Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "A Ball that gains\n"
+            "power in battles\n"
+            "taking many turns."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_TIMER,
+        .iconPic = gItemIcon_TimerBall,
+        .iconPalette = gItemIconPalette_RepeatBall,
+    },
 
-        [ITEM_REPEAT_BALL] =
-            {
-                .name = _("Repeat Ball"),
-                .price = 1000,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "better on Pokémon\n"
-                    "caught before."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_REPEAT_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_RepeatBall,
-                .iconPalette = gItemIconPalette_RepeatBall,
-            },
+    [ITEM_QUICK_BALL] =
+    {
+        .name = _("Quick Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "Works well if\n"
+            "used on the\n"
+            "first turn."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_QUICK,
+        .iconPic = gItemIcon_QuickBall,
+        .iconPalette = gItemIconPalette_QuickBall,
+    },
 
-        [ITEM_LUXURY_BALL] =
-            {
-                .name = _("Luxury Ball"),
-                .price = (I_PRICE >= GEN_8) ? 3000 : 1000,
-                .description = COMPOUND_STRING(
-                    "A cozy Ball that\n"
-                    "makes Pokémon\n"
-                    "more friendly."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_LUXURY_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_LuxuryBall,
-                .iconPalette = gItemIconPalette_LuxuryBall,
-            },
+    [ITEM_REPEAT_BALL] =
+    {
+        .name = _("Repeat Ball"),
+        .price = 1000,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "better on Pokémon\n"
+            "caught before."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_REPEAT,
+        .iconPic = gItemIcon_RepeatBall,
+        .iconPalette = gItemIconPalette_RepeatBall,
+    },
 
-        [ITEM_LEVEL_BALL] =
-            {
-                .name = _("Level Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "well on lower\n"
-                    "level Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_LEVEL_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_LevelBall,
-                .iconPalette = gItemIconPalette_LevelBall,
-            },
+    [ITEM_LUXURY_BALL] =
+    {
+        .name = _("Luxury Ball"),
+        .price = (I_PRICE >= GEN_8) ? 3000 : 1000,
+        .description = COMPOUND_STRING(
+            "A cozy Ball that\n"
+            "makes Pokémon\n"
+            "more friendly."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_LUXURY,
+        .iconPic = gItemIcon_LuxuryBall,
+        .iconPalette = gItemIconPalette_LuxuryBall,
+    },
 
-        [ITEM_LURE_BALL] =
-            {
-                .name = _("Lure Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "well on fished\n"
-                    "up Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_LURE_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_LureBall,
-                .iconPalette = gItemIconPalette_LureBall,
-            },
+    [ITEM_LEVEL_BALL] =
+    {
+        .name = _("Level Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "well on lower\n"
+            "level Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_LEVEL,
+        .iconPic = gItemIcon_LevelBall,
+        .iconPalette = gItemIconPalette_LevelBall,
+    },
 
-        [ITEM_MOON_BALL] =
-            {
-                .name = _("Moon Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "A Ball that works\n"
-                    "well on Moon\n"
-                    "Stone users."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_MOON_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_MoonBall,
-                .iconPalette = gItemIconPalette_MoonBall,
-            },
+    [ITEM_LURE_BALL] =
+    {
+        .name = _("Lure Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "well on fished\n"
+            "up Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_LURE,
+        .iconPic = gItemIcon_LureBall,
+        .iconPalette = gItemIconPalette_LureBall,
+    },
 
-        [ITEM_FRIEND_BALL] =
-            {
-                .name = _("Friend Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "A Ball that makes\n"
-                    "a Pokémon friendly\n"
-                    "when caught."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_FRIEND_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_FriendBall,
-                .iconPalette = gItemIconPalette_FriendBall,
-            },
+    [ITEM_MOON_BALL] =
+    {
+        .name = _("Moon Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "A Ball that works\n"
+            "well on Moon\n"
+            "Stone users."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_MOON,
+        .iconPic = gItemIcon_MoonBall,
+        .iconPalette = gItemIconPalette_MoonBall,
+    },
 
-        [ITEM_LOVE_BALL] =
-            {
-                .name = _("Love Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "Works well on\n"
-                    "Pokémon of the\n"
-                    "opposite gender."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_LOVE_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_LoveBall,
-                .iconPalette = gItemIconPalette_LoveBall,
-            },
+    [ITEM_FRIEND_BALL] =
+    {
+        .name = _("Friend Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "A Ball that makes\n"
+            "a Pokémon friendly\n"
+            "when caught."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_FRIEND,
+        .iconPic = gItemIcon_FriendBall,
+        .iconPalette = gItemIconPalette_FriendBall,
+    },
 
-        [ITEM_FAST_BALL] =
-            {
-                .name = _("Fast Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "Works well on\n"
-                    "very fast\n"
-                    "Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_FAST_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_FastBall,
-                .iconPalette = gItemIconPalette_FastBall,
-            },
+    [ITEM_LOVE_BALL] =
+    {
+        .name = _("Love Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "Works well on\n"
+            "Pokémon of the\n"
+            "opposite gender."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_LOVE,
+        .iconPic = gItemIcon_LoveBall,
+        .iconPalette = gItemIconPalette_LoveBall,
+    },
 
-        [ITEM_HEAVY_BALL] =
-            {
-                .name = _("Heavy Ball"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "Works well on\n"
-                    "very heavy\n"
-                    "Pokémon."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_HEAVY_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_HeavyBall,
-                .iconPalette = gItemIconPalette_HeavyBall,
-            },
+    [ITEM_FAST_BALL] =
+    {
+        .name = _("Fast Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "Works well on\n"
+            "very fast\n"
+            "Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_FAST,
+        .iconPic = gItemIcon_FastBall,
+        .iconPalette = gItemIconPalette_FastBall,
+    },
 
-        [ITEM_DREAM_BALL] =
-            {
-                .name = _("Dream Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-#if B_DREAM_BALL_MODIFIER >= GEN_8
-                    "A Ball that works\n"
-                    "well on sleeping\n"
-                    "Pokémon."),
-#else
-                    "A Poké Ball used in\n"
-                    "the Entree Forest."),
-#endif
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_DREAM_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_DreamBall,
-                .iconPalette = gItemIconPalette_DreamBall,
-            },
+    [ITEM_HEAVY_BALL] =
+    {
+        .name = _("Heavy Ball"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "Works well on\n"
+            "very heavy\n"
+            "Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_HEAVY,
+        .iconPic = gItemIcon_HeavyBall,
+        .iconPalette = gItemIconPalette_HeavyBall,
+    },
 
-        [ITEM_SAFARI_BALL] =
-            {
-                .name = _("Safari Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A special Ball that\n"
-                    "is used only in the\n"
-                    "Safari Zone."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_SAFARI_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_SafariBall,
-                .iconPalette = gItemIconPalette_SafariBall,
-            },
+    [ITEM_DREAM_BALL] =
+    {
+        .name = _("Dream Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+        #if B_DREAM_BALL_MODIFIER >= GEN_8
+            "A Ball that works\n"
+            "well on sleeping\n"
+            "Pokémon."),
+        #else
+            "A Poké Ball used in\n"
+            "the Entree Forest."),
+        #endif
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_DREAM,
+        .iconPic = gItemIcon_DreamBall,
+        .iconPalette = gItemIconPalette_DreamBall,
+    },
 
-        [ITEM_SPORT_BALL] =
-            {
-                .name = _("Sport Ball"),
-                .price = (I_PRICE < GEN_3 || I_PRICE >= GEN_9) ? 0 : 300,
-                .description = COMPOUND_STRING(
-                    "A special Ball used\n"
-                    "in the Bug-Catching\n"
-                    "Contest."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_SPORT_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_SportBall,
-                .iconPalette = gItemIconPalette_SportBall,
-            },
+    [ITEM_SAFARI_BALL] =
+    {
+        .name = _("Safari Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A special Ball that\n"
+            "is used only in the\n"
+            "Safari Zone."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_SAFARI,
+        .iconPic = gItemIcon_SafariBall,
+        .iconPalette = gItemIconPalette_SafariBall,
+    },
 
-        [ITEM_PARK_BALL] =
-            {
-                .name = _("Park Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A special Ball for\n"
-                    "the Pal Park."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_PARK_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_ParkBall,
-                .iconPalette = gItemIconPalette_ParkBall,
-            },
+    [ITEM_SPORT_BALL] =
+    {
+        .name = _("Sport Ball"),
+        .price = (I_PRICE < GEN_3 || I_PRICE >= GEN_9) ? 0 : 300,
+        .description = COMPOUND_STRING(
+            "A special Ball\n"
+            "used in the Bug-\n"
+            "Catching Contest."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_SPORT,
+        .iconPic = gItemIcon_SportBall,
+        .iconPalette = gItemIconPalette_SportBall,
+    },
 
-        [ITEM_BEAST_BALL] =
-            {
-                .name = _("Beast Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A Ball designed to\n"
-                    "catch Ultra Beasts."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_BEAST_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_BeastBall,
-                .iconPalette = gItemIconPalette_BeastBall,
-            },
+    [ITEM_PARK_BALL] =
+    {
+        .name = _("Park Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A special Ball for\n"
+            "the Pal Park."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_PARK,
+        .iconPic = gItemIcon_ParkBall,
+        .iconPalette = gItemIconPalette_ParkBall,
+    },
 
-        [ITEM_CHERISH_BALL] =
-            {
-                .name = _("Cherish Ball"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A rare Ball made\n"
-                    "in commemoration\n"
-                    "of some event."),
-                .pocket = POCKET_POKE_BALLS,
-                .type = ITEM_USE_BAG_MENU,
-                .battleUsage = EFFECT_ITEM_THROW_BALL,
-                .secondaryId = ITEM_CHERISH_BALL - FIRST_BALL,
-                .iconPic = gItemIcon_CherishBall,
-                .iconPalette = gItemIconPalette_CherishBall,
-            },
+    [ITEM_BEAST_BALL] =
+    {
+        .name = _("Beast Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A Ball designed to\n"
+            "catch Ultra Beasts."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_BEAST,
+        .iconPic = gItemIcon_BeastBall,
+        .iconPalette = gItemIconPalette_BeastBall,
+    },
+
+    [ITEM_CHERISH_BALL] =
+    {
+        .name = _("Cherish Ball"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A rare Ball made\n"
+            "in commemoration\n"
+            "of some event."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = BALL_CHERISH,
+        .iconPic = gItemIcon_CherishBall,
+        .iconPalette = gItemIconPalette_CherishBall,
+    },
 
         // Medicine
 
@@ -1157,36 +1167,36 @@ const struct Item gItemsInfo[] =
 
         // Regional Specialties
 
-        [ITEM_PEWTER_CRUNCHIES] =
-            {
-                .name = _("PewtrCrnches"),
-                .pluralName = _("PewtrCrnches"),
-                .price = 250,
-                .description = sFullHealDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_FullHeal,
-                .flingPower = 30,
-                .iconPic = gItemIcon_PewterCrunchies,
-                .iconPalette = gItemIconPalette_PewterCrunchies,
-            },
+    [ITEM_PEWTER_CRUNCHIES] =
+    {
+        .name = _("Pewter Crunchies"),
+        .pluralName = _("Pewter Crunchies"),
+        .price = 250,
+        .description = sFullHealDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_FullHeal,
+        .flingPower = 30,
+        .iconPic = gItemIcon_PewterCrunchies,
+        .iconPalette = gItemIconPalette_PewterCrunchies,
+    },
 
-        [ITEM_RAGE_CANDY_BAR] =
-            {
-                .name = _("RageCandyBar"),
-                .price = (I_PRICE >= GEN_7) ? 350 : 300,
-                .description = sFullHealDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_FullHeal,
-                .flingPower = 30,
-                .iconPic = gItemIcon_RageCandyBar,
-                .iconPalette = gItemIconPalette_RageCandyBar,
-            },
+    [ITEM_RAGE_CANDY_BAR] =
+    {
+        .name = _("Rage Candy Bar"),
+        .price = (I_PRICE >= GEN_7) ? 350 : 300,
+        .description = sFullHealDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_FullHeal,
+        .flingPower = 30,
+        .iconPic = gItemIcon_RageCandyBar,
+        .iconPalette = gItemIconPalette_RageCandyBar,
+    },
 
         [ITEM_LAVA_COOKIE] =
             {
@@ -1237,35 +1247,35 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Casteliacone,
             },
 
-        [ITEM_LUMIOSE_GALETTE] =
-            {
-                .name = _("LumioseGlete"),
-                .price = (I_PRICE >= GEN_7) ? 350 : 200,
-                .description = sFullHealDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_FullHeal,
-                .flingPower = 30,
-                .iconPic = gItemIcon_LumioseGalette,
-                .iconPalette = gItemIconPalette_LumioseGalette,
-            },
+    [ITEM_LUMIOSE_GALETTE] =
+    {
+        .name = _("Lumiose Galette"),
+        .price = (I_PRICE >= GEN_7) ? 350 : 200,
+        .description = sFullHealDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_FullHeal,
+        .flingPower = 30,
+        .iconPic = gItemIcon_LumioseGalette,
+        .iconPalette = gItemIconPalette_LumioseGalette,
+    },
 
-        [ITEM_SHALOUR_SABLE] =
-            {
-                .name = _("ShalourSable"),
-                .price = (I_PRICE >= GEN_7) ? 350 : 200,
-                .description = sFullHealDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_FullHeal,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ShalourSable,
-                .iconPalette = gItemIconPalette_ShalourSable,
-            },
+    [ITEM_SHALOUR_SABLE] =
+    {
+        .name = _("Shalour Sable"),
+        .price = (I_PRICE >= GEN_7) ? 350 : 200,
+        .description = sFullHealDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_FullHeal,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ShalourSable,
+        .iconPalette = gItemIconPalette_ShalourSable,
+    },
 
         [ITEM_BIG_MALASADA] =
             {
@@ -1423,123 +1433,123 @@ const struct Item gItemsInfo[] =
 
         // EV Feathers
 
-        [ITEM_HEALTH_FEATHER] =
-            {
-                .name = _("HealthFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sHealthFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_HpFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_HealthFeather,
-                .iconPalette = gItemIconPalette_HealthFeather,
-            },
+    [ITEM_HEALTH_FEATHER] =
+    {
+        .name = _("Health Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sHealthFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_HpFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_HealthFeather,
+        .iconPalette = gItemIconPalette_HealthFeather,
+    },
 
-        [ITEM_MUSCLE_FEATHER] =
-            {
-                .name = _("MuscleFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sMuscleFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_AtkFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_MuscleFeather,
-                .iconPalette = gItemIconPalette_MuscleFeather,
-            },
+    [ITEM_MUSCLE_FEATHER] =
+    {
+        .name = _("Muscle Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sMuscleFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_AtkFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_MuscleFeather,
+        .iconPalette = gItemIconPalette_MuscleFeather,
+    },
 
-        [ITEM_RESIST_FEATHER] =
-            {
-                .name = _("ResistFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sResistFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_DefFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_ResistFeather,
-                .iconPalette = gItemIconPalette_ResistFeather,
-            },
+    [ITEM_RESIST_FEATHER] =
+    {
+        .name = _("Resist Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sResistFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_DefFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_ResistFeather,
+        .iconPalette = gItemIconPalette_ResistFeather,
+    },
 
-        [ITEM_GENIUS_FEATHER] =
-            {
-                .name = _("GeniusFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sGeniusFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_SpatkFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_GeniusFeather,
-                .iconPalette = gItemIconPalette_GeniusFeather,
-            },
+    [ITEM_GENIUS_FEATHER] =
+    {
+        .name = _("Genius Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sGeniusFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_SpatkFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_GeniusFeather,
+        .iconPalette = gItemIconPalette_GeniusFeather,
+    },
 
-        [ITEM_CLEVER_FEATHER] =
-            {
-                .name = _("CleverFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sCleverFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_SpdefFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_CleverFeather,
-                .iconPalette = gItemIconPalette_CleverFeather,
-            },
+    [ITEM_CLEVER_FEATHER] =
+    {
+        .name = _("Clever Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sCleverFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_SpdefFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_CleverFeather,
+        .iconPalette = gItemIconPalette_CleverFeather,
+    },
 
-        [ITEM_SWIFT_FEATHER] =
-            {
-                .name = _("SwiftFeather"),
-                .price = (I_PRICE >= GEN_7) ? 300 : 3000,
-                .description = sSwiftFeatherDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .effect = gItemEffect_SpeedFeather,
-                .flingPower = 20,
-                .iconPic = gItemIcon_SwiftFeather,
-                .iconPalette = gItemIconPalette_SwiftFeather,
-            },
+    [ITEM_SWIFT_FEATHER] =
+    {
+        .name = _("Swift Feather"),
+        .price = (I_PRICE >= GEN_7) ? 300 : 3000,
+        .description = sSwiftFeatherDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .effect = gItemEffect_SpeedFeather,
+        .flingPower = 20,
+        .iconPic = gItemIcon_SwiftFeather,
+        .iconPalette = gItemIconPalette_SwiftFeather,
+    },
 
         // Ability Modifiers
 
-        [ITEM_ABILITY_CAPSULE] =
-            {
-                .name = _("AbilityCapsle"),
-                .price = (I_PRICE < GEN_7) ? 1000 : ((I_PRICE < GEN_9) ? 10000 : 100000),
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "Switches a Poké-\n"
-                    "mon's ability."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_AbilityCapsule,
-                .iconPic = gItemIcon_AbilityCapsule,
-                .iconPalette = gItemIconPalette_AbilityCapsule,
-            },
+    [ITEM_ABILITY_CAPSULE] =
+    {
+        .name = _("Ability Capsule"),
+        .price = (I_PRICE < GEN_7) ? 1000 : ((I_PRICE < GEN_9) ? 10000 : 100000),
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Switches a Poké-\n"
+            "mon's ability."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AbilityCapsule,
+        .iconPic = gItemIcon_AbilityCapsule,
+        .iconPalette = gItemIconPalette_AbilityCapsule,
+    },
 
-        [ITEM_ABILITY_PATCH] =
-            {
-                .name = _("AbilityPatch"),
-                .pluralName = _("AbilityPatches"),
-                .price = (I_PRICE >= GEN_9) ? 250000 : 20,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "Turns the ability\n"
-                    "of a Pokémon into\n"
-                    "a rare ability."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_AbilityPatch,
-                .iconPic = gItemIcon_AbilityPatch,
-                .iconPalette = gItemIconPalette_AbilityPatch,
-            },
+    [ITEM_ABILITY_PATCH] =
+    {
+        .name = _("Ability Patch"),
+        .pluralName = _("Ability Patches"),
+        .price = (I_PRICE >= GEN_9) ? 250000 : 20,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Turns the ability\n"
+            "of a Pokémon into\n"
+            "a rare ability."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AbilityPatch,
+        .iconPic = gItemIcon_AbilityPatch,
+        .iconPalette = gItemIconPalette_AbilityPatch,
+    },
 
         // Mints
 
@@ -1920,208 +1930,213 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_RareCandy,
             },
 
-        [ITEM_EXP_CANDY_XS] =
-            {
-                .name = _("Exp.Candy XS"),
-                .pluralName = _("Exp.Candies XS"),
-                .price = 20,
-                .holdEffectParam = EXP_100,
-                .description = COMPOUND_STRING(
-                    "Gives a very small\n"
-                    "amount of Exp. to\n"
-                    "a single Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-                .effect = gItemEffect_RareCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ExpCandyXS,
-                .iconPalette = gItemIconPalette_ExpCandies,
-            },
+    [ITEM_EXP_CANDY_XS] =
+    {
+        .name = _("Exp. Candy XS"),
+        .pluralName = _("Exp. Candies XS"),
+        .price = 20,
+        .holdEffectParam = EXP_100,
+        .description = COMPOUND_STRING(
+            "Gives a very small\n"
+            "amount of Exp. to\n"
+            "a single Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ExpCandyXS,
+        .iconPalette = gItemIconPalette_ExpCandies,
+    },
 
-        [ITEM_EXP_CANDY_S] =
-            {
-                .name = _("Exp.Candy S"),
-                .pluralName = _("Exp.Candies S"),
-                .price = 240,
-                .holdEffectParam = EXP_800,
-                .description = COMPOUND_STRING(
-                    "Gives a small\n"
-                    "amount of Exp. to\n"
-                    "a single Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-                .effect = gItemEffect_RareCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ExpCandyS,
-                .iconPalette = gItemIconPalette_ExpCandies,
-            },
+    [ITEM_EXP_CANDY_S] =
+    {
+        .name = _("Exp. Candy S"),
+        .pluralName = _("Exp. Candies S"),
+        .price = 240,
+        .holdEffectParam = EXP_800,
+        .description = COMPOUND_STRING(
+            "Gives a small\n"
+            "amount of Exp. to\n"
+            "a single Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ExpCandyS,
+        .iconPalette = gItemIconPalette_ExpCandies,
+    },
 
-        [ITEM_EXP_CANDY_M] =
-            {
-                .name = _("Exp.Candy M"),
-                .pluralName = _("Exp.Candies M"),
-                .price = 1000,
-                .holdEffectParam = EXP_3000,
-                .description = COMPOUND_STRING(
-                    "Gives a moderate\n"
-                    "amount of Exp. to\n"
-                    "a single Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-                .effect = gItemEffect_RareCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ExpCandyM,
-                .iconPalette = gItemIconPalette_ExpCandies,
-            },
+    [ITEM_EXP_CANDY_M] =
+    {
+        .name = _("Exp. Candy M"),
+        .pluralName = _("Exp. Candies M"),
+        .price = 1000,
+        .holdEffectParam = EXP_3000,
+        .description = COMPOUND_STRING(
+            "Gives a moderate\n"
+            "amount of Exp. to\n"
+            "a single Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ExpCandyM,
+        .iconPalette = gItemIconPalette_ExpCandies,
+    },
 
-        [ITEM_EXP_CANDY_L] =
-            {
-                .name = _("Exp.Candy L"),
-                .pluralName = _("Exp.Candies L"),
-                .price = 3000,
-                .holdEffectParam = EXP_10000,
-                .description = COMPOUND_STRING(
-                    "Gives a large\n"
-                    "amount of Exp. to\n"
-                    "a single Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-                .effect = gItemEffect_RareCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ExpCandyL,
-                .iconPalette = gItemIconPalette_ExpCandies,
-            },
+    [ITEM_EXP_CANDY_L] =
+    {
+        .name = _("Exp. Candy L"),
+        .pluralName = _("Exp. Candies L"),
+        .price = 3000,
+        .holdEffectParam = EXP_10000,
+        .description = COMPOUND_STRING(
+            "Gives a large\n"
+            "amount of Exp. to\n"
+            "a single Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ExpCandyL,
+        .iconPalette = gItemIconPalette_ExpCandies,
+    },
 
-        [ITEM_EXP_CANDY_XL] =
-            {
-                .name = _("Exp.Candy XL"),
-                .pluralName = _("Exp.Candies XL"),
-                .price = 10000,
-                .holdEffectParam = EXP_30000,
-                .description = COMPOUND_STRING(
-                    "Gives a very large\n"
-                    "amount of Exp. to\n"
-                    "a single Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
-                .effect = gItemEffect_RareCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ExpCandyXL,
-                .iconPalette = gItemIconPalette_ExpCandies,
-            },
+    [ITEM_EXP_CANDY_XL] =
+    {
+        .name = _("Exp. Candy XL"),
+        .pluralName = _("Exp. Candies XL"),
+        .price = 10000,
+        .holdEffectParam = EXP_30000,
+        .description = COMPOUND_STRING(
+            "Gives a very large\n"
+            "amount of Exp. to\n"
+            "a single Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ExpCandyXL,
+        .iconPalette = gItemIconPalette_ExpCandies,
+    },
 
-        [ITEM_DYNAMAX_CANDY] =
-            {
-                .name = _("DynamaxCandy"),
-                .pluralName = _("DynamaxCandies"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "Raises the Dynamax\n"
-                    "Level of a single\n"
-                    "Pokémon by one."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_DynamaxCandy,
-                .flingPower = 30,
-                .iconPic = gItemIcon_DynamaxCandy,
-                .iconPalette = gItemIconPalette_DynamaxCandy,
-            },
+    [ITEM_DYNAMAX_CANDY] =
+    {
+        .name = _("Dynamax Candy"),
+        .pluralName = _("Dynamax Candies"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Raises the Dynamax\n"
+            "Level of a single\n"
+            "Pokémon by one."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_DynamaxCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_DynamaxCandy,
+        .iconPalette = gItemIconPalette_DynamaxCandy,
+    },
 
         // Medicinal Flutes
 
-        [ITEM_BLUE_FLUTE] =
-            {
-                .name = _("Blue Flute"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 100,
-                .description = COMPOUND_STRING(
-                    "A glass flute that\n"
-                    "awakens sleeping\n"
-                    "Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_Awakening,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Flute,
-                .iconPalette = gItemIconPalette_BlueFlute,
-            },
+    [ITEM_BLUE_FLUTE] =
+    {
+        .name = _("Blue Flute"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 100,
+        .description = COMPOUND_STRING(
+            "A glass flute that\n"
+            "awakens sleeping\n"
+            "Pokémon."),
+        .notConsumed = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_Awakening,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_BlueFlute,
+    },
 
-        [ITEM_YELLOW_FLUTE] =
-            {
-                .name = _("Yellow Flute"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 300,
-                .description = COMPOUND_STRING(
-                    "A glass flute that\n"
-                    "snaps Pokémon\n"
-                    "out of confusion."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_YellowFlute,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Flute,
-                .iconPalette = gItemIconPalette_YellowFlute,
-            },
+    [ITEM_YELLOW_FLUTE] =
+    {
+        .name = _("Yellow Flute"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 300,
+        .description = COMPOUND_STRING(
+            "A glass flute that\n"
+            "snaps Pokémon\n"
+            "out of confusion."),
+        .notConsumed = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_YellowFlute,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_YellowFlute,
+    },
 
-        [ITEM_RED_FLUTE] =
-            {
-                .name = _("Red Flute"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 200,
-                .description = COMPOUND_STRING(
-                    "A glass flute that\n"
-                    "snaps Pokémon\n"
-                    "out of attraction."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_RedFlute,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Flute,
-                .iconPalette = gItemIconPalette_RedFlute,
-            },
+    [ITEM_RED_FLUTE] =
+    {
+        .name = _("Red Flute"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 200,
+        .description = COMPOUND_STRING(
+            "A glass flute that\n"
+            "snaps Pokémon\n"
+            "out of attraction."),
+        .notConsumed = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_RedFlute,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_RedFlute,
+    },
 
         // Encounter-modifying Flutes
 
-        [ITEM_BLACK_FLUTE] =
-            {
-                .name = _("Black Flute"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 400,
-                .holdEffectParam = 50,
-                .description = COMPOUND_STRING(
-                    "A glass flute that\n"
-                    "keeps away wild\n"
-                    "Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_BlackWhiteFlute,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Flute,
-                .iconPalette = gItemIconPalette_BlackFlute,
-            },
+    [ITEM_BLACK_FLUTE] =
+    {
+        .name = _("Black Flute"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 400,
+        .holdEffectParam = 50,
+        .description = COMPOUND_STRING(
+            "A glass flute that\n"
+            "keeps away wild\n"
+            "Pokémon."),
+        .notConsumed = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_BlackWhiteFlute,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_BlackFlute,
+    },
 
-        [ITEM_WHITE_FLUTE] =
-            {
-                .name = _("White Flute"),
-                .price = (I_PRICE >= GEN_7) ? 20 : 500,
-                .holdEffectParam = 150,
-                .description = COMPOUND_STRING(
-                    "A glass flute that\n"
-                    "lures wild Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_BlackWhiteFlute,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Flute,
-                .iconPalette = gItemIconPalette_WhiteFlute,
-            },
+    [ITEM_WHITE_FLUTE] =
+    {
+        .name = _("White Flute"),
+        .price = (I_PRICE >= GEN_7) ? 20 : 500,
+        .holdEffectParam = 150,
+        .description = COMPOUND_STRING(
+            "A glass flute that\n"
+            "lures wild Pokémon."),
+        .notConsumed = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_BlackWhiteFlute,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_WhiteFlute,
+    },
 
         // Encounter Modifiers
 
@@ -2484,23 +2499,23 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_PokeToy,
             },
 
-        [ITEM_MAX_MUSHROOMS] =
-            {
-                .name = _("MaxMushrooms"),
-                .pluralName = _("MaxMushrooms"),
-                .price = 8000,
-                .description = COMPOUND_STRING(
-                    "Raises every stat\n"
-                    "during one battle\n"
-                    "by one stage."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .battleUsage = EFFECT_ITEM_INCREASE_ALL_STATS,
-                .flingPower = 30,
-                .iconPic = gItemIcon_MaxMushrooms,
-                .iconPalette = gItemIconPalette_MaxMushrooms,
-            },
+    [ITEM_MAX_MUSHROOMS] =
+    {
+        .name = _("Max Mushrooms"),
+        .pluralName = _("Max Mushrooms"),
+        .price = 8000,
+        .description = COMPOUND_STRING(
+            "Raises every stat\n"
+            "during one battle\n"
+            "by one stage."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_INCREASE_ALL_STATS,
+        .flingPower = 30,
+        .iconPic = gItemIcon_MaxMushrooms,
+        .iconPalette = gItemIconPalette_MaxMushrooms,
+    },
 
         // Treasures
 
@@ -2520,21 +2535,21 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_BottleCap,
             },
 
-        [ITEM_GOLD_BOTTLE_CAP] =
-            {
-                .name = _("GoldBottlCap"),
-                .price = (I_PRICE >= GEN_9) ? 60000 : 10000,
-                .description = COMPOUND_STRING(
-                    "A beautiful bottle\n"
-                    "cap that gives off\n"
-                    "a golden gleam."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_BottleCap,
-                .iconPalette = gItemIconPalette_GoldBottleCap,
-            },
+    [ITEM_GOLD_BOTTLE_CAP] =
+    {
+        .name = _("Gold Bottle Cap"),
+        .price = (I_PRICE >= GEN_9) ? 60000 : 10000,
+        .description = COMPOUND_STRING(
+            "A beautiful bottle\n"
+            "cap that gives off\n"
+            "a golden gleam."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_BottleCap,
+        .iconPalette = gItemIconPalette_GoldBottleCap,
+    },
 
         [ITEM_NUGGET] =
             {
@@ -2857,21 +2872,21 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_OddKeystone,
             },
 
-        [ITEM_PRETTY_FEATHER] =
-            {
-                .name = _("PrettyFeather"),
-                .price = (I_PRICE >= GEN_7) ? 1000 * TREASURE_FACTOR : 200,
-                .description = COMPOUND_STRING(
-                    "A beautiful yet\n"
-                    "plain feather that\n"
-                    "does nothing."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 20,
-                .iconPic = gItemIcon_PrettyFeather,
-                .iconPalette = gItemIconPalette_PrettyFeather,
-            },
+    [ITEM_PRETTY_FEATHER] =
+    {
+        .name = _("Pretty Feather"),
+        .price = (I_PRICE >= GEN_7) ? 1000 * TREASURE_FACTOR: 200,
+        .description = COMPOUND_STRING(
+            "A beautiful yet\n"
+            "plain feather that\n"
+            "does nothing."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 20,
+        .iconPic = gItemIcon_PrettyFeather,
+        .iconPalette = gItemIconPalette_PrettyFeather,
+    },
 
         [ITEM_RELIC_COPPER] =
             {
@@ -2985,21 +3000,21 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Relics,
             },
 
-        [ITEM_STRANGE_SOUVENIR] =
-            {
-                .name = _("StrngeSouvnr"),
-                .price = (I_PRICE >= GEN_7) ? 3000 : 10,
-                .description = COMPOUND_STRING(
-                    "An ornament that\n"
-                    "depicts a Pokémon\n"
-                    "from Alola."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_StrangeSouvenir,
-                .iconPalette = gItemIconPalette_StrangeSouvenir,
-            },
+    [ITEM_STRANGE_SOUVENIR] =
+    {
+        .name = _("Strange Souvenir"),
+        .price = (I_PRICE >= GEN_7) ? 3000 : 10,
+        .description = COMPOUND_STRING(
+            "An ornament that\n"
+            "depicts a Pokémon\n"
+            "from Alola."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_StrangeSouvenir,
+        .iconPalette = gItemIconPalette_StrangeSouvenir,
+    },
 
         // Fossils
 
@@ -3171,96 +3186,96 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_PlumeFossil,
             },
 
-        [ITEM_JAW_FOSSIL] =
-            {
-                .name = _("Jaw Fossil"),
-                .price = (I_PRICE >= GEN_7) ? 7000 : 1000,
-                .description = COMPOUND_STRING(
-                    "A piece of a prehis-\n"
-                    "toric Pokémon's\n"
-                    "large jaw."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_JawFossil,
-                .iconPalette = gItemIconPalette_JawFossil,
-            },
+    [ITEM_JAW_FOSSIL] =
+    {
+        .name = _("Jaw Fossil"),
+        .price = (I_PRICE >= GEN_7) ? 7000: 1000,
+        .description = COMPOUND_STRING(
+            "A piece of a\n"
+            "prehistoric Poké-\n"
+            "mon's large jaw."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_JawFossil,
+        .iconPalette = gItemIconPalette_JawFossil,
+    },
 
-        [ITEM_SAIL_FOSSIL] =
-            {
-                .name = _("Sail Fossil"),
-                .price = (I_PRICE >= GEN_7) ? 7000 : 1000,
-                .description = COMPOUND_STRING(
-                    "A piece of a prehis-\n"
-                    "toric Pokémon's\n"
-                    "skin sail."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_SailFossil,
-                .iconPalette = gItemIconPalette_SailFossil,
-            },
+    [ITEM_SAIL_FOSSIL] =
+    {
+        .name = _("Sail Fossil"),
+        .price = (I_PRICE >= GEN_7) ? 7000: 1000,
+        .description = COMPOUND_STRING(
+            "A piece of a\n"
+            "prehistoric Poké-\n"
+            "mon's skin sail."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_SailFossil,
+        .iconPalette = gItemIconPalette_SailFossil,
+    },
 
-        [ITEM_FOSSILIZED_BIRD] =
-            {
-                .name = _("FosslzedBird"),
-                .price = 5000,
-                .description = COMPOUND_STRING(
-                    "A fossil of an\n"
-                    "ancient, sky-\n"
-                    "soaring Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_FossilizedBird,
-                .iconPalette = gItemIconPalette_FossilizedBird,
-            },
+    [ITEM_FOSSILIZED_BIRD] =
+    {
+        .name = _("Fossilized Bird"),
+        .price = 5000,
+        .description = COMPOUND_STRING(
+            "A fossil of an\n"
+            "ancient, sky-\n"
+            "soaring Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_FossilizedBird,
+        .iconPalette = gItemIconPalette_FossilizedBird,
+    },
 
-        [ITEM_FOSSILIZED_FISH] =
-            {
-                .name = _("FosslzedFish"),
-                .pluralName = _("FosslzedFishes"),
-                .price = 5000,
-                .description = sFossilizedFishDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_FossilizedFish,
-                .iconPalette = gItemIconPalette_FossilizedFish,
-            },
+    [ITEM_FOSSILIZED_FISH] =
+    {
+        .name = _("Fossilized Fish"),
+        .pluralName = _("Fossilized Fishes"),
+        .price = 5000,
+        .description = sFossilizedFishDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_FossilizedFish,
+        .iconPalette = gItemIconPalette_FossilizedFish,
+    },
 
-        [ITEM_FOSSILIZED_DRAKE] =
-            {
-                .name = _("FosslzedDrke"),
-                .price = 5000,
-                .description = COMPOUND_STRING(
-                    "A fossil of an\n"
-                    "ancient, land-\n"
-                    "roaming Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_FossilizedDrake,
-                .iconPalette = gItemIconPalette_FossilizedDrake,
-            },
+    [ITEM_FOSSILIZED_DRAKE] =
+    {
+        .name = _("Fossilized Drake"),
+        .price = 5000,
+        .description = COMPOUND_STRING(
+            "A fossil of an\n"
+            "ancient, land-\n"
+            "roaming Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_FossilizedDrake,
+        .iconPalette = gItemIconPalette_FossilizedDrake,
+    },
 
-        [ITEM_FOSSILIZED_DINO] =
-            {
-                .name = _("FosslzedDino"),
-                .price = 5000,
-                .description = sFossilizedFishDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 100,
-                .iconPic = gItemIcon_FossilizedDino,
-                .iconPalette = gItemIconPalette_FossilizedDino,
-            },
+    [ITEM_FOSSILIZED_DINO] =
+    {
+        .name = _("Fossilized Dino"),
+        .price = 5000,
+        .description = sFossilizedFishDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_FossilizedDino,
+        .iconPalette = gItemIconPalette_FossilizedDino,
+    },
 
         // Mulch
 
@@ -3374,11 +3389,11 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_RichMulch,
             },
 
-        [ITEM_SURPRISE_MULCH] =
-            {
-                .name = _("SurprseMulch"),
-                .pluralName = _("SurprseMulch"),
-                .price = 200,
+    [ITEM_SURPRISE_MULCH] =
+    {
+        .name = _("Surprise Mulch"),
+        .pluralName = _("Surprise Mulch"),
+        .price = 200,
 #if OW_BERRY_MULCH_USAGE == TRUE
                 .description = COMPOUND_STRING(
                     "A fertilizer that\n"
@@ -3472,35 +3487,35 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_BlueApricorn,
             },
 
-        [ITEM_YELLOW_APRICORN] =
-            {
-                .name = _("YellwApricorn"),
-                .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
-                .description = COMPOUND_STRING(
-                    "A yellow apricorn.\n"
-                    "It has an invigor-\n"
-                    "ating scent."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_YellowApricorn,
-                .iconPalette = gItemIconPalette_YellowApricorn,
-            },
+    [ITEM_YELLOW_APRICORN] =
+    {
+        .name = _("Yellow Apricorn"),
+        .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
+        .description = COMPOUND_STRING(
+            "A yellow apricorn.\n"
+            "It has an invigor-\n"
+            "ating scent."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_YellowApricorn,
+        .iconPalette = gItemIconPalette_YellowApricorn,
+    },
 
-        [ITEM_GREEN_APRICORN] =
-            {
-                .name = _("GreenApricorn"),
-                .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
-                .description = COMPOUND_STRING(
-                    "A green apricorn.\n"
-                    "It has a strange,\n"
-                    "aromatic scent."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_GreenApricorn,
-                .iconPalette = gItemIconPalette_GreenApricorn,
-            },
+    [ITEM_GREEN_APRICORN] =
+    {
+        .name = _("Green Apricorn"),
+        .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
+        .description = COMPOUND_STRING(
+            "A green apricorn.\n"
+            "It has a strange,\n"
+            "aromatic scent."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_GreenApricorn,
+        .iconPalette = gItemIconPalette_GreenApricorn,
+    },
 
         [ITEM_PINK_APRICORN] =
             {
@@ -3517,67 +3532,67 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_PinkApricorn,
             },
 
-        [ITEM_WHITE_APRICORN] =
-            {
-                .name = _("WhiteApricorn"),
-                .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
-                .description = COMPOUND_STRING(
-                    "A white apricorn.\n"
-                    "It doesn't smell\n"
-                    "like anything."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_WhiteApricorn,
-                .iconPalette = gItemIconPalette_WhiteApricorn,
-            },
+    [ITEM_WHITE_APRICORN] =
+    {
+        .name = _("White Apricorn"),
+        .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
+        .description = COMPOUND_STRING(
+            "A white apricorn.\n"
+            "It doesn't smell\n"
+            "like anything."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_WhiteApricorn,
+        .iconPalette = gItemIconPalette_WhiteApricorn,
+    },
 
-        [ITEM_BLACK_APRICORN] =
-            {
-                .name = _("BlackApricorn"),
-                .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
-                .description = COMPOUND_STRING(
-                    "A black apricorn.\n"
-                    "It has an inde-\n"
-                    "scribable scent."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_BlackApricorn,
-                .iconPalette = gItemIconPalette_BlackApricorn,
-            },
+    [ITEM_BLACK_APRICORN] =
+    {
+        .name = _("Black Apricorn"),
+        .price = (I_PRICE == GEN_4) ? 0 : ((I_PRICE >= GEN_5 && I_PRICE <= GEN_7) ? 20 : 200),
+        .description = COMPOUND_STRING(
+            "A black apricorn.\n"
+            "It has an inde-\n"
+            "scribable scent."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_BlackApricorn,
+        .iconPalette = gItemIconPalette_BlackApricorn,
+    },
 
-        [ITEM_WISHING_PIECE] =
-            {
-                .name = _("WishingPiece"),
-                .price = 20,
-                .description = COMPOUND_STRING(
-                    "Throw into a\n"
-                    "{PKMN} Den to attract\n"
-                    "Dynamax Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
-                .flingPower = 50,
-                .iconPic = gItemIcon_WishingPiece,
-                .iconPalette = gItemIconPalette_WishingPiece,
-            },
+    [ITEM_WISHING_PIECE] =
+    {
+        .name = _("Wishing Piece"),
+        .price = 20,
+        .description = COMPOUND_STRING(
+            "Throw into a\n"
+            "{PKMN} Den to attract\n"
+            "Dynamax Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .flingPower = 50,
+        .iconPic = gItemIcon_WishingPiece,
+        .iconPalette = gItemIconPalette_WishingPiece,
+    },
 
-        [ITEM_GALARICA_TWIG] =
-            {
-                .name = _("GalaricaTwig"),
-                .price = 20 * TREASURE_FACTOR,
-                .description = COMPOUND_STRING(
-                    "A twig from a tree\n"
-                    "in Galar called\n"
-                    "Galarica."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_GalaricaTwig,
-                .iconPalette = gItemIconPalette_GalaricaItem,
-            },
+    [ITEM_GALARICA_TWIG] =
+    {
+        .name = _("Galarica Twig"),
+        .price = 20 * TREASURE_FACTOR,
+        .description = COMPOUND_STRING(
+            "A twig from a tree\n"
+            "in Galar called\n"
+            "Galarica."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_GalaricaTwig,
+        .iconPalette = gItemIconPalette_GalaricaItem,
+    },
 
         [ITEM_ARMORITE_ORE] =
             {
@@ -4023,40 +4038,40 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Pot,
             },
 
-        [ITEM_GALARICA_CUFF] =
-            {
-                .name = _("GalaricaCuff"),
-                .price = (I_PRICE >= GEN_9) ? 3000 : 6000,
-                .description = COMPOUND_STRING(
-                    "A cuff from Galar\n"
-                    "that makes certain\n"
-                    "Pokémon evolve."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_GalaricaCuff,
-                .iconPalette = gItemIconPalette_GalaricaItem,
-            },
+    [ITEM_GALARICA_CUFF] =
+    {
+        .name = _("Galarica Cuff"),
+        .price = (I_PRICE >= GEN_9) ? 3000 : 6000,
+        .description = COMPOUND_STRING(
+            "A cuff from Galar\n"
+            "that makes certain\n"
+            "Pokémon evolve."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_GalaricaCuff,
+        .iconPalette = gItemIconPalette_GalaricaItem,
+    },
 
-        [ITEM_GALARICA_WREATH] =
-            {
-                .name = _("GalrcaWreath"),
-                .pluralName = _("GalrcaWreathes"),
-                .price = (I_PRICE >= GEN_9) ? 3000 : 6000,
-                .description = COMPOUND_STRING(
-                    "A wreath made in\n"
-                    "Galar. Makes some\n"
-                    "Pokémon evolve."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_GalaricaWreath,
-                .iconPalette = gItemIconPalette_GalaricaItem,
-            },
+    [ITEM_GALARICA_WREATH] =
+    {
+        .name = _("Galarica Wreath"),
+        .pluralName = _("Galarica Wreathes"),
+        .price = (I_PRICE >= GEN_9) ? 3000 : 6000,
+        .description = COMPOUND_STRING(
+            "A wreath made in\n"
+            "Galar. Makes some\n"
+            "Pokémon evolve."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_GalaricaWreath,
+        .iconPalette = gItemIconPalette_GalaricaItem,
+    },
 
         [ITEM_DRAGON_SCALE] =
             {
@@ -4162,40 +4177,40 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_DubiousDisc,
             },
 
-        [ITEM_REAPER_CLOTH] =
-            {
-                .name = _("Reaper Cloth"),
-                .pluralName = _("Reaper Cloths"),
-                .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
-                .description = COMPOUND_STRING(
-                    "Loved by a certain\n"
-                    "Pokémon. Imbued with\n"
-                    "spiritual energy."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 10,
-                .iconPic = gItemIcon_ReaperCloth,
-                .iconPalette = gItemIconPalette_ReaperCloth,
-            },
+    [ITEM_REAPER_CLOTH] =
+    {
+        .name = _("Reaper Cloth"),
+        .pluralName = _("Reaper Cloths"),
+        .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
+        .description = COMPOUND_STRING(
+            "Loved by a certain\n"
+            "Pokémon. Imbued\n"
+            "with spirit energy."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 10,
+        .iconPic = gItemIcon_ReaperCloth,
+        .iconPalette = gItemIconPalette_ReaperCloth,
+    },
 
-        [ITEM_PRISM_SCALE] =
-            {
-                .name = _("Prism Scale"),
-                .price = (I_PRICE >= GEN_9) ? 3000 : ((I_PRICE >= GEN_7) ? 2000 : 500),
-                .description = COMPOUND_STRING(
-                    "A mysterious scale\n"
-                    "that evolves certain\n"
-                    "Pokémon. It shines."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_PrismScale,
-                .iconPalette = gItemIconPalette_PrismScale,
-            },
+    [ITEM_PRISM_SCALE] =
+    {
+        .name = _("Prism Scale"),
+        .price = (I_PRICE >= GEN_9) ? 3000 : ((I_PRICE >= GEN_7) ? 2000 : 500),
+        .description = COMPOUND_STRING(
+            "A mysterious scale\n"
+            "that evolves a\n"
+            "certain Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_PrismScale,
+        .iconPalette = gItemIconPalette_PrismScale,
+    },
 
         [ITEM_WHIPPED_DREAM] =
             {
@@ -4215,55 +4230,55 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_WhippedDream,
             },
 
-        [ITEM_SACHET] =
-            {
-                .name = _("Sachet"),
-                .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
-                .description = COMPOUND_STRING(
-                    "A sachet filled with\n"
-                    "perfumes loved by\n"
-                    "a certain Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 80,
-                .iconPic = gItemIcon_Sachet,
-                .iconPalette = gItemIconPalette_Sachet,
-            },
+    [ITEM_SACHET] =
+    {
+        .name = _("Sachet"),
+        .price = (I_PRICE >= GEN_7) ? 2000 * TREASURE_FACTOR : 2100,
+        .description = COMPOUND_STRING(
+            "A sachet of strong\n"
+            "perfumes, loved by\n"
+            "a certain Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 80,
+        .iconPic = gItemIcon_Sachet,
+        .iconPalette = gItemIconPalette_Sachet,
+    },
 
-        [ITEM_OVAL_STONE] =
-            {
-                .name = _("Oval Stone"),
-                .price = (I_PRICE >= GEN_7) ? 2000 : 2100,
-                .description = COMPOUND_STRING(
-                    "Makes a certain\n"
-                    "Pokémon evolve. It's\n"
-                    "shaped like an egg."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 80,
-                .iconPic = gItemIcon_OvalStone,
-                .iconPalette = gItemIconPalette_OvalStone,
-            },
+    [ITEM_OVAL_STONE] =
+    {
+        .name = _("Oval Stone"),
+        .price = (I_PRICE >= GEN_7) ? 2000 : 2100,
+        .description = COMPOUND_STRING(
+            "Peculiar stone\n"
+            "that evolves a\n"
+            "certain Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 80,
+        .iconPic = gItemIcon_OvalStone,
+        .iconPalette = gItemIconPalette_OvalStone,
+    },
 
-        [ITEM_STRAWBERRY_SWEET] =
-            {
-                .name = _("StrwbrySweet"),
-                .price = 500 * TREASURE_FACTOR,
-                .description = COMPOUND_STRING(
-                    "Strawberry-shaped\n"
-                    "sweet loved by\n"
-                    "Milcery."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_StrawberrySweet,
-                .iconPalette = gItemIconPalette_StrawberrySweet,
-            },
+    [ITEM_STRAWBERRY_SWEET] =
+    {
+        .name = _("Strawberry Sweet"),
+        .price = 500 * TREASURE_FACTOR,
+        .description = COMPOUND_STRING(
+            "Strawberry-shaped\n"
+            "sweet loved by\n"
+            "Milcery."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_StrawberrySweet,
+        .iconPalette = gItemIconPalette_StrawberrySweet,
+    },
 
         [ITEM_LOVE_SWEET] =
             {
@@ -4742,24 +4757,24 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_IronPlate,
             },
 
-        [ITEM_PIXIE_PLATE] =
-            {
-                .name = _("Pixie Plate"),
-                .price = 1000,
-                .holdEffect = HOLD_EFFECT_PLATE,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "A stone tablet that\n"
-                    "boosts the power of\n"
-                    "Fairy-type moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .secondaryId = TYPE_FAIRY,
-                .flingPower = 90,
-                .iconPic = gItemIcon_PixiePlate,
-                .iconPalette = gItemIconPalette_PixiePlate,
-            },
+    [ITEM_PIXIE_PLATE] =
+    {
+        .name = _("Pixie Plate"),
+        .price = 1000,
+        .holdEffect = HOLD_EFFECT_PLATE,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "A tablet that ups\n"
+            "the power of\n"
+            "Fairy-type moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = TYPE_FAIRY,
+        .flingPower = 90,
+        .iconPic = gItemIcon_PixiePlate,
+        .iconPalette = gItemIconPalette_PixiePlate,
+    },
 
         // Drives
 
@@ -4877,25 +4892,25 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_WaterMemory,
             },
 
-        [ITEM_ELECTRIC_MEMORY] =
-            {
-                .name = _("ElectrcMemory"),
-                .pluralName = _("ElectrcMemories"),
-                .price = 1000,
-                .holdEffect = HOLD_EFFECT_MEMORY,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "A disc with Electric\n"
-                    "type data. It swaps\n"
-                    "Silvally's type."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .secondaryId = TYPE_ELECTRIC,
-                .flingPower = 50,
-                .iconPic = gItemIcon_ElectricMemory,
-                .iconPalette = gItemIconPalette_ElectricMemory,
-            },
+    [ITEM_ELECTRIC_MEMORY] =
+    {
+        .name = _("Electric Memory"),
+        .pluralName = _("Electric Memories"),
+        .price = 1000,
+        .holdEffect = HOLD_EFFECT_MEMORY,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "A disc with Electric\n"
+            "type data. It swaps\n"
+            "Silvally's type."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = TYPE_ELECTRIC,
+        .flingPower = 50,
+        .iconPic = gItemIcon_ElectricMemory,
+        .iconPalette = gItemIconPalette_ElectricMemory,
+    },
 
         [ITEM_GRASS_MEMORY] =
             {
@@ -4937,25 +4952,25 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_IceMemory,
             },
 
-        [ITEM_FIGHTING_MEMORY] =
-            {
-                .name = _("FightngMemory"),
-                .pluralName = _("FightngMemories"),
-                .price = 1000,
-                .holdEffect = HOLD_EFFECT_MEMORY,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "A disc with Fighting\n"
-                    "type data. It swaps\n"
-                    "Silvally's type."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .secondaryId = TYPE_FIGHTING,
-                .flingPower = 50,
-                .iconPic = gItemIcon_FightingMemory,
-                .iconPalette = gItemIconPalette_FightingMemory,
-            },
+    [ITEM_FIGHTING_MEMORY] =
+    {
+        .name = _("Fighting Memory"),
+        .pluralName = _("Fighting Memories"),
+        .price = 1000,
+        .holdEffect = HOLD_EFFECT_MEMORY,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Disc with Fighting\n"
+            "type data. It swaps\n"
+            "Silvally's type."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = TYPE_FIGHTING,
+        .flingPower = 50,
+        .iconPic = gItemIcon_FightingMemory,
+        .iconPalette = gItemIconPalette_FightingMemory,
+    },
 
         [ITEM_POISON_MEMORY] =
             {
@@ -5017,25 +5032,25 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_FlyingMemory,
             },
 
-        [ITEM_PSYCHIC_MEMORY] =
-            {
-                .name = _("PsychicMemory"),
-                .pluralName = _("PsychicMemories"),
-                .price = 1000,
-                .holdEffect = HOLD_EFFECT_MEMORY,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "A disc with Psychic\n"
-                    "type data. It swaps\n"
-                    "Silvally's type."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .secondaryId = TYPE_PSYCHIC,
-                .flingPower = 50,
-                .iconPic = gItemIcon_PsychicMemory,
-                .iconPalette = gItemIconPalette_PsychicMemory,
-            },
+    [ITEM_PSYCHIC_MEMORY] =
+    {
+        .name = _("Psychic Memory"),
+        .pluralName = _("Psychic Memories"),
+        .price = 1000,
+        .holdEffect = HOLD_EFFECT_MEMORY,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "A disc with Psychic\n"
+            "type data. It swaps\n"
+            "Silvally's type."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = TYPE_PSYCHIC,
+        .flingPower = 50,
+        .iconPic = gItemIcon_PsychicMemory,
+        .iconPalette = gItemIconPalette_PsychicMemory,
+    },
 
         [ITEM_BUG_MEMORY] =
             {
@@ -5177,35 +5192,35 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_FairyMemory,
             },
 
-        [ITEM_RUSTED_SWORD] =
-            {
-                .name = _("RustedSword"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A rusty sword. A\n"
-                    "hero used it to\n"
-                    "halt a disaster."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_RustedSword,
-                .iconPalette = gItemIconPalette_RustedWeapons,
-            },
+    [ITEM_RUSTED_SWORD] =
+    {
+        .name = _("Rusted Sword"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A rusty sword. A\n"
+            "hero used it to\n"
+            "halt a disaster."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_RustedSword,
+        .iconPalette = gItemIconPalette_RustedWeapons,
+    },
 
-        [ITEM_RUSTED_SHIELD] =
-            {
-                .name = _("RustedShield"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A rusty shield. A\n"
-                    "hero used it to\n"
-                    "halt a disaster."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_RustedShield,
-                .iconPalette = gItemIconPalette_RustedWeapons,
-            },
+    [ITEM_RUSTED_SHIELD] =
+    {
+        .name = _("Rusted Shield"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A rusty shield. A\n"
+            "hero used it to\n"
+            "halt a disaster."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_RustedShield,
+        .iconPalette = gItemIconPalette_RustedWeapons,
+    },
 
         // Colored Orbs
 
@@ -5260,35 +5275,35 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Venusaurite,
             },
 
-        [ITEM_CHARIZARDITE_X] =
-            {
-                .name = _("CharizarditeX"),
-                .pluralName = _("Charizardites X"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_MEGA_STONE,
-                .description = sCharizarditeDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_CharizarditeX,
-                .iconPalette = gItemIconPalette_CharizarditeX,
-            },
+    [ITEM_CHARIZARDITE_X] =
+    {
+        .name = _("Charizardite X"),
+        .pluralName = _("Charizardites X"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_MEGA_STONE,
+        .description = sCharizarditeDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_CharizarditeX,
+        .iconPalette = gItemIconPalette_CharizarditeX,
+    },
 
-        [ITEM_CHARIZARDITE_Y] =
-            {
-                .name = _("CharizarditeY"),
-                .pluralName = _("Charizardites Y"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_MEGA_STONE,
-                .description = sCharizarditeDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_CharizarditeY,
-                .iconPalette = gItemIconPalette_CharizarditeY,
-            },
+    [ITEM_CHARIZARDITE_Y] =
+    {
+        .name = _("Charizardite Y"),
+        .pluralName = _("Charizardites Y"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_MEGA_STONE,
+        .description = sCharizarditeDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_CharizarditeY,
+        .iconPalette = gItemIconPalette_CharizarditeY,
+    },
 
         [ITEM_BLASTOISINITE] =
             {
@@ -6940,22 +6955,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_PikashuniumZ,
             },
 
-        [ITEM_ULTRANECROZIUM_Z] =
-            {
-                .name = _("U-Necrozium Z"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_Z_CRYSTAL,
-                .description = COMPOUND_STRING(
-                    "A crystal to turn\n"
-                    "fused Necrozma\n"
-                    "into a new form."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .secondaryId = 255, // signature z move
-                .iconPic = gItemIcon_UltranecroziumZ,
-                .iconPalette = gItemIconPalette_UltranecroziumZ,
-            },
+    [ITEM_ULTRANECROZIUM_Z] =
+    {
+        .name = _("Ultranecrozium Z"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_Z_CRYSTAL,
+        .description = COMPOUND_STRING(
+            "A crystal to turn\n"
+            "fused Necrozma\n"
+            "into a new form."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 255, //signature z move
+        .iconPic = gItemIcon_UltranecroziumZ,
+        .iconPalette = gItemIconPalette_UltranecroziumZ,
+    },
 
         // Species-specific Held Items
 
@@ -7046,60 +7061,60 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_MetalPowder,
             },
 
-        [ITEM_QUICK_POWDER] =
-            {
-                .name = _("Quick Powder"),
-                .pluralName = _("Quick Powder"),
-                .price = (I_PRICE >= GEN_7) ? 1000 : 10,
-                .holdEffect = HOLD_EFFECT_QUICK_POWDER,
-                .description = COMPOUND_STRING(
-                    "An item to be held\n"
-                    "by Ditto. This odd\n"
-                    "powder boosts Speed."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_QuickPowder,
-                .iconPalette = gItemIconPalette_QuickPowder,
-            },
+    [ITEM_QUICK_POWDER] =
+    {
+        .name = _("Quick Powder"),
+        .pluralName = _("Quick Powder"),
+        .price = (I_PRICE >= GEN_7) ? 1000 : 10,
+        .holdEffect = HOLD_EFFECT_QUICK_POWDER,
+        .description = COMPOUND_STRING(
+            "A hold item that\n"
+            "raises the Speed\n"
+            "of Ditto."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_QuickPowder,
+        .iconPalette = gItemIconPalette_QuickPowder,
+    },
 
-        [ITEM_DEEP_SEA_SCALE] =
-            {
-                .name = _("DeepSeaScale"),
-                .price = (I_PRICE >= GEN_7) ? 2000 : 200,
-                .holdEffect = HOLD_EFFECT_DEEP_SEA_SCALE,
-                .description = COMPOUND_STRING(
-                    "A hold item that\n"
-                    "raises the Sp. Def\n"
-                    "of Clamperl."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_DeepSeaScale,
-                .iconPalette = gItemIconPalette_DeepSeaScale,
-            },
+    [ITEM_DEEP_SEA_SCALE] =
+    {
+        .name = _("Deep Sea Scale"),
+        .price = (I_PRICE >= GEN_7) ? 2000 : 200,
+        .holdEffect = HOLD_EFFECT_DEEP_SEA_SCALE,
+        .description = COMPOUND_STRING(
+            "A hold item that\n"
+            "raises the Sp. Def\n"
+            "of Clamperl."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_DeepSeaScale,
+        .iconPalette = gItemIconPalette_DeepSeaScale,
+    },
 
-        [ITEM_DEEP_SEA_TOOTH] =
-            {
-                .name = _("DeepSeaTooth"),
-                .pluralName = _("DeepSeaTeeth"),
-                .price = (I_PRICE >= GEN_7) ? 2000 : 200,
-                .holdEffect = HOLD_EFFECT_DEEP_SEA_TOOTH,
-                .description = COMPOUND_STRING(
-                    "A hold item that\n"
-                    "raises the Sp. Atk\n"
-                    "of Clamperl."),
-                .pocket = POCKET_ITEMS,
-                .type = EVO_HELD_ITEM_TYPE,
-                .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 90,
-                .iconPic = gItemIcon_DeepSeaTooth,
-                .iconPalette = gItemIconPalette_DeepSeaTooth,
-            },
+    [ITEM_DEEP_SEA_TOOTH] =
+    {
+        .name = _("Deep Sea Tooth"),
+        .pluralName = _("Deep Sea Teeth"),
+        .price = (I_PRICE >= GEN_7) ? 2000 : 200,
+        .holdEffect = HOLD_EFFECT_DEEP_SEA_TOOTH,
+        .description = COMPOUND_STRING(
+            "A hold item that\n"
+            "raises the Sp. Atk\n"
+            "of Clamperl."),
+        .pocket = POCKET_ITEMS,
+        .type = EVO_HELD_ITEM_TYPE,
+        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 90,
+        .iconPic = gItemIcon_DeepSeaTooth,
+        .iconPalette = gItemIconPalette_DeepSeaTooth,
+    },
 
         [ITEM_SOUL_DEW] =
             {
@@ -7125,59 +7140,59 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SoulDew,
             },
 
-        [ITEM_ADAMANT_ORB] =
-            {
-                .name = _("Adamant Orb"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 10000,
-                .holdEffect = HOLD_EFFECT_ADAMANT_ORB,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Boosts the power of\n"
-                    "Dialga's Dragon and\n"
-                    "Steel-type moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_AdamantOrb,
-                .iconPalette = gItemIconPalette_AdamantOrb,
-            },
+    [ITEM_ADAMANT_ORB] =
+    {
+        .name = _("Adamant Orb"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 10000,
+        .holdEffect = HOLD_EFFECT_ADAMANT_ORB,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Powers up Dialga's\n"
+            "Dragon and Steel-\n"
+            "type moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_AdamantOrb,
+        .iconPalette = gItemIconPalette_AdamantOrb,
+    },
 
-        [ITEM_LUSTROUS_ORB] =
-            {
-                .name = _("Lustrous Orb"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 10000,
-                .holdEffect = HOLD_EFFECT_LUSTROUS_ORB,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Boosts the power of\n"
-                    "Palkia's Dragon and\n"
-                    "Water-type moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_LustrousOrb,
-                .iconPalette = gItemIconPalette_LustrousOrb,
-            },
+    [ITEM_LUSTROUS_ORB] =
+    {
+        .name = _("Lustrous Orb"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 10000,
+        .holdEffect = HOLD_EFFECT_LUSTROUS_ORB,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Powers up Palkia's\n"
+            "Dragon and Water-\n"
+            "type moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_LustrousOrb,
+        .iconPalette = gItemIconPalette_LustrousOrb,
+    },
 
-        [ITEM_GRISEOUS_ORB] =
-            {
-                .name = _("Griseous Orb"),
-                .price = (I_PRICE >= GEN_7) ? 0 : 10000,
-                .holdEffect = HOLD_EFFECT_GRISEOUS_ORB,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Powers up Giratina's\n"
-                    "Dragon and Ghost-\n"
-                    "type moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_GriseousOrb,
-                .iconPalette = gItemIconPalette_GriseousOrb,
-            },
+    [ITEM_GRISEOUS_ORB] =
+    {
+        .name = _("Griseous Orb"),
+        .price = (I_PRICE >= GEN_7) ? 0 : 10000,
+        .holdEffect = HOLD_EFFECT_GRISEOUS_ORB,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Boosts Giratina's\n"
+            "Dragon and Ghost-\n"
+            "type moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_GriseousOrb,
+        .iconPalette = gItemIconPalette_GriseousOrb,
+    },
 
         // Incenses
 
@@ -7629,24 +7644,24 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_MiracleSeed,
             },
 
-        [ITEM_NEVER_MELT_ICE] =
-            {
-                .name = _("Never-MeltIce"),
-                .pluralName = _("Never-MeltIce"),
-                .price = (I_PRICE >= GEN_9) ? 3000 : ((I_PRICE >= GEN_7) ? 1000 : 100),
-                .holdEffect = HOLD_EFFECT_ICE_POWER,
-                .holdEffectParam = TYPE_BOOST_PARAM,
-                .description = COMPOUND_STRING(
-                    "A hold item that\n"
-                    "raises the power of\n"
-                    "Ice-type moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_NeverMeltIce,
-                .iconPalette = gItemIconPalette_NeverMeltIce,
-            },
+    [ITEM_NEVER_MELT_ICE] =
+    {
+        .name = _("Never-Melt Ice"),
+        .pluralName = _("Never-Melt Ice"),
+        .price = (I_PRICE >= GEN_9) ? 3000 : ((I_PRICE >= GEN_7) ? 1000 : 100),
+        .holdEffect = HOLD_EFFECT_ICE_POWER,
+        .holdEffectParam = TYPE_BOOST_PARAM,
+        .description = COMPOUND_STRING(
+            "A hold item that\n"
+            "raises the power of\n"
+            "Ice-type moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_NeverMeltIce,
+        .iconPalette = gItemIconPalette_NeverMeltIce,
+    },
 
         [ITEM_BLACK_BELT] =
             {
@@ -8099,24 +8114,24 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_AbsorbBulb,
             },
 
-        [ITEM_CELL_BATTERY] =
-            {
-                .name = _("Cell Battery"),
-                .pluralName = _("Cell Batteries"),
-                .price = (I_PRICE >= GEN_9) ? 5000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_CELL_BATTERY,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "Raises Atk if the\n"
-                    "holder is hit by an\n"
-                    "Electric-type move."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_CellBattery,
-                .iconPalette = gItemIconPalette_CellBattery,
-            },
+    [ITEM_CELL_BATTERY] =
+    {
+        .name = _("Cell Battery"),
+        .pluralName = _("Cell Batteries"),
+        .price = (I_PRICE >= GEN_9) ? 5000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_CELL_BATTERY,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Raises Attack if\n"
+            "the holder is hit by\n"
+            "an Electric move."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_CellBattery,
+        .iconPalette = gItemIconPalette_CellBattery,
+    },
 
         [ITEM_LUMINOUS_MOSS] =
             {
@@ -8446,23 +8461,23 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_WideLens,
             },
 
-        [ITEM_MUSCLE_BAND] =
-            {
-                .name = _("Muscle Band"),
-                .price = (I_PRICE >= GEN_9) ? 8000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_MUSCLE_BAND,
-                .holdEffectParam = 10,
-                .description = COMPOUND_STRING(
-                    "A headband that\n"
-                    "boosts the power of\n"
-                    "physical moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_MuscleBand,
-                .iconPalette = gItemIconPalette_MuscleBand,
-            },
+    [ITEM_MUSCLE_BAND] =
+    {
+        .name = _("Muscle Band"),
+        .price = (I_PRICE >= GEN_9) ? 8000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_MUSCLE_BAND,
+        .holdEffectParam = 10,
+        .description = COMPOUND_STRING(
+            "A headband that\n"
+            "boosts the power\n"
+            "of physical moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_MuscleBand,
+        .iconPalette = gItemIconPalette_MuscleBand,
+    },
 
         [ITEM_WISE_GLASSES] =
             {
@@ -8519,22 +8534,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_LightClay,
             },
 
-        [ITEM_LIFE_ORB] =
-            {
-                .name = _("Life Orb"),
-                .price = (I_PRICE >= GEN_9) ? 50000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_LIFE_ORB,
-                .description = COMPOUND_STRING(
-                    "Boosts the power of\n"
-                    "moves at the cost\n"
-                    "of some HP per turn."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_LifeOrb,
-                .iconPalette = gItemIconPalette_LifeOrb,
-            },
+    [ITEM_LIFE_ORB] =
+    {
+        .name = _("Life Orb"),
+        .price = (I_PRICE >= GEN_9) ? 50000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_LIFE_ORB,
+        .description = COMPOUND_STRING(
+            "Boosts move power\n"
+            "but holder loses HP\n"
+            "with each attack."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_LifeOrb,
+        .iconPalette = gItemIconPalette_LifeOrb,
+    },
 
         [ITEM_POWER_HERB] =
             {
@@ -8608,22 +8623,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Metronome,
             },
 
-        [ITEM_IRON_BALL] =
-            {
-                .name = _("Iron Ball"),
-                .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_IRON_BALL,
-                .description = COMPOUND_STRING(
-                    "Cuts Speed and lets\n"
-                    "Flying-types be hit\n"
-                    "by Ground moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 130,
-                .iconPic = gItemIcon_IronBall,
-                .iconPalette = gItemIconPalette_IronBall,
-            },
+    [ITEM_IRON_BALL] =
+    {
+        .name = _("Iron Ball"),
+        .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_IRON_BALL,
+        .description = COMPOUND_STRING(
+            "Cuts Speed and\n"
+            "becomes vulnerable\n"
+            "to Ground moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 130,
+        .iconPic = gItemIcon_IronBall,
+        .iconPalette = gItemIconPalette_IronBall,
+    },
 
         [ITEM_LAGGING_TAIL] =
             {
@@ -8656,92 +8671,92 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_DestinyKnot,
             },
 
-        [ITEM_BLACK_SLUDGE] =
-            {
-                .name = _("Black Sludge"),
-                .pluralName = _("Black Sludge"),
-                .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_BLACK_SLUDGE,
-                .description = COMPOUND_STRING(
-                    "Gradually restores\n"
-                    "HP of Poison-types.\n"
-                    "Damages others."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_BlackSludge,
-                .iconPalette = gItemIconPalette_BlackSludge,
-            },
+    [ITEM_BLACK_SLUDGE] =
+    {
+        .name = _("Black Sludge"),
+        .pluralName = _("Black Sludge"),
+        .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_BLACK_SLUDGE,
+        .description = COMPOUND_STRING(
+            "Restores HP for\n"
+            "Poison-types.\n"
+            "Damages all others."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_BlackSludge,
+        .iconPalette = gItemIconPalette_BlackSludge,
+    },
 
-        [ITEM_GRIP_CLAW] =
-            {
-                .name = _("Grip Claw"),
-                .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_GRIP_CLAW,
-                .description = COMPOUND_STRING(
-                    "Makes binding moves\n"
-                    "used by the holder\n"
-                    "go on for 7 turns."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 90,
-                .iconPic = gItemIcon_GripClaw,
-                .iconPalette = gItemIconPalette_GripClaw,
-            },
+    [ITEM_GRIP_CLAW] =
+    {
+        .name = _("Grip Claw"),
+        .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_GRIP_CLAW,
+        .description = COMPOUND_STRING(
+            "A held item that\n"
+            "extends binding\n"
+            "moves like Wrap."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 90,
+        .iconPic = gItemIcon_GripClaw,
+        .iconPalette = gItemIconPalette_GripClaw,
+    },
 
-        [ITEM_STICKY_BARB] =
-            {
-                .name = _("Sticky Barb"),
-                .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_STICKY_BARB,
-                .description = COMPOUND_STRING(
-                    "Damages the holder\n"
-                    "each turn. May latch\n"
-                    "on to foes."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_StickyBarb,
-                .iconPalette = gItemIconPalette_StickyBarb,
-            },
+    [ITEM_STICKY_BARB] =
+    {
+        .name = _("Sticky Barb"),
+        .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_STICKY_BARB,
+        .description = COMPOUND_STRING(
+            "Damages the holder\n"
+            "each turn. May\n"
+            "latch on to foes."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_StickyBarb,
+        .iconPalette = gItemIconPalette_StickyBarb,
+    },
 
-        [ITEM_SHED_SHELL] =
-            {
-                .name = _("Shed Shell"),
-                .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 100),
-                .holdEffect = HOLD_EFFECT_SHED_SHELL,
-                .description = COMPOUND_STRING(
-                    "Enables the holder\n"
-                    "to switch out of\n"
-                    "battle without fail."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_ShedShell,
-                .iconPalette = gItemIconPalette_ShedShell,
-            },
+    [ITEM_SHED_SHELL] =
+    {
+        .name = _("Shed Shell"),
+        .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 100),
+        .holdEffect = HOLD_EFFECT_SHED_SHELL,
+        .description = COMPOUND_STRING(
+            "Allows the holder\n"
+            "to switch out\n"
+            "without fail."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_ShedShell,
+        .iconPalette = gItemIconPalette_ShedShell,
+    },
 
-        [ITEM_BIG_ROOT] =
-            {
-                .name = _("Big Root"),
-                .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_BIG_ROOT,
-                .holdEffectParam = 30,
-                .description = COMPOUND_STRING(
-                    "A held item that\n"
-                    "boosts the power of\n"
-                    "HP-stealing moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_BigRoot,
-                .iconPalette = gItemIconPalette_BigRoot,
-            },
+    [ITEM_BIG_ROOT] =
+    {
+        .name = _("Big Root"),
+        .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_BIG_ROOT,
+        .holdEffectParam = 30,
+        .description = COMPOUND_STRING(
+            "A held item that\n"
+            "ups the power of\n"
+            "HP-stealing moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_BigRoot,
+        .iconPalette = gItemIconPalette_BigRoot,
+    },
 
         [ITEM_RAZOR_CLAW] =
             {
@@ -8830,23 +8845,23 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_RockyHelmet,
             },
 
-        [ITEM_AIR_BALLOON] =
-            {
-                .name = _("Air Balloon"),
-                .price = (I_PRICE >= GEN_9) ? 15000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_AIR_BALLOON,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "Elevates the holder\n"
-                    "in the air. If hit,\n"
-                    "this item will burst."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_AirBalloon,
-                .iconPalette = gItemIconPalette_AirBalloon,
-            },
+    [ITEM_AIR_BALLOON] =
+    {
+        .name = _("Air Balloon"),
+        .price = (I_PRICE >= GEN_9) ? 15000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_AIR_BALLOON,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Makes the holder\n"
+            "float but bursts\n"
+            "if hit by an attack."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_AirBalloon,
+        .iconPalette = gItemIconPalette_AirBalloon,
+    },
 
         [ITEM_RED_CARD] =
             {
@@ -8866,23 +8881,23 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_RedCard,
             },
 
-        [ITEM_RING_TARGET] =
-            {
-                .name = _("Ring Target"),
-                .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
-                .holdEffect = HOLD_EFFECT_RING_TARGET,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "Moves that wouldn't\n"
-                    "have effect will\n"
-                    "land on its holder."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 10,
-                .iconPic = gItemIcon_RingTarget,
-                .iconPalette = gItemIconPalette_RingTarget,
-            },
+    [ITEM_RING_TARGET] =
+    {
+        .name = _("Ring Target"),
+        .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
+        .holdEffect = HOLD_EFFECT_RING_TARGET,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "Moves that usually\n"
+            "have no effect will\n"
+            "hit the holder."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 10,
+        .iconPic = gItemIcon_RingTarget,
+        .iconPalette = gItemIconPalette_RingTarget,
+    },
 
         [ITEM_BINDING_BAND] =
             {
@@ -8919,24 +8934,24 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_EjectButton,
             },
 
-        [ITEM_WEAKNESS_POLICY] =
-            {
-                .name = _("WeaknssPolicy"),
-                .pluralName = _("WeaknssPolicies"),
-                .price = (I_PRICE >= GEN_9) ? 50000 : 1000,
-                .holdEffect = HOLD_EFFECT_WEAKNESS_POLICY,
-                .holdEffectParam = 0,
-                .description = COMPOUND_STRING(
-                    "If hit by a Super\n"
-                    "Effective move, ups\n"
-                    "Atk and Sp. Atk."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_WeaknessPolicy,
-                .iconPalette = gItemIconPalette_WeaknessPolicy,
-            },
+    [ITEM_WEAKNESS_POLICY] =
+    {
+        .name = _("Weakness Policy"),
+        .pluralName = _("Weakness Policies"),
+        .price = (I_PRICE >= GEN_9) ? 50000 : 1000,
+        .holdEffect = HOLD_EFFECT_WEAKNESS_POLICY,
+        .holdEffectParam = 0,
+        .description = COMPOUND_STRING(
+            "If hit by a super-\n"
+            "effective move,\n"
+            "ups Atk and Sp. Atk."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_WeaknessPolicy,
+        .iconPalette = gItemIconPalette_WeaknessPolicy,
+    },
 
         [ITEM_ASSAULT_VEST] =
             {
@@ -8956,75 +8971,75 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_AssaultVest,
             },
 
-        [ITEM_SAFETY_GOGGLES] =
-            {
-                .name = _("SafetyGoggles"),
-                .pluralName = _("SafetyGoggles"),
-                .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 1000),
-                .holdEffect = HOLD_EFFECT_SAFETY_GOGGLES,
-                .description = COMPOUND_STRING(
-                    "Protect from\n"
-                    "weather damage and\n"
-                    "powder moves."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_SafetyGoggles,
-                .iconPalette = gItemIconPalette_SafetyGoggles,
-            },
+    [ITEM_SAFETY_GOGGLES] =
+    {
+        .name = _("Safety Goggles"),
+        .pluralName = _("Safety Goggles"),
+        .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 1000),
+        .holdEffect = HOLD_EFFECT_SAFETY_GOGGLES,
+        .description = COMPOUND_STRING(
+            "Protect from\n"
+            "weather damage and\n"
+            "powder moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_SafetyGoggles,
+        .iconPalette = gItemIconPalette_SafetyGoggles,
+    },
 
-        [ITEM_ADRENALINE_ORB] =
-            {
-                .name = _("AdrenalineOrb"),
-                .price = (I_PRICE >= GEN_9) ? 5000 : ((I_PRICE >= GEN_8) ? 4000 : 300),
-                .holdEffect = HOLD_EFFECT_ADRENALINE_ORB,
-                .description = COMPOUND_STRING(
-                    "Boosts Speed if the\n"
-                    "user is intimidated,\n"
-                    "but only one time."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_AdrenalineOrb,
-                .iconPalette = gItemIconPalette_AdrenalineOrb,
-            },
+    [ITEM_ADRENALINE_ORB] =
+    {
+        .name = _("Adrenaline Orb"),
+        .price = (I_PRICE >= GEN_9) ? 5000 : ((I_PRICE >= GEN_8) ? 4000 : 300),
+        .holdEffect = HOLD_EFFECT_ADRENALINE_ORB,
+        .description = COMPOUND_STRING(
+            "This orb boosts\n"
+            "Speed if the holder\n"
+            "is intimidated."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_AdrenalineOrb,
+        .iconPalette = gItemIconPalette_AdrenalineOrb,
+    },
 
-        [ITEM_TERRAIN_EXTENDER] =
-            {
-                .name = _("TerainExtendr"),
-                .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
-                .holdEffect = HOLD_EFFECT_TERRAIN_EXTENDER,
-                .description = COMPOUND_STRING(
-                    "Extends the length\n"
-                    "of the active\n"
-                    "battle terrain."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_TerrainExtender,
-                .iconPalette = gItemIconPalette_TerrainExtender,
-            },
+    [ITEM_TERRAIN_EXTENDER] =
+    {
+        .name = _("Terrain Extender"),
+        .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
+        .holdEffect = HOLD_EFFECT_TERRAIN_EXTENDER,
+        .description = COMPOUND_STRING(
+            "Extends the length\n"
+            "of the active\n"
+            "battle terrain."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_TerrainExtender,
+        .iconPalette = gItemIconPalette_TerrainExtender,
+    },
 
-        [ITEM_PROTECTIVE_PADS] =
-            {
-                .name = _("ProtectvePads"),
-                .pluralName = _("ProtectvePads"),
-                .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
-                .holdEffect = HOLD_EFFECT_PROTECTIVE_PADS,
-                .description = COMPOUND_STRING(
-                    "Guard the holder\n"
-                    "from contact move\n"
-                    "effects."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_ProtectivePads,
-                .iconPalette = gItemIconPalette_ProtectivePads,
-            },
+    [ITEM_PROTECTIVE_PADS] =
+    {
+        .name = _("Protective Pads"),
+        .pluralName = _("Protective Pads"),
+        .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
+        .holdEffect = HOLD_EFFECT_PROTECTIVE_PADS,
+        .description = COMPOUND_STRING(
+            "Guard the holder\n"
+            "from contact move\n"
+            "effects."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_ProtectivePads,
+        .iconPalette = gItemIconPalette_ProtectivePads,
+    },
 
         [ITEM_THROAT_SPRAY] =
             {
@@ -9060,41 +9075,41 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_EjectPack,
             },
 
-        [ITEM_HEAVY_DUTY_BOOTS] =
-            {
-                .name = _("Heavy-DtyBts"),
-                .pluralName = _("Heavy-DtyBts"),
-                .price = (I_PRICE >= GEN_9) ? 20000 : 4000,
-                .holdEffect = HOLD_EFFECT_HEAVY_DUTY_BOOTS,
-                .description = COMPOUND_STRING(
-                    "Boots that prevent\n"
-                    "effects of traps\n"
-                    "set in the field."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_HeavyDutyBoots,
-                .iconPalette = gItemIconPalette_HeavyDutyBoots,
-            },
+    [ITEM_HEAVY_DUTY_BOOTS] =
+    {
+        .name = _("Heavy-Duty Boots"),
+        .pluralName = _("Heavy-Duty Boots"),
+        .price = (I_PRICE >= GEN_9) ? 20000 : 4000,
+        .holdEffect = HOLD_EFFECT_HEAVY_DUTY_BOOTS,
+        .description = COMPOUND_STRING(
+            "Boots that prevent\n"
+            "effects of traps\n"
+            "set in the field."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_HeavyDutyBoots,
+        .iconPalette = gItemIconPalette_HeavyDutyBoots,
+    },
 
-        [ITEM_BLUNDER_POLICY] =
-            {
-                .name = _("BlundrPolicy"),
-                .pluralName = _("BlundrPolicies"),
-                .price = (I_PRICE >= GEN_9) ? 30000 : 4000,
-                .holdEffect = HOLD_EFFECT_BLUNDER_POLICY,
-                .description = COMPOUND_STRING(
-                    "Raises Speed if\n"
-                    "the user misses\n"
-                    "due to Accuracy."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 80,
-                .iconPic = gItemIcon_BlunderPolicy,
-                .iconPalette = gItemIconPalette_BlunderPolicy,
-            },
+    [ITEM_BLUNDER_POLICY] =
+    {
+        .name = _("Blunder Policy"),
+        .pluralName = _("Blunder Policies"),
+        .price = (I_PRICE >= GEN_9) ? 30000 : 4000,
+        .holdEffect = HOLD_EFFECT_BLUNDER_POLICY,
+        .description = COMPOUND_STRING(
+            "Raises Speed if\n"
+            "the user misses\n"
+            "due to Accuracy."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_BlunderPolicy,
+        .iconPalette = gItemIconPalette_BlunderPolicy,
+    },
 
         [ITEM_ROOM_SERVICE] =
             {
@@ -9113,22 +9128,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_RoomService,
             },
 
-        [ITEM_UTILITY_UMBRELLA] =
-            {
-                .name = _("UtltyUmbrlla"),
-                .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
-                .holdEffect = HOLD_EFFECT_UTILITY_UMBRELLA,
-                .description = COMPOUND_STRING(
-                    "An umbrella that\n"
-                    "protects from\n"
-                    "weather effects."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_UtilityUmbrella,
-                .iconPalette = gItemIconPalette_UtilityUmbrella,
-            },
+    [ITEM_UTILITY_UMBRELLA] =
+    {
+        .name = _("Utility Umbrella"),
+        .price = (I_PRICE >= GEN_9) ? 15000 : 4000,
+        .holdEffect = HOLD_EFFECT_UTILITY_UMBRELLA,
+        .description = COMPOUND_STRING(
+            "An umbrella that\n"
+            "protects from\n"
+            "weather effects."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_UtilityUmbrella,
+        .iconPalette = gItemIconPalette_UtilityUmbrella,
+    },
 
         // Berries
 
@@ -12169,21 +12184,21 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_ShinyCharm,
             },
 
-        [ITEM_CATCHING_CHARM] =
-            {
-                .name = _("CatchngCharm"),
-                .price = 0,
-                .importance = 1,
-                .description = COMPOUND_STRING(
-                    "A charm that raises\n"
-                    "the chance of\n"
-                    "Critical Captures."),
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_CatchingCharm,
-                .iconPalette = gItemIconPalette_CatchingCharm,
-            },
+    [ITEM_CATCHING_CHARM] =
+    {
+        .name = _("Catching Charm"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "A charm that raises\n"
+            "the chance of\n"
+            "Critical Captures."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_CatchingCharm,
+        .iconPalette = gItemIconPalette_CatchingCharm,
+    },
 
         [ITEM_EXP_CHARM] =
             {
@@ -12203,21 +12218,21 @@ const struct Item gItemsInfo[] =
 
         // Form-changing Key Items
 
-        [ITEM_ROTOM_CATALOG] =
-            {
-                .name = _("RotomCatalog"),
-                .price = 0,
-                .importance = 1,
-                .description = COMPOUND_STRING(
-                    "A catalog full of\n"
-                    "devices liked by\n"
-                    "Rotom."),
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_RotomCatalog,
-                .iconPic = gItemIcon_RotomCatalog,
-                .iconPalette = gItemIconPalette_RotomCatalog,
-            },
+    [ITEM_ROTOM_CATALOG] =
+    {
+        .name = _("Rotom Catalog"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "A catalog full of\n"
+            "devices liked by\n"
+            "Rotom."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RotomCatalog,
+        .iconPic = gItemIcon_RotomCatalog,
+        .iconPalette = gItemIconPalette_RotomCatalog,
+    },
 
         [ITEM_GRACIDEA] =
             {
@@ -12333,22 +12348,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_NLunarizer,
             },
 
-        [ITEM_REINS_OF_UNITY] =
-            {
-                .name = _("ReinsOfUnity"),
-                .pluralName = _("ReinsOfUnity"),
-                .price = 0,
-                .importance = 1,
-                .description = COMPOUND_STRING(
-                    "Reins that unite\n"
-                    "Calyrex with its\n"
-                    "beloved steed."),
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Fusion,
-                .iconPic = gItemIcon_ReinsOfUnity,
-                .iconPalette = gItemIconPalette_ReinsOfUnity,
-            },
+    [ITEM_REINS_OF_UNITY] =
+    {
+        .name = _("Reins of Unity"),
+        .pluralName = _("Reins of Unity"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "Reins that unite\n"
+            "Calyrex with its\n"
+            "beloved steed."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Fusion,
+        .iconPic = gItemIcon_ReinsOfUnity,
+        .iconPalette = gItemIconPalette_ReinsOfUnity,
+    },
 
         // Battle Mechanic Key Items
 
@@ -12502,37 +12517,37 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SuperRod,
             },
 
-        [ITEM_DOWSING_MACHINE] =
-            {
-                .name = HANDLE_EXPANDED_ITEM_NAME("Dowsing MCHN", "Dowsing Machine"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A device that\n"
-                    "signals an invisible\n"
-                    "item by sound."),
-                .importance = 1,
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_FIELD,
-                .fieldUseFunc = ItemUseOutOfBattle_Itemfinder,
-                .iconPic = gItemIcon_DowsingMachine,
-                .iconPalette = gItemIconPalette_DowsingMachine,
-            },
+    [ITEM_DOWSING_MACHINE] =
+    {
+        .name = _("Dowsing Machine"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A device that\n"
+            "signals an invisible\n"
+            "item by sound."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Itemfinder,
+        .iconPic = gItemIcon_DowsingMachine,
+        .iconPalette = gItemIconPalette_DowsingMachine,
+    },
 
-        [ITEM_TOWN_MAP] =
-            {
-                .name = _("Town Map"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "Can be viewed\n"
-                    "anytime. Shows your\n"
-                    "present location."),
-                .importance = 1,
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TownMap,
-                .iconPalette = gItemIconPalette_TownMap,
-            },
+    [ITEM_TOWN_MAP] =
+    {
+        .name = _("Town Map"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Can be viewed\n"
+            "anytime. Shows your\n"
+            "present location."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_TownMap,
+        .iconPic = gItemIcon_TownMap,
+        .iconPalette = gItemIconPalette_TownMap,
+    },
 
         [ITEM_VS_SEEKER] =
             {
@@ -12698,21 +12713,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SootSack,
             },
 
-        [ITEM_POKE_FLUTE] =
-            {
-                .name = _("Poké Flute"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A sweet-sounding\n"
-                    "flute that awakens\n"
-                    "Pokémon."),
-                .importance = 1,
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_PokeFlute,
-                .iconPalette = gItemIconPalette_PokeFlute,
-            },
+    [ITEM_POKE_FLUTE] =
+    {
+        .name = _("Poké Flute"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A sweet-sounding\n"
+            "flute that awakens\n"
+            "Pokémon."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_PokeFlute,
+        .battleUsage = EFFECT_ITEM_USE_POKE_FLUTE,
+        .iconPic = gItemIcon_PokeFlute,
+        .iconPalette = gItemIconPalette_PokeFlute,
+    },
 
         [ITEM_FAME_CHECKER] =
             {
@@ -13244,22 +13260,22 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_Sapphire,
             },
 
-        [ITEM_ABILITY_SHIELD] =
-            {
-                .name = _("AbilityShield"),
-                .price = 20000,
-                .holdEffect = HOLD_EFFECT_ABILITY_SHIELD,
-                .description = COMPOUND_STRING(
-                    "Ability changes are\n"
-                    "prevented for this\n"
-                    "items's holder."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_AbilityShield,
-                .iconPalette = gItemIconPalette_AbilityShield,
-            },
+    [ITEM_ABILITY_SHIELD] =
+    {
+        .name = _("Ability Shield"),
+        .price = 20000,
+        .holdEffect = HOLD_EFFECT_ABILITY_SHIELD,
+        .description = COMPOUND_STRING(
+            "Ability changes are\n"
+            "prevented for this\n"
+            "items's holder."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_AbilityShield,
+        .iconPalette = gItemIconPalette_AbilityShield,
+    },
 
         // GEN 9 ITEMS
 
@@ -13280,39 +13296,39 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_ClearAmulet,
             },
 
-        [ITEM_PUNCHING_GLOVE] =
-            {
-                .name = _("PunchingGlove"),
-                .price = 15000,
-                .holdEffect = HOLD_EFFECT_PUNCHING_GLOVE,
-                .description = COMPOUND_STRING(
-                    "Powers up punching\n"
-                    "moves and removes\n"
-                    "their contact."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_PunchingGlove,
-                .iconPalette = gItemIconPalette_PunchingGlove,
-            },
+    [ITEM_PUNCHING_GLOVE] =
+    {
+        .name = _("Punching Glove"),
+        .price = 15000,
+        .holdEffect = HOLD_EFFECT_PUNCHING_GLOVE,
+        .description = COMPOUND_STRING(
+            "Powers up punching\n"
+            "moves and removes\n"
+            "their contact."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_PunchingGlove,
+        .iconPalette = gItemIconPalette_PunchingGlove,
+    },
 
-        [ITEM_COVERT_CLOAK] =
-            {
-                .name = _("Covert Cloak"),
-                .price = 20000,
-                .holdEffect = HOLD_EFFECT_COVERT_CLOAK,
-                .description = COMPOUND_STRING(
-                    "Protects the holder\n"
-                    "from secondary\n"
-                    "move effects."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_CovertCloak,
-                .iconPalette = gItemIconPalette_CovertCloak,
-            },
+    [ITEM_COVERT_CLOAK] =
+    {
+        .name = _("Covert Cloak"),
+        .price = 20000,
+        .holdEffect = HOLD_EFFECT_COVERT_CLOAK,
+        .description = COMPOUND_STRING(
+            "Protects holder\n"
+            "from additional\n"
+            "effects of moves."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_CovertCloak,
+        .iconPalette = gItemIconPalette_CovertCloak,
+    },
 
         [ITEM_LOADED_DICE] =
             {
@@ -13332,103 +13348,103 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_LoadedDice,
             },
 
-        [ITEM_AUSPICIOUS_ARMOR] =
-            {
-                .name = _("AuspciousArmr"),
-                .price = 3000,
-                .description = COMPOUND_STRING(
-                    "Armor inhabited by\n"
-                    "auspicious wishes.\n"
-                    "Causes evolution."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_AuspiciousArmor,
-                .iconPalette = gItemIconPalette_AuspiciousArmor,
-            },
+    [ITEM_AUSPICIOUS_ARMOR] =
+    {
+        .name = _("Auspicious Armor"),
+        .price = 3000,
+        .description = COMPOUND_STRING(
+            "Armor inhabited by\n"
+            "auspicious wishes.\n"
+            "Causes evolution."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_AuspiciousArmor,
+        .iconPalette = gItemIconPalette_AuspiciousArmor,
+    },
 
-        [ITEM_BOOSTER_ENERGY] =
-            {
-                .name = _("BoosterEnergy"),
-                .pluralName = _("BoosterEnergies"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_BOOSTER_ENERGY,
-                .description = COMPOUND_STRING(
-                    "Encapsuled energy\n"
-                    "ups Pokémon with\n"
-                    "certain Abilities."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_BoosterEnergy,
-                .iconPalette = gItemIconPalette_BoosterEnergy,
-            },
+    [ITEM_BOOSTER_ENERGY] =
+    {
+        .name = _("Booster Energy"),
+        .pluralName = _("Booster Energies"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_BOOSTER_ENERGY,
+        .description = COMPOUND_STRING(
+            "Encapsuled energy\n"
+            "ups Pokémon with\n"
+            "certain Abilities."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_BoosterEnergy,
+        .iconPalette = gItemIconPalette_BoosterEnergy,
+    },
 
-        [ITEM_BIG_BAMBOO_SHOOT] =
-            {
-                .name = _("BigBmbooShoot"),
-                .price = 3000,
-                .description = COMPOUND_STRING(
-                    "A large and rare\n"
-                    "bamboo shoot. Best\n"
-                    "sold to gourmands."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_BigBambooShoot,
-                .iconPalette = gItemIconPalette_BigBambooShoot,
-            },
+    [ITEM_BIG_BAMBOO_SHOOT] =
+    {
+        .name = _("Big Bamboo Shoot"),
+        .price = 3000,
+        .description = COMPOUND_STRING(
+            "A large and rare\n"
+            "bamboo shoot. Best\n"
+            "sold to gourmands."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_BigBambooShoot,
+        .iconPalette = gItemIconPalette_BigBambooShoot,
+    },
 
-        [ITEM_GIMMIGHOUL_COIN] =
-            {
-                .name = _("GimighoulCoin"),
-                .price = 400,
-                .description = COMPOUND_STRING(
-                    "Gimmighoul hoard\n"
-                    "and treasure these\n"
-                    "curious coins."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_GimmighoulCoin,
-                .iconPalette = gItemIconPalette_GimmighoulCoin,
-            },
+    [ITEM_GIMMIGHOUL_COIN] =
+    {
+        .name = _("Gimmighoul Coin"),
+        .price = 400,
+        .description = COMPOUND_STRING(
+            "Gimmighoul hoard\n"
+            "and treasure these\n"
+            "curious coins."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_GimmighoulCoin,
+        .iconPalette = gItemIconPalette_GimmighoulCoin,
+    },
 
-        [ITEM_LEADERS_CREST] =
-            {
-                .name = _("Leader'sCrest"),
-                .price = 3000,
-                .description = COMPOUND_STRING(
-                    "A shard of an old\n"
-                    "blade of some sort.\n"
-                    "Held by Bisharp."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_LeadersCrest,
-                .iconPalette = gItemIconPalette_LeadersCrest,
-            },
+    [ITEM_LEADERS_CREST] =
+    {
+        .name = _("Leader's Crest"),
+        .price = 3000,
+        .description = COMPOUND_STRING(
+            "A shard of an old\n"
+            "blade of some sort.\n"
+            "Held by Bisharp."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_LeadersCrest,
+        .iconPalette = gItemIconPalette_LeadersCrest,
+    },
 
-        [ITEM_MALICIOUS_ARMOR] =
-            {
-                .name = _("MaliciousArmr"),
-                .price = 3000,
-                .description = COMPOUND_STRING(
-                    "Armor inhabited by\n"
-                    "malicious will.\n"
-                    "Causes evolution."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_MaliciousArmor,
-                .iconPalette = gItemIconPalette_MaliciousArmor,
-            },
+    [ITEM_MALICIOUS_ARMOR] =
+    {
+        .name = _("Malicious Armor"),
+        .price = 3000,
+        .description = COMPOUND_STRING(
+            "Armor inhabited by\n"
+            "malicious will.\n"
+            "Causes evolution."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_MaliciousArmor,
+        .iconPalette = gItemIconPalette_MaliciousArmor,
+    },
 
         [ITEM_MIRROR_HERB] =
             {
@@ -13447,41 +13463,41 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_MirrorHerb,
             },
 
-        [ITEM_SCROLL_OF_DARKNESS] =
-            {
-                .name = _("ScrllOfDrknss"),
-                .pluralName = _("ScrllsOfDrknss"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A peculiar scroll\n"
-                    "with secrets of\n"
-                    "the dark path."),
-                .importance = 1,
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .iconPic = gItemIcon_ScrollOfDarkness,
-                .iconPalette = gItemIconPalette_ScrollOfDarkness,
-            },
+    [ITEM_SCROLL_OF_DARKNESS] =
+    {
+        .name = _("Scroll of Darkness"),
+        .pluralName = _("Scrolls of Darkness"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A peculiar scroll\n"
+            "with secrets of\n"
+            "the dark path."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .iconPic = gItemIcon_ScrollOfDarkness,
+        .iconPalette = gItemIconPalette_ScrollOfDarkness,
+    },
 
-        [ITEM_SCROLL_OF_WATERS] =
-            {
-                .name = _("ScrollOfWatrs"),
-                .pluralName = _("ScrollsOfWatrs"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A peculiar scroll\n"
-                    "with secrets of\n"
-                    "the water path."),
-                .importance = 1,
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .iconPic = gItemIcon_ScrollOfWaters,
-                .iconPalette = gItemIconPalette_ScrollOfWaters,
-            },
+    [ITEM_SCROLL_OF_WATERS] =
+    {
+        .name = _("Scroll of Waters"),
+        .pluralName = _("Scrolls of Waters"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A peculiar scroll\n"
+            "with secrets of\n"
+            "the water path."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .iconPic = gItemIcon_ScrollOfWaters,
+        .iconPalette = gItemIconPalette_ScrollOfWaters,
+    },
 
         [ITEM_TERA_ORB] =
             {
@@ -13499,253 +13515,253 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_TeraOrb,
             },
 
-        [ITEM_TINY_BAMBOO_SHOOT] =
-            {
-                .name = _("TinyBmbooShot"),
-                .price = 750,
-                .description = COMPOUND_STRING(
-                    "A small and rare\n"
-                    "bamboo shoot. Best\n"
-                    "sold to gourmands."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 30,
-                .iconPic = gItemIcon_TinyBambooShoot,
-                .iconPalette = gItemIconPalette_TinyBambooShoot,
-            },
+    [ITEM_TINY_BAMBOO_SHOOT] =
+    {
+        .name = _("Tiny Bamboo Shoot"),
+        .price = 750,
+        .description = COMPOUND_STRING(
+            "A small and rare\n"
+            "bamboo shoot. Best\n"
+            "sold to gourmands."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_TinyBambooShoot,
+        .iconPalette = gItemIconPalette_TinyBambooShoot,
+    },
 
-        [ITEM_BUG_TERA_SHARD] =
-            {
-                .name = _("Bug TeraShard"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_BugTeraShard,
-            },
+    [ITEM_BUG_TERA_SHARD] =
+    {
+        .name = _("Bug Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_BugTeraShard,
+    },
 
-        [ITEM_DARK_TERA_SHARD] =
-            {
-                .name = _("DarkTeraShard"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_DarkTeraShard,
-            },
+    [ITEM_DARK_TERA_SHARD] =
+    {
+        .name = _("Dark Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_DarkTeraShard,
+    },
 
-        [ITEM_DRAGON_TERA_SHARD] =
-            {
-                .name = _("DragnTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_DragonTeraShard,
-            },
+    [ITEM_DRAGON_TERA_SHARD] =
+    {
+        .name = _("Dragon Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_DragonTeraShard,
+    },
 
-        [ITEM_ELECTRIC_TERA_SHARD] =
-            {
-                .name = _("EltrcTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_ElectricTeraShard,
-            },
+    [ITEM_ELECTRIC_TERA_SHARD] =
+    {
+        .name = _("Electric Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_ElectricTeraShard,
+    },
 
-        [ITEM_FAIRY_TERA_SHARD] =
-            {
-                .name = _("FairyTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_FairyTeraShard,
-            },
+    [ITEM_FAIRY_TERA_SHARD] =
+    {
+        .name = _("Fairy Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_FairyTeraShard,
+    },
 
-        [ITEM_FIGHTING_TERA_SHARD] =
-            {
-                .name = _("FghtngTerShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_FightingTeraShard,
-            },
+    [ITEM_FIGHTING_TERA_SHARD] =
+    {
+        .name = _("Fighting Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_FightingTeraShard,
+    },
 
-        [ITEM_FIRE_TERA_SHARD] =
-            {
-                .name = _("FireTeraShard"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_FireTeraShard,
-            },
+    [ITEM_FIRE_TERA_SHARD] =
+    {
+        .name = _("Fire Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_FireTeraShard,
+    },
 
-        [ITEM_FLYING_TERA_SHARD] =
-            {
-                .name = _("FlyngTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_FlyingTeraShard,
-            },
+    [ITEM_FLYING_TERA_SHARD] =
+    {
+        .name = _("Flying Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_FlyingTeraShard,
+    },
 
-        [ITEM_GHOST_TERA_SHARD] =
-            {
-                .name = _("GhostTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_GhostTeraShard,
-            },
+    [ITEM_GHOST_TERA_SHARD] =
+    {
+        .name = _("Ghost Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_GhostTeraShard,
+    },
 
-        [ITEM_GRASS_TERA_SHARD] =
-            {
-                .name = _("GrassTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_GrassTeraShard,
-            },
+    [ITEM_GRASS_TERA_SHARD] =
+    {
+        .name = _("Grass Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_GrassTeraShard,
+    },
 
-        [ITEM_GROUND_TERA_SHARD] =
-            {
-                .name = _("GrondTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_GroundTeraShard,
-            },
+    [ITEM_GROUND_TERA_SHARD] =
+    {
+        .name = _("Ground Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_GroundTeraShard,
+    },
 
-        [ITEM_ICE_TERA_SHARD] =
-            {
-                .name = _("Ice TeraShard"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_IceTeraShard,
-            },
+    [ITEM_ICE_TERA_SHARD] =
+    {
+        .name = _("Ice Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_IceTeraShard,
+    },
 
-        [ITEM_NORMAL_TERA_SHARD] =
-            {
-                .name = _("NormlTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_NormalTeraShard,
-            },
+    [ITEM_NORMAL_TERA_SHARD] =
+    {
+        .name = _("Normal Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_NormalTeraShard,
+    },
 
-        [ITEM_POISON_TERA_SHARD] =
-            {
-                .name = _("PoisnTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_PoisonTeraShard,
-            },
+    [ITEM_POISON_TERA_SHARD] =
+    {
+        .name = _("Poison Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_PoisonTeraShard,
+    },
 
-        [ITEM_PSYCHIC_TERA_SHARD] =
-            {
-                .name = _("PschcTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_PsychicTeraShard,
-            },
+    [ITEM_PSYCHIC_TERA_SHARD] =
+    {
+        .name = _("Psychic Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_PsychicTeraShard,
+    },
 
-        [ITEM_ROCK_TERA_SHARD] =
-            {
-                .name = _("RockTeraShard"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_RockTeraShard,
-            },
+    [ITEM_ROCK_TERA_SHARD] =
+    {
+        .name = _("Rock Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_RockTeraShard,
+    },
 
-        [ITEM_STEEL_TERA_SHARD] =
-            {
-                .name = _("SteelTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_SteelTeraShard,
-            },
+    [ITEM_STEEL_TERA_SHARD] =
+    {
+        .name = _("Steel Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_SteelTeraShard,
+    },
 
-        [ITEM_WATER_TERA_SHARD] =
-            {
-                .name = _("WaterTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_TeraShard,
-                .iconPalette = gItemIconPalette_WaterTeraShard,
-            },
+    [ITEM_WATER_TERA_SHARD] =
+    {
+        .name = _("Water Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_TeraShard,
+        .iconPalette = gItemIconPalette_WaterTeraShard,
+    },
 
-        [ITEM_ADAMANT_CRYSTAL] =
-            {
-                .name = _("AdamantCrystl"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A large, glowing gem\n"
-                    "that lets Dialga\n"
-                    "change form."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_AdamantCrystal,
-                .iconPalette = gItemIconPalette_AdamantCrystal,
-            },
+    [ITEM_ADAMANT_CRYSTAL] =
+    {
+        .name = _("Adamant Crystal"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A large, glowing gem\n"
+            "that lets Dialga\n"
+            "change form."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_AdamantCrystal,
+        .iconPalette = gItemIconPalette_AdamantCrystal,
+    },
 
         [ITEM_GRISEOUS_CORE] =
             {
@@ -13763,38 +13779,38 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_GriseousCore,
             },
 
-        [ITEM_LUSTROUS_GLOBE] =
-            {
-                .name = _("LustrousGlobe"),
-                .price = 0,
-                .description = COMPOUND_STRING(
-                    "A large, glowing gem\n"
-                    "that lets Palkia\n"
-                    "change form."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .flingPower = 60,
-                .iconPic = gItemIcon_LustrousGlobe,
-                .iconPalette = gItemIconPalette_LustrousGlobe,
-            },
+    [ITEM_LUSTROUS_GLOBE] =
+    {
+        .name = _("Lustrous Globe"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A large, glowing gem\n"
+            "that lets Palkia\n"
+            "change form."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 60,
+        .iconPic = gItemIcon_LustrousGlobe,
+        .iconPalette = gItemIconPalette_LustrousGlobe,
+    },
 
-        [ITEM_BLACK_AUGURITE] =
-            {
-                .name = _("BlackAugurite"),
-                .price = 8000,
-                .description = COMPOUND_STRING(
-                    "A black stone that\n"
-                    "makes some Pokémon\n"
-                    "evolve."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 30,
-                .iconPic = gItemIcon_BlackAugurite,
-                .iconPalette = gItemIconPalette_BlackAugurite,
-            },
+    [ITEM_BLACK_AUGURITE] =
+    {
+        .name = _("Black Augurite"),
+        .price = 8000,
+        .description = COMPOUND_STRING(
+            "A black stone that\n"
+            "makes some Pokémon\n"
+            "evolve."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 30,
+        .iconPic = gItemIcon_BlackAugurite,
+        .iconPalette = gItemIconPalette_BlackAugurite,
+    },
 
         [ITEM_LINKING_CORD] =
             {
@@ -13882,90 +13898,90 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SyrupyApple,
             },
 
-        [ITEM_UNREMARKABLE_TEACUP] =
-            {
-                .name = _("UnrmkblTeacup"),
-                .price = 1600,
-                .description = COMPOUND_STRING(
-                    "A cracked teacup\n"
-                    "that makes certain\n"
-                    "Pokémon evolve."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 80,
-                .iconPic = gItemIcon_UnremarkableTeacup,
-                .iconPalette = gItemIconPalette_UnremarkableTeacup,
-            },
+    [ITEM_UNREMARKABLE_TEACUP] =
+    {
+        .name = _("Unremarkable Teacup"),
+        .price = 1600,
+        .description = COMPOUND_STRING(
+            "A cracked teacup\n"
+            "that makes certain\n"
+            "Pokémon evolve."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 80,
+        .iconPic = gItemIcon_UnremarkableTeacup,
+        .iconPalette = gItemIconPalette_UnremarkableTeacup,
+    },
 
-        [ITEM_MASTERPIECE_TEACUP] =
-            {
-                .name = _("MstrpceTeacup"),
-                .price = 38000,
-                .description = COMPOUND_STRING(
-                    "A chipped teacup\n"
-                    "that makes certain\n"
-                    "Pokémon evolve."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
-                .effect = gItemEffect_EvoItem,
-                .flingPower = 80,
-                .iconPic = gItemIcon_MasterpieceTeacup,
-                .iconPalette = gItemIconPalette_MasterpieceTeacup,
-            },
+    [ITEM_MASTERPIECE_TEACUP] =
+    {
+        .name = _("Masterpiece Teacup"),
+        .price = 38000,
+        .description = COMPOUND_STRING(
+            "A chipped teacup\n"
+            "that makes certain\n"
+            "Pokémon evolve."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .effect = gItemEffect_EvoItem,
+        .flingPower = 80,
+        .iconPic = gItemIcon_MasterpieceTeacup,
+        .iconPalette = gItemIconPalette_MasterpieceTeacup,
+    },
 
-        [ITEM_CORNERSTONE_MASK] =
-            {
-                .name = HANDLE_EXPANDED_ITEM_NAME("CornrstneMask", "Cornerstone Mask"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_OGERPON_MASK,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Allows Ogerpon to\n"
-                    "wield the Rock-\n"
-                    "type in battle."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_CornerstoneMask,
-                .iconPalette = gItemIconPalette_CornerstoneMask,
-            },
+    [ITEM_CORNERSTONE_MASK] =
+    {
+        .name = _("Cornerstone Mask"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_OGERPON_MASK,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Allows Ogerpon to\n"
+            "wield the Rock-\n"
+            "type in battle."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_CornerstoneMask,
+        .iconPalette = gItemIconPalette_CornerstoneMask,
+    },
 
-        [ITEM_WELLSPRING_MASK] =
-            {
-                .name = HANDLE_EXPANDED_ITEM_NAME("WellsprngMask", "Wellspring Mask"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_OGERPON_MASK,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Allows Ogerpon to\n"
-                    "wield the Water-\n"
-                    "type in battle."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_WellspringMask,
-                .iconPalette = gItemIconPalette_WellspringMask,
-            },
+    [ITEM_WELLSPRING_MASK] =
+    {
+        .name = _("Wellspring Mask"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_OGERPON_MASK,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Allows Ogerpon to\n"
+            "wield the Water-\n"
+            "type in battle."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_WellspringMask,
+        .iconPalette = gItemIconPalette_WellspringMask,
+    },
 
-        [ITEM_HEARTHFLAME_MASK] =
-            {
-                .name = HANDLE_EXPANDED_ITEM_NAME("HrthflameMask", "Hearthflame Mask"),
-                .price = 0,
-                .holdEffect = HOLD_EFFECT_OGERPON_MASK,
-                .holdEffectParam = 20,
-                .description = COMPOUND_STRING(
-                    "Allows Ogerpon to\n"
-                    "wield the Fire-\n"
-                    "type in battle."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_HearthflameMask,
-                .iconPalette = gItemIconPalette_HearthflameMask,
-            },
+    [ITEM_HEARTHFLAME_MASK] =
+    {
+        .name = _("Hearthflame Mask"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_OGERPON_MASK,
+        .holdEffectParam = 20,
+        .description = COMPOUND_STRING(
+            "Allows Ogerpon to\n"
+            "wield the Fire-\n"
+            "type in battle."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_HearthflameMask,
+        .iconPalette = gItemIconPalette_HearthflameMask,
+    },
 
         [ITEM_HEALTH_MOCHI] =
             {
@@ -14057,39 +14073,39 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SwiftMochi,
             },
 
-        [ITEM_FRESH_START_MOCHI] =
-            {
-                .name = _("FrshStrtMochi"),
-                .pluralName = _("FrshStrtMochi"),
-                .price = 300,
-                .description = COMPOUND_STRING(
-                    "An item that resets\n"
-                    "all base points of\n"
-                    "a Pokémon."),
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_ResetEVs,
-                .effect = gItemEffect_ResetMochi,
-                .flingPower = 30,
-                .iconPic = gItemIcon_Mochi,
-                .iconPalette = gItemIconPalette_FreshStartMochi,
-            },
+    [ITEM_FRESH_START_MOCHI] =
+    {
+        .name = _("Fresh Start Mochi"),
+        .pluralName = _("Fresh Start Mochi"),
+        .price = 300,
+        .description = COMPOUND_STRING(
+            "An item that resets\n"
+            "all base points of\n"
+            "a Pokémon."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ResetEVs,
+        .effect = gItemEffect_ResetMochi,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Mochi,
+        .iconPalette = gItemIconPalette_FreshStartMochi,
+    },
 
-        [ITEM_GLIMMERING_CHARM] =
-            {
-                .name = _("GlmmringCharm"),
-                .price = 0,
-                .importance = 1,
-                .description = COMPOUND_STRING(
-                    "A charm that will\n"
-                    "raise the shards\n"
-                    "from Tera Raids."),
-                .pocket = POCKET_KEY_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_GlimmeringCharm,
-                .iconPalette = gItemIconPalette_GlimmeringCharm,
-            },
+    [ITEM_GLIMMERING_CHARM] =
+    {
+        .name = _("Glimmering Charm"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "A charm that will\n"
+            "raise the shards\n"
+            "from Tera Raids."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_GlimmeringCharm,
+        .iconPalette = gItemIconPalette_GlimmeringCharm,
+    },
 
         [ITEM_METAL_ALLOY] =
             {
@@ -14107,32 +14123,32 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_MetalAlloy,
             },
 
-        [ITEM_STELLAR_TERA_SHARD] =
-            {
-                .name = _("StllrTeraShrd"),
-                .price = 0,
-                .description = sTeraShardDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                .iconPic = gItemIcon_StellarTeraShard,
-                .iconPalette = gItemIconPalette_StellarTeraShard,
-            },
+    [ITEM_STELLAR_TERA_SHARD] =
+    {
+        .name = _("Stellar Tera Shard"),
+        .price = 0,
+        .description = sTeraShardDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_StellarTeraShard,
+        .iconPalette = gItemIconPalette_StellarTeraShard,
+    },
 
-        [ITEM_JUBILIFE_MUFFIN] =
-            {
-                .name = HANDLE_EXPANDED_ITEM_NAME("JublifeMuffin", "Jubilife Muffin"),
-                .price = 250,
-                .description = sFullHealDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_PARTY_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_Medicine,
-                .battleUsage = EFFECT_ITEM_CURE_STATUS,
-                .effect = gItemEffect_FullHeal,
-                .flingPower = 30,
-                .iconPic = gItemIcon_JubilifeMuffin,
-                .iconPalette = gItemIconPalette_JubilifeMuffin,
-            },
+    [ITEM_JUBILIFE_MUFFIN] =
+    {
+        .name = _("Jubilife Muffin"),
+        .price = 250,
+        .description = sFullHealDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_CURE_STATUS,
+        .effect = gItemEffect_FullHeal,
+        .flingPower = 30,
+        .iconPic = gItemIcon_JubilifeMuffin,
+        .iconPalette = gItemIconPalette_JubilifeMuffin,
+    },
 
         [ITEM_REMEDY] =
             {
@@ -14262,41 +14278,41 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_AuxPower,
             },
 
-        [ITEM_AUX_POWERGUARD] =
-            {
-                .name = _("AuxPowerguard"),
-                .price = 1200,
-                .holdEffectParam = X_ITEM_STAGES,
-                .description = COMPOUND_STRING(
-#if B_X_ITEMS_BUFF >= GEN_7
-                    "Sharply raises\n"
-                    "offenses & defenses\n"
-                    "during one battle."),
-#else
-                    "Raises offenses\n"
-                    "and defenses during\n"
-                    "one battle."),
-#endif
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                //.effect = currently missing
-                .iconPic = gItemIcon_AuxPowerguard,
-                .iconPalette = gItemIconPalette_AuxPowerguard,
-            },
+    [ITEM_AUX_POWERGUARD] =
+    {
+        .name = _("Aux Powerguard"),
+        .price = 1200,
+        .holdEffectParam = X_ITEM_STAGES,
+        .description = COMPOUND_STRING(
+        #if B_X_ITEMS_BUFF >= GEN_7
+            "Sharply raises\n"
+            "offense & defense\n"
+            "during one battle."),
+        #else
+            "Raises offense\n"
+            "and defense during\n"
+            "one battle."),
+        #endif
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        //.effect = currently missing
+        .iconPic = gItemIcon_AuxPowerguard,
+        .iconPalette = gItemIconPalette_AuxPowerguard,
+    },
 
-        [ITEM_CHOICE_DUMPLING] =
-            {
-                .name = _("ChoiceDumplng"),
-                .price = 1200,
-                .description = sQuestionMarksDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                //.effect = currently missing
-                .iconPic = gItemIcon_ChoiceDumpling,
-                .iconPalette = gItemIconPalette_ChoiceDumpling,
-            },
+    [ITEM_CHOICE_DUMPLING] =
+    {
+        .name = _("Choice Dumpling"),
+        .price = 1200,
+        .description = sQuestionMarksDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        //.effect = currently missing
+        .iconPic = gItemIcon_ChoiceDumpling,
+        .iconPalette = gItemIconPalette_ChoiceDumpling,
+    },
 
         [ITEM_SWAP_SNACK] =
             {
@@ -14311,27 +14327,27 @@ const struct Item gItemsInfo[] =
                 .iconPalette = gItemIconPalette_SwapSnack,
             },
 
-        [ITEM_TWICE_SPICED_RADISH] =
-            {
-                .name = _("2xSpicedRadsh"),
-                .price = 1600,
-                .description = sQuestionMarksDesc,
-                .pocket = POCKET_ITEMS,
-                .type = ITEM_USE_BAG_MENU,
-                .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-                //.effect = currently missing
-                .iconPic = gItemIcon_TwiceSpicedRadish,
-                .iconPalette = gItemIconPalette_TwiceSpicedRadish,
-            },
+    [ITEM_TWICE_SPICED_RADISH] =
+    {
+        .name = _("Twice-Spiced Radish"),
+        .price = 1600,
+        .description = sQuestionMarksDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        //.effect = currently missing
+        .iconPic = gItemIcon_TwiceSpicedRadish,
+        .iconPalette = gItemIconPalette_TwiceSpicedRadish,
+    },
 
         [ITEM_POKESHI_DOLL] =
             {
                 .name = _("Pokéshi Doll"),
                 .price = 2000,
                 .description = COMPOUND_STRING(
-                    "A wooden toy carved\n"
-                    "in the image of a\n"
-                    "Pokémon. Can be sold."),
+                    "A wooden toy\n"
+                    "resembling a Poké-.\n"
+                    "mon. Can be sold."),
                 .pocket = POCKET_ITEMS,
                 .type = ITEM_USE_BAG_MENU,
                 .fieldUseFunc = ItemUseOutOfBattle_CannotUse,

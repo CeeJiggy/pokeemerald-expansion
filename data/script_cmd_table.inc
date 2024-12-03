@@ -229,11 +229,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_bufferitemnameplural              @ 0xe2
 	.4byte ScrCmd_dynmultichoice            		@ 0xe3
 	.4byte ScrCmd_dynmultipush              		@ 0xe4
-	.4byte ScrCmd_showitemdesc              		@ 0xe5
-    .4byte ScrCmd_hideitemdesc                  	@ 0xe6
 	.4byte ScrCmd_waitbuttonpresstext               @ 0xe7
-	.4byte ScrCmd_showberrydesc               		@ 0xe8
-	.4byte ScrCmd_hideberrydesc               		@ 0xe9
 
 
 gScriptCmdTableEnd::
