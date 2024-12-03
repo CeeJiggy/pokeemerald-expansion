@@ -1890,24 +1890,6 @@
 	_dynmultichoice \left, \top, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \callbacks, NULL
 	.endm
 
-	.macro showitemdesc id:req
-	.byte 0xe5
-	.2byte \id
-	.endm
-
-	.macro hideitemdesc
-	.byte 0xe6
-	.endm
-
-	.macro showberrydesc id:req
-	.byte 0xe8
-	.2byte \id
-	.endm
-
-	.macro hideberrydesc
-	.byte 0xe9
-	.endm
-
 
 @ Supplementary
 
