@@ -5693,7 +5693,7 @@ void RunBattleScriptCommands(void)
         gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
 }
 
-u8 GetTypeBeforeUsingMove(u16 move, u8 battlerAtk)
+u8 GetTypeBeforeUsingMove(u32 move, u8 battlerAtk)
 {
     u32 moveType, ateType, attackerAbility;
     u16 holdEffect = GetBattlerHoldEffect(battlerAtk, TRUE);

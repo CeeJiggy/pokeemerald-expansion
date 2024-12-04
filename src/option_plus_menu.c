@@ -40,7 +40,7 @@ static void ScrollAll(int direction); // to bottom or top
 static int GetMiddleX(const u8 *txt1, const u8 *txt2, const u8 *txt3);
 static int XOptions_ProcessInput(int x, int selection);
 static int ProcessInput_Options_Two(int selection);
-// static int ProcessInput_Options_Three(int selection);
+static int ProcessInput_Options_Three(int selection);
 static int ProcessInput_Options_Four(int selection);
 static int ProcessInput_Sound(int selection);
 static int ProcessInput_FrameType(int selection);
@@ -200,7 +200,7 @@ struct // MENU_MAIN
     int (*processInput)(int selection);
 } static const sItemFunctionsMain[MENUITEM_MAIN_COUNT] =
     {
-        [MENUITEM_MAIN_TEXTSPEED] = {DrawChoices_TextSpeed, ProcessInput_Options_Four},
+        [MENUITEM_MAIN_TEXTSPEED] = {DrawChoices_TextSpeed, ProcessInput_Options_Three},
         [MENUITEM_MAIN_BATTLESCENE] = {DrawChoices_BattleScene, ProcessInput_Options_Two},
         [MENUITEM_MAIN_BATTLESTYLE] = {DrawChoices_BattleStyle, ProcessInput_Options_Two},
         [MENUITEM_MAIN_SOUND] = {DrawChoices_Sound, ProcessInput_Options_Two},
@@ -982,10 +982,10 @@ static int ProcessInput_Options_Two(int selection)
     return selection;
 }
 
-// static int ProcessInput_Options_Three(int selection)
-// {
-//     return XOptions_ProcessInput(3, selection);
-// }
+static int ProcessInput_Options_Three(int selection)
+{
+    return XOptions_ProcessInput(3, selection);
+}
 
 static int ProcessInput_Options_Four(int selection)
 {
@@ -1039,6 +1039,26 @@ static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, bool8 act
     DrawRightSideChoiceText(text, x, y + 1, choosen, active);
 }
 
+static void DrawChoices_Options_Three(const u8 *const *const strings, int selection, int y, bool8 active)
+{
+    static const u8 choiceOrders[][3] =
+        {
+            {0, 1, 2},
+            {0, 1, 2}, 
+            {0, 1, 2},
+        };
+    u8 styles[3] = {0};
+    int xMid;
+    const u8 *order = choiceOrders[selection];
+
+    styles[selection] = 1;
+    xMid = GetMiddleX(strings[order[0]], strings[order[1]], strings[order[2]]);
+
+    DrawOptionMenuChoice(strings[order[0]], 104, y, styles[order[0]], active);
+    DrawOptionMenuChoice(strings[order[1]], xMid, y, styles[order[1]], active);
+    DrawOptionMenuChoice(strings[order[2]], GetStringRightAlignXOffset(1, strings[order[2]], 198), y, styles[order[2]], active);
+}
+
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y, bool8 active)
 {
     static const u8 choiceOrders[][3] =
@@ -1090,13 +1110,11 @@ static void ReDrawAll(void)
 }
 
 // Process Input functions ****SPECIFIC****
-static const u8 sText_Faster[] = _("Faster");
-static const u8 sText_Instant[] = _("Instant");
-static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, sText_Faster};
+static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast};
 static void DrawChoices_TextSpeed(int selection, int y)
 {
     bool8 active = CheckConditions(MENUITEM_MAIN_TEXTSPEED);
-    DrawChoices_Options_Four(sTextSpeedStrings, selection, y, active);
+    DrawChoices_Options_Three(sTextSpeedStrings, selection, y, active);
 }
 
 static void DrawChoices_BattleScene(int selection, int y)

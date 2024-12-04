@@ -1694,10 +1694,11 @@ static void MoveSelectionDisplayPpNumber(u32 battler)
 
 u8 TypeEffectiveness(u8 targetId, u32 battler)
 {
-    u16 move;
+    u32 move;
     u32 moveType;
     uq4_12_t modifier;
-    move = gBattleMons[battler].moves[gMoveSelectionCursor[battler]];
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
+    move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u32 battlerAtk = battler;
     // todo account for hidden power and maybe other dynamic move types?
     moveType = GetTypeBeforeUsingMove(move, battlerAtk);
@@ -1723,24 +1724,15 @@ u8 TypeEffectiveness(u8 targetId, u32 battler)
 static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 {
     u8 *txtPtr;
-    u8 type;
     u8 typeColor = TypeEffectiveness(targetId, battler);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-    u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
-    u8 movePower = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].power;
+    u8 movePower = gMovesInfo[move].power;
     u8 battlerType1 = gBattleMons[battler].types[0];
     u8 battlerType2 = gBattleMons[battler].types[1];
-    type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
+    u8 type = gMovesInfo[move].type;
 
     txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
-    // not sure why this was here tbh, leaving it in just in case
-    // txtPtr[0] = EXT_CTRL_CODE_BEGIN;
-    // txtPtr++;
-    // txtPtr[0] = 6;
-    // txtPtr++;
-    // txtPtr[0] = 1;
-    // txtPtr++;
 
     if (typeColor != COLOR_EFFECTIVE)
     {
@@ -1777,7 +1769,7 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     u8 *txtPtr, *end;
     u8 type;
     u32 speciesId;
-    u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
+    u8 typeColor = IsDoubleBattle() ? COLOR_EFFECTIVE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u32 battlerAtk = battler;
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
@@ -1819,7 +1811,13 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     end = StringCopy(txtPtr, gTypesInfo[type].name);
 
     PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
-    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
+
+        if (movePower > 0 && (type == battlerType1 || type == battlerType2))
+    {
+        StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
+        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_STAB_SYMBOL);
+    }
 }
 
 static void MoveSelectionDisplayMoveDescription(u32 battler)
@@ -1828,15 +1826,12 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u16 pwr = gMovesInfo[move].power;
     u16 acc = gMovesInfo[move].accuracy;
-    u8 cat = gMovesInfo[move].category;
 
     u8 pwr_num[3], acc_num[3];
-    u8 cat_desc[7] = _("CAT: ");
     u8 pwr_desc[7] = _("PWR: ");
     u8 acc_desc[7] = _("ACC: ");
-    u8 cat_start[] = _("{CLEAR_TO 0x03}");
-    u8 pwr_start[] = _("{CLEAR_TO 0x38}");
-    u8 acc_start[] = _("{CLEAR_TO 0x6D}");
+    u8 pwr_start[] = _("{CLEAR_TO 0x20}"); // Center PWR at x=32
+    u8 acc_start[] = _("{CLEAR_TO 0x50}"); // Center ACC at x=80
     LoadMessageBoxAndBorderGfx();
     DrawStdWindowFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
     if (pwr < 2)
@@ -1847,9 +1842,7 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
         StringCopy(acc_num, gText_BattleSwitchWhich5);
     else
         ConvertIntToDecimalStringN(acc_num, acc, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringCopy(gDisplayedStringBattle, cat_start);
-    StringAppend(gDisplayedStringBattle, cat_desc);
-    StringAppend(gDisplayedStringBattle, pwr_start);
+    StringCopy(gDisplayedStringBattle, pwr_start);
     StringAppend(gDisplayedStringBattle, pwr_desc);
     StringAppend(gDisplayedStringBattle, pwr_num);
     StringAppend(gDisplayedStringBattle, acc_start);
@@ -1861,12 +1854,6 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
     else
         StringAppend(gDisplayedStringBattle, gMovesInfo[move].description);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_DESCRIPTION);
-
-    if (gCategoryIconSpriteId == 0xFF)
-        gCategoryIconSpriteId = CreateSprite(&gSpriteTemplate_CategoryIcons, 38, 64, 1);
-
-    StartSpriteAnim(&gSprites[gCategoryIconSpriteId], cat);
-
     CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_FULL);
 }
 
@@ -2461,6 +2448,8 @@ static void MoveSelectionDisplaySplitIcon(u32 battler)
     moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     icon = GetBattleMoveCategory(moveInfo->moves[gMoveSelectionCursor[battler]]);
     LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
+
+
     BlitBitmapToWindow(B_WIN_DUMMY, sSplitIcons_Gfx + 0x80 * icon, 0, 0, 16, 16);
     PutWindowTilemap(B_WIN_DUMMY);
     CopyWindowToVram(B_WIN_DUMMY, 3);
