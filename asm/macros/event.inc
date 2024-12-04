@@ -888,10 +888,6 @@
 	.byte 0x6d
 	.endm
 
-	@ Blocks text execution until the player presses A or B, or is holding B.
-	.macro waitbuttonpresstext
-	.byte 0xe7
-	.endm
 
 	@ Displays a YES/NO multichoice box at the specified coordinates, and blocks script execution until the user makes a selection.
 	@ Their selection is stored in VAR_RESULT as NO (0) or YES (1). Pressing B is equivalent to answering NO
@@ -1890,6 +1886,10 @@
 	_dynmultichoice \left, \top, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \callbacks, NULL
 	.endm
 
+	@ Blocks text execution until the player presses A or B, or is holding B.
+	.macro waitbuttonpresstext
+	.byte 0xe5
+	.endm
 
 @ Supplementary
 
