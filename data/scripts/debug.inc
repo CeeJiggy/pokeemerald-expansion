@@ -21,6 +21,7 @@ Debug_CheatStart::
 	givemon SPECIES_TORCHIC, 20, ITEM_NONE
 	givemon SPECIES_MUDKIP, 20, ITEM_NONE
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_UNLOCK_SHINY
 	setflag FLAG_SYS_DEXNAV_GET
 	setflag FLAG_SYS_DEXNAV_GET
 	special SetUnlockedPokedexFlags

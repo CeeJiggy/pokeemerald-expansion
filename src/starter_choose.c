@@ -49,8 +49,12 @@ static u8 CreatePokemonFrontSprite(u16 species, u8 x, u8 y);
 static void SpriteCB_SelectionHand(struct Sprite *sprite);
 static void SpriteCB_Pokeball(struct Sprite *sprite);
 static void SpriteCB_StarterPokemon(struct Sprite *sprite);
+static void GenerateStarterMons(void);
 
 static u16 sStarterLabelWindowId;
+
+
+EWRAM_DATA static struct Pokemon sStarterMons[STARTER_MON_COUNT] = {0};
 
 const u16 gBirchBagGrass_Pal[] = INCBIN_U16("graphics/starter_choose/tiles.gbapal");
 static const u16 sPokeballSelection_Pal[] = INCBIN_U16("graphics/starter_choose/pokeball_selection.gbapal");
@@ -434,6 +438,7 @@ void CB2_ChooseStarter(void)
     ResetPaletteFade();
     FreeAllSpritePalettes();
     ResetAllPicSprites();
+    GenerateStarterMons();
 
     LoadPalette(GetOverworldTextboxPalettePtr(), BG_PLTT_ID(14), PLTT_SIZE_4BPP);
     LoadPalette(gBirchBagGrass_Pal, BG_PLTT_ID(0), sizeof(gBirchBagGrass_Pal));
@@ -562,7 +567,9 @@ static void Task_HandleConfirmStarterInput(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0: // YES
-        // Return the starter choice and exit.
+        // Give the pre-generated starter
+        ZeroPlayerPartyMons();
+        gPlayerParty[0] = sStarterMons[gTasks[taskId].tStarterSelection];
         gSpecialVar_Result = gTasks[taskId].tStarterSelection;
         ResetAllPicSprites();
         SetMainCallback2(gMain.savedCallback);
@@ -649,8 +656,10 @@ static void Task_CreateStarterLabel(u8 taskId)
 static u8 CreatePokemonFrontSprite(u16 species, u8 x, u8 y)
 {
     u8 spriteId;
+    u8 selection = gTasks[0].tStarterSelection;
+    bool8 isShiny = IsMonShiny(&sStarterMons[selection]);
 
-    spriteId = CreateMonPicSprite_Affine(species, FALSE, 0, MON_PIC_AFFINE_FRONT, x, y, 14, TAG_NONE);
+    spriteId = CreateMonPicSprite_Affine(species, isShiny, 0, MON_PIC_AFFINE_FRONT, x, y, 14, TAG_NONE);
     gSprites[spriteId].oam.priority = 0;
     return spriteId;
 }
@@ -684,4 +693,16 @@ static void SpriteCB_StarterPokemon(struct Sprite *sprite)
         sprite->y -= 2;
     if (sprite->y < STARTER_PKMN_POS_Y)
         sprite->y += 2;
+}
+
+static void GenerateStarterMons(void)
+{
+    u16 species;
+    u8 i;
+    
+    for (i = 0; i < STARTER_MON_COUNT; i++)
+    {
+        species = GetStarterPokemon(i);
+        CreateMon(&sStarterMons[i], species, 5, 32, TRUE, 0, OT_ID_PLAYER_ID, 0);
+    }
 }
