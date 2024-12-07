@@ -1730,7 +1730,7 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
     u8 movePower = gMovesInfo[move].power;
     u8 battlerType1 = gBattleMons[battler].types[0];
     u8 battlerType2 = gBattleMons[battler].types[1];
-    u8 type = gMovesInfo[move].type;
+    u8 type = GetMoveType(move);
 
     txtPtr = StringCopy(gDisplayedStringBattle, gTypesInfo[type].name);
 
@@ -1759,15 +1759,14 @@ static void MoveSelectionDisplayMoveTypeDoubles(u8 targetId, u32 battler)
 
     if (movePower > 0 && (type == battlerType1 || type == battlerType2))
     {
-        StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
-        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_STAB_SYMBOL);
+        // StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
+        BattlePutTextOnWindow(gText_MoveInterfaceSTAB, B_WIN_STAB_SYMBOL);
     }
 }
 
 static void MoveSelectionDisplayMoveType(u32 battler)
 {
     u8 *txtPtr, *end;
-    u8 type;
     u32 speciesId;
     u8 typeColor = IsDoubleBattle() ? COLOR_EFFECTIVE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))), battler);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
@@ -1777,7 +1776,7 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     u8 battlerType1 = gBattleMons[battler].types[0];
     u8 battlerType2 = gBattleMons[battler].types[1];
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
-    type = gMovesInfo[moveInfo->moves[gMoveSelectionCursor[battler]]].type;
+    u8 type = GetMoveType(move);
 
     if (moveInfo->moves[gMoveSelectionCursor[battler]] == MOVE_TERA_BLAST)
     {
@@ -1808,15 +1807,33 @@ static void MoveSelectionDisplayMoveType(u32 battler)
         struct Pokemon *mon = &gPlayerParty[gBattlerPartyIndexes[battler]];
         type = CheckDynamicMoveType(mon, moveInfo->moves[gMoveSelectionCursor[battler]], battler);
     }
-    end = StringCopy(txtPtr, gTypesInfo[type].name);
+    
+    end = txtPtr;
+    end = StringCopy(end, gTypesInfo[type].name);
+
+    if (typeColor != COLOR_EFFECTIVE)
+    {
+        switch (typeColor)
+        {
+        case COLOR_IMMUNE:
+            end = StringCopy(end, gText_MoveInterfaceX);
+            break;
+        case COLOR_NOT_VERY_EFFECTIVE:
+            end = StringCopy(end, gText_MoveInterfaceMinus);
+            break;
+        case COLOR_SUPER_EFFECTIVE:
+            end = StringCopy(end, gText_MoveInterfacePlus);
+            break;
+        }
+    }
 
     PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
     BattlePutTextOnWindow(gDisplayedStringBattle, typeColor);
 
-        if (movePower > 0 && (type == battlerType1 || type == battlerType2))
+    if (movePower > 0 && (type == battlerType1 || type == battlerType2))
     {
-        StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
-        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_STAB_SYMBOL);
+        // StringCopy(gDisplayedStringBattle, gText_MoveInterfaceSTAB);
+        BattlePutTextOnWindow(gText_MoveInterfaceSTAB, B_WIN_STAB_SYMBOL);
     }
 }
 
