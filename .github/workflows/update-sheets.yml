@@ -2,8 +2,8 @@ name: Update Google Sheets
 
 on:
   push:
-    branches: [ master ]  # or whatever branch you want to trigger on
-  workflow_dispatch:    # allows manual triggering
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   update-sheets:
@@ -15,7 +15,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'
 
     - name: Install dependencies
       run: npm install
@@ -24,5 +24,4 @@ jobs:
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        NODE_OPTIONS: '--openssl-legacy-provider'
-      run: node process.js 
+      run: node process.js
