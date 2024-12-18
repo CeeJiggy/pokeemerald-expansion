@@ -1,0 +1,27 @@
+name: Update Google Sheets
+
+on:
+  push:
+    branches: [ main ]  # or whatever branch you want to trigger on
+  workflow_dispatch:    # allows manual triggering
+
+jobs:
+  update-sheets:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run update script
+      env:
+        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+        SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+      run: node "Encounter Tools/process.js" 

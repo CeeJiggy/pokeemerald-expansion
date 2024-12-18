@@ -1,0 +1,13 @@
+2024-12-18T19:52:24.570Z - INFO - Starting encounter processing...
+2024-12-18T19:52:24.574Z - INFO - Processing encounter group 1/3
+2024-12-18T19:52:24.578Z - INFO - Processing encounter group 2/3
+2024-12-18T19:52:24.579Z - INFO - Processing encounter group 3/3
+2024-12-18T19:52:25.202Z - INFO - Updated Land sheet
+2024-12-18T19:52:25.576Z - INFO - Updated Water sheet
+2024-12-18T19:52:25.919Z - INFO - Updated Rock Smash sheet
+2024-12-18T19:52:26.343Z - INFO - Updated Hidden sheet
+2024-12-18T19:52:26.885Z - INFO - Updated Fishing sheet
+2024-12-18T19:52:26.887Z - INFO - Processing complete!
+2024-12-18T19:52:26.887Z - INFO - Processed 1998 encounters across 119 locations
+2024-12-18T19:52:26.888Z - INFO - Output written to: 1179QQOUd_9X9PhoYvICJCXONAu2GbvV84B19OxAY4n4
+2024-12-18T19:52:26.889Z - INFO - Processing completed successfully!
