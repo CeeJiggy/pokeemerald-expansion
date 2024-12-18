@@ -24,4 +24,5 @@ jobs:
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-      run: npm start 
+        NODE_OPTIONS: '--openssl-legacy-provider'
+      run: node process.js 
