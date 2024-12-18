@@ -18,11 +18,11 @@ jobs:
         node-version: '18'
 
     - name: Install dependencies
-      working-directory: ./Encounter Tools
+      working-directory: ./EncounterTools
       run: npm install
 
     - name: Run update script
-      working-directory: ./Encounter Tools
+      working-directory: ./EncounterTools
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
