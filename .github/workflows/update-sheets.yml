@@ -17,13 +17,20 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Debug directory structure
+      run: |
+        pwd
+        ls -la
+        ls -la EncounterTools/
+        cat EncounterTools/process.js
+
     - name: Install dependencies
-      working-directory: ./EncounterTools
+      working-directory: EncounterTools
       run: npm install
 
     - name: Run update script
-      working-directory: ./EncounterTools
+      working-directory: EncounterTools
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-      run: node process.js
+      run: node ./process.js
