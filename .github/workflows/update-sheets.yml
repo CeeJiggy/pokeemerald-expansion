@@ -2,7 +2,7 @@ name: Update Google Sheets
 
 on:
   push:
-    branches: [ main ]  # or whatever branch you want to trigger on
+    branches: [ master ]  # or whatever branch you want to trigger on
   workflow_dispatch:    # allows manual triggering
 
 jobs:
