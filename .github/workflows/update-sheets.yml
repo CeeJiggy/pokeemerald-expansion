@@ -15,7 +15,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '20'
 
     - name: Debug directory structure
       run: |
@@ -33,4 +33,19 @@ jobs:
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-      run: node ./process.js
+        NODE_TLS_REJECT_UNAUTHORIZED: '0'
+        GOOGLE_API_USE_MTLS: 'false'
+      run: |
+        echo "openssl_conf = openssl_init" > openssl.cnf
+        echo "" >> openssl.cnf
+        echo "[openssl_init]" >> openssl.cnf
+        echo "ssl_conf = ssl_sect" >> openssl.cnf
+        echo "" >> openssl.cnf
+        echo "[ssl_sect]" >> openssl.cnf
+        echo "system_default = system_default_sect" >> openssl.cnf
+        echo "" >> openssl.cnf
+        echo "[system_default_sect]" >> openssl.cnf
+        echo "MinProtocol = TLSv1.2" >> openssl.cnf
+        echo "CipherString = DEFAULT@SECLEVEL=1" >> openssl.cnf
+        
+        OPENSSL_CONF=openssl.cnf node ./process.js
