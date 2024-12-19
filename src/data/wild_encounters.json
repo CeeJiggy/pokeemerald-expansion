@@ -168,7 +168,7 @@
               {
                 "min_level": 3,
                 "max_level": 5,
-                "species": "SPECIES_ZIGZAGOON_GALARIAN"
+                "species": "SPECIES_ZIGZAGOON_GALAR"
               }
             ]
           }
@@ -11579,27 +11579,27 @@
               {
                 "min_level": 5,
                 "max_level": 5,
-                "species": "SPECIES_FLABEBE_BLUE_FLOWER"
+                "species": "SPECIES_FLABEBE_BLUE"
               },
               {
                 "min_level": 5,
                 "max_level": 5,
-                "species": "SPECIES_FLABEBE_ORANGE_FLOWER"
+                "species": "SPECIES_FLABEBE_ORANGE"
               },
               {
                 "min_level": 5,
                 "max_level": 5,
-                "species": "SPECIES_FLABEBE_RED_FLOWER"
+                "species": "SPECIES_FLABEBE_RED"
               },
               {
                 "min_level": 5,
                 "max_level": 5,
-                "species": "SPECIES_FLABEBE_WHITE_FLOWER"
+                "species": "SPECIES_FLABEBE_WHITE"
               },
               {
                 "min_level": 5,
                 "max_level": 5,
-                "species": "SPECIES_FLABEBE_YELLOW_FLOWER"
+                "species": "SPECIES_FLABEBE_YELLOW"
               },
               {
                 "min_level": 5,
