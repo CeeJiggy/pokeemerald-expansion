@@ -8,6 +8,7 @@
 #include "main.h"
 #include "scanline_effect.h"
 #include "task.h"
+#include "test_runner.h"
 #include "trig.h"
 #include "constants/battle_partner.h"
 #include "constants/trainers.h"
@@ -115,14 +116,7 @@ void HandleIntroSlide(u8 terrain)
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
     {
-        if (gSaveBlock2Ptr->optionsBattleIntro)
-        {
-            taskId = CreateTask(BattleIntroNoSlide, 0);
-        }
-        else
-        {
-            taskId = CreateTask(BattleIntroSlide3, 0);
-        }
+        taskId = CreateTask(BattleIntroSlide3, 0);
     }
     else if (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL) == SPECIES_KYOGRE)
     {
@@ -131,14 +125,7 @@ void HandleIntroSlide(u8 terrain)
     }
     else
     {
-        if (gSaveBlock2Ptr->optionsBattleIntro)
-        {
-            taskId = CreateTask(BattleIntroNoSlide, 0);
-        }
-        else
-        {
-            taskId = CreateTask(sBattleIntroSlideFuncs[terrain], 0);
-        }
+        taskId = CreateTask(sBattleIntroSlideFuncs[terrain], 0);
     }
 
     gTasks[taskId].tState = 0;
@@ -215,6 +202,8 @@ static void BattleIntroNoSlide(u8 taskId)
 static void BattleIntroSlide1(u8 taskId)
 {
     int i;
+    if (B_FAST_INTRO_NO_SLIDE == 1 || gTestRunnerHeadless)
+        return BattleIntroNoSlide(taskId);
 
     gBattle_BG1_X += 6;
     switch (gTasks[taskId].tState)
@@ -300,6 +289,8 @@ static void BattleIntroSlide1(u8 taskId)
 static void BattleIntroSlide2(u8 taskId)
 {
     int i;
+    if (B_FAST_INTRO_NO_SLIDE == 1 || gTestRunnerHeadless)
+        return BattleIntroNoSlide(taskId);
 
     switch (gTasks[taskId].tTerrain)
     {
@@ -412,6 +403,8 @@ static void BattleIntroSlide2(u8 taskId)
 static void BattleIntroSlide3(u8 taskId)
 {
     int i;
+    if (B_FAST_INTRO_NO_SLIDE == 1 || gTestRunnerHeadless)
+        return BattleIntroNoSlide(taskId);
 
     gBattle_BG1_X += 8;
     switch (gTasks[taskId].tState)

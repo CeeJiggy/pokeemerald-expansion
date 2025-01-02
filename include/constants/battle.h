@@ -320,15 +320,19 @@
 #define ENUM_WEATHER_FOG 9
 
 // Move Effects
-#define MOVE_EFFECT_SLEEP 1
-#define MOVE_EFFECT_POISON 2
-#define MOVE_EFFECT_BURN 3
-#define MOVE_EFFECT_FREEZE 4
-#define MOVE_EFFECT_PARALYSIS 5
-#define MOVE_EFFECT_TOXIC 6
-#define MOVE_EFFECT_FROSTBITE 7
-#define PRIMARY_STATUS_MOVE_EFFECT MOVE_EFFECT_FROSTBITE // All above move effects apply primary status
-#define MOVE_EFFECT_FREEZE_OR_FROSTBITE (B_USE_FROSTBITE == TRUE ? MOVE_EFFECT_FROSTBITE : MOVE_EFFECT_FREEZE)
+#define MOVE_EFFECT_SLEEP               1
+#define MOVE_EFFECT_POISON              2
+#define MOVE_EFFECT_BURN                3
+#define MOVE_EFFECT_FREEZE              4
+#define MOVE_EFFECT_PARALYSIS           5
+#define MOVE_EFFECT_TOXIC               6
+#define MOVE_EFFECT_FROSTBITE           7
+#define PRIMARY_STATUS_MOVE_EFFECT      MOVE_EFFECT_FROSTBITE // All above move effects apply primary status
+#if B_USE_FROSTBITE == TRUE
+#define MOVE_EFFECT_FREEZE_OR_FROSTBITE MOVE_EFFECT_FROSTBITE
+#else
+#define MOVE_EFFECT_FREEZE_OR_FROSTBITE MOVE_EFFECT_FREEZE
+#endif
 #define MOVE_EFFECT_CONFUSION           8
 #define MOVE_EFFECT_FLINCH              9
 #define MOVE_EFFECT_TRI_ATTACK          10
@@ -402,12 +406,20 @@
 #define MOVE_EFFECT_PSYCHIC_NOISE       78
 #define MOVE_EFFECT_TERA_BLAST          79
 #define MOVE_EFFECT_ORDER_UP            80
+#define MOVE_EFFECT_ION_DELUGE          81
+#define MOVE_EFFECT_AROMATHERAPY        82 // No functionality yet
+#define MOVE_EFFECT_HAZE                83
+#define MOVE_EFFECT_LEECH_SEED          84
+#define MOVE_EFFECT_REFLECT             85
+#define MOVE_EFFECT_LIGHT_SCREEN        86
+#define MOVE_EFFECT_SALT_CURE           87
+#define MOVE_EFFECT_EERIE_SPELL         88
 
-#define NUM_MOVE_EFFECTS                81
+#define NUM_MOVE_EFFECTS                89
 
-#define MOVE_EFFECT_AFFECTS_USER 0x2000
-#define MOVE_EFFECT_CERTAIN 0x4000
-#define MOVE_EFFECT_CONTINUE 0x8000
+#define MOVE_EFFECT_AFFECTS_USER        0x2000
+#define MOVE_EFFECT_CERTAIN             0x4000
+#define MOVE_EFFECT_CONTINUE            0x8000
 
 // Battle terrain defines for gBattleTerrain.
 #define BATTLE_TERRAIN_GRASS 0
