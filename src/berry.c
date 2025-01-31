@@ -1691,91 +1691,75 @@ const struct Berry gBerries[] =
 };
 
 const struct BerryCrushBerryData gBerryCrush_BerryData[] = {
-    [ITEM_CHERI_BERRY - FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 20},
-    [ITEM_CHESTO_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 20},
-    [ITEM_PECHA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 20},
-    [ITEM_RAWST_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 20},
-    [ITEM_ASPEAR_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 20},
-    [ITEM_LEPPA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 30},
-    [ITEM_ORAN_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 30},
-    [ITEM_PERSIM_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 30},
-    [ITEM_LUM_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 30},
-    [ITEM_SITRUS_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 50, .powder = 30},
-    [ITEM_FIGY_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 60, .powder = 50},
-    [ITEM_WIKI_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 60, .powder = 50},
-    [ITEM_MAGO_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 60, .powder = 50},
-    [ITEM_AGUAV_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 60, .powder = 50},
-    [ITEM_IAPAPA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 60, .powder = 50},
-    [ITEM_RAZZ_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 80, .powder = 70},
-    [ITEM_BLUK_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 80, .powder = 70},
-    [ITEM_NANAB_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 80, .powder = 70},
-    [ITEM_WEPEAR_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 80, .powder = 70},
-    [ITEM_PINAP_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 80, .powder = 70},
-    [ITEM_POMEG_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 100, .powder = 100},
-    [ITEM_KELPSY_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 100, .powder = 100},
-    [ITEM_QUALOT_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 100, .powder = 100},
-    [ITEM_HONDEW_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 100, .powder = 100},
-    [ITEM_GREPA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 100, .powder = 100},
-    [ITEM_TAMATO_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 130, .powder = 150},
-    [ITEM_CORNN_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 130, .powder = 150},
-    [ITEM_MAGOST_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 130, .powder = 150},
-    [ITEM_RABUTA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 130, .powder = 150},
-    [ITEM_NOMEL_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 130, .powder = 150},
-    [ITEM_SPELON_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 160, .powder = 250},
-    [ITEM_PAMTRE_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 160, .powder = 250},
-    [ITEM_WATMEL_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 160, .powder = 250},
-    [ITEM_DURIN_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 160, .powder = 250},
-    [ITEM_BELUE_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 160, .powder = 250},
-    [ITEM_LIECHI_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 180, .powder = 500},
-    [ITEM_GANLON_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 180, .powder = 500},
-    [ITEM_SALAC_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 180, .powder = 500},
-    [ITEM_PETAYA_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 180, .powder = 500},
-    [ITEM_APICOT_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 180, .powder = 500},
-    [ITEM_LANSAT_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 200, .powder = 750},
-    [ITEM_STARF_BERRY -
-        FIRST_BERRY_INDEX] = {.difficulty = 200, .powder = 750},
-    [ITEM_ENIGMA_BERRY_E_READER -
-        FIRST_BERRY_INDEX] = {.difficulty = 150, .powder = 200}};
+    [ITEM_CHERI_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  20},
+    [ITEM_CHESTO_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  20},
+    [ITEM_PECHA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  20},
+    [ITEM_RAWST_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  20},
+    [ITEM_ASPEAR_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  20},
+    [ITEM_LEPPA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_ORAN_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  50, .powder =  30},
+    [ITEM_PERSIM_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  30},
+    [ITEM_LUM_BERRY - FIRST_BERRY_INDEX]             = {.difficulty =  50, .powder =  30},
+    [ITEM_SITRUS_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  30},
+    [ITEM_FIGY_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  60, .powder =  50},
+    [ITEM_WIKI_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  60, .powder =  50},
+    [ITEM_MAGO_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  60, .powder =  50},
+    [ITEM_AGUAV_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  60, .powder =  50},
+    [ITEM_IAPAPA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  60, .powder =  50},
+    [ITEM_RAZZ_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  80, .powder =  70},
+    [ITEM_BLUK_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  80, .powder =  70},
+    [ITEM_NANAB_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  80, .powder =  70},
+    [ITEM_WEPEAR_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  80, .powder =  70},
+    [ITEM_PINAP_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  80, .powder =  70},
+    [ITEM_POMEG_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 100, .powder = 100},
+    [ITEM_KELPSY_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 100, .powder = 100},
+    [ITEM_QUALOT_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 100, .powder = 100},
+    [ITEM_HONDEW_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 100, .powder = 100},
+    [ITEM_GREPA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 100, .powder = 100},
+    [ITEM_TAMATO_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 130, .powder = 150},
+    [ITEM_CORNN_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 130, .powder = 150},
+    [ITEM_MAGOST_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 130, .powder = 150},
+    [ITEM_RABUTA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 130, .powder = 150},
+    [ITEM_NOMEL_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 130, .powder = 150},
+    [ITEM_SPELON_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 160, .powder = 250},
+    [ITEM_PAMTRE_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 160, .powder = 250},
+    [ITEM_WATMEL_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 160, .powder = 250},
+    [ITEM_DURIN_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 160, .powder = 250},
+    [ITEM_BELUE_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 160, .powder = 250},
+    [ITEM_CHILAN_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  80, .powder =  70},
+    [ITEM_OCCA_BERRY - FIRST_BERRY_INDEX]            = {.difficulty = 100, .powder = 100},
+    [ITEM_PASSHO_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  60, .powder =  30},
+    [ITEM_WACAN_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_RINDO_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_YACHE_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_CHOPLE_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  30},
+    [ITEM_KEBIA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_SHUCA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  20},
+    [ITEM_COBA_BERRY - FIRST_BERRY_INDEX]            = {.difficulty =  50, .powder =  30},
+    [ITEM_PAYAPA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  30},
+    [ITEM_TANGA_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_CHARTI_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  50, .powder =  30},
+    [ITEM_KASIB_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_HABAN_BERRY - FIRST_BERRY_INDEX]           = {.difficulty =  50, .powder =  30},
+    [ITEM_COLBUR_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  60, .powder =  50},
+    [ITEM_BABIRI_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  80, .powder =  50},
+    [ITEM_ROSELI_BERRY - FIRST_BERRY_INDEX]          = {.difficulty =  60, .powder =  50},
+    [ITEM_LIECHI_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 180, .powder = 500},
+    [ITEM_GANLON_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 180, .powder = 500},
+    [ITEM_SALAC_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 180, .powder = 500},
+    [ITEM_PETAYA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 180, .powder = 500},
+    [ITEM_APICOT_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 180, .powder = 500},
+    [ITEM_LANSAT_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 200, .powder = 750},
+    [ITEM_STARF_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 200, .powder = 750},
+    [ITEM_ENIGMA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 150, .powder = 200},
+    [ITEM_MICLE_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 130, .powder = 250},
+    [ITEM_CUSTAP_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 200, .powder = 750},
+    [ITEM_JABOCA_BERRY - FIRST_BERRY_INDEX]          = {.difficulty = 130, .powder = 250},
+    [ITEM_ROWAP_BERRY - FIRST_BERRY_INDEX]           = {.difficulty = 130, .powder = 250},
+    [ITEM_KEE_BERRY - FIRST_BERRY_INDEX]             = {.difficulty = 160, .powder = 500},
+    [ITEM_MARANGA_BERRY - FIRST_BERRY_INDEX]         = {.difficulty = 160, .powder = 500},
+    [ITEM_ENIGMA_BERRY_E_READER - FIRST_BERRY_INDEX] = {.difficulty = 150, .powder = 200}
+};
 
 const struct BerryTree gBlankBerryTree = {};
 

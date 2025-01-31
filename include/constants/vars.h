@@ -4,26 +4,26 @@
 #define VARS_START 0x4000
 
 // temporary vars
-// The first 0x10 vars are are temporary--they are cleared every time a map is loaded.
-#define TEMP_VARS_START 0x4000
-#define VAR_TEMP_0 (TEMP_VARS_START + 0x0)
-#define VAR_TEMP_1 (TEMP_VARS_START + 0x1)
-#define VAR_TEMP_2 (TEMP_VARS_START + 0x2)
-#define VAR_TEMP_3 (TEMP_VARS_START + 0x3) // Note: Used when the player checks a TV
-#define VAR_TEMP_4 (TEMP_VARS_START + 0x4)
-#define VAR_TEMP_5 (TEMP_VARS_START + 0x5)
-#define VAR_TEMP_6 (TEMP_VARS_START + 0x6)
-#define VAR_TEMP_7 (TEMP_VARS_START + 0x7)
-#define VAR_TEMP_8 (TEMP_VARS_START + 0x8)
-#define VAR_TEMP_9 (TEMP_VARS_START + 0x9)
-#define VAR_TEMP_A (TEMP_VARS_START + 0xA)
-#define VAR_TEMP_B (TEMP_VARS_START + 0xB)
-#define VAR_TEMP_C (TEMP_VARS_START + 0xC)
-#define VAR_TEMP_D (TEMP_VARS_START + 0xD)
-#define VAR_TEMP_E (TEMP_VARS_START + 0xE)
-#define VAR_TEMP_F (TEMP_VARS_START + 0xF)
-#define TEMP_VARS_END VAR_TEMP_F
-#define NUM_TEMP_VARS (TEMP_VARS_END - TEMP_VARS_START + 1)
+// The first 0x10 vars are temporary--they are cleared every time a map is loaded.
+#define TEMP_VARS_START            0x4000
+#define VAR_TEMP_0                 (TEMP_VARS_START + 0x0)
+#define VAR_TEMP_1                 (TEMP_VARS_START + 0x1)
+#define VAR_TEMP_2                 (TEMP_VARS_START + 0x2)
+#define VAR_TEMP_3                 (TEMP_VARS_START + 0x3) // Note: Used when the player checks a TV
+#define VAR_TEMP_4                 (TEMP_VARS_START + 0x4)
+#define VAR_TEMP_5                 (TEMP_VARS_START + 0x5)
+#define VAR_TEMP_6                 (TEMP_VARS_START + 0x6)
+#define VAR_TEMP_7                 (TEMP_VARS_START + 0x7)
+#define VAR_TEMP_8                 (TEMP_VARS_START + 0x8)
+#define VAR_TEMP_9                 (TEMP_VARS_START + 0x9)
+#define VAR_TEMP_A                 (TEMP_VARS_START + 0xA)
+#define VAR_TEMP_B                 (TEMP_VARS_START + 0xB)
+#define VAR_TEMP_C                 (TEMP_VARS_START + 0xC)
+#define VAR_TEMP_D                 (TEMP_VARS_START + 0xD)
+#define VAR_TEMP_E                 (TEMP_VARS_START + 0xE)
+#define VAR_TEMP_F                 (TEMP_VARS_START + 0xF)
+#define TEMP_VARS_END              VAR_TEMP_F
+#define NUM_TEMP_VARS              (TEMP_VARS_END - TEMP_VARS_START + 1)
 
 // object gfx id vars
 // These 0x10 vars are used to dynamically control a map object's sprite.
